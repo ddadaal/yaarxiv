@@ -1,3 +1,8 @@
 # yaarxiv backend
 
-Koa
+# Tools Used
+
+- Koa
+- typeorm
+- TypeScript
+- eslint

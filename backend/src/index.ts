@@ -1,19 +1,36 @@
 import Koa from "koa";
 import { koadi, Dep, singleton } from "@/utils/di";
-import homeRouter from "@/routes/home";
 import { applyRouters } from "./utils/router";
+import logger from "koa-logger";
 
-const app = new Koa();
-
+import "reflect-metadata";
+import { createConnection } from "typeorm";
+import { User } from "./entities/User";
+import homeRouter from "./routes/home";
 export const dep1 = singleton(1);
 
 export const dep2: Dep<number> = (getDeps) => getDeps(dep1) + 1;
 
-app.use(koadi(dep1, dep2));
+async function init() {
 
-applyRouters(app, homeRouter);
+  await createConnection({
+    type: "sqlite",
+    database: "./db.db",
+    entities: [User],
+    synchronize: true,
+  });
 
-app.listen(2333, () => {
-  console.log();
-});
+  const app = new Koa();
 
+  app.use(logger());
+  app.use(koadi(dep1, dep2));
+
+  applyRouters(app, homeRouter);
+
+  app.listen(2333, () => {
+    console.log();
+  });
+
+}
+
+init();
