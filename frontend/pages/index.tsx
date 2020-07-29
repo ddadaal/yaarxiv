@@ -10,7 +10,12 @@ export const Home: React.FC = () => {
       </Head>
 
       <main>
-        <h1 className="title">
+        <h1 className="title" onClick={(e) => console.log({
+          test: e,
+          b: "b",
+        })}
+        key="test"
+        >
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
 
@@ -37,15 +42,6 @@ export const Home: React.FC = () => {
             <p>Discover and deploy boilerplate example Next.js projects.</p>
           </a>
 
-          <a
-            href="https://vercel.com/import?filter=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className="card"
-          >
-            <h3>Deploy &rarr;</h3>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
         </div>
       </main>
 
