@@ -13,9 +13,9 @@ export async function startApp(start = true) {
 
   const dbConnection = await createConnection();
 
-  const server = fastify({ logger: getConfig("FASTIFY_LOGGER", "boolean") });
+  const server = fastify({ logger: getConfig("fastify.logger", "boolean") });
 
-  if (getConfig("LOAD_SWAGGER", "boolean")) {
+  if (getConfig("loadSwagger", "boolean")) {
     server.register(fastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
@@ -38,7 +38,7 @@ export async function startApp(start = true) {
   if (start) {
 
     try {
-      await server.listen(getConfig("PORT", "number"));
+      await server.listen(getConfig("port", "number"));
     } catch (err) {
       server.log.error(err);
       process.exit(1);

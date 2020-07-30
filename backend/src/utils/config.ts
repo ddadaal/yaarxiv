@@ -3,21 +3,11 @@ import devConfig from "../../configs/dev.json";
 import testConfig from "../../configs/test.json";
 import prodConfig from "../../configs/prod.json";
 
-function isCamelCase(str: string) {
-  return !!str.match(/^[a-z]+[A-Z]/);
-}
-
-function camelToSnakeCase(str: string) {
-  if ( isCamelCase(str) ) {
-    return str.replace(/[A-Z]/g, "\_$&");
-  }
-  return str;
-}
-
+// parse { a: { someProperty: 1 }} to A_SOMEPROPERTY = 1
 // eslint-disable-next-line @typescript-eslint/ban-types
 function apply(obj: object, root: string[] = []) {
   for (const key in obj) {
-    const base = [...root, camelToSnakeCase(key).toUpperCase()];
+    const base = [...root, key.toUpperCase()];
     const name = base.join("_");
     let value = obj[key];
 
@@ -78,8 +68,13 @@ type ValueType<T extends ValueStringType> =
   T extends "boolean" ? boolean :
   unknown;
 
+// parse a.b to A_B
+function parseToEnv(id: string): string{
+  return id.toUpperCase().replace(".", "_");
+}
+
 export function getConfig<T extends ValueStringType>(id: string, type: T): ValueType<T> {
-  const value = process.env[id];
+  const value = process.env[parseToEnv(id)];
   if (typeof value === "undefined") {
     throw new Error(`Get undefined value of config id ${id}`);
   }
