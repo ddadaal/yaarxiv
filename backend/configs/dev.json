@@ -1,12 +1,16 @@
 {
   "loadSwagger": true,
   "typeorm": {
-    "connection": "sqlite",
+    "type": "sqlite",
     "database": "./db.db",
     "synchronize": true,
     "entities": [
       "src/entities/**/*.ts"
     ],
     "logging": true
+  },
+  "logger": {
+    "level": "info",
+    "prettyPrint": true
   }
 }

@@ -1,21 +1,26 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
+import { createConnection, getConnectionOptions, ConnectionOptions } from "typeorm";
 import homeRoutes from "./routes/home";
 
 import fastify from "fastify";
 import fastifyTypeormPlugin from "fastify-typeorm-plugin";
 import fastifySwagger from "fastify-swagger";
 import { getConfig, applyConfigurations } from "./utils/config";
+import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
 
 applyConfigurations();
 
 export async function startApp(start = true) {
 
-  const dbConnection = await createConnection();
+  const server = fastify({ logger: getConfig("logger") });
 
-  const server = fastify({ logger: getConfig("fastify.logger", "boolean") });
+  const dbConnection = await createConnection(
+    {
+      ...getConfig<ConnectionOptions>("typeorm"),
+      logger: new TypeormPinoLogger(server.log),
+    });
 
-  if (getConfig("loadSwagger", "boolean")) {
+  if (getConfig("loadSwagger")) {
     server.register(fastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
@@ -38,7 +43,7 @@ export async function startApp(start = true) {
   if (start) {
 
     try {
-      await server.listen(getConfig("port", "number"));
+      await server.listen(getConfig("port"));
     } catch (err) {
       server.log.error(err);
       process.exit(1);
