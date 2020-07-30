@@ -1,0 +1,15 @@
+{
+  "loadSwagger": false,
+  "typeorm": {
+    "connection": "sqlite",
+    "database": ":memory:",
+    "synchronize": true,
+    "entities": [
+      "src/entities/**/*.ts"
+    ],
+    "logging": false
+  },
+  "fastify": {
+    "logger": false
+  }
+}

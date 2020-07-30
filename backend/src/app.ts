@@ -5,20 +5,17 @@ import homeRoutes from "./routes/home";
 import fastify from "fastify";
 import fastifyTypeormPlugin from "fastify-typeorm-plugin";
 import fastifySwagger from "fastify-swagger";
+import { getConfig, applyConfigurations } from "./utils/config";
 
-interface InitOptions {
-  loadSwagger: boolean;
-  db: Parameters<typeof createConnection>[0];
-  fastify: Parameters<typeof fastify>[0];
-}
+applyConfigurations();
 
-export async function buildApp({ loadSwagger, db, fastify: fastifyOpts }: InitOptions) {
+export async function startApp(start = true) {
 
-  const dbConnection = await createConnection(db);
+  const dbConnection = await createConnection();
 
-  const server = fastify(fastifyOpts);
+  const server = fastify({ logger: getConfig("FASTIFY_LOGGER", "boolean") });
 
-  if (loadSwagger) {
+  if (getConfig("LOAD_SWAGGER", "boolean")) {
     server.register(fastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
@@ -34,13 +31,21 @@ export async function buildApp({ loadSwagger, db, fastify: fastifyOpts }: InitOp
     });
   }
 
-
   server.register(fastifyTypeormPlugin, { connection: dbConnection });
 
   server.register(homeRoutes);
 
-  return server;
+  if (start) {
 
+    try {
+      await server.listen(getConfig("PORT", "number"));
+    } catch (err) {
+      server.log.error(err);
+      process.exit(1);
+    }
+  }
+
+  return server;
 
 }
 

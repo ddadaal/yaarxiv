@@ -1,22 +1,9 @@
-import { User } from "../src/entities/User";
-import {  buildApp } from "../src/app";
+import { startApp } from "../src/app";
 
 describe("tests", () => {
 
-
   it("should return { hello: \"world\"", async() => {
-    const server = await buildApp({
-      loadSwagger: false,
-      db: {
-        type: "sqlite",
-        database: ":memory:",
-        dropSchema: true,
-        entities: [User],
-        synchronize: true,
-        logging: false,
-      },
-      fastify: { logger: false },
-    });
+    const server = await startApp();
 
     const resp = await server.inject({
       method: "GET",
