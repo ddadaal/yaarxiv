@@ -3,11 +3,24 @@ import devConfig from "../../configs/dev.json";
 import testConfig from "../../configs/test.json";
 import prodConfig from "../../configs/prod.json";
 
-// parse { a: { someProperty: 1 }} to A_SOMEPROPERTY = 1
+function isCamelCase(str: string) {
+  return !!str.match(/^[a-z]+[A-Z]/);
+}
+
+// someProperty to SOME_PROPERTY
+function camelToSnakeCase(str: string) {
+  if (isCamelCase(str) ) {
+    return str.replace(/[A-Z]/g, "\_$&");
+  }
+  return str;
+}
+
+
+// parse { a: { someProperty: 1 }} to A_SOME_PROPERTY = 1
 // eslint-disable-next-line @typescript-eslint/ban-types
 function apply(obj: object, root: string[] = []) {
   for (const key in obj) {
-    const base = [...root, key.toUpperCase()];
+    const base = [...root, camelToSnakeCase(key).toUpperCase()];
     const name = base.join("_");
     let value = obj[key];
 
@@ -68,9 +81,9 @@ type ValueType<T extends ValueStringType> =
   T extends "boolean" ? boolean :
   unknown;
 
-// parse a.b to A_B
+// parse a.bProprty to A_B_PROPERTY
 function parseToEnv(id: string): string{
-  return id.toUpperCase().replace(".", "_");
+  return id.split(".").map((x) => camelToSnakeCase(x).toUpperCase()).join("_");
 }
 
 export function getConfig<T extends ValueStringType>(id: string, type: T): ValueType<T> {
