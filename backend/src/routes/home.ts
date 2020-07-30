@@ -1,13 +1,9 @@
-import Router from "koa-router";
-import { dep1, dep2 } from "..";
-import { routerHandler } from "@/utils/router";
+import { FastifyInstance } from "fastify";
 
-const homeRouter = new Router();
+async function homeRoutes(fastify: FastifyInstance, options) {
+  fastify.get("/", async (req, reply) => {
+    return { hello: "world" };
+  });
+}
 
-homeRouter.get("/", routerHandler(async (ctx, useDep) => {
-  const dep1Value = useDep(dep1);
-  const dep2Value = useDep(dep2);
-  ctx.response.body = `1: ${dep1Value}; 2: ${dep2Value}`;
-}));
-
-export default homeRouter;
+export default homeRoutes;

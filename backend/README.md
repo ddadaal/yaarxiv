@@ -2,7 +2,7 @@
 
 # Tools Used
 
-- Koa
+- fastify
 - typeorm
 - TypeScript
 - eslint

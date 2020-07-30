@@ -14,11 +14,15 @@
     "suppressImplicitAnyIndexErrors": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata": true,
+    "resolveJsonModule": true,
     "allowJs": true,
     "sourceMap": true,
     "paths": {
       "@/*": [
         "src/*"
+      ],
+      "./*": [
+        "*"
       ]
     }
   },
