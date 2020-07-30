@@ -1,0 +1,57 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Headers": {
+      "type": "object",
+      "properties": {
+        "H-Custom": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "H-Custom"
+      ],
+      "additionalProperties": false
+    },
+    "Querystring": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        },
+        "captcha": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ],
+      "additionalProperties": false
+    },
+    "Response": {
+      "type": "object",
+      "properties": {
+        "success": {
+          "type": "boolean"
+        },
+        "status": {
+          "type": "number",
+          "enum": [
+            200,
+            403,
+            500
+          ]
+        }
+      },
+      "required": [
+        "success",
+        "status"
+      ],
+      "additionalProperties": false
+    }
+  }
+}

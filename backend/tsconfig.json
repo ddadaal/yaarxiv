@@ -21,13 +21,16 @@
       "@/*": [
         "src/*"
       ],
-      "./*": [
-        "*"
-      ]
+      "schemas/*": [
+        "schemas/*"
+      ],
+      "types/*": [
+        "types/*"
+      ],
     }
   },
   "include": [
-    "src/**/*"
+    "src/**/*",
   ],
   "exclude": [
     "node_modules",

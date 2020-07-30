@@ -6,6 +6,7 @@ describe("tests", () => {
 
   it("should return { hello: \"world\"", async() => {
     const server = await buildApp({
+      loadSwagger: false,
       db: {
         type: "sqlite",
         database: ":memory:",
