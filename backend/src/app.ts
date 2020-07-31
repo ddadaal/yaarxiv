@@ -4,10 +4,11 @@ import homeRoutes from "./routes/home";
 import loginRoutes from "./routes/login";
 
 import fastify from "fastify";
-import fastifyTypeormPlugin from "fastify-typeorm-plugin";
-import fastifySwagger from "fastify-swagger";
+import FastifyTypeormPlugin from "fastify-typeorm-plugin";
+import FastifySwagger from "fastify-swagger";
 import { getConfig } from "./utils/config";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
+import auth from "./utils/auth";
 
 export async function startApp(start = true) {
 
@@ -20,7 +21,7 @@ export async function startApp(start = true) {
     });
 
   if (getConfig((c) => c.loadSwagger)) {
-    server.register(fastifySwagger, {
+    server.register(FastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
       swagger: {
@@ -31,11 +32,19 @@ export async function startApp(start = true) {
         },
         consumes: ["application/json"],
         produces: ["application/json"],
+        securityDefinitions: {
+          apiKey: {
+            type: "apiKey",
+            name: "Authorization",
+            in: "header",
+          },
+        },
       },
     });
   }
 
-  server.register(fastifyTypeormPlugin, { connection: dbConnection });
+  server.register(auth, { secret: getConfig((c) => c.jwtSecret ) });
+  server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
   server.register(homeRoutes);
   server.register(loginRoutes);

@@ -15,5 +15,6 @@
       "migrationsDir": "migrations"
     }
   },
+  "jwtSecret": "productionsecret",
   "logger": true
 }

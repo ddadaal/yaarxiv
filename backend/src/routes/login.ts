@@ -27,6 +27,17 @@ async function loginRoutes(fastify: FastifyInstance) {
       }
     },
   });
+
+  fastify.route({
+    method: "GET",
+    url: "/authRequired",
+    preValidation: [ fastify.auth ],
+    schema: { security: [ { "apiKey": []}]},
+    handler: async (req, reply) => {
+      return req.user;
+    },
+  });
+
 }
 
 export default loginRoutes;

@@ -1,5 +1,6 @@
 {
   "port": 3000,
   "loadSwagger": true,
-  "logger": true
+  "logger": true,
+  "jwtSecret": "testsecret"
 }
