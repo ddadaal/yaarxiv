@@ -13,7 +13,7 @@ async function walk(dir: string) {
     }
     else if (d.isFile() && d.name.endsWith(".d.ts")) {
       console.log(`Generating ${entry}...`);
-      const schema = tsj.createGenerator({ path: entry }).createSchema();
+      const schema = tsj.createGenerator({ path: entry, jsDoc: "extended" }).createSchema();
 
       const schemaString = JSON.stringify(schema, null, 2);
 

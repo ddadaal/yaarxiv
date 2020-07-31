@@ -1,0 +1,58 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "definitions": {
+    "Querystring": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string",
+          "description": "The username of the string"
+        },
+        "password": {
+          "type": "string",
+          "description": "The password of the user"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ],
+      "additionalProperties": false
+    },
+    "SuccessResponse": {
+      "type": "object",
+      "properties": {
+        "token": {
+          "type": "string",
+          "description": "Token returned"
+        }
+      },
+      "required": [
+        "token"
+      ],
+      "additionalProperties": false,
+      "description": "Response when the login succeed"
+    },
+    "FailedResponse": {
+      "type": "object",
+      "properties": {
+        "reason": {
+          "type": [
+            "number",
+            "string"
+          ],
+          "enum": [
+            403,
+            "string"
+          ],
+          "description": "The reason why failed"
+        }
+      },
+      "required": [
+        "reason"
+      ],
+      "additionalProperties": false,
+      "description": "Response when the login fails"
+    }
+  }
+}

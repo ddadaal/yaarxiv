@@ -1,6 +1,7 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions } from "typeorm";
 import homeRoutes from "./routes/home";
+import loginRoutes from "./routes/login";
 
 import fastify from "fastify";
 import fastifyTypeormPlugin from "fastify-typeorm-plugin";
@@ -37,6 +38,7 @@ export async function startApp(start = true) {
   server.register(fastifyTypeormPlugin, { connection: dbConnection });
 
   server.register(homeRoutes);
+  server.register(loginRoutes);
 
   if (start) {
     try {
