@@ -7,7 +7,13 @@
     "entities": [
       "out/src/entities/**/*.js"
     ],
-    "logging": true
+    "logging": true,
+    "migrations": [
+      "migrations/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "migrations"
+    }
   },
   "logger": true
 }

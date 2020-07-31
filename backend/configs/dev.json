@@ -7,7 +7,13 @@
     "entities": [
       "src/entities/**/*.ts"
     ],
-    "logging": true
+    "logging": true,
+    "migrations": [
+      "migrations/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "migrations"
+    }
   },
   "logger": {
     "level": "info",

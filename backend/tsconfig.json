@@ -26,9 +26,6 @@
       ],
       "types/*": [
         "types/*"
-      ],
-      "configs/*": [
-        "configs/*"
       ]
     }
   },

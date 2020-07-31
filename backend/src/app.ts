@@ -5,12 +5,10 @@ import homeRoutes from "./routes/home";
 import fastify from "fastify";
 import fastifyTypeormPlugin from "fastify-typeorm-plugin";
 import fastifySwagger from "fastify-swagger";
-import { getConfig, Config, updateConfig } from "./utils/config";
+import { getConfig } from "./utils/config";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
 
-export async function startApp(start = true, config: Partial<Config> = {}) {
-
-  updateConfig(config);
+export async function startApp(start = true) {
 
   const server = fastify({ logger: getConfig((c) => c.logger) });
 

@@ -1,10 +1,10 @@
-import defaultConfig from "configs/default.json";
-import devConfig from "configs/dev.json";
-import testConfig from "configs/test.json";
-import prodConfig from "configs/prod.json";
+import defaultConfig from "../../configs/default.json";
+import devConfig from "../../configs/dev.json";
+import testConfig from "../../configs/test.json";
+import prodConfig from "../../configs/prod.json";
 import pino from "pino";
 
-let config = (() => {
+const config = (() => {
   const extraConfig = (() => {
     switch (process.env.NODE_ENV) {
     case "development":
@@ -30,10 +30,6 @@ export type Config = typeof config;
 
 export function getConfig<T>(fn: (c: Config) => T): T {
   return fn(config);
-}
-
-export function updateConfig(newConfig: Partial<Config>) {
-  config = { ...config, ...newConfig };
 }
 
 export function getConfigFromId<T>(id: string): T {
