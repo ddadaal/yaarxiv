@@ -1,13 +1,10 @@
-import defaultConfig from "../../configs/default.json";
-import devConfig from "../../configs/dev.json";
-import testConfig from "../../configs/test.json";
-import prodConfig from "../../configs/prod.json";
+import defaultConfig from "configs/default.json";
+import devConfig from "configs/dev.json";
+import testConfig from "configs/test.json";
+import prodConfig from "configs/prod.json";
 import pino from "pino";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-let config: any;
-
-export function applyConfigurations() {
+let config = (() => {
   const extraConfig = (() => {
     switch (process.env.NODE_ENV) {
     case "development":
@@ -19,15 +16,26 @@ export function applyConfigurations() {
       return prodConfig;
     }})();
 
-  config = { ...defaultConfig, ...extraConfig };
+  const config = { ...defaultConfig, ...extraConfig };
 
   if (config.logger !== false) {
     const logger = pino({ prettyPrint: true });
     logger.info(`Read config: \n ${JSON.stringify(config, null, 2)}`);
   }
+
+  return config;
+})();
+
+export type Config = typeof config;
+
+export function getConfig<T>(fn: (c: Config) => T): T {
+  return fn(config);
 }
 
-// access id path on the config object
-export function getConfig<T>(id: string): T {
+export function updateConfig(newConfig: Partial<Config>) {
+  config = { ...config, ...newConfig };
+}
+
+export function getConfigFromId<T>(id: string): T {
   return id.split(".").reduce((prev, curr) => prev[curr], config);
 }

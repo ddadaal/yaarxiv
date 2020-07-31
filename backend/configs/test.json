@@ -1,7 +1,7 @@
 {
   "loadSwagger": false,
   "typeorm": {
-    "connection": "sqlite",
+    "type": "sqlite",
     "database": ":memory:",
     "synchronize": true,
     "entities": [
@@ -9,7 +9,5 @@
     ],
     "logging": false
   },
-  "fastify": {
-    "logger": false
-  }
+  "logger": false
 }
