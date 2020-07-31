@@ -6,13 +6,15 @@ A new open-source and modern preprint platform.
 
 # Vision
 
-- Power a new and modern preprint platform in China
+- Power a new and modern preprint platform
 - Provide a protocol and an implementation for a federated (distributed) preprint platform network.
 
 # Development
 
-- Frontend: [Next.js](https://nextjs.org/) 
-- Backend: Go or JVM, TBD
+A Node.js TypeScript full stack
+
+- Frontend: [Next.js](https://nextjs.org/) with TypeScript
+- Backend: [fastify](https://www.fastify.io/) with TypeScript and [typeorm](https://typeorm.io)
 
 # License
 
