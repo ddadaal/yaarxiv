@@ -1,7 +1,16 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Head from "next/head";
+import { getApiService } from "src/apis";
+import { homeApis } from "src/apis/home";
 
-export const Home: React.FC = () => {
+const Home: React.FC = () => {
+
+  const apiService = getApiService(homeApis);
+
+  useEffect(() => {
+    apiService.query({ username: "123", password: "123" });
+  });
+
   return (
     <div className="container" key="123">
       <Head>
@@ -204,3 +213,5 @@ export const Home: React.FC = () => {
     </div>
   );
 };
+
+export default Home;

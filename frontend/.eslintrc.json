@@ -16,6 +16,7 @@
     "@typescript-eslint/camelcase": "off",
     "@typescript-eslint/no-empty-interface": "off",
     "@typescript-eslint/explicit-function-return-type": "off",
+    "@typescript-eslint/ban-types": "off",
     "arrow-parens": [
       "error",
       "always"
@@ -52,7 +53,7 @@
     "max-len": [
       "error",
       {
-        "code": 80
+        "code": 90
       }
     ],
     "react/display-name": "off",
