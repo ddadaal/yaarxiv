@@ -52,7 +52,7 @@ export async function startApp(start = true) {
       await server.listen(getConfig((c) => c.port));
     } catch (err) {
       server.log.error(err);
-      process.exit(1);
+      throw err;
     }
   }
 
