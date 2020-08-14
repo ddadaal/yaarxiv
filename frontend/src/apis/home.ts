@@ -12,7 +12,7 @@ export const homeApis = apiService((fetch) => ({
   },
 }));
 
-export const homeApisMock = mockApiService(homeApis, () => ({
+export const homeApisMock = mockApiService<typeof homeApis>(() => ({
   query: async (request) => {
     return { success: true, status: 200 };
   },

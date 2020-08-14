@@ -6,31 +6,24 @@ export type ApiService<T> = (
   fullFetch: FullFetch,
 ) => T;
 
-export function apiService<T>(fn: ApiService<T>): ApiService<T> {
-  return fn;
+export function apiService<T>(fn: ApiService<T>): T {
+  return fn(jsonFetch, fullFetch);
 }
 
 export function mockApiService<T>(
-  apiService: ApiService<T>,
   mock: ApiService<T>,
-): ApiService<T> {
-  return mock;
+): T {
+  return mock(jsonFetch, fullFetch);
 }
 
 const USE_MOCK = true;
 
 // judge whether USE_MOCK here can help reduce the size of bundle
 // by helping the builder remove the mock modules at build time
-const apis = [
+const apis = new Map<unknown, unknown>([
   [homeApis, USE_MOCK ? homeApisMock : homeApis],
-] as [ApiService<unknown>, ApiService<unknown>][];
+]);
 
-const apiConfig = new Map<ApiService<unknown>, unknown>();
-
-apis.forEach((item) => {
-  apiConfig.set(item[0], item[1](jsonFetch, fullFetch));
-});
-
-export function getApiService<T>(service: ApiService<T>): T {
-  return apiConfig.get(service) as T;
+export function getApiService<T>(service: T): T {
+  return apis.get(service) as T;
 }
