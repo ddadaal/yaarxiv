@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 import Schema from "schemas/login.route.json";
 import { Querystring, SuccessResponse, FailedResponse } from "types/login.route";
 
-async function loginRoutes(fastify: FastifyInstance) {
+export async function loginRoutes(fastify: FastifyInstance) {
   fastify.route<{
     Querystring: Querystring,
   }>({
@@ -39,5 +39,3 @@ async function loginRoutes(fastify: FastifyInstance) {
   });
 
 }
-
-export default loginRoutes;

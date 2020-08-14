@@ -1,9 +1,20 @@
 import { startApp } from "../src/app";
+import { FastifyInstance } from "fastify";
 
 describe("Home", () => {
 
+  let server: FastifyInstance;
+
+  beforeEach(async () => {
+    server = await startApp(true);
+  });
+
+  afterEach(async () => {
+    await server.close();
+  });
+
+
   it("should return greetings with username", async() => {
-    const server = await startApp(true);
 
     const username = "testusername";
 
@@ -13,10 +24,6 @@ describe("Home", () => {
       query: { username, password: "123" },
     });
 
-    // jump to static
     expect(resp.json()).toStrictEqual({ hello: username });
-
-    await server.close();
-
   });
 });

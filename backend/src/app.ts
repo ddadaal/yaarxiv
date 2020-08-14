@@ -1,7 +1,5 @@
 import "reflect-metadata";
 import { createConnection, ConnectionOptions } from "typeorm";
-import homeRoutes from "./routes/home";
-import loginRoutes from "./routes/login";
 
 import fastify from "fastify";
 import FastifyTypeormPlugin from "fastify-typeorm-plugin";
@@ -9,6 +7,7 @@ import FastifySwagger from "fastify-swagger";
 import { getConfig } from "./utils/config";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
 import auth from "./utils/auth";
+import { routes } from "./routes";
 
 export async function startApp(start = true) {
 
@@ -46,8 +45,7 @@ export async function startApp(start = true) {
   server.register(auth, { secret: getConfig((c) => c.jwtSecret ) });
   server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
-  server.register(homeRoutes);
-  server.register(loginRoutes);
+  routes.forEach((r) => server.register(r));
 
   if (start) {
     try {

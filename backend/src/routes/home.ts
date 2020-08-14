@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 import Schema from "schemas/home.route.json";
 import { Querystring } from "types/home.route";
 
-async function homeRoutes(fastify: FastifyInstance) {
+export async function homeRoutes(fastify: FastifyInstance) {
   fastify.get<{
     Querystring: Querystring,
     // Response: Response,
@@ -16,5 +16,3 @@ async function homeRoutes(fastify: FastifyInstance) {
     return { hello: req.query.username };
   });
 }
-
-export default homeRoutes;
