@@ -16,12 +16,11 @@
     "migration:generate": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:generate",
     "migration:run": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:run",
     "migration:revert": "cross-env NODE_ENV=development ts-node./node_modules/.bin/typeorm migration:revert",
-    "postinstall": "node-config-ts"
+    "generateConfig": "node-config-ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@sinclair/typebox": "^0.10.1",
     "fastify": "^3.1.1",
     "fastify-jwt": "^2.1.2",
     "fastify-swagger": "^3.1.2",
