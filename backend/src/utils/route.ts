@@ -1,6 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { ApiDefinition } from "yaarxiv-api";
-import { Static } from "@sinclair/typebox";
+import { ApiDefinition, Static } from "yaarxiv-api";
 
 export function route<TApiDef extends ApiDefinition>(
   fastify: FastifyInstance,
