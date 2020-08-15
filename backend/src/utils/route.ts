@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { ApiDefinition, Responses } from "yaarxiv-api";
-import { Static, Type } from "@sinclair/typebox";
+import { ApiDefinition } from "yaarxiv-api";
+import { Static } from "@sinclair/typebox";
 
 export function route<TApiDef extends ApiDefinition>(
   fastify: FastifyInstance,
@@ -11,8 +11,8 @@ export function route<TApiDef extends ApiDefinition>(
       Querystring: Static<TApiDef["querystring"]>;
     }>,
     reply: FastifyReply
-    // the Response type doesn't work to extract all possible responses
-  ) => Promise<Responses<TApiDef>>) {
+    // Responses<TApiDef> might cause TS2589 which is very annoying
+  ) => Promise<any>) {
 
   fastify.route<{
     Body: Static<TApiDef["body"]>;

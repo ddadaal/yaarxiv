@@ -21,7 +21,7 @@ describe("Home", () => {
     const resp = await server.inject({
       method: "GET",
       url: "/",
-      query: { username, password: "123" },
+      query: { username },
     });
 
     expect(resp.json()).toStrictEqual({ hello: username });

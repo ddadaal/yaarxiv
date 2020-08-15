@@ -19,7 +19,7 @@ export function mockApiService<T>(
 const USE_MOCK = true;
 
 // judge whether USE_MOCK here can help reduce the size of bundle
-// by helping the builder remove the mock modules at build time
+// by tree shaking mock modules at production build
 const apis = new Map<unknown, unknown>([
   [homeApis, USE_MOCK ? homeApisMock : homeApis],
 ]);

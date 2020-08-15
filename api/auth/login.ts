@@ -2,7 +2,7 @@ import { Type } from "@sinclair/typebox";
 
 export default {
   url: "/login",
-  method: "GET" as const,
+  method: "GET" ,
   description: "Home page testing",
   querystring: Type.Object({
     username: Type.String({ description: "The username" }),
@@ -15,4 +15,4 @@ export default {
     403: Type.Object({ reason: Type.Optional(Type.String()) },
       { description: "The request fails. " }),
   },
-};
+} as const;
