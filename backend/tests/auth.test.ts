@@ -37,7 +37,7 @@ describe("AuthController", () => {
       query: { username, password },
     });
 
-    expect(resp.statusCode).toEqual(403);
+    expect(resp.statusCode).toEqual("403");
   });
 
 });

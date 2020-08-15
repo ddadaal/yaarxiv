@@ -1,7 +1,7 @@
 import { Type, Static } from "@sinclair/typebox";
 
 export default {
-  url: "/",
+  url: "/login",
   method: "GET" as const,
   description: "Home page testing",
   schema: {
