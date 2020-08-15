@@ -8,9 +8,7 @@ export interface ApiDefinition<
   url: string;
   method: "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
   description?: string;
-  schema: {
-    querystring?: TObject<TQuerystring>;
-    body?: TObject<TBody>;
-    responses: Record<number, TObject<TResponses>>;
-  }
+  querystring?: TObject<TQuerystring>;
+  body?: TObject<TBody>;
+  responses: Record<number, TObject<TResponses>>;
 }
