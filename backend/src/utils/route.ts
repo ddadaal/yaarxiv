@@ -1,11 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { ApiDefinition } from "yaarxiv-api";
+import { ApiDefinition, Responses } from "yaarxiv-api";
 import { Static, Type } from "@sinclair/typebox";
-
-// type ValueOf<T> = T[keyof T];
-// // eslint-disable-next-line @typescript-eslint/ban-types
-// type MapStatic<T> = T extends any ? Static<T> : never;
-// type Responses<T> = MapStatic<ValueOf<T>>;
 
 export function route<TApiDef extends ApiDefinition>(
   fastify: FastifyInstance,
@@ -17,7 +12,7 @@ export function route<TApiDef extends ApiDefinition>(
     }>,
     reply: FastifyReply
     // the Response type doesn't work to extract all possible responses
-  ) => Promise<unknown>) {
+  ) => Promise<Responses<TApiDef>>) {
 
   fastify.route<{
     Body: Static<TApiDef["body"]>;

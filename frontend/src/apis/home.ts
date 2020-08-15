@@ -1,19 +1,7 @@
-import { Querystring, Response } from "apitypes/home.route";
-import { JsonFetch } from "./fetch";
+import { fromApiDefinition } from "./fetch";
 import { apiService, mockApiService } from ".";
+import loginApi from "yaarxiv-api/auth/login";
 
-export const homeApis = apiService((fetch) => ({
-  query: async (request: Querystring) => {
-    return await fetch<Response>({
-      path: "/",
-      method: "GET",
-      query: request as Record<keyof Querystring, string>,
-    });
-  },
-}));
+export const homeApis = apiService((fetch) => ({ login: fromApiDefinition(loginApi) }));
 
-export const homeApisMock = mockApiService<typeof homeApis>(() => ({
-  query: async (request) => {
-    return { success: true, status: 200 };
-  },
-}));
+export const homeApisMock = mockApiService<typeof homeApis>(() => ({ login: async () => { return { token: true };} }));

@@ -1,3 +1,5 @@
+import { ApiDefinition, Responses, Static } from "yaarxiv-api";
+
 const baseUrl = "http://127.0.0.1:3000";
 
 export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
@@ -51,4 +53,21 @@ export type JsonFetch = typeof jsonFetch;
 
 export function changeToken(newToken: string): void {
   token = newToken;
+}
+
+type IfNeverThenUndefined<T> = [T] extends [never] ? undefined : T;
+
+export function fromApiDefinition<T extends ApiDefinition>(api: T) {
+  return (
+    query: IfNeverThenUndefined<Static<T["querystring"]>>,
+    body: IfNeverThenUndefined<Static<T["body"]>>,
+  ): Promise<Responses<T>> => {
+    // @ts-ignore
+    return jsonFetch({
+      path: api.url,
+      method: api.method,
+      query,
+      body,
+    });
+  };
 }
