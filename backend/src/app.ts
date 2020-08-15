@@ -4,22 +4,22 @@ import { createConnection, ConnectionOptions } from "typeorm";
 import fastify from "fastify";
 import FastifyTypeormPlugin from "fastify-typeorm-plugin";
 import FastifySwagger from "fastify-swagger";
-import { getConfig } from "./utils/config";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
 import auth from "./utils/auth";
 import { routes } from "./routes";
+import { Config, config as envConfig } from "node-config-ts";
 
-export async function startApp(start = true) {
+export async function startApp(config: Config = envConfig, start = true) {
 
-  const server = fastify({ logger: getConfig((c) => c.logger) });
+  const server = fastify({ logger: config.logger });
 
   const dbConnection = await createConnection(
     {
-      ...getConfig((c) => c.typeorm) as ConnectionOptions,
+      ...(config.typeorm) as ConnectionOptions,
       logger: new TypeormPinoLogger(server.log),
     });
 
-  if (getConfig((c) => c.loadSwagger)) {
+  if (config.loadSwagger) {
     server.register(FastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
@@ -42,14 +42,14 @@ export async function startApp(start = true) {
     });
   }
 
-  server.register(auth, { secret: getConfig((c) => c.jwtSecret ) });
+  server.register(auth, { secret: config.jwtSecret });
   server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
   routes.forEach((r) => server.register(r));
 
   if (start) {
     try {
-      await server.listen(getConfig((c) => c.port));
+      await server.listen(config.port);
     } catch (err) {
       server.log.error(err);
       throw err;

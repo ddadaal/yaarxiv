@@ -5,7 +5,7 @@ describe("AuthController", () => {
   let server: FastifyInstance;
 
   beforeEach(async () => {
-    server = await startApp(true);
+    server = await startApp();
   });
 
   afterEach(async () => {
@@ -37,7 +37,7 @@ describe("AuthController", () => {
       query: { username, password },
     });
 
-    expect(resp.statusCode).toEqual("403");
+    expect(resp.statusCode).toEqual(403);
   });
 
 });

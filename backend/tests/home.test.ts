@@ -6,7 +6,7 @@ describe("Home", () => {
   let server: FastifyInstance;
 
   beforeEach(async () => {
-    server = await startApp(true);
+    server = await startApp();
   });
 
   afterEach(async () => {

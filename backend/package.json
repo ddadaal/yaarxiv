@@ -16,7 +16,8 @@
     "migration:create": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:create",
     "migration:generate": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:generate",
     "migration:run": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:run",
-    "migration:revert": "cross-env NODE_ENV=development ts-node./node_modules/.bin/typeorm migration:revert"
+    "migration:revert": "cross-env NODE_ENV=development ts-node./node_modules/.bin/typeorm migration:revert",
+    "postinstall": "node-config-ts"
   },
   "author": "",
   "license": "ISC",
@@ -26,6 +27,7 @@
     "fastify-jwt": "^2.1.2",
     "fastify-swagger": "^3.1.2",
     "fastify-typeorm-plugin": "^2.1.2",
+    "node-config-ts": "^3.0.4",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.0",
     "typeorm": "^0.2.25",

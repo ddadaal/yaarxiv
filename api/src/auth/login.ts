@@ -10,7 +10,6 @@ export default {
       password: Type.String({ description: "The password" }),
       captcha: Type.Optional(Type.String({ description: "The captch if exists" })),
     }, { description: "The query" }),
-    body: Type.Object({ item: Type.Integer({ description: "The body" }) }),
     responses: {
       200: Type.Object({ token: Type.String({ description: "The generated token" }) },
         { description: "The request is ok." }),
