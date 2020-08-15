@@ -21,13 +21,15 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@sinclair/typebox": "^0.10.1",
     "fastify": "^3.1.1",
     "fastify-jwt": "^2.1.2",
     "fastify-swagger": "^3.1.2",
     "fastify-typeorm-plugin": "^2.1.2",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.0",
-    "typeorm": "^0.2.25"
+    "typeorm": "^0.2.25",
+    "yaarxiv-api": "file:../api"
   },
   "devDependencies": {
     "@types/jest": "^26.0.7",
