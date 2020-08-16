@@ -1,4 +1,4 @@
-import { Api, Schema, Responses, SchemaObject } from "yaarxiv-api";
+import { Api, Schema, Responses } from "yaarxiv-api";
 
 const baseUrl = "http://127.0.0.1:3000";
 

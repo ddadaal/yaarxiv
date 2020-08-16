@@ -4,7 +4,7 @@ import { Api, Schema, Responses, SchemaObject } from "yaarxiv-api";
 export function route<TSchema extends Schema>(
   fastify: FastifyInstance,
   api: Api,
-  schemaType: TSchema,
+  // schemaType: TSchema,
   schemaObject: SchemaObject,
   handler: (
     req: FastifyRequest<{
