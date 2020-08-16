@@ -1,4 +1,4 @@
-import { ApiDefinition, Responses, Static } from "yaarxiv-api";
+import { Api, Schema, Responses, SchemaObject } from "yaarxiv-api";
 
 const baseUrl = "http://127.0.0.1:3000";
 
@@ -39,14 +39,16 @@ export interface FetchInfo {
   headers?: Headers;
 }
 
-export async function jsonFetch<T>(info: FetchInfo): Promise<T> {
+export type JsonFetchResult<TResp> = [TResp, number];
+
+export async function jsonFetch<T>(info: FetchInfo): Promise<JsonFetchResult<T>> {
   const resp = await fullFetch(info.path, info.query, {
     method: info.method ?? "GET",
     headers: info.headers,
     body: JSON.stringify(info.body),
   });
 
-  return await resp.json();
+  return [await resp.json(), resp.status];
 }
 
 export type JsonFetch = typeof jsonFetch;
@@ -57,12 +59,14 @@ export function changeToken(newToken: string): void {
 
 type IfNeverThenUndefined<T> = [T] extends [never] ? undefined : T;
 
-export function fromApiDefinition<T extends ApiDefinition>(api: T) {
-  return (
-    query: IfNeverThenUndefined<Static<T["querystring"]>>,
-    body: IfNeverThenUndefined<Static<T["body"]>>,
-  ): Promise<Responses<T>> => {
-    // @ts-ignore
+export function fromApiDefinition<TSchema extends Schema>(api: Api) {
+  type TQuery = TSchema["querystring"];
+  type TBody = TSchema["body"];
+
+  return function (
+    query: IfNeverThenUndefined<TQuery>,
+    body: IfNeverThenUndefined<TBody>,
+  ): Promise<JsonFetchResult<Responses<TSchema["responses"]>>>  {
     return jsonFetch({
       path: api.url,
       method: api.method,

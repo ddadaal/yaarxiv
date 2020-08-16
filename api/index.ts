@@ -1,20 +1,28 @@
-import { TObject, TProperties, Static } from "@sinclair/typebox";
-
-export interface ApiDefinition<
-  TQuerystring extends TProperties = TProperties,
-  TBody extends TProperties = TProperties,
-> {
+export interface Api {
   url: string;
   method: "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
-  description?: string;
-  querystring?: TObject<TQuerystring>;
-  body?: TObject<TBody>;
-  responses: Record<number, TObject<TProperties>>;
 }
 
-type ValueOf<T> = T[keyof T];
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-type MapStatic<T> = T extends any ? Static<T> : never;
-export type Responses<T extends ApiDefinition> = MapStatic<ValueOf<T["responses"]>>;
+export interface Schema<
+  TQuerystring = Record<string, string>,
+  TBody = Record<string | number, unknown>,
+  TResponses = Record<string | number, unknown>,
+> {
+  querystring?: TQuerystring;
+  body?: TBody;
+  responses: Record<number, TResponses>;
+}
 
-export { Static };
+export interface SchemaObject {
+  description: string;
+  properties: {
+    querystring?: any;
+    body?: any;
+    responses:  { properties?: any };
+  }
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type ValueOf<T> = T[keyof T];
+type MapStatic<T> = T extends any ? T : never;
+export type Responses<T> = MapStatic<ValueOf<T>>;

@@ -1,29 +1,30 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { ApiDefinition, Static } from "yaarxiv-api";
+import { Api, Schema, Responses, SchemaObject } from "yaarxiv-api";
 
-export function route<TApiDef extends ApiDefinition>(
+export function route<TSchema extends Schema>(
   fastify: FastifyInstance,
-  api: TApiDef,
+  api: Api,
+  schemaType: TSchema,
+  schemaObject: SchemaObject,
   handler: (
     req: FastifyRequest<{
-      Body: Static<TApiDef["body"]>;
-      Querystring: Static<TApiDef["querystring"]>;
+      Body: TSchema["body"]
+      Querystring: TSchema["querystring"];
     }>,
     reply: FastifyReply
-    // Responses<TApiDef> might cause TS2589 which is very annoying
-  ) => Promise<any>) {
+  ) => Promise<Responses<TSchema["responses"]>>) {
 
   fastify.route<{
-    Body: Static<TApiDef["body"]>;
-    Querystring: Static<TApiDef["querystring"]>;
+    Body: TSchema["body"],
+    Querystring: TSchema["querystring"],
   }>({
     method: api.method,
     url: api.url,
     schema: {
-      description: api.description,
-      querystring: api.querystring,
-      body: api.body,
-      response: api.responses,
+      description: schemaObject.description,
+      querystring: schemaObject.properties.querystring,
+      body: schemaObject.properties.body,
+      response: schemaObject.properties.responses.properties,
     },
     handler,
   });
