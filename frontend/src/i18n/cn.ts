@@ -12,6 +12,23 @@ export default {
       dashboard: "个人中心",
       upload: "论文上传",
     },
-    footer: { copyright: "版权所有" },
+    footer: {
+      main: {
+        language: "选择语言",
+        help: {
+          title: "帮助",
+          about: "关于",
+          law: "法律信息",
+        },
+        contact: {
+          title: "联系方式",
+          qq: "QQ",
+          email: "Email",
+          projectGithub: "项目GitHub",
+        },
+      },
+      copyright: "版权所有",
+
+    },
   },
 };

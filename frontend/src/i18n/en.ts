@@ -12,6 +12,22 @@ export default {
       logout: "Logout",
       dashboard: "Dashboard",
     },
-    footer: { copyright: "All rights are reserved." },
+    footer: {
+      main: {
+        language: "Select language",
+        help: {
+          title: "Help",
+          about: "About",
+          law: "Law",
+        },
+        contact: {
+          title: "Contacts",
+          qq: "QQ",
+          email: "Email",
+          projectGithub: "Project GitHub Repo",
+        },
+      },
+      copyright: "All rights are reserved.",
+    },
   },
 };
