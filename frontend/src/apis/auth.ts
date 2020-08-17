@@ -12,7 +12,7 @@ export const authApis = apiService(() => ({
 export const authApisMock = mockApiService<typeof authApis>(() => ({
   login: async ({ id, password }) => {
     if (id === password) {
-      return [{ token: id }, 200];
+      return [{ token: id, name: "cjd" }, 200];
     } else {
       return [{}, 403];
     }
