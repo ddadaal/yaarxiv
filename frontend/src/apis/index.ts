@@ -1,6 +1,7 @@
 import { jsonFetch, fullFetch,  JsonFetch, FullFetch } from "./fetch";
 import { homeApis, homeApisMock } from "./home";
 import { authApis, authApisMock } from "./auth";
+import { delay } from "src/utils/delay";
 
 export type ApiService<T> = (
   jsonFetch: JsonFetch,
@@ -14,7 +15,16 @@ export function apiService<T>(fn: ApiService<T>): T {
 export function mockApiService<T>(
   mock: ApiService<T>,
 ): T {
-  return mock(jsonFetch, fullFetch);
+  const functions = mock(jsonFetch, fullFetch);
+  return Object
+    .keys(functions)
+    .reduce((prev, curr) => ({
+      ...prev, [curr]: async (...args) => {
+        await delay(2000);
+        return functions[curr](...args);
+      },
+    }), {}) as T;
+
 }
 
 const USE_MOCK = true;

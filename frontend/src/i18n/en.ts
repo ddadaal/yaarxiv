@@ -17,6 +17,7 @@ export default {
       password: "Password",
       remember: "Remember",
       login: "Login",
+      inProgress: "Logging In",
       register: "Register",
     },
     footer: {

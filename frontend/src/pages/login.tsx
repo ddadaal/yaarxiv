@@ -36,11 +36,13 @@ const api = getApi(authApis);
 const LoginForm: React.FC = () => {
   const userStore = useStore(UserStore);
   const [value, setValue] = useState(defaultValue);
+  const [inProgress, setInProgress] = useState(false);
   const notificationRef = useRef<System>();
   const router = useRouter();
 
   const login = async () => {
     const { id, password, remember } = value;
+    setInProgress(true);
     const [resp, status] = await api.login({ id, password }, undefined);
     if (status === 200) {
       const res = resp as Extract<typeof resp, { token: string }>;
@@ -58,27 +60,38 @@ const LoginForm: React.FC = () => {
         position: "tc",
       });
     }
+    setInProgress(false);
   };
 
   return (
     <>
       <Form value={value} onChange={setValue} onSubmit={login}>
-        <FormField label={<LocalizedString id={root.id} />} name="id" required={true}>
+        <FormField label={<LocalizedString id={root.id} />} name="id" required={true}
+          disabled={inProgress}
+        >
           <MaskedInput mask={emailMask} name="id"/>
         </FormField>
         <FormField
           label={<LocalizedString id={root.password} />} name="password" required={true}
+          disabled={inProgress}
         >
           <TextInput type="password" name="password"/>
         </FormField>
-        <FormField name="remember">
+        <FormField name="remember" disabled={inProgress}>
           <CheckBox name="remember" label={<LocalizedString id={root.remember} />}/>
         </FormField>
         <Box direction="row" justify="between" margin={{ top: "medium" }}>
           <Link href="/register">
-            <Button label={<LocalizedString id={root.register} />} />
+            <Button label={<LocalizedString id={root.register} />}
+              disabled={inProgress}
+            />
           </Link>
-          <Button type="submit" label={<LocalizedString id={root.login} />} primary />
+          <Button
+            type="submit"
+            label={<LocalizedString id={inProgress ? root.inProgress : root.login} />}
+            primary={true}
+            disabled={inProgress}
+          />
         </Box>
       </Form>
       <NotificationSystem ref={notificationRef} />

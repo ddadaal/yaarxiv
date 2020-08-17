@@ -17,6 +17,7 @@ export default {
       password: "密码",
       remember: "记住我",
       login: "登录",
+      inProgress: "登录中",
       register: "注册",
     },
     footer: {
