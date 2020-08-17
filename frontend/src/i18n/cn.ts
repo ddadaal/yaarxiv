@@ -20,6 +20,15 @@ export default {
       inProgress: "登录中",
       register: "注册",
     },
+    register: {
+      email: "Email",
+      password: "密码",
+      remember: "记住我",
+      inProgress: "注册中",
+      register: "注册并登录",
+      title: "注册",
+      login: "返回登录",
+    },
     footer: {
       main: {
         language: "选择语言",

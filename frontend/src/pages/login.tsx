@@ -12,27 +12,11 @@ import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import { useRouter } from "next/router";
 import { useNotification } from "src/components/useNotification";
+import { emailMask } from "src/styles/inputMasks";
 
 const root = lang.login;
 
 const defaultValue = { id: "", password: "", remember: true };
-
-const emailMask = [
-  {
-    regexp: /^[\w\-_.]+$/,
-    placeholder: "example",
-  },
-  { fixed: "@" },
-  {
-    regexp: /^[\w]+$/,
-    placeholder: "my",
-  },
-  { fixed: "." },
-  {
-    regexp: /^[\w]+$/,
-    placeholder: "com",
-  },
-];
 
 const api = getApi(authApis);
 

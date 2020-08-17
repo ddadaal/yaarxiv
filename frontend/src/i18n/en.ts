@@ -20,6 +20,15 @@ export default {
       inProgress: "Logging In",
       register: "Register",
     },
+    register: {
+      email: "Email",
+      password: "Password",
+      remember: "Remember",
+      inProgress: "Registering",
+      register: "Register",
+      title: "Register",
+      login: "Back to Login",
+    },
     footer: {
       main: {
         language: "Select language",
