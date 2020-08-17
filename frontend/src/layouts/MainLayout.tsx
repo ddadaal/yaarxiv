@@ -1,5 +1,5 @@
 import React, { useRef } from "react";
-import { Grommet, Main } from "grommet";
+import { Grommet, Main, Box } from "grommet";
 import { Footer } from "src/layouts/footer";
 import { Header } from "src/layouts/header";
 import theme from "src/styles/theme";
@@ -14,11 +14,13 @@ export const MainLayout: React.FC = ({ children }) => {
       <NotificationSystem ref={notificationRef} />
       <NotificationSystemContext.Provider value={notificationRef}>
         <Grommet theme={theme} full={true}>
-          <Header />
-          <Main pad="small">
-            {children}
-          </Main>
-          <Footer />
+          <Box direction="column" height={{ min: "100vh" }}>
+            <Header />
+            <Main pad="small">
+              {children}
+            </Main>
+            <Footer />
+          </Box>
         </Grommet>
       </NotificationSystemContext.Provider>
     </>

@@ -85,8 +85,8 @@ const RegisterForm: React.FC = () => {
 
 export const RegisterPage: React.FC = () => {
   return (
-    <Box align="center" justify="center" pad="medium">
-      <Box width="medium" border="all" pad="medium">
+    <Box align="center" justify="center" pad="medium" flex="grow">
+      <Box width="medium" border="all" pad="medium" elevation="small"  >
         <Heading alignSelf="center" level="2" margin="none">
           <LocalizedString id={root.title} />
         </Heading>
