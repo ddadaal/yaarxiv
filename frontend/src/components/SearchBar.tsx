@@ -3,6 +3,7 @@ import { TextInput, Box, Button } from "grommet";
 import { Search } from "grommet-icons";
 import { AnchorLink } from "./AnchorLink";
 import Link from "next/link";
+import { constructSearchString } from "src/utils/searchString";
 
 interface Props {
   onConfirm?: (str: string) => void;
@@ -29,7 +30,7 @@ export const SearchBar: React.FC<Props> = ({ onConfirm }) => {
         value={value}
         onChange={onChange}
       />
-      <Link href={`/search/${value}`}>
+      <Link href={`/search?${constructSearchString({ keyword: value })}`}>
         <Button margin="xsmall">
           <Search size="medium"/>
         </Button>
