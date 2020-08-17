@@ -12,6 +12,13 @@ export default {
       dashboard: "个人中心",
       upload: "论文上传",
     },
+    login: {
+      id: "Email",
+      password: "密码",
+      remember: "记住我",
+      login: "登录",
+      register: "注册",
+    },
     footer: {
       main: {
         language: "选择语言",

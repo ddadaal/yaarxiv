@@ -12,6 +12,13 @@ export default {
       logout: "Logout",
       dashboard: "Dashboard",
     },
+    login: {
+      id: "Email",
+      password: "Password",
+      remember: "Remember",
+      login: "Login",
+      register: "Register",
+    },
     footer: {
       main: {
         language: "Select language",

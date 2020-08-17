@@ -272,20 +272,7 @@ const theme: ThemeType = {
       },
       "width": "2px",
     },
-    "check": {
-      "radius": "4px",
-      "thickness": "4px",
-    },
-    "icon": {
-      "extend": [
-        "\n        box-sizing: border-box;\n        position: absolute;\n        top: 0px;\n        left: 0px;\n        width: ",
-        null,
-        ";\n        height: ",
-        null,
-        ";\n      ",
-      ],
-    },
-    "icons": {},
+
     "hover": {
       "border": {
         "color": {
