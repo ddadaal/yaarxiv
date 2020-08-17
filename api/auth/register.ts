@@ -1,26 +1,25 @@
 export const api = {
-  url: "/user/auth",
-  method: "GET" ,
+  url: "/user",
+  method: "POST" ,
 } as const;
 
 /** Login */
 export interface Schema {
   querystring: {
-    /** The login id, for example email */
-    id: string;
+    /** The email. Requires to be an edu email*/
+    email: string;
     /** The password */
     password: string;
   };
   responses: {
-    /** The request is success */
-    200: {
+    /** Registration is success. */
+    201: {
       /** The generated token */
       token: string;
-      /** The name of the user */
-      name: string;
     },
-    /** The request fails */
-    403: {
+    /** The email already exists. */
+    405: {
+
     }
   }
 }
@@ -32,9 +31,9 @@ export const schema = {
     querystring: {
       type: "object",
       properties: {
-        id: {
+        email: {
           type: "string",
-          description: "The login id, for example email",
+          description: "The email. Requires to be an edu email",
         },
         password: {
           type: "string",
@@ -42,7 +41,7 @@ export const schema = {
         },
       },
       required: [
-        "id",
+        "email",
         "password",
       ],
       additionalProperties: false,
@@ -50,34 +49,29 @@ export const schema = {
     responses: {
       type: "object",
       properties: {
-        "200": {
+        "201": {
           type: "object",
           properties: {
             token: {
               type: "string",
               description: "The generated token",
             },
-            name: {
-              type: "string",
-              description: "The name of the user",
-            },
           },
           required: [
             "token",
-            "name",
           ],
           additionalProperties: false,
-          description: "The request is success",
+          description: "Registration is success.",
         },
-        "403": {
+        "405": {
           type: "object",
           additionalProperties: false,
-          description: "The request fails",
+          description: "The email already exists.",
         },
       },
       required: [
-        "200",
-        "403",
+        "201",
+        "405",
       ],
       additionalProperties: false,
     },

@@ -1,5 +1,6 @@
 import { jsonFetch, fullFetch,  JsonFetch, FullFetch } from "./fetch";
 import { homeApis, homeApisMock } from "./home";
+import { authApis, authApisMock } from "./auth";
 
 export type ApiService<T> = (
   jsonFetch: JsonFetch,
@@ -22,8 +23,9 @@ const USE_MOCK = false;
 // by tree shaking mock modules at production build
 const apis = new Map<unknown, unknown>([
   [homeApis, USE_MOCK ? homeApisMock : homeApis],
+  [authApis, USE_MOCK ? authApisMock : authApis],
 ]);
 
-export function getApiService<T>(service: T): T {
+export function getApi<T>(service: T): T {
   return apis.get(service) as T;
 }
