@@ -39,5 +39,5 @@ const mockResult= [
   },
 ] as search.ArticlePreview[];
 
-export const articleApisMock = mockApiService<typeof articleApis>(() => ({ search: async () => { return { results: mockResult, totalCount: 0 };} }));
+export const articleApisMock = mockApiService<typeof articleApis>(() => ({ search: async () => { return { results: mockResult, totalCount: mockResult.length };} }));
 
