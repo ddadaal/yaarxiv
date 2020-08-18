@@ -22,9 +22,9 @@ export const ArticleItem: React.FC<Props> = ({ article }) => {
   return (
     <Box gap="small" >
       <AnchorLink href={`/articles/${article.id}`}>
-        <Text size="xlarge" weight="bold" margin="0">
+        <Heading level={2} size="small" margin="0">
           {title}
-        </Text>
+        </Heading>
       </AnchorLink>
       <Box gap="small" direction="row">
         {authors.map((author, i) => (

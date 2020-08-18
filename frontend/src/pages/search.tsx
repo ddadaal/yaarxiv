@@ -5,13 +5,15 @@ import { SearchBar } from "src/components/SearchBar";
 import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
-import { searchQueryEquals, SearchQuery } from "src/models/SearchQuery";
+import { SearchQuery, constructSearchString } from "src/models/SearchQuery";
 import { ArticleItem } from "src/components/Article/ArticleItem";
 import { GetServerSideProps } from "next";
 import { ArticlePreview } from "yaarxiv-api/article/search";
 import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { setLazyProp } from "next/dist/next-server/server/api-utils";
+import { Separator } from "src/components/Separator";
+import { ArticleFilter } from "src/components/Article/ArticleFilter";
 
 const api = getApi(articleApis);
 
@@ -28,6 +30,10 @@ export const Search: React.FC<Props> = (props) => {
   const router = useRouter();
 
   const query = router.query;
+
+  const updateQuery = useCallback((newQuery: SearchQuery) => {
+    router.push(`/search?${constructSearchString(newQuery)}`);
+  }, [router]);
 
   // const { data: { results, totalCount }, isPending, reload } = useAsync({
   //   promiseFn,
@@ -60,21 +66,27 @@ export const Search: React.FC<Props> = (props) => {
             <Box direction="row" wrap={!bigger}>
               <Box margin="small"
                 basis={bigger ? "3/4" : "100%"}
-                border="all" pad="small" elevation="small"
+                border="all" pad="xsmall" elevation="small"
               >
                 <OverlayLoading loading={isPending} showSpinner={results.length === 0}>
                   <Box>
                     {results.map((r, i) => (
                       <Box key={r.id} gap="small" margin="small" >
-                        <ArticleItem article={r}   />
-                        { i === results.length -1 ? undefined : <Box border="all"/>}
+                        <ArticleItem article={r} />
+                        { i === results.length -1 ? undefined : <Separator />}
                       </Box>
                     ))}
                   </Box>
                 </OverlayLoading>
               </Box>
-              <Box margin="small" basis={bigger ? "1/4" : "100%"}>
-                filter
+              <Box basis={bigger ? "1/4" : "100%"} margin="small">
+                <ArticleFilter
+                  startYear={0}
+                  endYear={0}
+                  onAuthorsChange={(authors) => updateQuery({ ...query, authors })}
+                  onYearChange={({ start, end }) =>
+                    updateQuery({ ...query, startYear: start, endYear: end })}
+                />
               </Box>
             </Box>
           );
