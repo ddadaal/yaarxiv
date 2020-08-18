@@ -24,7 +24,7 @@ export function mockApiService<T>(
     .keys(functions)
     .reduce((prev, curr) => ({
       ...prev, [curr]: async (...args: any) => {
-        await delay(5000);
+        await delay(1000);
         return functions[curr](...args);
       },
     }), {}) as T;

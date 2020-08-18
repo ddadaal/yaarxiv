@@ -22,7 +22,7 @@ export const ArticleItem: React.FC<Props> = ({ article }) => {
   return (
     <Box gap="small" >
       <AnchorLink href={`/articles/${article.id}`}>
-        <Text size="xxlarge" weight="bold" margin="0">
+        <Text size="xlarge" weight="bold" margin="0">
           {title}
         </Text>
       </AnchorLink>

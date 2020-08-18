@@ -3,15 +3,17 @@ import { Stack, Box, AnchorProps, StackProps } from "grommet";
 import { Spinner } from "./Spinner";
 import styled from "styled-components";
 
+declare module "grommet" {
+  interface BoxProps {
+    opacity?: number | string;
+  }
+}
+
 interface Props {
   loading: boolean;
   anchor?: StackProps["anchor"];
   showSpinner?: boolean;
 }
-
-const TransparentBox = styled(Box)<{ transparent: boolean }>`
-  opacity: ${ (props) => props.transparent ? 0.5 : 1 };
-`;
 
 export const OverlayLoading: React.FC<Props> = ({
   loading,
@@ -24,9 +26,9 @@ export const OverlayLoading: React.FC<Props> = ({
     <Box height={{ min: "xxsmall" }}>
 
       <Stack anchor={anchor} fill>
-        <TransparentBox transparent={loading}>
+        <Box opacity={loading ? "medium" : undefined}>
           {children}
-        </TransparentBox>
+        </Box>
         { loading && showSpinner
           ? (
             <Spinner />
