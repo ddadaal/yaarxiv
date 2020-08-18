@@ -4,7 +4,7 @@ export interface Api {
 }
 
 export interface Schema<
-  TQuerystring = Record<string, string>,
+  TQuerystring = Record<string, string | number | string[]>,
   TBody = Record<string | number, unknown>,
   TResponses = Record<string | number, unknown>,
 > {
@@ -14,12 +14,15 @@ export interface Schema<
 }
 
 export interface SchemaObject {
-  description: string;
-  properties: {
-    querystring?: any;
-    body?: any;
-    responses:  { properties?: any };
-  }
+  Schema: {
+    description: string;
+    properties: {
+      querystring?: any;
+      body?: any;
+      responses:  { properties?: any };
+    }
+  };
+  [otherKey: string]: object;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any

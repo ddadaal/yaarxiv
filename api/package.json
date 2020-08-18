@@ -7,7 +7,7 @@
   "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
-    "compile": "ts-node ./generateSchemas.ts"
+    "compile": "ts-node -T ./generateSchemas.ts"
   },
   "author": "",
   "license": "ISC",

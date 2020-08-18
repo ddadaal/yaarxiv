@@ -3,6 +3,8 @@ export const api = {
   method: "GET" ,
 } as const;
 
+export const summary = "Login using id and password";
+
 /** Login */
 export interface Schema {
   querystring: {
@@ -27,66 +29,68 @@ export interface Schema {
 
 // ======= Auto-generated JSON schema begin =======
 export const schema = {
-  type: "object",
-  properties: {
-    querystring: {
-      type: "object",
-      properties: {
-        id: {
-          type: "string",
-          description: "The login id, for example email",
-        },
-        password: {
-          type: "string",
-          description: "The password",
-        },
-      },
-      required: [
-        "id",
-        "password",
-      ],
-      additionalProperties: false,
-    },
-    responses: {
-      type: "object",
-      properties: {
-        "200": {
-          type: "object",
-          properties: {
-            token: {
-              type: "string",
-              description: "The generated token",
-            },
-            name: {
-              type: "string",
-              description: "The name of the user",
-            },
+  Schema: {
+    type: "object",
+    properties: {
+      querystring: {
+        type: "object",
+        properties: {
+          id: {
+            type: "string",
+            description: "The login id, for example email",
           },
-          required: [
-            "token",
-            "name",
-          ],
-          additionalProperties: false,
-          description: "The request is success",
+          password: {
+            type: "string",
+            description: "The password",
+          },
         },
-        "403": {
-          type: "object",
-          additionalProperties: false,
-          description: "The request fails",
-        },
+        required: [
+          "id",
+          "password",
+        ],
+        additionalProperties: false,
       },
-      required: [
-        "200",
-        "403",
-      ],
-      additionalProperties: false,
+      responses: {
+        type: "object",
+        properties: {
+          "200": {
+            type: "object",
+            properties: {
+              token: {
+                type: "string",
+                description: "The generated token",
+              },
+              name: {
+                type: "string",
+                description: "The name of the user",
+              },
+            },
+            required: [
+              "token",
+              "name",
+            ],
+            additionalProperties: false,
+            description: "The request is success",
+          },
+          "403": {
+            type: "object",
+            additionalProperties: false,
+            description: "The request fails",
+          },
+        },
+        required: [
+          "200",
+          "403",
+        ],
+        additionalProperties: false,
+      },
     },
+    required: [
+      "querystring",
+      "responses",
+    ],
+    additionalProperties: false,
+    description: "Login",
   },
-  required: [
-    "querystring",
-    "responses",
-  ],
-  additionalProperties: false,
-  description: "Login",
 };
 // ======= Auto-generated JSON schema end =======

@@ -8,8 +8,6 @@ import json5 from "json5";
 
 const fsp = fs.promises;
 
-const SCHEMA_TYPE_NAME = "Schema";
-
 const SECTION_BEGIN = "// ======= Auto-generated JSON schema begin =======";
 const SECTION_END = "// ======= Auto-generated JSON schema end =======";
 
@@ -20,9 +18,9 @@ const json5Options = {
 
 function generateSchema(filename: string): string {
   const schema = tsj
-    .createGenerator({ path: filename, jsDoc: "extended", type: SCHEMA_TYPE_NAME })
+    .createGenerator({ path: filename, jsDoc: "extended", expose: "all" })
     .createSchema();
-  const schemaString = json5.stringify(schema.definitions?.Schema, json5Options);
+  const schemaString = json5.stringify(schema.definitions, json5Options);
   return schemaString;
 
 }

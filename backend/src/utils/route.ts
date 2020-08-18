@@ -1,11 +1,16 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { Api, Schema, Responses, SchemaObject } from "yaarxiv-api";
 
+interface RouteSpec {
+  api: Api;
+  schema: SchemaObject;
+  summary?: string;
+}
+
+
 export function route<TSchema extends Schema>(
   fastify: FastifyInstance,
-  api: Api,
-  // schemaType: TSchema,
-  schemaObject: SchemaObject,
+  { api, schema, summary }: RouteSpec,
   handler: (
     req: FastifyRequest<{
       Body: TSchema["body"]
@@ -21,10 +26,11 @@ export function route<TSchema extends Schema>(
     method: api.method,
     url: api.url,
     schema: {
-      description: schemaObject.description,
-      querystring: schemaObject.properties.querystring,
-      body: schemaObject.properties.body,
-      response: schemaObject.properties.responses.properties,
+      summary: summary,
+      description: schema.Schema.description,
+      querystring: schema.Schema.properties.querystring,
+      body: schema.Schema.properties.body,
+      response: schema.Schema.properties.responses.properties,
     },
     handler,
   });

@@ -6,7 +6,7 @@ import FastifyTypeormPlugin from "fastify-typeorm-plugin";
 import FastifySwagger from "fastify-swagger";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
 import auth from "./utils/auth";
-import { routes } from "./routes";
+import { routes, externalSchemas } from "./routes";
 import { Config, config as envConfig } from "node-config-ts";
 
 export async function startApp(config: Config = envConfig, start = true) {
@@ -18,6 +18,9 @@ export async function startApp(config: Config = envConfig, start = true) {
       ...(config.typeorm) as ConnectionOptions,
       logger: new TypeormPinoLogger(server.log),
     });
+
+  externalSchemas.forEach((s) => server.addSchema(s));
+  // server.addSchema(externalSchemas);
 
   if (config.loadSwagger) {
     server.register(FastifySwagger, {

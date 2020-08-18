@@ -3,7 +3,9 @@ export const api = {
   method: "POST" ,
 } as const;
 
-/** Login */
+export const summary = "Register.";
+
+/** Register */
 export interface Schema {
   querystring: {
     /** The email. Requires to be an edu email*/
@@ -26,61 +28,63 @@ export interface Schema {
 
 // ======= Auto-generated JSON schema begin =======
 export const schema = {
-  type: "object",
-  properties: {
-    querystring: {
-      type: "object",
-      properties: {
-        email: {
-          type: "string",
-          description: "The email. Requires to be an edu email",
-        },
-        password: {
-          type: "string",
-          description: "The password",
-        },
-      },
-      required: [
-        "email",
-        "password",
-      ],
-      additionalProperties: false,
-    },
-    responses: {
-      type: "object",
-      properties: {
-        "201": {
-          type: "object",
-          properties: {
-            token: {
-              type: "string",
-              description: "The generated token",
-            },
+  Schema: {
+    type: "object",
+    properties: {
+      querystring: {
+        type: "object",
+        properties: {
+          email: {
+            type: "string",
+            description: "The email. Requires to be an edu email",
           },
-          required: [
-            "token",
-          ],
-          additionalProperties: false,
-          description: "Registration is success.",
+          password: {
+            type: "string",
+            description: "The password",
+          },
         },
-        "405": {
-          type: "object",
-          additionalProperties: false,
-          description: "The email already exists.",
-        },
+        required: [
+          "email",
+          "password",
+        ],
+        additionalProperties: false,
       },
-      required: [
-        "201",
-        "405",
-      ],
-      additionalProperties: false,
+      responses: {
+        type: "object",
+        properties: {
+          "201": {
+            type: "object",
+            properties: {
+              token: {
+                type: "string",
+                description: "The generated token",
+              },
+            },
+            required: [
+              "token",
+            ],
+            additionalProperties: false,
+            description: "Registration is success.",
+          },
+          "405": {
+            type: "object",
+            additionalProperties: false,
+            description: "The email already exists.",
+          },
+        },
+        required: [
+          "201",
+          "405",
+        ],
+        additionalProperties: false,
+      },
     },
+    required: [
+      "querystring",
+      "responses",
+    ],
+    additionalProperties: false,
+    description: "Login",
   },
-  required: [
-    "querystring",
-    "responses",
-  ],
-  additionalProperties: false,
-  description: "Login",
 };
 // ======= Auto-generated JSON schema end =======
