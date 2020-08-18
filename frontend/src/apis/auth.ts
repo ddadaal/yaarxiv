@@ -9,19 +9,19 @@ export const authApis = apiService(() => ({
   register: fromApiDefinition<RegisterApi.Schema>(RegisterApi.api),
 }));
 
-export const authApisMock = mockApiService<typeof authApis>(() => ({
+export const authApisMock = mockApiService<typeof authApis>(({ makeHttpError }) => ({
   login: async ({ id, password }) => {
     if (id === password) {
-      return [{ token: id, name: "cjd" }, 200];
+      return { token: id, name: "cjd" };
     } else {
-      return [{}, 403];
+      throw makeHttpError({}, 403);
     }
   },
   register: async ({ email, password }) => {
     if (email === "c") {
-      return [{} ,405];
+      throw makeHttpError({}, 405);
     } else {
-      return [{ token: email }, 201];
+      return { token: email, name: email.split("@")[0] };
     }
   },
 

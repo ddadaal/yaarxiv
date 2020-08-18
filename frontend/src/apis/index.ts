@@ -1,25 +1,29 @@
-import { jsonFetch, fullFetch,  JsonFetch, FullFetch } from "./fetch";
-import { homeApis, homeApisMock } from "./home";
+import {
+  jsonFetch, fullFetch,  JsonFetch,
+  FullFetch, HttpError, makeHttpError,
+} from "./fetch";
 import { authApis, authApisMock } from "./auth";
 import { delay } from "src/utils/delay";
+import { articleApis, articleApisMock } from "./article";
 
-export type ApiService<T> = (
+export type ApiService<T> = (actions: {
   jsonFetch: JsonFetch,
   fullFetch: FullFetch,
-) => T;
+  makeHttpError: <T>(data: T, status: number) => HttpError<T>,
+}) => T;
 
 export function apiService<T>(fn: ApiService<T>): T {
-  return fn(jsonFetch, fullFetch);
+  return fn({ jsonFetch, fullFetch, makeHttpError });
 }
 
 export function mockApiService<T>(
   mock: ApiService<T>,
 ): T {
-  const functions = mock(jsonFetch, fullFetch);
+  const functions = mock({ jsonFetch, fullFetch, makeHttpError });
   return Object
     .keys(functions)
     .reduce((prev, curr) => ({
-      ...prev, [curr]: async (...args) => {
+      ...prev, [curr]: async (...args: any) => {
         await delay(2000);
         return functions[curr](...args);
       },
@@ -32,8 +36,8 @@ const USE_MOCK = true;
 // judge whether USE_MOCK here can help reduce the size of bundle
 // by tree shaking mock modules at production build
 const apis = new Map<unknown, unknown>([
-  [homeApis, USE_MOCK ? homeApisMock : homeApis],
   [authApis, USE_MOCK ? authApisMock : authApis],
+  [articleApis, USE_MOCK ? articleApisMock : articleApis],
 ]);
 
 export function getApi<T>(service: T): T {

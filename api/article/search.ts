@@ -13,6 +13,8 @@ export interface Author {
 
 /** A preview information of the article. */
 export interface ArticlePreview {
+  /** The id of the article in yaarxiv database. */
+  id: string;
   /** The title of the article. */
   title: string;
   /** The authors of the article. */
@@ -99,6 +101,10 @@ export const schema = {
   ArticlePreview: {
     type: "object",
     properties: {
+      id: {
+        type: "string",
+        description: "The id of the article in yaarxiv database.",
+      },
       title: {
         type: "string",
         description: "The title of the article.",
@@ -139,6 +145,7 @@ export const schema = {
       },
     },
     required: [
+      "id",
       "title",
       "authors",
       "abstract",
@@ -226,7 +233,7 @@ export const schema = {
       "responses",
     ],
     additionalProperties: false,
-    description: "Search article with optional parameters",
+    description: "Search article with optional parameters.",
   },
 };
 // ======= Auto-generated JSON schema end =======

@@ -18,6 +18,8 @@ export interface Schema {
     201: {
       /** The generated token */
       token: string;
+      /** The initial name of the newly-created user. */
+      name: string;
     },
     /** The email already exists. */
     405: {
@@ -59,9 +61,14 @@ export const schema = {
                 type: "string",
                 description: "The generated token",
               },
+              name: {
+                type: "string",
+                description: "The initial name of the newly-created user.",
+              },
             },
             required: [
               "token",
+              "name",
             ],
             additionalProperties: false,
             description: "Registration is success.",
@@ -84,7 +91,7 @@ export const schema = {
       "responses",
     ],
     additionalProperties: false,
-    description: "Login",
+    description: "Register",
   },
 };
 // ======= Auto-generated JSON schema end =======

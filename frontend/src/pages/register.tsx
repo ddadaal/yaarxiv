@@ -30,23 +30,25 @@ const RegisterForm: React.FC = () => {
   const login = async () => {
     const { email, password, remember } = value;
     setInProgress(true);
-    const [resp, status] = await api.register({ email, password }, undefined);
-    if (status === 200) {
-      const res = resp as Extract<typeof resp, { token: string }>;
+    try {
+      const res = await api.register({ email, password }, undefined);
       userStore.login({
         userId: email,
-        name: email.split("@")[0],
+        name: res.name,
         token: res.token,
         remember: remember,
       });
       router.push("/");
-    } else {
-      notification.addNotification({
-        message: "Your username and password is invalid",
-        level: "error",
-        position: "tc",
-      });
+    } catch ({ status }) {
+      if (status === 405) {
+        notification.addNotification({
+          message: "The email have been used. Change an email.",
+          level: "error",
+          position: "tc",
+        });
+      }
     }
+
     setInProgress(false);
   };
 

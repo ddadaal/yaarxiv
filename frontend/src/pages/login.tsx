@@ -30,9 +30,8 @@ const LoginForm: React.FC = () => {
   const login = async () => {
     const { id, password, remember } = value;
     setInProgress(true);
-    const [resp, status] = await api.login({ id, password }, undefined);
-    if (status === 200) {
-      const res = resp as Extract<typeof resp, { token: string }>;
+    try {
+      const res = await api.login({ id, password }, undefined);
       userStore.login({
         userId: id,
         name: res.name,
@@ -40,12 +39,14 @@ const LoginForm: React.FC = () => {
         remember: remember,
       });
       router.push("/");
-    } else {
-      notification.addNotification({
-        message: "Your username and password is invalid",
-        level: "error",
-        position: "tc",
-      });
+    } catch ({ status }) {
+      if (status === 403) {
+        notification.addNotification({
+          message: "Your username and password is invalid",
+          level: "error",
+          position: "tc",
+        });
+      }
     }
     setInProgress(false);
   };

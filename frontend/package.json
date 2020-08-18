@@ -14,6 +14,7 @@
     "next-transpile-modules": "^4.1.0",
     "normalize.css": "^8.0.1",
     "react": "16.13.1",
+    "react-async": "^10.0.1",
     "react-dom": "16.13.1",
     "react-notification-system": "^0.4.0",
     "simstate": "^3.0.0",
