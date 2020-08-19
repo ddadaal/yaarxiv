@@ -31,7 +31,7 @@ const LoginForm: React.FC = () => {
     const { id, password, remember } = value;
     setInProgress(true);
     try {
-      const res = await api.login({ id, password }, undefined);
+      const res = await api.login({ query: { id, password } });
       userStore.login({
         userId: id,
         name: res.name,

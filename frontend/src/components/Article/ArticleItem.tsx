@@ -1,11 +1,12 @@
 import React from "react";
 import { Box, Text, Heading } from "grommet";
-import type { ArticlePreview, Author } from "yaarxiv-api/article/search";
 import { AnchorLink } from "../AnchorLink";
 import { UrlObject } from "url";
+import { ArticleSearchResult } from "yaarxiv-api/article/search";
+import { Author } from "yaarxiv-api/article/models";
 
 interface Props {
-  article: ArticlePreview;
+  article: ArticleSearchResult;
   onAuthorClicked: (author: Author) => void;
   onKeywordClicked: (keywords: string) => void;
 }
@@ -32,11 +33,11 @@ export const ArticleItem: React.FC<Props> = ({
   onAuthorClicked,
   onKeywordClicked,
 }) => {
-  const { title, authors,  keywords, abstract, id } = article;
+  const { title, authors,  keywords, abstract, articleId } = article;
 
   return (
     <Box gap="small" >
-      <AnchorLink href={`/articles/${article.id}`}>
+      <AnchorLink href={`/articles/${article.articleId}`}>
         <Heading level={2} size="small" margin="0">
           {title}
         </Heading>
@@ -61,7 +62,7 @@ export const ArticleItem: React.FC<Props> = ({
         ))}
       </Box>
       <Box direction="row">
-        <Text>yaarxiv id: {id}</Text>
+        <Text>yaarxiv id: {articleId}</Text>
       </Box>
     </Box>
   );

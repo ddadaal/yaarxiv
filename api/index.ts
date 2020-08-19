@@ -4,10 +4,12 @@ export interface Api {
 }
 
 export interface Schema<
+  TPath = Record<string, string | number>,
   TQuerystring = Record<string, string | number | string[]>,
   TBody = Record<string | number, unknown>,
   TResponses = Record<string | number, unknown>,
 > {
+  path ?: TPath;
   querystring?: TQuerystring;
   body?: TBody;
   responses: Record<number, TResponses>;
@@ -17,6 +19,7 @@ export interface SchemaObject {
   Schema: {
     description: string;
     properties: {
+      path ?: any;
       querystring?: any;
       body?: any;
       responses:  { properties?: any };

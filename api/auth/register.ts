@@ -7,7 +7,7 @@ export const summary = "Register.";
 
 /** Register */
 export interface Schema {
-  querystring: {
+  body: {
     /** The email. Requires to be an edu email*/
     email: string;
     /** The password */
@@ -33,7 +33,7 @@ export const schema = {
   Schema: {
     type: "object",
     properties: {
-      querystring: {
+      body: {
         type: "object",
         properties: {
           email: {
@@ -87,7 +87,7 @@ export const schema = {
       },
     },
     required: [
-      "querystring",
+      "body",
       "responses",
     ],
     additionalProperties: false,

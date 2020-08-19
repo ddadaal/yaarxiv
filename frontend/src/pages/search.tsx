@@ -7,7 +7,6 @@ import { articleApis } from "src/apis/article";
 import { SearchQuery } from "src/models/SearchQuery";
 import { ArticleItem } from "src/components/Article/ArticleItem";
 import { GetServerSideProps } from "next";
-import { ArticlePreview, Author } from "yaarxiv-api/article/search";
 import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { Separator } from "src/components/Separator";
@@ -15,15 +14,17 @@ import { ArticleFilter } from "src/components/Article/ArticleFilter";
 import { queryToIntOrDefault, queryToString, queryToArray } from "src/utils/querystring";
 import { Pagination } from "src/components/Pagination";
 import { SearchBar } from "src/components/SearchBar";
+import { ArticleSearchResult } from "yaarxiv-api/article/search";
+import { Author } from "yaarxiv-api/article/models";
 
 const api = getApi(articleApis);
 
 interface Props {
-  results: ArticlePreview[];
+  results: ArticleSearchResult[];
   totalCount: number;
 }
 
-const search = ([query]: any[]) => api.search(query, undefined);
+const search = ([query]: any[]) => api.search({ query });
 
 
 export const Search: React.FC<Props> = (props) => {
@@ -81,7 +82,7 @@ export const Search: React.FC<Props> = (props) => {
                 <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
                   <Box>
                     {results.map((r, i) => (
-                      <Box key={r.id} gap="small" margin="small" >
+                      <Box key={r.articleId} gap="small" margin="small" >
                         <ArticleItem
                           article={r}
                           onAuthorClicked={onAuthorClicked}
@@ -124,7 +125,7 @@ export const Search: React.FC<Props> = (props) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
   const query = context.query;
-  return { props: await api.search(query, undefined) };
+  return { props: await api.search({ query }) };
 };
 
 export default Search;

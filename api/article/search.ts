@@ -1,30 +1,16 @@
+import { ArticleInfo } from "./models";
+
 export const api = {
   url: "/articles",
   method: "GET" ,
 } as const;
 
-/** The author information. */
-export interface Author {
-  /** The name of author. */
-  name: string;
-  /** The affiliation of the author */
-  affiliation?: string;
-}
-
 /** A preview information of the article. */
-export interface ArticlePreview {
-  /** The id of the article in yaarxiv database. */
-  id: string;
-  /** The title of the article. */
-  title: string;
-  /** The authors of the article. */
-  authors: Author[];
-  /** The abstract. Might be trimmed. */
-  abstract: string;
-  /** The keywords of the article. */
-  keywords: string[];
-  /** The category of the article. */
-  category: string;
+export interface ArticleSearchResult extends ArticleInfo {
+
+  /** The id of the article. */
+  articleId: string;
+
   /** The number of comments the article has. */
   commentCount: number;
   /**
@@ -67,7 +53,7 @@ export interface Schema {
     /** The search is successful. */
     200: {
       /** The paginated results */
-      results: ArticlePreview[];
+      results: ArticleSearchResult[];
       /** The total count of results. */
       totalCount: number;
     },
@@ -76,6 +62,106 @@ export interface Schema {
 
 // ======= Auto-generated JSON schema begin =======
 export const schema = {
+  ArticleSearchResult: {
+    type: "object",
+    properties: {
+      title: {
+        type: "string",
+        description: "The title of the article.",
+      },
+      authors: {
+        type: "array",
+        items: {
+          $ref: "#/definitions/Author",
+        },
+        description: "The authors of the article.",
+      },
+      abstract: {
+        type: "string",
+        description: "The abstract.",
+      },
+      keywords: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+        description: "The keywords of the article.",
+      },
+      category: {
+        type: "string",
+        description: "The category of the article.",
+      },
+      articleId: {
+        type: "string",
+        description: "The id of the article.",
+      },
+      commentCount: {
+        type: "number",
+        description: "The number of comments the article has.",
+      },
+      createTime: {
+        type: "string",
+        description: "The time when the article is first uploaded to the platform.\nMust be a valid datetime string.",
+      },
+      lastUpdateTime: {
+        type: "string",
+        description: "The time when the article is last updated.\nMust be a valid datetime string.",
+      },
+    },
+    required: [
+      "abstract",
+      "articleId",
+      "authors",
+      "category",
+      "commentCount",
+      "createTime",
+      "keywords",
+      "lastUpdateTime",
+      "title",
+    ],
+    additionalProperties: false,
+    description: "A preview information of the article.",
+  },
+  ArticleInfo: {
+    type: "object",
+    properties: {
+      title: {
+        type: "string",
+        description: "The title of the article.",
+      },
+      authors: {
+        type: "array",
+        items: {
+          $ref: "#/definitions/Author",
+        },
+        description: "The authors of the article.",
+      },
+      abstract: {
+        type: "string",
+        description: "The abstract.",
+      },
+      keywords: {
+        type: "array",
+        items: {
+          type: "string",
+        },
+        description: "The keywords of the article.",
+      },
+      category: {
+        type: "string",
+        description: "The category of the article.",
+      },
+    },
+    required: [
+      "title",
+      "authors",
+      "abstract",
+      "keywords",
+      "category",
+    ],
+    additionalProperties: false,
+    description: "The brief info of an revision of an article.",
+  },
   Author: {
     type: "object",
     properties: {
@@ -93,66 +179,6 @@ export const schema = {
     ],
     additionalProperties: false,
     description: "The author information.",
-  },
-  ArticlePreview: {
-    type: "object",
-    properties: {
-      id: {
-        type: "string",
-        description: "The id of the article in yaarxiv database.",
-      },
-      title: {
-        type: "string",
-        description: "The title of the article.",
-      },
-      authors: {
-        type: "array",
-        items: {
-          $ref: "#/definitions/Author",
-        },
-        description: "The authors of the article.",
-      },
-      abstract: {
-        type: "string",
-        description: "The abstract. Might be trimmed.",
-      },
-      keywords: {
-        type: "array",
-        items: {
-          type: "string",
-        },
-        description: "The keywords of the article.",
-      },
-      category: {
-        type: "string",
-        description: "The category of the article.",
-      },
-      commentCount: {
-        type: "number",
-        description: "The number of comments the article has.",
-      },
-      createTime: {
-        type: "string",
-        description: "The time when the article is first uploaded to the platform.\nMust be a valid datetime string.",
-      },
-      lastUpdateTime: {
-        type: "string",
-        description: "The time when the article is last updated.\nMust be a valid datetime string.",
-      },
-    },
-    required: [
-      "id",
-      "title",
-      "authors",
-      "abstract",
-      "keywords",
-      "category",
-      "commentCount",
-      "createTime",
-      "lastUpdateTime",
-    ],
-    additionalProperties: false,
-    description: "A preview information of the article.",
   },
   Schema: {
     type: "object",
@@ -172,7 +198,7 @@ export const schema = {
             type: "number",
             description: "The end year limit.",
           },
-          authors: {
+          authorNames: {
             type: "array",
             items: {
               type: "string",
@@ -203,7 +229,7 @@ export const schema = {
               results: {
                 type: "array",
                 items: {
-                  $ref: "#/definitions/ArticlePreview",
+                  $ref: "#/definitions/ArticleSearchResult",
                 },
                 description: "The paginated results",
               },

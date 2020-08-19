@@ -31,7 +31,7 @@ const RegisterForm: React.FC = () => {
     const { email, password, remember } = value;
     setInProgress(true);
     try {
-      const res = await api.register({ email, password }, undefined);
+      const res = await api.register({ body: { email, password } });
       userStore.login({
         userId: email,
         name: res.name,

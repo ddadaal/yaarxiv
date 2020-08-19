@@ -98,21 +98,31 @@ type SuccessResponse<T extends Schema> =
   ? Responses<T>[200]
   : Responses<T>[201] extends object ? Responses<T>[201] : never;
 
-type IfNeverThenUndefined<T> = [T] extends [never] ? undefined : T;
+type IfNotObjectThenUndefined<T> = T extends Record<string, unknown> ? T : undefined;
+
+type SelectNotUndefined<T extends {
+  path: {} | undefined;
+  query: {} | undefined;
+  body: {} | undefined}> =
+  ({ path: T["path"] } extends { path: undefined } ? {} : { path: T["path"]} ) &
+  ({ query: T["query"] } extends { query: undefined } ? {} : { query: T["query"]}) &
+  ({ body: T["body"] } extends { body: undefined } ? {} : { body: T["body"]});
 
 export function fromApiDefinition<TSchema extends Schema>(api: Api) {
+  type TPath = TSchema["path"];
   type TQuery = TSchema["querystring"];
   type TBody = TSchema["body"];
 
-  return function (
-    query: IfNeverThenUndefined<TQuery>,
-    body: IfNeverThenUndefined<TBody>,
-  ): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
+  return function (args: SelectNotUndefined<{
+    path: IfNotObjectThenUndefined<TPath>,
+    query: IfNotObjectThenUndefined<TQuery>,
+    body: IfNotObjectThenUndefined<TBody>,
+  }>): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
     return jsonFetch({
       path: api.url,
       method: api.method,
-      query,
-      body,
+      query: (args as any).query,
+      body: (args as any).body,
     });
   };
 }

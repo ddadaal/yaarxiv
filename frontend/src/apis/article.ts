@@ -2,12 +2,17 @@
 import { fromApiDefinition } from "./fetch";
 import { apiService, mockApiService } from ".";
 import * as search from "yaarxiv-api/article/search";
+import * as info from "yaarxiv-api/article/info";
+import { Article, ArticleInfo } from "yaarxiv-api/article/models";
 
-export const articleApis = apiService(() => ({ search: fromApiDefinition<search.Schema>(search.api) }));
+export const articleApis = apiService(() => ({
+  search: fromApiDefinition<search.Schema>(search.api),
+  getDetail: fromApiDefinition<info.Schema>(info.api),
+}));
 
 const mockResult= [
   {
-    id: "29004382",
+    articleId: "29004382",
     title: "Understanding the interleaving-space overlap across inputs and software versions",
     commentCount: 2,
     authors: [
@@ -21,7 +26,7 @@ const mockResult= [
     lastUpdateTime: "2020-08-06T01:16:41+00:00",
   },
   {
-    id: "290043825",
+    articleId: "290043825",
     title:"Testing Software Requirements via Task Analysis" ,
     commentCount: 2,
     authors:
@@ -37,7 +42,30 @@ const mockResult= [
     createTime: "2020-08-06T01:16:41+00:00",
     lastUpdateTime: "2020-08-06T01:16:41+00:00",
   },
-] as search.ArticlePreview[];
+] as search.ArticleSearchResult[];
 
-export const articleApisMock = mockApiService<typeof articleApis>(() => ({ search: async () => { return { results: mockResult, totalCount: mockResult.length };} }));
+const mockArticle = (id: string): Article => ({
+  id,
+  revisionNumber: 3,
+  revisions: [
+    { number: 1, time: "2011-10-05T14:48:00.000Z" },
+    { number: 2, time: "2012-10-05T14:48:00.000Z" },
+    { number: 3, time: "2013-10-05T14:48:00.000Z" },
+  ],
+  currentRevision: {
+    title: "Understanding the interleaving-space overlap across inputs and software versions",
+    authors: [
+      { name: "Dongdong Deng", affiliation: "University of Wisconsin-Madison" },
+      { name: "徐铮", affiliation: null },
+    ],
+    abstract: "The invention provides a software testing method based on a cloud testing system, the cloud testing system and a client side of the cloud testing system and aims to solve technical problems that manual operation of traditional software testing methods and testing devices is complicated, all controls of a software to be tested can not be traversed and test data can not be real-timely checked. The method includes the following steps that a software testing task is received, a thread which corresponds to the software testing task is established, and the software testing task is sent to a terminal device through the thread; screenshot information and log information which are fed back real-timely when the terminal device executes the software testing task are received, and the screenshot information and the log information are upload to a server side; the screenshot information is upload to a web side through the server side to be displayed. By means of the software testing method based on the cloud testing system, the cloud testing system and the client side of the cloud testing system, processes of mounting, operating, traversing all controls of the software to be tested, unloading and the like can be automatically performed by a real machine, test results can be real-timely output, manual testing time can be greatly saved, and meanwhile, a developer can conveniently debug programs.",
+    keywords: ["Manual testing", "Upload", "Client-side", "Cloud testing", "Cloud computing", "Computer science", "Server-side", "Debugging", "Software", "Operating system"],
+    category: "Computer Science",
+  },
+});
+
+export const articleApisMock = mockApiService<typeof articleApis>(() => ({
+  search: async () => { return { results: mockResult, totalCount: mockResult.length };},
+  getDetail: async ({ path }) => ({ article: mockArticle(path.articleId) }),
+}));
 

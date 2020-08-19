@@ -10,14 +10,14 @@ export const authApis = apiService(() => ({
 }));
 
 export const authApisMock = mockApiService<typeof authApis>(({ makeHttpError }) => ({
-  login: async ({ id, password }) => {
+  login: async ({ query: { id, password } }) => {
     if (id === password) {
       return { token: id, name: "cjd" };
     } else {
       throw makeHttpError({}, 403);
     }
   },
-  register: async ({ email, password }) => {
+  register: async ({ body: { email, password } }) => {
     if (email === "c") {
       throw makeHttpError({}, 405);
     } else {
