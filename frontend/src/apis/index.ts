@@ -2,11 +2,13 @@ import {
   jsonFetch, fullFetch,  JsonFetch,
   FullFetch, HttpError, makeHttpError,
 } from "./fetch";
-import { authApis, authApisMock } from "./auth";
+import { authApis } from "./auth";
 import { delay } from "src/utils/delay";
-import { articleApis, articleApisMock } from "./article";
+import { articleApis } from "./article";
 import { isServer } from "src/utils/isServer";
 import { decrementRequest, incrementRequest } from "src/components/TopProgressBar";
+import { articleApisMock } from "./article.mock";
+import { authApisMock } from "./auth.mock";
 
 export type ApiArgs = {
   jsonFetch: JsonFetch,
@@ -39,21 +41,27 @@ export function createMockApi<T extends (actions: ApiArgs) => any>
     }), {}) as T;
 }
 
-const USE_MOCK = false;
+const USE_MOCK = true;
 
 // judge whether USE_MOCK here can help reduce the size of bundle
 // by tree shaking mock modules at production build
+// Attempted to write mock and api in the same file,
+// but the mock won't be stripped.
+
 const apis = [
   [authApis, USE_MOCK ? authApisMock : authApis],
   [articleApis, USE_MOCK ? articleApisMock : articleApis],
 ];
 
-const computedApis = new Map<unknown, unknown>(apis.map(([key, value]) => [
-  key,
-  USE_MOCK
-    ? createMockApi((value as MockApi<any>))
-    : (value as Api<any>)({ jsonFetch, fullFetch, makeHttpError }),
-]));
+const computedApis = new Map<unknown, unknown>();
+for (const [key, value] of apis) {
+  computedApis.set(key,
+    USE_MOCK
+      ? createMockApi((value as MockApi<any>))
+      : (value as Api<any>)({ jsonFetch, fullFetch, makeHttpError }),
+  );
+}
+
 
 export function getApi<TR, T extends Api<TR>>(service: T): ReturnType<T> {
   return computedApis.get(service) as ReturnType<T>;
