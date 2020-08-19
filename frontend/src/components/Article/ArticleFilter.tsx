@@ -1,13 +1,13 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Box, Heading, Text, TextInput, MaskedInput } from "grommet";
-import { Separator } from "../Separator";
-import { start } from "repl";
+import { debounce } from "src/utils/debounce";
+import { max, min } from "src/utils/math";
 
 interface Props {
   startYear?: number;
   endYear?: number;
-  onYearChange: (changed: { start?: number; end?: number }) => void;
-  onAuthorsChange: (authors: string[]) => void;
+  onYearChange: (changed: { startYear?: number; endYear?: number }) => void;
+  onAuthorsChange: (changed: { authors: string[]}) => void;
 }
 
 const Filter: React.FC<{ titleId: string }> = ({ titleId, children }) => {
@@ -21,35 +21,65 @@ const Filter: React.FC<{ titleId: string }> = ({ titleId, children }) => {
   );
 };
 
+const YearRangeFilter: React.FC<Pick<Props,"endYear" | "startYear" | "onYearChange">> =
+ (props) => {
+   const [start, setStart] = useState(props.startYear);
+   const [end, setEnd] = useState(props.endYear);
+
+   const debouncedYearHandler = useCallback(
+     debounce(props.onYearChange, 500),
+     [props.onYearChange]);
+
+   const update = (start: number, end: number) => {
+     setStart(start);
+     setEnd(end);
+     debouncedYearHandler({ startYear: start, endYear: end });
+   };
+
+   const onStartYearChange = (e) => {
+     const newStart = e.target.value;
+     const newEnd = max(newStart, end);
+     update(newStart, newEnd);
+   };
+
+   const onEndYearChange = (e) => {
+     const newEnd = e.target.value;
+     const newStart = min(start, newEnd);
+     update(newStart, newEnd);
+   };
+
+   useEffect(() => {
+     setStart(props.startYear);
+     setEnd(props.endYear);
+   }, [props.startYear, props.endYear]);
+
+   return (
+     <Box direction="row" justify="between" align="center" gap="medium">
+       <TextInput
+         type="number"
+         value={start}
+         onChange={onStartYearChange}
+       />
+       <Text>To</Text>
+       <TextInput
+         type="number"
+         value={end}
+         onChange={onEndYearChange}
+       />
+     </Box>
+   );
+ };
+
 export const ArticleFilter: React.FC<Props> = (props) => {
-
-  const [startYear, setStartYear] = useState(0);
-  const [endYear, setEndYear] = useState(0);
-
-  const onStartYearChange = useCallback((e) => {
-    setStartYear(e.target.value);
-  }, [setStartYear]);
-
-  const onEndYearChange = useCallback((e) => {
-    setEndYear(e.target.value);
-  }, [setStartYear]);
 
   return (
     <Box gap="medium" >
       <Filter titleId="Year">
-        <Box direction="row" justify="between" align="center" gap="medium">
-          <TextInput
-            type="number"
-            value={startYear}
-            onChange={onStartYearChange}
-          />
-          <Text>To</Text>
-          <TextInput
-            type="number"
-            value={endYear}
-            onChange={onEndYearChange}
-          />
-        </Box>
+        <YearRangeFilter
+          startYear={props.startYear}
+          endYear={props.endYear}
+          onYearChange={props.onYearChange}
+        />
       </Filter>
       <Filter titleId="Authors">Authors</Filter>
     </Box>

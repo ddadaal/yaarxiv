@@ -22,6 +22,12 @@ interface Props {
   totalCount: number;
 }
 
+function numberOfZero(input: string | string[]): number {
+  const i = Array.isArray(input) ? input[input.length-1] : input;
+  const n = Number.parseInt(i);
+  return (!Number.isNaN(n) && n > 0) ? n : 0;
+}
+
 const promiseFn = ({ query }) => api.search(query, undefined);
 
 
@@ -30,10 +36,6 @@ export const Search: React.FC<Props> = (props) => {
   const router = useRouter();
 
   const query = router.query;
-
-  const updateQuery = useCallback((newQuery: SearchQuery) => {
-    router.push(`/search?${constructSearchString(newQuery)}`);
-  }, [router]);
 
   // const { data: { results, totalCount }, isPending, reload } = useAsync({
   //   promiseFn,
@@ -46,8 +48,13 @@ export const Search: React.FC<Props> = (props) => {
   const [results,setResults] = useState(props.results ?? []);
   const [isPending, setIsLoading] = useState(false);
 
+  const updateQuery = useCallback((newQuery: Partial<SearchQuery>) => {
+    router.push({ pathname: "/search", query: { ...query, ...newQuery } });
+  }, [query]);
+
   useEffect(() => {
     setIsLoading(true);
+    console.log(query);
     promiseFn({ query }).then(({ results }) => {
       setResults(results);
       setIsLoading(false);
@@ -81,11 +88,10 @@ export const Search: React.FC<Props> = (props) => {
               </Box>
               <Box basis={bigger ? "1/4" : "100%"} margin="small">
                 <ArticleFilter
-                  startYear={0}
-                  endYear={0}
-                  onAuthorsChange={(authors) => updateQuery({ ...query, authors })}
-                  onYearChange={({ start, end }) =>
-                    updateQuery({ ...query, startYear: start, endYear: end })}
+                  startYear={numberOfZero(query.startYear)}
+                  endYear={numberOfZero(query.endYear)}
+                  onAuthorsChange={updateQuery}
+                  onYearChange={updateQuery}
                 />
               </Box>
             </Box>
@@ -97,9 +103,9 @@ export const Search: React.FC<Props> = (props) => {
   );
 };
 
-// export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
-//   const query = context.query;
-//   return { props: await api.search(query, undefined) };
-// };
+export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+  const query = context.query;
+  return { props: await api.search(query, undefined) };
+};
 
 export default Search;

@@ -1,7 +1,6 @@
 import React from "react";
 import { Stack, Box, AnchorProps, StackProps } from "grommet";
 import { Spinner } from "./Spinner";
-import styled from "styled-components";
 
 declare module "grommet" {
   interface BoxProps {
