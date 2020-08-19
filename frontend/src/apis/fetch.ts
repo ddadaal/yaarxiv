@@ -118,11 +118,23 @@ export function fromApiDefinition<TSchema extends Schema>(api: Api) {
     query: IfNotObjectThenUndefined<TQuery>,
     body: IfNotObjectThenUndefined<TBody>,
   }>): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
+
+    const anyArgs = args as any;
+    // replace path params
+    const replacedPath = anyArgs.path
+      ? api.url
+        .split("/")
+        .reduce((prev, curr) => ([
+          ...prev,
+          curr.startsWith(":") ? anyArgs.path[curr.slice(1)] : curr]), [])
+        .join("/")
+      : api.url;
+
     return jsonFetch({
-      path: api.url,
+      path: replacedPath,
       method: api.method,
-      query: (args as any).query,
-      body: (args as any).body,
+      query: anyArgs.query,
+      body: anyArgs.body,
     });
   };
 }
