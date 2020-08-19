@@ -1,4 +1,6 @@
 import { Api, Schema } from "yaarxiv-api";
+import {  incrementRequest, decrementRequest } from "src/components/TopProgressBar";
+import { isServer } from "src/utils/isServer";
 
 const baseUrl = "http://127.0.0.1:3000";
 
@@ -24,12 +26,20 @@ export function fullFetch(
     url += new URLSearchParams(query as any).toString();
   }
 
+  if (!isServer()) {
+    incrementRequest();
+  }
+
   return fetch(url,
     {
       ...init,
       headers,
       mode: "cors",
-    });
+    }).finally(() => {
+    if (!isServer()) {
+      decrementRequest();
+    }
+  });
 }
 
 export type FullFetch = typeof fullFetch;

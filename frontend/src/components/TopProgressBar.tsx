@@ -1,5 +1,8 @@
 import Router from "next/router";
 import NProgress from "nprogress";
+import { isServer } from "src/utils/isServer";
+
+NProgress.configure({ showSpinner: false });
 
 let timer: number;
 let state: string;
@@ -33,27 +36,20 @@ Router.events.on("routeChangeStart", load);
 Router.events.on("routeChangeComplete", stop);
 Router.events.on("routeChangeError", stop);
 
-const originalFetch = window.fetch;
-window.fetch = async function (...args) {
-  if (activeRequests === 0) {
+export function incrementRequest() {
+  activeRequests++;
+  if (!isServer()) {
     load();
   }
+}
 
-  activeRequests++;
-
-  try {
-    const response = await originalFetch(...args);
-    return response;
-  } catch (error) {
-    return Promise.reject(error);
-  } finally {
-    activeRequests -= 1;
-    if (activeRequests === 0) {
-      stop();
-    }
+export function decrementRequest() {
+  activeRequests--;
+  if (!isServer()) {
+    stop();
   }
-};
+}
 
-export default function () {
+export default function Dummy () {
   return null;
 }

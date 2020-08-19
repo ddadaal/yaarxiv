@@ -5,6 +5,8 @@ import {
 import { authApis, authApisMock } from "./auth";
 import { delay } from "src/utils/delay";
 import { articleApis, articleApisMock } from "./article";
+import { isServer } from "src/utils/isServer";
+import { decrementRequest, incrementRequest } from "src/components/TopProgressBar";
 
 export type ApiService<T> = (actions: {
   jsonFetch: JsonFetch,
@@ -24,8 +26,15 @@ export function mockApiService<T>(
     .keys(functions)
     .reduce((prev, curr) => ({
       ...prev, [curr]: async (...args: any) => {
+        if (!isServer()) {
+          incrementRequest();
+        }
         await delay(1000);
-        return functions[curr](...args);
+        return functions[curr](...args)
+          .finally(() => {
+            if (!isServer()) {
+              decrementRequest();
+            }});
       },
     }), {}) as T;
 
