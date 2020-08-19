@@ -28,9 +28,9 @@ export function route<TSchema extends Schema>(
     schema: {
       summary: summary,
       description: schema.Schema.description,
-      querystring: schema.Schema.properties.querystring,
-      body: schema.Schema.properties.body,
-      response: schema.Schema.properties.responses.properties,
+      // querystring: schema.Schema.properties.querystring,
+      // body: schema.Schema.properties.body,
+      // response: schema.Schema.properties.responses.properties,
     },
     handler,
   });
