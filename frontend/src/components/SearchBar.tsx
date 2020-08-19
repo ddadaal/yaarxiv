@@ -5,19 +5,19 @@ import Link from "next/link";
 import { constructSearchString, SearchQuery } from "src/models/SearchQuery";
 
 interface Props {
-  query?: SearchQuery;
+  initialText: string;
+  onConfirm?: (keyword: string) => void;
 }
 
-export const SearchBar: React.FC<Props> = ({ query  }) => {
-  const { searchText, ...rest } = query ?? {};
-  const [value, setValue] = useState(searchText ?? "");
+export const SearchBar: React.FC<Props> = ({ initialText , onConfirm }) => {
+  const [value, setValue] = useState(initialText);
   const onChange = useCallback((e) => {
     setValue(e.target.value);
   }, [setValue]);
 
   useEffect(() => {
-    setValue(searchText ?? "");
-  }, [searchText]);
+    setValue(initialText);
+  }, [initialText]);
 
   return (
     <Box
@@ -32,15 +32,9 @@ export const SearchBar: React.FC<Props> = ({ query  }) => {
         value={value}
         onChange={onChange}
       />
-      <Link href={{
-        pathname: "/search",
-        query: { ...rest, searchText: value } as any,
-      }}
-      >
-        <Button margin="xsmall">
-          <Search size="medium"/>
-        </Button>
-      </Link>
+      <Button margin="xsmall" onClick={() => onConfirm(value)}>
+        <Search size="medium"/>
+      </Button>
     </Box>
   );
 

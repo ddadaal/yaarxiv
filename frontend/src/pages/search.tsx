@@ -1,17 +1,16 @@
-import React, { useContext, useCallback, useEffect, useState } from "react";
-import { Box, ResponsiveContext, Grid, Collapsible } from "grommet";
+import React, { useCallback, useLayoutEffect } from "react";
+import { Box, ResponsiveContext } from "grommet";
 import { useRouter } from "next/router";
 import { SearchBar } from "src/components/SearchBar";
 import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
-import { SearchQuery, constructSearchString } from "src/models/SearchQuery";
+import { SearchQuery } from "src/models/SearchQuery";
 import { ArticleItem } from "src/components/Article/ArticleItem";
 import { GetServerSideProps } from "next";
 import { ArticlePreview } from "yaarxiv-api/article/search";
 import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
-import { setLazyProp } from "next/dist/next-server/server/api-utils";
 import { Separator } from "src/components/Separator";
 import { ArticleFilter } from "src/components/Article/ArticleFilter";
 
@@ -22,13 +21,17 @@ interface Props {
   totalCount: number;
 }
 
+function queryToString(input: string | string[]): string {
+  return Array.isArray(input) ? input[input.length-1] : input;
+}
+
 function numberOfZero(input: string | string[]): number {
-  const i = Array.isArray(input) ? input[input.length-1] : input;
+  const i = queryToString(input);
   const n = Number.parseInt(i);
   return (!Number.isNaN(n) && n > 0) ? n : 0;
 }
 
-const promiseFn = ({ query }) => api.search(query, undefined);
+const search = ([query]: any[]) => api.search(query, undefined);
 
 
 export const Search: React.FC<Props> = (props) => {
@@ -37,34 +40,38 @@ export const Search: React.FC<Props> = (props) => {
 
   const query = router.query;
 
-  // const { data: { results, totalCount }, isPending, reload } = useAsync({
-  //   promiseFn,
-  //   watch: Math.random(),
-  //   // watchFn: (curr, prev) => !searchQueryEquals(curr.query, prev.query),
-  //   initialValue: { results: props.results ?? [], totalCount: props.totalCount ?? 0 },
-  //   query,
-  // });
-  // console.log(isPending);
-  const [results,setResults] = useState(props.results ?? []);
-  const [isPending, setIsLoading] = useState(false);
+  const { data: { results }, isPending, run } = useAsync({
+    deferFn: search,
+    initialValue: { results: props.results ?? [], totalCount: props.totalCount ?? 0 },
+  });
 
   const updateQuery = useCallback((newQuery: Partial<SearchQuery>) => {
-    router.push({ pathname: "/search", query: { ...query, ...newQuery } });
+    const combinedQuery = { ...query, ...newQuery };
+    router.push({ pathname: "/search", query: combinedQuery });
+    run(query);
   }, [query]);
 
-  useEffect(() => {
-    setIsLoading(true);
-    console.log(query);
-    promiseFn({ query }).then(({ results }) => {
-      setResults(results);
-      setIsLoading(false);
-    });
-  }, [query]);
+  // console.log(isPending);
+  // const [results,setResults] = useState(props.results ?? []);
+  // const [isPending, setIsLoading] = useState(false);
+
+
+  // useEffect(() => {
+  //   setIsLoading(true);
+  //   console.log(query);
+  //   promiseFn({ query }).then(({ results }) => {
+  //     setResults(results);
+  //     setIsLoading(false);
+  //   });
+  // }, [query]);
 
   return (
     <Box flex="grow" direction="column">
       <Box justify="center" align="center" margin="small">
-        <SearchBar query={query}/>
+        <SearchBar
+          initialText={queryToString(query?.searchText ?? "")}
+          onConfirm={(k) => updateQuery({ searchText: k })}
+        />
       </Box>
       <ResponsiveContext.Consumer>
         {(res) => {
