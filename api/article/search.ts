@@ -53,19 +53,15 @@ export interface Schema {
     /** The end year limit. */
     endYear?: number;
     /** The name of authors */
-    authors?: string[];
+    authorNames?: string[];
+    /** Keywords */
+    keywords?: string[];
     /**
-     * The page size.
-     * @default 10
-     * @type {integer}
-     */
-    pageSize?: number;
-    /**
-     * The page number.
+     * The page number. 10 results per page.
      * @default 1
      * @type {integer}
      */
-    pageNumber?: number;
+    page?: number;
   };
   responses: {
     /** The search is successful. */
@@ -183,14 +179,16 @@ export const schema = {
             },
             description: "The name of authors",
           },
-          pageSize: {
-            type: "number",
-            description: "The page size.",
-            default: 10,
+          keywords: {
+            type: "array",
+            items: {
+              type: "string",
+            },
+            description: "Keywords",
           },
-          pageNumber: {
+          page: {
             type: "number",
-            description: "The page number.",
+            description: "The page number. 10 results per page.",
             default: 1,
           },
         },

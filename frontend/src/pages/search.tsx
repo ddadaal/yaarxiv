@@ -1,20 +1,20 @@
-import React, { useCallback, useLayoutEffect } from "react";
+import React, { useCallback } from "react";
 import { Box, ResponsiveContext } from "grommet";
 import { useRouter } from "next/router";
-import { SearchBar } from "src/components/SearchBar";
 import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { SearchQuery } from "src/models/SearchQuery";
 import { ArticleItem } from "src/components/Article/ArticleItem";
 import { GetServerSideProps } from "next";
-import { ArticlePreview } from "yaarxiv-api/article/search";
+import { ArticlePreview, Author } from "yaarxiv-api/article/search";
 import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { Separator } from "src/components/Separator";
 import { ArticleFilter } from "src/components/Article/ArticleFilter";
-import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
+import { queryToIntOrDefault, queryToString, queryToArray } from "src/utils/querystring";
 import { Pagination } from "src/components/Pagination";
+import { SearchBar } from "src/components/SearchBar";
 
 const api = getApi(articleApis);
 
@@ -43,6 +43,22 @@ export const Search: React.FC<Props> = (props) => {
     run(query);
   }, [query]);
 
+  const onAuthorClicked = ({ name }: Author) => {
+    const authorNames = [...queryToArray(query.authorNames)];
+    if (!authorNames.includes(name)) {
+      authorNames.push(name);
+    }
+    updateQuery({ authorNames });
+  };
+
+  const onKeywordClicked = (keyword: string) => {
+    const keywords = [...queryToArray(query.keywords)];
+    if (!keywords.includes(keyword)) {
+      keywords.push(keyword);
+    }
+    updateQuery({ keywords });
+  };
+
   const currentPage = queryToIntOrDefault(query.page, 1);
 
   return (
@@ -66,7 +82,11 @@ export const Search: React.FC<Props> = (props) => {
                   <Box>
                     {results.map((r, i) => (
                       <Box key={r.id} gap="small" margin="small" >
-                        <ArticleItem article={r} />
+                        <ArticleItem
+                          article={r}
+                          onAuthorClicked={onAuthorClicked}
+                          onKeywordClicked={onKeywordClicked}
+                        />
                         { i === results.length -1 ? undefined : <Separator />}
                       </Box>
                     ))}
@@ -86,8 +106,11 @@ export const Search: React.FC<Props> = (props) => {
                 <ArticleFilter
                   startYear={queryToIntOrDefault(query.startYear)}
                   endYear={queryToIntOrDefault(query.endYear)}
+                  authorNames={queryToArray(query.authorNames)}
+                  keywords={queryToArray(query.keywords)}
                   onAuthorsChange={updateQuery}
                   onYearChange={updateQuery}
+                  onKeywordsChange={updateQuery}
                 />
               </Box>
             </Box>

@@ -1,13 +1,17 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Box, Heading, Text, TextInput, MaskedInput } from "grommet";
+import { Box, Heading, Text, TextInput } from "grommet";
 import { debounce } from "src/utils/debounce";
 import { max, min } from "src/utils/math";
+import { MultipleInput } from "./MultipleInput";
 
 interface Props {
   startYear?: number;
   endYear?: number;
   onYearChange: (changed: { startYear?: number; endYear?: number }) => void;
-  onAuthorsChange: (changed: { authors: string[]}) => void;
+  authorNames?: string[];
+  onAuthorsChange: (changed: { authorNames: string[]}) => void;
+  keywords?: string[];
+  onKeywordsChange: (changed: { keywords: string[] }) => void;
 }
 
 const Filter: React.FC<{ titleId: string }> = ({ titleId, children }) => {
@@ -81,7 +85,18 @@ export const ArticleFilter: React.FC<Props> = (props) => {
           onYearChange={props.onYearChange}
         />
       </Filter>
-      <Filter titleId="Authors">Authors</Filter>
+      <Filter titleId="Authors">
+        <MultipleInput
+          values={props.authorNames ?? []}
+          onChange={(values) => props.onAuthorsChange({ authorNames: values })}
+        />
+      </Filter>
+      <Filter titleId="Keywords">
+        <MultipleInput
+          values={props.keywords ?? []}
+          onChange={(values) => props.onKeywordsChange({ keywords: values })}
+        />
+      </Filter>
     </Box>
   );
 

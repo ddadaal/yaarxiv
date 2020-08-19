@@ -1,8 +1,7 @@
 import React from "react";
-import { SearchBar } from "src/components/SearchBar";
 import { useRouter } from "next/router";
 import { Box } from "grommet";
-
+import { SearchBar } from "src/components/SearchBar";
 
 const Home: React.FC = () => {
 
