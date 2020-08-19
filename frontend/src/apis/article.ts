@@ -1,14 +1,14 @@
 /* eslint-disable max-len */
 import { fromApiDefinition } from "./fetch";
-import { apiService, mockApiService } from ".";
 import * as search from "yaarxiv-api/article/search";
 import * as info from "yaarxiv-api/article/info";
 import { Article, ArticleInfo } from "yaarxiv-api/article/models";
+import type { MockApi, Api } from ".";
 
-export const articleApis = apiService(() => ({
+export const articleApis = () => ({
   search: fromApiDefinition<search.Schema>(search.api),
   getDetail: fromApiDefinition<info.Schema>(info.api),
-}));
+});
 
 const mockResult= [
   {
@@ -64,8 +64,8 @@ const mockArticle = (id: string): Article => ({
   },
 });
 
-export const articleApisMock = mockApiService<typeof articleApis>(() => ({
+export const articleApisMock: MockApi<typeof articleApis> = () => ({
   search: async () => { return { results: mockResult, totalCount: mockResult.length };},
   getDetail: async ({ path }) => ({ article: mockArticle(path.articleId) }),
-}));
+});
 

@@ -203,7 +203,7 @@ const globals = {
   },
 };
 
-const theme: ThemeType = {
+const theme: any = {
   "global": globals,
   "icon": {
     "size": {

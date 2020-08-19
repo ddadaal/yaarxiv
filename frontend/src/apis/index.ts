@@ -8,20 +8,20 @@ import { articleApis, articleApisMock } from "./article";
 import { isServer } from "src/utils/isServer";
 import { decrementRequest, incrementRequest } from "src/components/TopProgressBar";
 
-export type ApiService<T> = (actions: {
+export type ApiArgs = {
   jsonFetch: JsonFetch,
   fullFetch: FullFetch,
   makeHttpError: <T>(data: T, status: number) => HttpError<T>,
-}) => T;
+};
 
-export function apiService<T>(fn: ApiService<T>): T {
-  return fn({ jsonFetch, fullFetch, makeHttpError });
-}
+export type Api<T> = (actions: ApiArgs) => Record<string, T>;
 
-export function mockApiService<T>(
-  mock: ApiService<T>,
-): T {
-  const functions = mock({ jsonFetch, fullFetch, makeHttpError });
+export type MockApi<TApi extends (actions: ApiArgs) => any> =
+  (actions: Pick<ApiArgs, "makeHttpError">) => ReturnType<TApi>;
+
+export function createMockApi<T extends (actions: ApiArgs) => any>
+(mock: MockApi<T>): MockApi<T> {
+  const functions = (mock as any)({ makeHttpError });
   return Object
     .keys(functions)
     .reduce((prev, curr) => ({
@@ -37,18 +37,24 @@ export function mockApiService<T>(
             }});
       },
     }), {}) as T;
-
 }
 
-const USE_MOCK = true;
+const USE_MOCK = false;
 
 // judge whether USE_MOCK here can help reduce the size of bundle
 // by tree shaking mock modules at production build
-const apis = new Map<unknown, unknown>([
+const apis = [
   [authApis, USE_MOCK ? authApisMock : authApis],
   [articleApis, USE_MOCK ? articleApisMock : articleApis],
-]);
+];
 
-export function getApi<T>(service: T): T {
-  return apis.get(service) as T;
+const computedApis = new Map<unknown, unknown>(apis.map(([key, value]) => [
+  key,
+  USE_MOCK
+    ? createMockApi((value as MockApi<any>))
+    : (value as Api<any>)({ jsonFetch, fullFetch, makeHttpError }),
+]));
+
+export function getApi<TR, T extends Api<TR>>(service: T): ReturnType<T> {
+  return computedApis.get(service) as ReturnType<T>;
 }
