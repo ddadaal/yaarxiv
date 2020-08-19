@@ -4,8 +4,8 @@ import Link from "next/link";
 
 export const AnchorLink: React.FC<AnchorProps> = ({ href, ...props }) => {
   return (
-    <Link href={href} as={href}>
-      <Anchor {...props}/>
+    <Link href={href} >
+      <Anchor href={href} {...props}/>
     </Link>
   );
 };
