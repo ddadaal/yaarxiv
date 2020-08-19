@@ -5,19 +5,19 @@ import Link from "next/link";
 import { constructSearchString, SearchQuery } from "src/models/SearchQuery";
 
 interface Props {
-  query: SearchQuery;
+  query?: SearchQuery;
 }
 
 export const SearchBar: React.FC<Props> = ({ query  }) => {
-  const { searchText, ...rest } = query;
+  const { searchText, ...rest } = query ?? {};
   const [value, setValue] = useState(searchText ?? "");
   const onChange = useCallback((e) => {
     setValue(e.target.value);
   }, [setValue]);
 
   useEffect(() => {
-    setValue(query.searchText ?? "");
-  }, [query]);
+    setValue(searchText ?? "");
+  }, [searchText]);
 
   return (
     <Box
