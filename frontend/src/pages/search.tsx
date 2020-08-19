@@ -13,22 +13,14 @@ import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { Separator } from "src/components/Separator";
 import { ArticleFilter } from "src/components/Article/ArticleFilter";
+import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
+import { Pagination } from "src/components/Pagination";
 
 const api = getApi(articleApis);
 
 interface Props {
   results: ArticlePreview[];
   totalCount: number;
-}
-
-function queryToString(input: string | string[]): string {
-  return Array.isArray(input) ? input[input.length-1] : input;
-}
-
-function numberOfZero(input: string | string[]): number {
-  const i = queryToString(input);
-  const n = Number.parseInt(i);
-  return (!Number.isNaN(n) && n > 0) ? n : 0;
 }
 
 const search = ([query]: any[]) => api.search(query, undefined);
@@ -40,7 +32,7 @@ export const Search: React.FC<Props> = (props) => {
 
   const query = router.query;
 
-  const { data: { results }, isPending, run } = useAsync({
+  const { data: { results, totalCount }, isPending, run } = useAsync({
     deferFn: search,
     initialValue: { results: props.results ?? [], totalCount: props.totalCount ?? 0 },
   });
@@ -51,19 +43,7 @@ export const Search: React.FC<Props> = (props) => {
     run(query);
   }, [query]);
 
-  // console.log(isPending);
-  // const [results,setResults] = useState(props.results ?? []);
-  // const [isPending, setIsLoading] = useState(false);
-
-
-  // useEffect(() => {
-  //   setIsLoading(true);
-  //   console.log(query);
-  //   promiseFn({ query }).then(({ results }) => {
-  //     setResults(results);
-  //     setIsLoading(false);
-  //   });
-  // }, [query]);
+  const currentPage = queryToIntOrDefault(query.page, 1);
 
   return (
     <Box flex="grow" direction="column">
@@ -82,7 +62,7 @@ export const Search: React.FC<Props> = (props) => {
                 basis={bigger ? "3/4" : "100%"}
                 border="all" pad="xsmall" elevation="small"
               >
-                <OverlayLoading loading={isPending} showSpinner={results.length === 0}>
+                <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
                   <Box>
                     {results.map((r, i) => (
                       <Box key={r.id} gap="small" margin="small" >
@@ -91,12 +71,21 @@ export const Search: React.FC<Props> = (props) => {
                       </Box>
                     ))}
                   </Box>
+                  <Pagination
+                    currentPage={currentPage}
+                    itemsPerPage={1}
+                    totalItemsCount={totalCount}
+                    getUrl={(i) => ({
+                      pathname: "/search",
+                      query: { ...query, page: i },
+                    })}
+                  />
                 </OverlayLoading>
               </Box>
               <Box basis={bigger ? "1/4" : "100%"} margin="small">
                 <ArticleFilter
-                  startYear={numberOfZero(query.startYear)}
-                  endYear={numberOfZero(query.endYear)}
+                  startYear={queryToIntOrDefault(query.startYear)}
+                  endYear={queryToIntOrDefault(query.endYear)}
                   onAuthorsChange={updateQuery}
                   onYearChange={updateQuery}
                 />
