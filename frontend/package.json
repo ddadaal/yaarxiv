@@ -10,6 +10,7 @@
   "dependencies": {
     "grommet": "^2.14.0",
     "grommet-icons": "^4.4.0",
+    "luxon": "^1.24.1",
     "next": "9.5.2",
     "next-transpile-modules": "^4.1.0",
     "normalize.css": "^8.0.1",
@@ -25,6 +26,7 @@
     "yaarxiv-api": "file:../api"
   },
   "devDependencies": {
+    "@types/luxon": "^1.24.3",
     "@types/node": "14.6.0",
     "@types/nprogress": "^0.2.0",
     "@types/react": "16.9.46",

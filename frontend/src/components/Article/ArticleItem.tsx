@@ -2,6 +2,7 @@ import React from "react";
 import { Box, Text, Heading } from "grommet";
 import type { ArticlePreview } from "yaarxiv-api/article/search";
 import { AnchorLink } from "../AnchorLink";
+import { formatDateTime } from "src/utils/datetime";
 
 interface Props {
   article: ArticlePreview;
@@ -17,7 +18,7 @@ const Keyword: React.FC<{ name: string}> = ({ name }) => (
 
 export const ArticleItem: React.FC<Props> = ({ article }) => {
 
-  const { title, authors, createTime, lastUpdateTime, keywords, abstract } = article;
+  const { title, authors,  keywords, abstract, id } = article;
 
   return (
     <Box gap="small" >
@@ -32,10 +33,13 @@ export const ArticleItem: React.FC<Props> = ({ article }) => {
         ))}
       </Box>
       <Box>
-        <Text>{abstract}</Text>
+        <Text truncate>{abstract}</Text>
       </Box>
       <Box direction="row" wrap>
         {keywords.map((k) => <Keyword key={k} name={k}/>)}
+      </Box>
+      <Box direction="row">
+        <Text>yaarxiv id: {id}</Text>
       </Box>
     </Box>
   );
