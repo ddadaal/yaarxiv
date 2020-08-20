@@ -1,4 +1,4 @@
-import { Article } from "./models";
+import { Article as getWithInfo } from "./models";
 
 export const endpoint = {
   url: "/articles/:articleId",
@@ -15,7 +15,7 @@ export interface GetArticleWithIdSchema {
     /** Returns the latest revision of an article. */
     200: {
       /** The article information. */
-      article: Article;
+      article: getWithInfo;
     },
     /** The article is not found. */
     404: {

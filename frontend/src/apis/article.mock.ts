@@ -63,7 +63,7 @@ const mockArticle = (id: string, revision = 3): Article => ({
 
 export const articleApisMock: MockApi<typeof articleApis> = () => ({
   search: async () => { return { results: mockResult, totalCount: mockResult.length };},
-  getDetail: async ({ path }) => ({ article: mockArticle(path.articleId) }),
-  getDetailWithRevision: async ({ path }) =>({ article: mockArticle(path.articleId, path.revision) }),
+  getWithId: async ({ path }) => ({ article: mockArticle(path.articleId) }),
+  getWithIdAndRevision: async ({ path }) =>({ article: mockArticle(path.articleId, path.revision) }),
 });
 

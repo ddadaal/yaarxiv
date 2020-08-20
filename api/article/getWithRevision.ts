@@ -1,4 +1,4 @@
-import { Article } from "./models";
+import { Article as getWithRevision } from "./models";
 
 export const endpoint = {
   url: "/articles/:articleId/revisions/:revision",
@@ -21,7 +21,7 @@ export interface GetArticleWithIdAndRevisionSchema {
     /** Returns the specified revision of an article. */
     200: {
       /** The article information. */
-      article: Article;
+      article: getWithRevision;
     },
     /** The article or the revision is not found. */
     404: {

@@ -1,12 +1,12 @@
 /* eslint-disable max-len */
 import { fromApiDefinition } from "./fetch";
 import * as search from "yaarxiv-api/article/search";
-import * as info from "yaarxiv-api/article/info";
-import * as revision from "yaarxiv-api/article/revision";
+import * as getWithInfo from "yaarxiv-api/article/getWithId";
+import * as getWithRevision from "yaarxiv-api/article/getWithRevision";
 
 export const articleApis = () => ({
   search: fromApiDefinition<search.SearchArticleSchema>(search.endpoint),
-  getDetail: fromApiDefinition<info.GetArticleWithIdSchema>(info.endpoint),
-  getDetailWithRevision: fromApiDefinition<revision.GetArticleWithIdAndRevisionSchema>(revision.endpoint),
+  getWithId: fromApiDefinition<getWithInfo.GetArticleWithIdSchema>(getWithInfo.endpoint),
+  getWithIdAndRevision: fromApiDefinition<getWithRevision.GetArticleWithIdAndRevisionSchema>(getWithRevision.endpoint),
 });
 

@@ -19,7 +19,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
   const articleId = queryToString(context.query.id);
-  return { props: { article: await api.getDetail({ path: { articleId } }) }.article };
+  return { props: { article: await api.getWithId({ path: { articleId } }) }.article };
 };
 
 export default ArticlePage;
