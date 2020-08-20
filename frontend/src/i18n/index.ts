@@ -1,5 +1,6 @@
 import cn from "./cn";
 import en from "./en";
+import dynamic from "next/dynamic";
 
 const allLanguages = [cn, en];
 

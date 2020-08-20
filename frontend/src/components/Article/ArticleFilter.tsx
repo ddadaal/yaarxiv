@@ -3,6 +3,7 @@ import { Box, Heading, Text, TextInput } from "grommet";
 import { debounce } from "src/utils/debounce";
 import { max, min } from "src/utils/math";
 import { MultipleInput } from "./MultipleInput";
+import { TitledSection } from "../TitledSection";
 
 interface Props {
   startYear?: number;
@@ -13,17 +14,6 @@ interface Props {
   keywords?: string[];
   onKeywordsChange: (changed: { keywords: string[] }) => void;
 }
-
-const Filter: React.FC<{ titleId: string }> = ({ titleId, children }) => {
-  return (
-    <Box gap="small" elevation="small" border="all" pad="small">
-      <Heading level={3} margin="none">{titleId}</Heading>
-      <Box>
-        {children}
-      </Box>
-    </Box>
-  );
-};
 
 const YearRangeFilter: React.FC<Pick<Props,"endYear" | "startYear" | "onYearChange">> =
  (props) => {
@@ -78,25 +68,25 @@ export const ArticleFilter: React.FC<Props> = (props) => {
 
   return (
     <Box gap="medium" >
-      <Filter titleId="Year">
+      <TitledSection titleId="Year">
         <YearRangeFilter
           startYear={props.startYear}
           endYear={props.endYear}
           onYearChange={props.onYearChange}
         />
-      </Filter>
-      <Filter titleId="Authors">
+      </TitledSection>
+      <TitledSection titleId="Authors">
         <MultipleInput
           values={props.authorNames ?? []}
           onChange={(values) => props.onAuthorsChange({ authorNames: values })}
         />
-      </Filter>
-      <Filter titleId="Keywords">
+      </TitledSection>
+      <TitledSection titleId="Keywords">
         <MultipleInput
           values={props.keywords ?? []}
           onChange={(values) => props.onKeywordsChange({ keywords: values })}
         />
-      </Filter>
+      </TitledSection>
     </Box>
   );
 

@@ -16,6 +16,7 @@ import { Pagination } from "src/components/Pagination";
 import { SearchBar } from "src/components/SearchBar";
 import { ArticleSearchResult } from "yaarxiv-api/article/search";
 import { Author } from "yaarxiv-api/article/models";
+import { Section } from "src/components/Section";
 
 const api = getApi(articleApis);
 
@@ -75,33 +76,32 @@ export const Search: React.FC<Props> = (props) => {
           const bigger = compareBreakpoints(res, "medium") >= 0;
           return (
             <Box direction="row" wrap={!bigger}>
-              <Box margin="small"
-                basis={bigger ? "3/4" : "100%"}
-                border="all" pad="xsmall" elevation="small"
-              >
-                <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
-                  <Box>
-                    {results.map((r, i) => (
-                      <Box key={r.articleId} gap="small" margin="small" >
-                        <ArticleItem
-                          article={r}
-                          onAuthorClicked={onAuthorClicked}
-                          onKeywordClicked={onKeywordClicked}
-                        />
-                        { i === results.length -1 ? undefined : <Separator />}
-                      </Box>
-                    ))}
-                  </Box>
-                  <Pagination
-                    currentPage={currentPage}
-                    itemsPerPage={1}
-                    totalItemsCount={totalCount}
-                    getUrl={(i) => ({
-                      pathname: "/search",
-                      query: { ...query, page: i },
-                    })}
-                  />
-                </OverlayLoading>
+              <Box margin="small" basis={bigger ? "3/4" : "100%"}>
+                <Section pad="xsmall">
+                  <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
+                    <Box>
+                      {results.map((r, i) => (
+                        <Box key={r.articleId} gap="small" margin="small" >
+                          <ArticleItem
+                            article={r}
+                            onAuthorClicked={onAuthorClicked}
+                            onKeywordClicked={onKeywordClicked}
+                          />
+                          { i === results.length -1 ? undefined : <Separator />}
+                        </Box>
+                      ))}
+                    </Box>
+                    <Pagination
+                      currentPage={currentPage}
+                      itemsPerPage={1}
+                      totalItemsCount={totalCount}
+                      getUrl={(i) => ({
+                        pathname: "/search",
+                        query: { ...query, page: i },
+                      })}
+                    />
+                  </OverlayLoading>
+                </Section>
               </Box>
               <Box basis={bigger ? "1/4" : "100%"} margin="small">
                 <ArticleFilter
