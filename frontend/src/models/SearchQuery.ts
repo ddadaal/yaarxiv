@@ -1,6 +1,6 @@
-import type { Schema } from "yaarxiv-api/article/search";
+import type { SearchArticleSchema } from "yaarxiv-api/article/search";
 
-export type SearchQuery = Schema["querystring"];
+export type SearchQuery = SearchArticleSchema["querystring"];
 
 export function constructSearchString(query: SearchQuery) {
   return new URLSearchParams({ searchText: query.searchText }).toString();
