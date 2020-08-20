@@ -6,14 +6,18 @@ import theme from "src/styles/theme";
 import NotificationSystem, { System } from "react-notification-system";
 import { NotificationSystemContext } from "src/components/useNotification";
 
-export const MainLayout: React.FC = ({ children }) => {
+interface Props {
+  userAgent: string;
+}
+
+export const MainLayout: React.FC<Props> = ({ children, userAgent }) => {
   const notificationRef = useRef<System>();
 
   return (
     <>
       <NotificationSystem ref={notificationRef} />
       <NotificationSystemContext.Provider value={notificationRef}>
-        <Grommet theme={theme} full={true}>
+        <Grommet theme={theme} full={true} userAgent={userAgent}>
           <Box direction="column" height={{ min: "100vh" }}>
             <Header />
             <Main pad="small" flex="grow" >
