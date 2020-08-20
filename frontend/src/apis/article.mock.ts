@@ -40,9 +40,9 @@ const mockResult = [
   },
 ] as ArticleSearchResult[];
 
-const mockArticle = (id: string): Article => ({
+const mockArticle = (id: string, revision = 3): Article => ({
   id,
-  revisionNumber: 3,
+  revisionNumber: revision,
   revisions: [
     { number: 1, time: "2011-10-05T14:48:00.000Z" },
     { number: 2, time: "2012-10-05T14:48:00.000Z" },
@@ -64,5 +64,6 @@ const mockArticle = (id: string): Article => ({
 export const articleApisMock: MockApi<typeof articleApis> = () => ({
   search: async () => { return { results: mockResult, totalCount: mockResult.length };},
   getDetail: async ({ path }) => ({ article: mockArticle(path.articleId) }),
+  getDetailWithRevision: async ({ path }) =>({ article: mockArticle(path.articleId, path.revision) }),
 });
 

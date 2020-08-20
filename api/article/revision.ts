@@ -10,8 +10,12 @@ export interface GetArticleWithIdAndRevisionSchema {
   path: {
     /** articleId */
     articleId: string;
-    /** revision number */
-    revision: string;
+    /**
+     * revision number.
+     * Must be an non-negative integer.
+     * If 0 is given, the latest revision will be returned.
+     */
+    revision: number;
   },
   responses: {
     /** Returns the specified revision of an article. */
