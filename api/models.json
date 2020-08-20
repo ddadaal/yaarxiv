@@ -1,0 +1,213 @@
+{
+  "Author": {
+    "type": "object",
+    "properties": {
+      "name": {
+        "type": "string",
+        "description": "The name of author."
+      },
+      "affiliation": {
+        "type": "string",
+        "description": "The affiliation of the author"
+      }
+    },
+    "required": [
+      "name"
+    ],
+    "additionalProperties": false,
+    "description": "The author information."
+  },
+  "ArticleInfo": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "The title of the article."
+      },
+      "authors": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Author"
+        },
+        "description": "The authors of the article."
+      },
+      "abstract": {
+        "type": "string",
+        "description": "The abstract."
+      },
+      "keywords": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The keywords of the article."
+      },
+      "category": {
+        "type": "string",
+        "description": "The category of the article."
+      }
+    },
+    "required": [
+      "title",
+      "authors",
+      "abstract",
+      "keywords",
+      "category"
+    ],
+    "additionalProperties": false,
+    "description": "The brief info of an revision of an article."
+  },
+  "ArticleRevision": {
+    "type": "object",
+    "properties": {
+      "number": {
+        "type": "number",
+        "description": "The number of the revision starting from 1."
+      },
+      "time": {
+        "type": "string",
+        "description": "Upload time.\nMust be a valid ISO string with timezone."
+      }
+    },
+    "required": [
+      "number",
+      "time"
+    ],
+    "additionalProperties": false
+  },
+  "Article": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "The id of the article."
+      },
+      "revisionNumber": {
+        "type": "number",
+        "description": "Current revision number.\nMust be a integer."
+      },
+      "currentRevision": {
+        "$ref": "#/definitions/ArticleInfo",
+        "description": "The current revision."
+      },
+      "revisions": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/ArticleRevision"
+        },
+        "description": "All revisions"
+      }
+    },
+    "required": [
+      "id",
+      "revisionNumber",
+      "currentRevision",
+      "revisions"
+    ],
+    "additionalProperties": false,
+    "description": "The full article info."
+  },
+  "ArticleComment": {
+    "type": "object",
+    "properties": {
+      "id": {
+        "type": "string",
+        "description": "The comment id."
+      },
+      "articleId": {
+        "type": "string",
+        "description": "The article id."
+      },
+      "revisionNumber": {
+        "type": "number",
+        "description": "Revision the comment is targeting.\nIf undefined, the comment is targeting the article itself."
+      },
+      "userId": {
+        "type": "string",
+        "description": "User"
+      },
+      "createTime": {
+        "type": "string",
+        "description": "The time the comment is first created."
+      },
+      "lastUpdatedTime": {
+        "type": "string",
+        "description": "The time the comment is last updated."
+      },
+      "content": {
+        "type": "string",
+        "description": "Content"
+      }
+    },
+    "required": [
+      "id",
+      "articleId",
+      "userId",
+      "createTime",
+      "lastUpdatedTime",
+      "content"
+    ],
+    "additionalProperties": false,
+    "description": "The comment to an article."
+  },
+  "ArticleSearchResult": {
+    "type": "object",
+    "properties": {
+      "title": {
+        "type": "string",
+        "description": "The title of the article."
+      },
+      "authors": {
+        "type": "array",
+        "items": {
+          "$ref": "#/definitions/Author"
+        },
+        "description": "The authors of the article."
+      },
+      "abstract": {
+        "type": "string",
+        "description": "The abstract."
+      },
+      "keywords": {
+        "type": "array",
+        "items": {
+          "type": "string"
+        },
+        "description": "The keywords of the article."
+      },
+      "category": {
+        "type": "string",
+        "description": "The category of the article."
+      },
+      "articleId": {
+        "type": "string",
+        "description": "The id of the article."
+      },
+      "commentCount": {
+        "type": "number",
+        "description": "The number of comments the article has."
+      },
+      "createTime": {
+        "type": "string",
+        "description": "The time when the article is first uploaded to the platform.\nMust be a valid datetime string."
+      },
+      "lastUpdateTime": {
+        "type": "string",
+        "description": "The time when the article is last updated.\nMust be a valid datetime string."
+      }
+    },
+    "required": [
+      "abstract",
+      "articleId",
+      "authors",
+      "category",
+      "commentCount",
+      "createTime",
+      "keywords",
+      "lastUpdateTime",
+      "title"
+    ],
+    "additionalProperties": false,
+    "description": "A preview information of the article."
+  }
+}

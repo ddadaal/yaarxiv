@@ -1,0 +1,365 @@
+{
+  "GetArticleWithIdSchema": {
+    "type": "object",
+    "properties": {
+      "path": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "string",
+            "description": "articleId"
+          }
+        },
+        "required": [
+          "articleId"
+        ],
+        "additionalProperties": false
+      },
+      "responses": {
+        "type": "object",
+        "properties": {
+          "200": {
+            "type": "object",
+            "properties": {
+              "article": {
+                "$ref": "#/definitions/Article",
+                "description": "The article information."
+              }
+            },
+            "required": [
+              "article"
+            ],
+            "additionalProperties": false,
+            "description": "Returns the latest revision of an article."
+          },
+          "404": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "The article is not found."
+          }
+        },
+        "required": [
+          "200",
+          "404"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "path",
+      "responses"
+    ],
+    "additionalProperties": false,
+    "description": "Get the full information of an article."
+  },
+  "GetArticleWithIdAndRevisionSchema": {
+    "type": "object",
+    "properties": {
+      "path": {
+        "type": "object",
+        "properties": {
+          "articleId": {
+            "type": "string",
+            "description": "articleId"
+          },
+          "revision": {
+            "type": "string",
+            "description": "revision number"
+          }
+        },
+        "required": [
+          "articleId",
+          "revision"
+        ],
+        "additionalProperties": false
+      },
+      "responses": {
+        "type": "object",
+        "properties": {
+          "200": {
+            "type": "object",
+            "properties": {
+              "article": {
+                "$ref": "#/definitions/Article",
+                "description": "The article information."
+              }
+            },
+            "required": [
+              "article"
+            ],
+            "additionalProperties": false,
+            "description": "Returns the specified revision of an article."
+          },
+          "404": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "The article or the revision is not found."
+          }
+        },
+        "required": [
+          "200",
+          "404"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "path",
+      "responses"
+    ],
+    "additionalProperties": false,
+    "description": "Get the full information of an article."
+  },
+  "SearchArticleSchema": {
+    "type": "object",
+    "properties": {
+      "querystring": {
+        "type": "object",
+        "properties": {
+          "searchText": {
+            "type": "string",
+            "description": "The search text"
+          },
+          "startYear": {
+            "type": "number",
+            "description": "The start year limit."
+          },
+          "endYear": {
+            "type": "number",
+            "description": "The end year limit."
+          },
+          "authorNames": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The name of authors"
+          },
+          "keywords": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Keywords"
+          },
+          "page": {
+            "type": "number",
+            "description": "The page number. 10 results per page.",
+            "default": 1
+          }
+        },
+        "additionalProperties": false
+      },
+      "responses": {
+        "type": "object",
+        "properties": {
+          "200": {
+            "type": "object",
+            "properties": {
+              "results": {
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/ArticleSearchResult"
+                },
+                "description": "The paginated results"
+              },
+              "totalCount": {
+                "type": "number",
+                "description": "The total count of results."
+              }
+            },
+            "required": [
+              "results",
+              "totalCount"
+            ],
+            "additionalProperties": false,
+            "description": "The search is successful."
+          }
+        },
+        "required": [
+          "200"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "querystring",
+      "responses"
+    ],
+    "additionalProperties": false,
+    "description": "Search article with optional parameters."
+  },
+  "LoginSchema": {
+    "type": "object",
+    "properties": {
+      "querystring": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The login id, for example email"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password"
+          }
+        },
+        "required": [
+          "id",
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "responses": {
+        "type": "object",
+        "properties": {
+          "200": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "The generated token"
+              },
+              "name": {
+                "type": "string",
+                "description": "The name of the user"
+              }
+            },
+            "required": [
+              "token",
+              "name"
+            ],
+            "additionalProperties": false,
+            "description": "The request is success"
+          },
+          "403": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "The request fails"
+          }
+        },
+        "required": [
+          "200",
+          "403"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "querystring",
+      "responses"
+    ],
+    "additionalProperties": false,
+    "description": "Login"
+  },
+  "RegisterSchema": {
+    "type": "object",
+    "properties": {
+      "body": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "description": "The email. Requires to be an edu email"
+          },
+          "password": {
+            "type": "string",
+            "description": "The password"
+          }
+        },
+        "required": [
+          "email",
+          "password"
+        ],
+        "additionalProperties": false
+      },
+      "responses": {
+        "type": "object",
+        "properties": {
+          "201": {
+            "type": "object",
+            "properties": {
+              "token": {
+                "type": "string",
+                "description": "The generated token"
+              },
+              "name": {
+                "type": "string",
+                "description": "The initial name of the newly-created user."
+              }
+            },
+            "required": [
+              "token",
+              "name"
+            ],
+            "additionalProperties": false,
+            "description": "Registration is success."
+          },
+          "405": {
+            "type": "object",
+            "additionalProperties": false,
+            "description": "The email already exists."
+          }
+        },
+        "required": [
+          "201",
+          "405"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "body",
+      "responses"
+    ],
+    "additionalProperties": false,
+    "description": "Register"
+  },
+  "GreetingSchema": {
+    "type": "object",
+    "properties": {
+      "querystring": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string",
+            "description": "The username"
+          }
+        },
+        "required": [
+          "username"
+        ],
+        "additionalProperties": false
+      },
+      "responses": {
+        "type": "object",
+        "properties": {
+          "200": {
+            "type": "object",
+            "properties": {
+              "hello": {
+                "type": "string",
+                "description": "The user same as the input querystring"
+              }
+            },
+            "required": [
+              "hello"
+            ],
+            "additionalProperties": false,
+            "description": "Hello"
+          }
+        },
+        "required": [
+          "200"
+        ],
+        "additionalProperties": false
+      }
+    },
+    "required": [
+      "querystring",
+      "responses"
+    ],
+    "additionalProperties": false,
+    "description": "Home page api"
+  }
+}

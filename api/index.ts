@@ -1,4 +1,4 @@
-export interface Api {
+export interface Endpoint {
   url: string;
   method: "GET" | "POST" | "DELETE" | "PUT" | "PATCH";
 }
@@ -16,19 +16,17 @@ export interface Schema<
 }
 
 export interface SchemaObject {
-  Schema: {
-    description: string;
-    properties: {
-      path ?: any;
-      querystring?: any;
-      body?: any;
-      responses:  { properties?: any };
-    }
-  };
-  [otherKey: string]: object;
+  description: string;
+  properties: {
+    path ?: any;
+    querystring?: any;
+    body?: any;
+    responses:  { properties?: any };
+  }
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ValueOf<T> = T[keyof T];
 type MapStatic<T> = T extends any ? T : never;
 export type Responses<T> = MapStatic<ValueOf<T>>;
+

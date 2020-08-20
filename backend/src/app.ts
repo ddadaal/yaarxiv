@@ -6,8 +6,9 @@ import FastifyTypeormPlugin from "fastify-typeorm-plugin";
 import FastifySwagger from "fastify-swagger";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
 import auth from "./utils/auth";
-import { routes, externalSchemas } from "./routes";
+import { routes }  from "./routes";
 import { Config, config as envConfig } from "node-config-ts";
+import { models } from "./utils/schemas";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
@@ -19,31 +20,32 @@ export async function startApp(config: Config = envConfig, start = true) {
       logger: new TypeormPinoLogger(server.log),
     });
 
-  // externalSchemas.forEach((s) => server.addSchema(s));
-  // server.addSchema(externalSchemas);
+  Object.keys(models)
+    .map((key) => ({ ...models[key], $id: key }))
+    .forEach((s) => server.addSchema(s));
 
-  // if (config.loadSwagger) {
-  //   server.register(FastifySwagger, {
-  //     routePrefix: "/swagger",
-  //     exposeRoute: true,
-  //     swagger: {
-  //       info: {
-  //         title: "yaarxiv API",
-  //         description: "The API spec for yaarxiv, the modern and open-source preprint platform",
-  //         version: "1.0",
-  //       },
-  //       consumes: ["application/json"],
-  //       produces: ["application/json"],
-  //       securityDefinitions: {
-  //         apiKey: {
-  //           type: "apiKey",
-  //           name: "Authorization",
-  //           in: "header",
-  //         },
-  //       },
-  //     },
-  //   });
-  // }
+  if (config.loadSwagger) {
+    server.register(FastifySwagger, {
+      routePrefix: "/swagger",
+      exposeRoute: true,
+      swagger: {
+        info: {
+          title: "yaarxiv API",
+          description: "The API spec for yaarxiv, the modern and open-source preprint platform",
+          version: "1.0",
+        },
+        consumes: ["application/json"],
+        produces: ["application/json"],
+        securityDefinitions: {
+          apiKey: {
+            type: "apiKey",
+            name: "Authorization",
+            in: "header",
+          },
+        },
+      },
+    });
+  }
 
   server.register(auth, { secret: config.jwtSecret });
   server.register(FastifyTypeormPlugin, { connection: dbConnection });

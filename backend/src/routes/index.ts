@@ -6,7 +6,7 @@ import { SchemaObject } from "yaarxiv-api";
 export const routes = [
   home.homeRoutes,
   login.loginRoutes,
-  article.loginRoutes,
+  article.articlesRoutes,
 ];
 
 function addRefsWithExternalId(obj: object) {
@@ -36,8 +36,8 @@ function createDefinitionsObject(...schemaObjects: SchemaObject[]): object[] {
   return definitions;
 }
 
-export const externalSchemas = createDefinitionsObject(
-  article.schema,
-);
+// export const externalSchemas = createDefinitionsObject(
+//   article.schema,
+// );
 
 

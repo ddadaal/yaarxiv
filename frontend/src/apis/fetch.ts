@@ -1,4 +1,4 @@
-import { Api, Schema } from "yaarxiv-api";
+import { Endpoint, Schema } from "yaarxiv-api";
 import {  incrementRequest, decrementRequest } from "src/components/TopProgressBar";
 import { isServer } from "src/utils/isServer";
 
@@ -108,7 +108,7 @@ type SelectNotUndefined<T extends {
   ({ query: T["query"] } extends { query: undefined } ? {} : { query: T["query"]}) &
   ({ body: T["body"] } extends { body: undefined } ? {} : { body: T["body"]});
 
-export function fromApiDefinition<TSchema extends Schema>(api: Api) {
+export function fromApiDefinition<TSchema extends Schema>(endpoint: Endpoint) {
   type TPath = TSchema["path"];
   type TQuery = TSchema["querystring"];
   type TBody = TSchema["body"];
@@ -122,17 +122,17 @@ export function fromApiDefinition<TSchema extends Schema>(api: Api) {
     const anyArgs = args as any;
     // replace path params
     const replacedPath = anyArgs.path
-      ? api.url
+      ? endpoint.url
         .split("/")
         .reduce((prev, curr) => ([
           ...prev,
           curr.startsWith(":") ? anyArgs.path[curr.slice(1)] : curr]), [])
         .join("/")
-      : api.url;
+      : endpoint.url;
 
     return jsonFetch({
       path: replacedPath,
-      method: api.method,
+      method: endpoint.method,
       query: anyArgs.query,
       body: anyArgs.body,
     });

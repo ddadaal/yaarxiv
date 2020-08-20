@@ -1,38 +1,40 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
-import { Api, Schema, Responses, SchemaObject } from "yaarxiv-api";
+import { Endpoint, Schema, Responses, SchemaObject } from "yaarxiv-api";
+import { routeSchemas } from "./schemas";
 
-interface RouteSpec {
-  api: Api;
-  schema: SchemaObject;
-  summary?: string;
+interface RouteExtraInfo {
+  summary: string;
 }
 
-
-export function route<TSchema extends Schema>(
+export const route = <TSchema extends Schema>(
   fastify: FastifyInstance,
-  { api, schema, summary }: RouteSpec,
-  handler: (
+  endpoint: Endpoint,
+  schemaName: keyof typeof routeSchemas,
+  extras ?: RouteExtraInfo,
+) => (handler: (
     req: FastifyRequest<{
       Body: TSchema["body"]
       Querystring: TSchema["querystring"];
     }>,
     reply: FastifyReply
-  ) => Promise<Responses<TSchema["responses"]>>) {
+  ) => Promise<Responses<TSchema["responses"]>>) => {
 
-  fastify.route<{
+    const schema = routeSchemas[schemaName] as SchemaObject;
+
+    fastify.route<{
     Body: TSchema["body"],
     Querystring: TSchema["querystring"],
   }>({
-    method: api.method,
-    url: api.url,
+    method: endpoint.method,
+    url: endpoint.url,
     schema: {
-      summary: summary,
-      description: schema.Schema.description,
-      // querystring: schema.Schema.properties.querystring,
-      // body: schema.Schema.properties.body,
-      // response: schema.Schema.properties.responses.properties,
+      summary: extras?.summary,
+      description: schema.description,
+      querystring: schema.properties.querystring,
+      body: schema.properties.body,
+      response: schema.properties.responses.properties,
     },
     handler,
   });
 
-}
+  };

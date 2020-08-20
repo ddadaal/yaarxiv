@@ -3,7 +3,7 @@
     "baseUrl": ".",
     "outDir": "./out",
     "module": "commonjs",
-    "target": "esnext",
+    "target": "es2018",
     "allowSyntheticDefaultImports": true,
     "importHelpers": true,
     "strict": false,

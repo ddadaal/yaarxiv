@@ -2,9 +2,6 @@
   "name": "yaarxiv-api",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
-  "module": "dist/index.es.js",
-  "types": "dist/index.d.ts",
   "sideEffects": false,
   "scripts": {
     "compile": "ts-node -T ./generateSchemas.ts"
