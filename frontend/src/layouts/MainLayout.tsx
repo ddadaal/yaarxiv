@@ -2,30 +2,32 @@ import React, { useRef } from "react";
 import { Grommet, Main, Box } from "grommet";
 import { Footer } from "src/layouts/footer";
 import { Header } from "src/layouts/header";
-import theme from "src/styles/theme";
+import { lightTheme } from "src/styles/theme";
 import NotificationSystem, { System } from "react-notification-system";
 import { NotificationSystemContext } from "src/components/useNotification";
+import { MediaContextProvider } from "src/styles/media";
 
 interface Props {
-  userAgent: string;
 }
 
-export const MainLayout: React.FC<Props> = ({ children, userAgent }) => {
+export const MainLayout: React.FC<Props> = ({ children }) => {
   const notificationRef = useRef<System>();
 
   return (
     <>
       <NotificationSystem ref={notificationRef} />
       <NotificationSystemContext.Provider value={notificationRef}>
-        <Grommet theme={theme} full={true} userAgent={userAgent}>
-          <Box direction="column" height={{ min: "100vh" }}>
-            <Header />
-            <Main pad="small" flex="grow" >
-              {children}
-            </Main>
-            <Footer />
-          </Box>
-        </Grommet>
+        <MediaContextProvider>
+          <Grommet theme={lightTheme} full={true} >
+            <Box direction="column" height={{ min: "100vh" }}>
+              <Header />
+              <Main pad="small" flex="grow" >
+                {children}
+              </Main>
+              <Footer />
+            </Box>
+          </Grommet>
+        </MediaContextProvider>
       </NotificationSystemContext.Provider>
     </>
   );
