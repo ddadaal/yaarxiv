@@ -9,6 +9,7 @@ The frontend of yaarxiv.
     - Every pixel is accurately aligned!
     - No styling on the source code whatsoever: all styles defined in theme object!
 - Side-server rendering with [Next.js](https://nextjs.org/)
+- SSR with responsive layout works fine with [@artsy/fresnel](https://github.com/artsy/fresnel) without any user agent sniffing hack (determine initial breakpoint by guessing device's type using user agent.)
 - Automatic API client generation based on the [API project](https://github.com/ddadaal/yaarxiv/tree/master/api) with all types (response types, parameter types etc) inferred automatically!
 - Separate API layer with mock for complete backend-less development
 - Hot-changable i18n with [simstate-i18n](https://github.com/ddadaal/simstate-i18n)
