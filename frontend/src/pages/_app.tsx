@@ -18,10 +18,11 @@ const TopProgressBar = dynamic(
   { ssr: false },
 );
 
+const i18nStore  = createI18nStore(i18nContext);
+const userStore = createStore(UserStore);
+const themeStore = createStore(ThemeStore);
+
 function MyApp({ Component, pageProps }: AppProps) {
-  const i18nStore  = useConstant(() => createI18nStore(i18nContext));
-  const userStore = useConstant(() => createStore(UserStore));
-  const themeStore = useConstant(() => createStore(ThemeStore));
 
   return (
     <StoreProvider stores={[i18nStore, userStore, themeStore]}>

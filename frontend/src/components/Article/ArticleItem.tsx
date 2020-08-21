@@ -37,11 +37,11 @@ export const ArticleItem: React.FC<Props> = ({
 
   return (
     <Box gap="small" >
-      <AnchorLink href={`/articles/${article.articleId}`}>
-        <Heading level={2} size="small" margin="0">
+      <Heading level={2} size="small" margin="0">
+        <AnchorLink href={"/articles/[id]"} as={`/articles/${article.articleId}`}>
           {title}
-        </Heading>
-      </AnchorLink>
+        </AnchorLink>
+      </Heading>
       <Box gap="small" direction="row">
         {authors.map((author, i) => (
           <Text key={i} size="medium">

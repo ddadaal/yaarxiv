@@ -3,16 +3,17 @@ import { AnchorProps, Anchor } from "grommet";
 import Link from "next/link";
 import { format, UrlObject } from "url";
 
-interface Props extends Omit<AnchorProps, "href"> {
+interface Props extends Omit<AnchorProps, "href" | "as"> {
   href?: string | UrlObject;
+  as?: string | UrlObject;
   onClick?: () => void;
 }
 
-export const AnchorLink: React.FC<Props> = ({ href, onClick, ...props }) => {
+export const AnchorLink: React.FC<Props> = ({ href, as, onClick, ...props }) => {
   if (href) {
     return (
-      <Link href={href}>
-        <Anchor href={format(href)} {...props}/>
+      <Link href={href} as={as} passHref>
+        <Anchor {...props}/>
       </Link>
     );
   }else {
