@@ -5,7 +5,7 @@ import { FastifyPlugin, FastifyRequest, FastifyReply } from "fastify";
 declare module "fastify" {
   // @ts-ignore
   interface FastifyInstance {
-    auth(): Promise<void>;
+    jwtAuth(): Promise<void>;
   }
 }
 
@@ -15,10 +15,10 @@ export interface AuthPluginOptions {
 }
 
 // define plugin
-const auth: FastifyPlugin<AuthPluginOptions> = (fastify, { secret }, done) => {
+const jwtAuth: FastifyPlugin<AuthPluginOptions> = (fastify, { secret }, done) => {
   fastify.register(FastifyJwt, { secret });
 
-  fastify.decorate("auth", async function(req: FastifyRequest, reply: FastifyReply) {
+  fastify.decorate("jwtAuth", async function(req: FastifyRequest, reply: FastifyReply) {
     try {
       await req.jwtVerify();
     } catch (err) {
@@ -28,4 +28,4 @@ const auth: FastifyPlugin<AuthPluginOptions> = (fastify, { secret }, done) => {
   done();
 };
 
-export default fp(auth);
+export default fp(jwtAuth);

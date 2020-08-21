@@ -3,14 +3,15 @@ import { Endpoint, Schema, Responses, SchemaObject } from "yaarxiv-api";
 import { routes } from "./schemas";
 
 interface RouteExtraInfo {
-  summary: string;
+  jwtAuth?: boolean;
+  summary?: string;
 }
 
 export const route = <TSchema extends Schema>(
   fastify: FastifyInstance,
   endpoint: Endpoint,
   schemaName: keyof typeof routes,
-  extras ?: RouteExtraInfo,
+  { jwtAuth = false, summary = undefined }: RouteExtraInfo,
 ) => (handler: (
     req: FastifyRequest<{
       Body: TSchema["body"]
@@ -28,12 +29,13 @@ export const route = <TSchema extends Schema>(
     method: endpoint.method,
     url: endpoint.url,
     schema: {
-      summary: extras?.summary,
+      summary,
       description: schema.description,
       querystring: schema.properties.querystring,
       body: schema.properties.body,
       response: schema.properties.responses.properties,
     },
+    preValidation: jwtAuth ? [fastify.jwtAuth] : undefined,
     handler,
   });
 
