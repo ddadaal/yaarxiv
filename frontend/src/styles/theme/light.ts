@@ -1,7 +1,7 @@
 import { ThemeType } from "grommet";
 import breakpoints from "./breakpoints";
 
-const lightTheme: ThemeType = {
+const lightTheme: any = {
   "global": {
     "colors": {
       "icon": {
