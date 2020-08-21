@@ -20,9 +20,7 @@ export async function startApp(config: Config = envConfig, start = true) {
       logger: new TypeormPinoLogger(server.log),
     });
 
-  Object.keys(models)
-    .map((key) => ({ ...models[key], $id: key }))
-    .forEach((s) => server.addSchema(s));
+  Object.values(models).forEach((s) => server.addSchema(s));
 
   if (config.loadSwagger) {
     server.register(FastifySwagger, {

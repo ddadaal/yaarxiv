@@ -1,15 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unused-vars */
 import * as tsj from "ts-json-schema-generator";
 import * as fs from "fs";
-import readline from "readline";
-import { EOL } from "os";
-import path from "path";
-import json5 from "json5";
 
 const fsp = fs.promises;
 
-const routeSchemasFile = "routeSchemas.json";
-const modelsFile = "models.json";
+const schemasFile = "schemas.json";
 
 function stringify(obj: object): string {
   return JSON.stringify(obj, null, 2);
@@ -32,8 +26,7 @@ async function start() {
     }
   }
 
-  await fsp.writeFile(routeSchemasFile, stringify(routeSchemas));
-  await fsp.writeFile(modelsFile, stringify(models));
+  await fsp.writeFile(schemasFile, stringify({ routes: routeSchemas, models: models }));
 
 }
 

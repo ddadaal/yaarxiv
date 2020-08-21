@@ -1,5 +1,4 @@
-import routeSchemas from "yaarxiv-api/routeSchemas.json";
-import models from "yaarxiv-api/models.json";
+import schemas from "yaarxiv-api/schemas.json";
 
 // Add $id and title to every schema
 function addIdAndTitle(obj: object) {
@@ -24,7 +23,7 @@ function changeRef(obj: object) {
   }
 }
 
-[routeSchemas, models].forEach(addIdAndTitle);
-[routeSchemas, models].forEach(changeRef);
+[schemas.models, schemas.routes].forEach(addIdAndTitle);
+changeRef(schemas);
 
-export { routeSchemas, models };
+export const { routes, models } = schemas;

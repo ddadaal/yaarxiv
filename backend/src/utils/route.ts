@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply } from "fastify";
 import { Endpoint, Schema, Responses, SchemaObject } from "yaarxiv-api";
-import { routeSchemas } from "./schemas";
+import { routes } from "./schemas";
 
 interface RouteExtraInfo {
   summary: string;
@@ -9,7 +9,7 @@ interface RouteExtraInfo {
 export const route = <TSchema extends Schema>(
   fastify: FastifyInstance,
   endpoint: Endpoint,
-  schemaName: keyof typeof routeSchemas,
+  schemaName: keyof typeof routes,
   extras ?: RouteExtraInfo,
 ) => (handler: (
     req: FastifyRequest<{
@@ -19,7 +19,7 @@ export const route = <TSchema extends Schema>(
     reply: FastifyReply
   ) => Promise<Responses<TSchema["responses"]>>) => {
 
-    const schema = routeSchemas[schemaName] as SchemaObject;
+    const schema = routes[schemaName] as SchemaObject;
 
     fastify.route<{
     Body: TSchema["body"],
