@@ -12,10 +12,7 @@
     "start": "npm run dev",
     "copy-static-assets": "ts-node scripts/copyStaticAssets.ts",
     "test": "cross-env NODE_ENV=test jest --verbose",
-    "migration:create": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:create",
-    "migration:generate": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:generate",
-    "migration:run": "cross-env NODE_ENV=development ts-node ./node_modules/.bin/typeorm migration:run",
-    "migration:revert": "cross-env NODE_ENV=development ts-node./node_modules/.bin/typeorm migration:revert",
+    "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "generateConfig": "node-config-ts"
   },
   "author": "",
