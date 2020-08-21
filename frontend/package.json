@@ -10,7 +10,7 @@
   "dependencies": {
     "@artsy/fresnel": "^1.2.0",
     "grommet": "^2.14.0",
-    "grommet-icons": "^4.4.0",
+    "grommet-icons": "https://github.com/grommet/grommet-icons/tarball/stable",
     "luxon": "^1.24.1",
     "next": "9.5.2",
     "next-transpile-modules": "^4.1.0",

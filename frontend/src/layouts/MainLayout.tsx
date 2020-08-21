@@ -6,6 +6,9 @@ import { lightTheme } from "src/styles/theme";
 import NotificationSystem, { System } from "react-notification-system";
 import { NotificationSystemContext } from "src/components/useNotification";
 import { MediaContextProvider } from "src/styles/media";
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { useStore } from "simstate";
+import { ThemeStore } from "src/stores/ThemeStore";
 
 interface Props {
 }
@@ -13,12 +16,14 @@ interface Props {
 export const MainLayout: React.FC<Props> = ({ children }) => {
   const notificationRef = useRef<System>();
 
+  const { theme } = useStore(ThemeStore);
+
   return (
     <>
       <NotificationSystem ref={notificationRef} />
       <NotificationSystemContext.Provider value={notificationRef}>
         <MediaContextProvider>
-          <Grommet theme={lightTheme} full={true} >
+          <Grommet theme={lightTheme} full={true} themeMode={theme}>
             <Box direction="column" height={{ min: "100vh" }}>
               <Header />
               <Main pad="small" flex="grow" >

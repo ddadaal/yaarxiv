@@ -44,8 +44,8 @@ export const ArticleItem: React.FC<Props> = ({
       </AnchorLink>
       <Box gap="small" direction="row">
         {authors.map((author, i) => (
-          <Text key={i} color="grey" size="medium">
-            <AnchorLink onClick={() => onAuthorClicked(author)}>
+          <Text key={i} size="medium">
+            <AnchorLink color="grey" onClick={() => onAuthorClicked(author)}>
               {author.name}
             </AnchorLink>
           </Text>

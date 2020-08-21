@@ -68,20 +68,20 @@ export const ArticleFilter: React.FC<Props> = (props) => {
 
   return (
     <Box gap="medium" >
-      <TitledSection titleId="Year">
+      <TitledSection titleId="Year" border="all">
         <YearRangeFilter
           startYear={props.startYear}
           endYear={props.endYear}
           onYearChange={props.onYearChange}
         />
       </TitledSection>
-      <TitledSection titleId="Authors">
+      <TitledSection titleId="Authors" border="all">
         <MultipleInput
           values={props.authorNames ?? []}
           onChange={(values) => props.onAuthorsChange({ authorNames: values })}
         />
       </TitledSection>
-      <TitledSection titleId="Keywords">
+      <TitledSection titleId="Keywords" border="all">
         <MultipleInput
           values={props.keywords ?? []}
           onChange={(values) => props.onKeywordsChange({ keywords: values })}

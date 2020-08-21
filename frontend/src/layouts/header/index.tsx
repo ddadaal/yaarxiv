@@ -6,10 +6,15 @@ import { AnchorLink } from "src/components/AnchorLink";
 
 export const Header: React.FC = (props) => {
   return (
-    <GrommetHeader background="dark-1" pad="small">
+    <GrommetHeader
+      background="background-contrast"
+      pad="medium"
+      // elevation="small"
+      border={{ side: "bottom" }}
+    >
       <Box direction="row" align="center" gap="small">
         {/* <Avatar src={gravatarSrc} /> */}
-        <AnchorLink color="white" href="/">
+        <AnchorLink href="/">
           yaarxiv
         </AnchorLink>
       </Box>

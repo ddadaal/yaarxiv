@@ -79,7 +79,7 @@ export const Search: React.FC<Props> = (props) => {
             <Box direction="row" wrap={!bigger}>
               <TwoColumnLayout
                 left={
-                  <Section pad="xsmall">
+                  <Section pad="xsmall" elevation={"none"}>
                     <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
                       <Box>
                         {results.map((r, i) => (
@@ -89,19 +89,21 @@ export const Search: React.FC<Props> = (props) => {
                               onAuthorClicked={onAuthorClicked}
                               onKeywordClicked={onKeywordClicked}
                             />
-                            { i === results.length -1 ? undefined : <Separator />}
+                            {/* { i === results.length -1 ? undefined : <Separator />} */}
                           </Box>
                         ))}
                       </Box>
-                      <Pagination
-                        currentPage={currentPage}
-                        itemsPerPage={1}
-                        totalItemsCount={totalCount}
-                        getUrl={(i) => ({
-                          pathname: "/search",
-                          query: { ...query, page: i },
-                        })}
-                      />
+                      <Box direction="row" justify="center">
+                        <Pagination
+                          currentPage={currentPage}
+                          itemsPerPage={1}
+                          totalItemsCount={totalCount}
+                          getUrl={(i) => ({
+                            pathname: "/search",
+                            query: { ...query, page: i },
+                          })}
+                        />
+                      </Box>
                     </OverlayLoading>
                   </Section>
                 }

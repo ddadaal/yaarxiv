@@ -23,7 +23,8 @@ export const PageLink: React.FC<Props> = ({
 
   return (
     <Box
-      pad="xsmall"
+      pad="small"
+      focusIndicator={true}
     >
       <AnchorLink
         disabled={disabled}

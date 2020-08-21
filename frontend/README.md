@@ -19,6 +19,10 @@ The frontend of yaarxiv.
 Make sure the [API project](https://github.com/ddadaal/yaarxiv/tree/master/api) is located on the parent directory of this project (`../api`).
 
 ```bash
+# Make sure you have good connection to GitHub
+# since we need the stable branch of grommet-icons
+npm install
+
 # Start dev server
 npm run dev
 

@@ -1,11 +1,14 @@
 import React from "react";
-import { Text, Footer as GrommotFooter, Anchor, Box } from "grommet";
+import { Text, Footer as GrommotFooter, Anchor, Box, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { lang, useI18nStore, allLanguages } from "src/i18n";
+import { useStore } from "simstate";
+import { ThemeStore } from "src/stores/ThemeStore";
+import { Sun, Moon } from "grommet-icons";
 
 const root = lang.footer;
 
-const I18nColumn: React.FC = () => {
+const LanguageSwitcher: React.FC = () => {
   const i18nStore = useI18nStore();
 
   return (
@@ -25,15 +28,26 @@ const I18nColumn: React.FC = () => {
 };
 
 export const Footer: React.FC = () => {
+
+  const { theme, changeTheme } = useStore(ThemeStore);
+
   return (
-    <GrommotFooter background="light-4" justify="center" pad="small">
+    <GrommotFooter
+      background="background-contrast"
+      justify="center" pad="small" border={{ side: "top" }}
+    >
       <Box>
-        <I18nColumn />
+        <LanguageSwitcher />
       </Box>
       <Box>
         <Text textAlign="center" size="small">
         © 2020 <LocalizedString id={root.copyright} />
         </Text>
+      </Box>
+      <Box alignSelf="end">
+        <Button onClick={changeTheme}>
+          {theme === "dark" ? <Moon /> : <Sun />}
+        </Button>
       </Box>
     </GrommotFooter>
 
