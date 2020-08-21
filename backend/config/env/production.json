@@ -3,7 +3,6 @@
   "typeorm": {
     "type": "sqlite",
     "database": "./db.db",
-    "synchronize": true,
     "entities": [
       "out/src/entities/**/*.js"
     ],

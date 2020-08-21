@@ -2,5 +2,8 @@
   "port": 3000,
   "loadSwagger": true,
   "logger": true,
-  "jwtSecret": "testsecret"
+  "jwtSecret": "testsecret",
+  "typeorm": {
+    "synchronize": true
+  }
 }

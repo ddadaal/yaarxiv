@@ -9,9 +9,9 @@ declare module "node-config-ts" {
     typeorm: Typeorm
   }
   interface Typeorm {
+    synchronize: boolean
     type: string
     database: string
-    synchronize: boolean
     entities: string[]
     logging: boolean
     migrations: string[]

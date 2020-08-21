@@ -14,6 +14,8 @@ export async function startApp(config: Config = envConfig, start = true) {
 
   const server = fastify({ logger: config.logger });
 
+  server.log.info(`Loaded config: \n${JSON.stringify(config,null,2)}`);
+
   const dbConnection = await createConnection(
     {
       ...(config.typeorm) as ConnectionOptions,
