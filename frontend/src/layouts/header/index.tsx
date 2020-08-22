@@ -12,9 +12,9 @@ const FlexAnchorLink = styled(AnchorLink)`
 export const Header: React.FC = (props) => {
   return (
     <GrommetHeader
-      background="background-contrast"
+      background="background"
       pad="small"
-      // elevation="small"
+      elevation="small"
       border={{ side: "bottom" }}
       justify="between"
       align="stretch"

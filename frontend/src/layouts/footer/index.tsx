@@ -33,7 +33,7 @@ export const Footer: React.FC = () => {
 
   return (
     <GrommotFooter
-      background="background-contrast"
+      background="background"
       justify="center" pad="small" border={{ side: "top" }}
     >
       <Box>
