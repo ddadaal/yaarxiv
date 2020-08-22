@@ -35,10 +35,12 @@ export const Search: React.FC<Props> = (props) => {
 
   const query = router.query;
 
-  const { data: { results, totalCount }, isPending, run } = useAsync({
+  const { data, isPending, run } = useAsync({
     deferFn: search,
     initialValue: { results: props.results ?? [], totalCount: props.totalCount ?? 0 },
   });
+
+  const { results, totalCount } = data!;
 
   const updateQuery = useCallback((newQuery: Partial<SearchQuery>) => {
     const combinedQuery = { ...query, ...newQuery };

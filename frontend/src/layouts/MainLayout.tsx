@@ -14,7 +14,7 @@ interface Props {
 }
 
 export const MainLayout: React.FC<Props> = ({ children }) => {
-  const notificationRef = useRef<System>();
+  const notificationRef = useRef<System | null>(null);
 
   const { theme } = useStore(ThemeStore);
 

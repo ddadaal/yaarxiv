@@ -6,7 +6,9 @@ export default {
   definitions: {
     header: {
       home: "主页",
+      search: "搜索",
       login: "登录",
+      about: "关于",
       welcome: "欢迎您，{}",
       logout: "登出",
       dashboard: "个人中心",

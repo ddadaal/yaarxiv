@@ -1,9 +1,9 @@
 import React from "react";
-import { Header as GrommetHeader, Box, Avatar, Anchor, Nav } from "grommet";
-import { UserIndicator } from "./UserIndicator";
+import { Header as GrommetHeader, Box, Avatar, Anchor } from "grommet";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Logo } from "src/components/Logo";
 import styled from "styled-components";
+import { MainNav } from "./MainNav";
 
 const FlexAnchorLink = styled(AnchorLink)`
   display: flex;
@@ -25,7 +25,7 @@ export const Header: React.FC = (props) => {
         </FlexAnchorLink>
       </Box>
       <Box direction="row" align="center" gap="small">
-        <UserIndicator />
+        <MainNav />
       </Box>
     </GrommetHeader>
   );

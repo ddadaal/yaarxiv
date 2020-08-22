@@ -5,8 +5,10 @@ export default {
   name: "English",
   definitions: {
     header: {
+      home: "Home",
+      search: "Search",
       upload: "Upload",
-      help: "Help",
+      about: "About",
       login: "Login",
       welcome: "Welcome, {}",
       logout: "Logout",

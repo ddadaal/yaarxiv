@@ -3,6 +3,12 @@ import { AnchorProps, Anchor } from "grommet";
 import Link from "next/link";
 import { format, UrlObject } from "url";
 
+declare module "grommet" {
+  interface AnchorProps {
+    active?: boolean;
+  }
+}
+
 interface Props extends Omit<AnchorProps, "href" | "as"> {
   href?: string | UrlObject;
   as?: string | UrlObject;

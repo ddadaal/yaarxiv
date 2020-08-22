@@ -92,7 +92,10 @@ export const customTheme: ThemeType = deepFreeze(
     "chart": {},
     "diagram": { "line": {} },
     "meter": {},
-    "button": { "border": { "radius": "4px" } },
+    "button": {
+      "border": { "radius": "4px" },
+      "active": { "background": { "color": "brand" } },
+    },
     "checkBox": {
       "check": { "radius": "4px" },
       "toggle": { "radius": "4px" },
@@ -150,6 +153,7 @@ export const customTheme: ThemeType = deepFreeze(
         "textDecoration": "none",
         "extend": (props) => ({ color: props.theme.global.colors.brand }),
       },
+      "extend": (props) => (props.active ? { color: props.theme.global.colors.brand } : undefined),
     },
     "box": {
       "extend": (props) => ({

@@ -27,9 +27,9 @@ export const ButtonInput: React.FC<Props> = ({
       <TextInput
         plain
         value={value}
-        onChange={(e) => onChange(e.target.value)}
+        onChange={(e) => onChange?.(e.target.value)}
       />
-      <Button margin="xsmall" onClick={() => onConfirm(value)}>
+      <Button margin="xsmall" onClick={() => onConfirm?.(value)}>
         {children}
       </Button>
     </Box>
