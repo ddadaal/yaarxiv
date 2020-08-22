@@ -1,3 +1,8 @@
-const withTM = require("next-transpile-modules")(["yaarxiv-api"]);
+const tm = require("next-transpile-modules");
+const withPlugins = require('next-compose-plugins');
+const images = require('next-images')
 
-module.exports = withTM();
+module.exports = withPlugins([
+  [tm, ["yaarxiv-api"]],
+  [images, {}]
+]);
