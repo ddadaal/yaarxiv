@@ -34,15 +34,10 @@ export const UploadPage: React.FC = (props) => {
 
   const submit = async () => {
     try {
-
       setSubmitting(true);
+
       // 1. upload the PDF and get the token
-
-      const formData = new FormData();
-      formData.set("file", file!);
-
-      const pdfResp = await api.uploadPDF(
-        { body: formData }, { bodyStringify: false });
+      const pdfResp = await api.uploadPDF(file!);
 
       // 2. upload the rest information
       const resp = await api.uploadArticle({

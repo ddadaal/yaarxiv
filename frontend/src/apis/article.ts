@@ -8,7 +8,12 @@ import * as uploadArticle from "yaarxiv-api/article/upload";
 export const articleApis = () => ({
   search: fromApiDefinition<search.SearchArticleSchema>(search.endpoint),
   get: fromApiDefinition<get.GetArticleSchema>(get.endpoint),
-  uploadPDF: fromApiDefinition<uploadPDF.UploadPDFSchema>(uploadPDF.endpoint),
+  uploadPDF: async (file: File) => {
+    const api = fromApiDefinition<uploadPDF.UploadPDFSchema>(uploadPDF.endpoint);
+    const formData = new FormData();
+    formData.set("file", file);
+    return await api({ body: formData as any }, { bodyStringify: false });
+  },
   uploadArticle: fromApiDefinition<uploadArticle.UploadArticleSchema>(uploadArticle.endpoint),
 });
 
