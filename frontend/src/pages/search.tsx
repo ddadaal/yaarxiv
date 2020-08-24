@@ -81,18 +81,16 @@ export const Search: React.FC<Props> = (props) => {
             <Box direction="row" wrap={!bigger}>
               <TwoColumnLayout
                 left={
-                  <Section pad="xsmall" elevation={"none"}>
+                  <Section pad="none" elevation={"none"}>
                     <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
-                      <Box>
-                        {results.map((r, i) => (
-                          <Box key={r.articleId} gap="small" margin="small" >
-                            <ArticleItem
-                              article={r}
-                              onAuthorClicked={onAuthorClicked}
-                              onKeywordClicked={onKeywordClicked}
-                            />
-                            {/* { i === results.length -1 ? undefined : <Separator />} */}
-                          </Box>
+                      <Box gap="large">
+                        {results.map((r) => (
+                          <ArticleItem
+                            key={r.articleId}
+                            article={r}
+                            onAuthorClicked={onAuthorClicked}
+                            onKeywordClicked={onKeywordClicked}
+                          />
                         ))}
                       </Box>
                       <Box direction="row" justify="center">
