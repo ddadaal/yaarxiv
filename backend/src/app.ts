@@ -9,6 +9,7 @@ import jwtAuth from "./utils/auth";
 import { routes }  from "./routes";
 import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
+import FileUpload from "fastify-file-upload";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
@@ -47,6 +48,7 @@ export async function startApp(config: Config = envConfig, start = true) {
     });
   }
 
+  server.register(FileUpload);
   server.register(jwtAuth, { secret: config.jwtSecret });
   server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
