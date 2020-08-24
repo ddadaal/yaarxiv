@@ -16,16 +16,18 @@ export const Header: React.FC = (props) => {
       pad="small"
       elevation="small"
       border={{ side: "bottom" }}
-      justify="between"
-      align="stretch"
+      align="center"
+      justify="center"
     >
-      <Box direction="column" justify="center">
-        <FlexAnchorLink href="/">
-          <Logo style={{ maxHeight: "32px" }} />
-        </FlexAnchorLink>
-      </Box>
-      <Box direction="row" align="center" gap="small">
-        <MainNav />
+      <Box fill direction="row" justify="between" align="stretch">
+        <Box width="xsmall" direction="column" justify="center">
+          <FlexAnchorLink href="/">
+            <Logo />
+          </FlexAnchorLink>
+        </Box>
+        <Box direction="row" align="center" gap="small">
+          <MainNav />
+        </Box>
       </Box>
     </GrommetHeader>
   );

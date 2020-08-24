@@ -9,16 +9,18 @@ const Home: React.FC = () => {
   const router = useRouter();
 
   return(
-    <Box direction="column" justify="center" align="center" flex="grow">
+    <Box justify="center" flex="grow">
       <Box justify="center" align="center" gap="medium" pad="small">
-        <Box>
-          <Logo style={{ height: "120px", width: "auto" }} />
+        <Box width="medium">
+          <Logo />
         </Box>
-        <SearchBar initialText="" onConfirm={(k) => router.push({
-          pathname: "/search",
-          query: { searchText: k },
-        })}
-        />
+        <Box width="medium">
+          <SearchBar initialText="" onConfirm={(k) => router.push({
+            pathname: "/search",
+            query: { searchText: k },
+          })}
+          />
+        </Box>
         <Box height="small" />
       </Box>
     </Box>
