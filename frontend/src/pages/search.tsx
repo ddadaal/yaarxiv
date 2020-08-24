@@ -9,7 +9,6 @@ import { ArticleItem } from "src/components/Article/ArticleItem";
 import { GetServerSideProps } from "next";
 import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
-import { Separator } from "src/components/Separator";
 import { ArticleFilter } from "src/components/Article/ArticleFilter";
 import { queryToIntOrDefault, queryToString, queryToArray } from "src/utils/querystring";
 import { Pagination } from "src/components/Pagination";

@@ -6,7 +6,7 @@ export function queryToString(input: QueryValue): string {
 
 export function queryToIntOrDefault(input: QueryValue, defaultValue: number): number;
 export function queryToIntOrDefault(
-  input: QueryValue, defaultValue: undefined): number | undefined;
+  input: QueryValue, defaultValue?: undefined): number | undefined;
 export function queryToIntOrDefault(
   input: QueryValue,
   defaultValue: number | undefined,
