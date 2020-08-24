@@ -6,6 +6,9 @@ import { formatDateTime } from "src/utils/datetime";
 import { TitledSection } from "src/components/TitledSection";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
+import { lang } from "src/i18n";
+
+const root = lang.pages.article;
 
 interface Props {
   article: Article;
@@ -49,7 +52,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
       )}
       right={
         (<Box>
-          <TitledSection titleId="Revisions">
+          <TitledSection titleId={root.revisions}>
             <Box gap="xsmall">
               {article.revisions.map((r) => (
                 <Box key={r.number}>
@@ -65,7 +68,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
               ))}
             </Box>
           </TitledSection>
-          <TitledSection titleId="Download">
+          <TitledSection titleId={root.download}>
             <Anchor href={currentRevision.pdfLink} download>
             PDF
             </Anchor>

@@ -10,7 +10,7 @@ import { TagInput } from "src/components/TagInput";
 import { useNotification } from "src/components/useNotification";
 import { lang } from "src/i18n";
 
-const root = lang.upload;
+const root = lang.pages.upload;
 
 const initialState ={
   title: "",
@@ -84,7 +84,7 @@ export const UploadPage: React.FC = (props) => {
       </Box>
       <Box>
         <Heading level="2" size="small" margin="none">
-          2. Fill the content
+          <LocalizedString id={root.info.title} />
         </Heading>
         <Box margin={{ vertical: "small" }}>
           <Form
@@ -93,13 +93,13 @@ export const UploadPage: React.FC = (props) => {
             onSubmit={submit}
           >
             <FormField
-              label="标题"
+              label={<LocalizedString id={root.info.articleTitle} />}
               name="title"
               value={info.title}
               disabled={submitting}
               onChange={(e) => setInfo({ ...info, title: e.target.value })}
             />
-            <FormField label="作者" name="authors">
+            <FormField label={<LocalizedString id={root.info.authors} />} name="authors">
               <TagInput
                 name="authors"
                 value={info.authors}
@@ -111,7 +111,10 @@ export const UploadPage: React.FC = (props) => {
                 })}
               />
             </FormField>
-            <FormField label="关键词" name="keywords">
+            <FormField
+              label={<LocalizedString id={root.info.keywords} />}
+              name="keywords"
+            >
               <TagInput
                 disabled={submitting}
                 name="keywords"
@@ -124,7 +127,7 @@ export const UploadPage: React.FC = (props) => {
               />
             </FormField>
             <FormField
-              label="摘要"
+              label={<LocalizedString id={root.info.abstract} />}
               htmlFor="text-area"
               component={TextArea}
               value={info.abstract}
@@ -132,10 +135,14 @@ export const UploadPage: React.FC = (props) => {
               onChange={(e) => setInfo({ ...info, abstract: e.target.value })}
             />
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
-              <Button type="reset" label="Reset" disabled={submitting} />
+              <Button
+                type="reset"
+                label={<LocalizedString id={root.info.reset} />}
+                disabled={submitting}
+              />
               <Button
                 type="submit"
-                label="Upload"
+                label={<LocalizedString id={root.info.upload} />}
                 primary
                 disabled={!submittable || submitting}
               />

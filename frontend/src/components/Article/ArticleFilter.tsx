@@ -4,6 +4,9 @@ import { debounce } from "src/utils/debounce";
 import { max, min } from "src/utils/math";
 import { MultipleInput } from "./MultipleInput";
 import { TitledSection } from "../TitledSection";
+import { lang } from "src/i18n";
+
+const root = lang.pages.search;
 
 interface Props {
   startYear?: number;
@@ -68,20 +71,20 @@ export const ArticleFilter: React.FC<Props> = (props) => {
 
   return (
     <Box gap="medium" >
-      <TitledSection titleId="Year" border="all">
+      <TitledSection titleId={root.year} border="all">
         <YearRangeFilter
           startYear={props.startYear}
           endYear={props.endYear}
           onYearChange={props.onYearChange}
         />
       </TitledSection>
-      <TitledSection titleId="Authors" border="all">
+      <TitledSection titleId={root.authors} border="all">
         <MultipleInput
           values={props.authorNames ?? []}
           onChange={(values) => props.onAuthorsChange({ authorNames: values })}
         />
       </TitledSection>
-      <TitledSection titleId="Keywords" border="all">
+      <TitledSection titleId={root.keywords} border="all">
         <MultipleInput
           values={props.keywords ?? []}
           onChange={(values) => props.onKeywordsChange({ keywords: values })}

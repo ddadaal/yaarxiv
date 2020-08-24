@@ -1,7 +1,12 @@
-import { Box } from "grommet";
+import { Box, Heading, Paragraph } from "grommet";
 import { useRouter } from "next/router";
 import React from "react";
+import { LocalizedString } from "simstate-i18n";
+import { lang } from "src/i18n";
 import { queryToString } from "src/utils/querystring";
+import { Checkmark } from "grommet-icons";
+
+const root = lang.pages.upload.complete;
 
 export const UploadCompletePage: React.FC = () => {
   const router = useRouter();
@@ -10,15 +15,17 @@ export const UploadCompletePage: React.FC = () => {
 
   return (
     <Box justify="center" align="center">
-      Upload successful.
+      <Heading level={1} size="small">
+        <Checkmark color="status-ok" />
+        <LocalizedString id={root.title} />
+      </Heading>
 
-      The id of your new article is {articleId}.
-
-      Your article will be reviewed shortly.
-
-      If the review is successful, it will be available publicly on our website.
-
-      Thanks for your support.
+      <Paragraph fill>
+        <LocalizedString
+          id={root.description}
+          replacements={[articleId]}
+        />
+      </Paragraph>
     </Box>
   );
 

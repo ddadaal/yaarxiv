@@ -53,10 +53,35 @@ export default {
       },
       copyright: "All rights are reserved.",
     },
-    upload: {
-      pdf: {
-        title: "1. Upload PDF",
-        description: "Please upload your PDF first. The system will automatically fill some of the information based on your PDF. You can always change the information manually.",
+
+    pages: {
+      upload: {
+        pdf: {
+          title: "1. Upload PDF",
+          description: "Please upload your PDF first. The system will automatically fill some of the information based on your PDF. You can always change the information manually.",
+        },
+        info: {
+          title: "2. Fill Article Information",
+          articleTitle: "Title",
+          authors: "Authors",
+          keywords: "Keywords",
+          abstract: "Abstract",
+          reset: "Reset",
+          upload: "Upload",
+        },
+        complete: {
+          title: "Upload successful！",
+          description: "The ID for your article is {}。\nYour article will be reviewed shortly. \nWhen the review is passed, your article will be available publicly in our platform.\n\nThanks for your support to the platform.",
+        },
+      },
+      article: {
+        revisions: "Revisions",
+        download: "Download",
+      },
+      search: {
+        year: "Submit Year",
+        keywords: "Includes Keywords",
+        authors: "Includes Authors",
       },
     },
   },

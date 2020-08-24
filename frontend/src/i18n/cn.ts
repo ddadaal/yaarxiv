@@ -53,10 +53,34 @@ export default {
       copyright: "版权所有",
 
     },
-    upload: {
-      pdf: {
-        title: "1. 上传PDF",
-        description: "请先上传您的文章的PDF。我们的系统将会自动根据您的PDF填写部分文章信息。您将可以修改系统识别的详细信息。",
+    pages: {
+      upload: {
+        pdf: {
+          title: "1. 上传PDF",
+          description: "请先上传您的文章的PDF。我们的系统将会自动根据您的PDF填写部分文章信息。您将可以修改系统识别的详细信息。",
+        },
+        info: {
+          title: "2. 填写文章信息",
+          articleTitle: "标题",
+          authors: "作者",
+          keywords: "关键词",
+          abstract: "摘要",
+          reset: "清空",
+          upload: "上传",
+        },
+        complete: {
+          title: "上传成功！",
+          description: "您的文章的ID是{}。\n您的文章正等待我们审核。\n当审核通过后，您的文章将会在本平台可用。\n\n感谢您对平台的支持。",
+        },
+      },
+      article: {
+        revisions: "版本",
+        download: "下载",
+      },
+      search: {
+        year: "发表年份",
+        keywords: "包含关键词",
+        authors: "包含作者",
       },
     },
   },
