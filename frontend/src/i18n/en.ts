@@ -5,7 +5,10 @@ export default {
   detailedId: "en-US",
   name: "English",
   definitions: {
-    components: { fileUploader: { zoneLabel: "Drag and drop your file(s) here, or click to select the file(s)." } },
+    components: {
+      fileUploader: { zoneLabel: "Drag and drop your file(s) here, or click to select the file(s)." },
+      tagInput: { placeholder: "Press Enter when completing input to add one item." },
+    },
     header: {
       home: "Home",
       search: "Search",

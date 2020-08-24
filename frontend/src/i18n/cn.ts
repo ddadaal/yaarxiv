@@ -4,7 +4,10 @@ export default {
   detailedId: "zh-CN",
   name: "简体中文",
   definitions: {
-    components: { fileUploader: { zoneLabel: "把文件拖拽到这里，或者点击这里选择文件。" } },
+    components: {
+      fileUploader: { zoneLabel: "把文件拖拽到这里，或者点击这里选择文件。" },
+      tagInput: { placeholder: "输入完成后按下回车以增加一项。" },
+    },
     header: {
       home: "主页",
       search: "搜索",
