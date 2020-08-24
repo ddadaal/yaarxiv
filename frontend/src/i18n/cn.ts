@@ -4,6 +4,7 @@ export default {
   detailedId: "zh-CN",
   name: "简体中文",
   definitions: {
+    components: { fileUploader: { zoneLabel: "把文件拖拽到这里，或者点击这里选择文件。" } },
     header: {
       home: "主页",
       search: "搜索",
@@ -48,6 +49,12 @@ export default {
       },
       copyright: "版权所有",
 
+    },
+    upload: {
+      pdf: {
+        title: "1. 上传PDF",
+        description: "请先上传您的文章的PDF。我们的系统将会自动根据您的PDF填写部分文章信息。您将可以修改系统识别的详细信息。",
+      },
     },
   },
 };

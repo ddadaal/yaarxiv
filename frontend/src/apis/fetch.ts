@@ -8,7 +8,7 @@ export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 
 let token = "";
 
-export type Querystring =Record<string, string | string[] | number>;
+export type Querystring =Record<string, string | string[] | number | undefined>;
 
 export function fullFetch(
   path: string,
@@ -63,16 +63,23 @@ export function makeHttpError<T>(data: T, status: number) {
   return { data, status };
 }
 
+export interface JsonFetchOptions {
+  bodyStringify?: boolean;
+}
+
 /**
  * Fetch and returns as json.
  * @param info the fetch info
  * @throws {JsonFetchError} If the statusCode is not [200, 300), a error will be thrown
  */
-export async function jsonFetch<T>(info: FetchInfo): Promise<JsonFetchResult<T>> {
+export async function jsonFetch<T>(
+  info: FetchInfo,
+  { bodyStringify }: JsonFetchOptions,
+): Promise<JsonFetchResult<T>> {
   const resp = await fullFetch(info.path, info.query, {
     method: info.method ?? "GET",
     headers: info.headers,
-    body: JSON.stringify(info.body),
+    body: bodyStringify ? JSON.stringify(info.body) : info.body as any,
   });
 
   const obj = await resp.json();
@@ -113,11 +120,14 @@ export function fromApiDefinition<TSchema extends Schema>(endpoint: Endpoint) {
   type TQuery = TSchema["querystring"];
   type TBody = TSchema["body"];
 
-  return function (args: SelectNotUndefined<{
+  return function (
+    args: SelectNotUndefined<{
     path: IfNotObjectThenUndefined<TPath>,
     query: IfNotObjectThenUndefined<TQuery>,
     body: IfNotObjectThenUndefined<TBody>,
-  }>): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
+  }>,
+    options?: JsonFetchOptions,
+  ): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
 
     const anyArgs = args as any;
     // replace path params
@@ -135,6 +145,6 @@ export function fromApiDefinition<TSchema extends Schema>(endpoint: Endpoint) {
       method: endpoint.method,
       query: anyArgs.query,
       body: anyArgs.body,
-    });
+    }, { bodyStringify: true, ...options });
   };
 }

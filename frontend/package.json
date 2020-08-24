@@ -20,6 +20,7 @@
     "react": "16.13.1",
     "react-async": "^10.0.1",
     "react-dom": "16.13.1",
+    "react-dropzone": "^11.0.3",
     "react-hook-form": "^6.5.0",
     "react-notification-system": "^0.4.0",
     "simstate": "^3.0.0",

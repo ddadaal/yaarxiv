@@ -1,9 +1,11 @@
+/* eslint-disable max-len */
 export default {
   id: "en",
   langStrings: ["en", "en-US"],
   detailedId: "en-US",
   name: "English",
   definitions: {
+    components: { fileUploader: { zoneLabel: "Drag and drop your file(s) here, or click to select the file(s)." } },
     header: {
       home: "Home",
       search: "Search",
@@ -47,6 +49,12 @@ export default {
         },
       },
       copyright: "All rights are reserved.",
+    },
+    upload: {
+      pdf: {
+        title: "1. Upload PDF",
+        description: "Please upload your PDF first. The system will automatically fill some of the information based on your PDF. You can always change the information manually.",
+      },
     },
   },
 };

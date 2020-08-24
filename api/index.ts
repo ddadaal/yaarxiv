@@ -4,8 +4,8 @@ export interface Endpoint {
 }
 
 export interface Schema<
-  TPath = Record<string, string | number>,
-  TQuerystring = Record<string, string | number | string[]>,
+  TPath = Record<string, string | number | undefined>,
+  TQuerystring = Record<string, string | number | string[] | undefined>,
   TBody = Record<string | number, unknown>,
   TResponses = Record<string | number, unknown>,
 > {
