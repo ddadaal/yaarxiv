@@ -1,5 +1,5 @@
 import React from "react";
-import { queryToString } from "src/utils/querystring";
+import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { GetServerSideProps } from "next";
 import { Article } from "yaarxiv-api/article/models";
 import { getApi } from "src/apis";
@@ -19,7 +19,11 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
   const articleId = queryToString(context.query.id);
-  return { props: { article: await api.getWithId({ path: { articleId } }) }.article };
+  const revision = queryToIntOrDefault(context.query.revision, undefined);
+
+  const resp = await api.get({ path: { articleId }, query: { revision } });
+
+  return { props: { article: resp.article } };
 };
 
 export default ArticlePage;

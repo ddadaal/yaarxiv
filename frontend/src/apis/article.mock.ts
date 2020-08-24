@@ -40,9 +40,9 @@ const mockResult = [
   },
 ] as ArticleSearchResult[];
 
-const mockArticle = (id: string, revision = 3): Article => ({
+const mockArticle = (id: string, revision: number | undefined): Article => ({
   id,
-  revisionNumber: revision,
+  revisionNumber: revision ?? 3,
   revisions: [
     { number: 1, time: "2011-10-05T14:48:00.000Z" },
     { number: 2, time: "2012-10-05T14:48:00.000Z" },
@@ -63,8 +63,7 @@ const mockArticle = (id: string, revision = 3): Article => ({
 
 export const articleApisMock: MockApi<typeof articleApis> = () => ({
   search: async () => { return { results: mockResult, totalCount: mockResult.length };},
-  getWithId: async ({ path }) => ({ article: mockArticle(path.articleId) }),
-  getWithIdAndRevision: async ({ path }) =>({ article: mockArticle(path.articleId, path.revision) }),
+  get: async ({ path, query }) => ({ article: mockArticle(path.articleId, query.revision) }),
   uploadArticle: async () => ({ id: "1231243124" }),
   uploadPDF: async () => ({ token: "1231fn091mf02" }),
 });

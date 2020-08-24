@@ -58,7 +58,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
                 <Box key={r.number}>
                   <AnchorLink
                     disabled={r.number === article.revisionNumber}
-                    href={`/articles/${article.id}/revisions/${r.number}`}
+                    href={`/articles/${article.id}?revision=${r.number}`}
                   >
                     <Text weight="normal">
                     v{r.number} ({formatDateTime(r.time)})
