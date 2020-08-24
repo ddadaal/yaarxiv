@@ -1,8 +1,5 @@
-import React, { useState, useCallback, useMemo, useEffect } from "react";
+import React, {  } from "react";
 import { TextInput, Box, Button } from "grommet";
-import { Search } from "grommet-icons";
-import Link from "next/link";
-import { constructSearchString, SearchQuery } from "src/models/SearchQuery";
 
 interface Props {
   value: string;

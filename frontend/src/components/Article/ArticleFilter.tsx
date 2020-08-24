@@ -20,8 +20,8 @@ interface Props {
 
 const YearRangeFilter: React.FC<Pick<Props,"endYear" | "startYear" | "onYearChange">> =
  (props) => {
-   const [start, setStart] = useState(props.startYear);
-   const [end, setEnd] = useState(props.endYear);
+   const [start, setStart] = useState(props.startYear ?? 0);
+   const [end, setEnd] = useState(props.endYear ?? 0);
 
    const debouncedYearHandler = useCallback(
      debounce(props.onYearChange, 500),
@@ -46,8 +46,8 @@ const YearRangeFilter: React.FC<Pick<Props,"endYear" | "startYear" | "onYearChan
    };
 
    useEffect(() => {
-     setStart(props.startYear);
-     setEnd(props.endYear);
+     setStart(props.startYear ?? 0);
+     setEnd(props.endYear ?? 0);
    }, [props.startYear, props.endYear]);
 
    return (
