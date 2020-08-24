@@ -19,7 +19,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
   const { currentRevision } = article;
 
   return (
-    <TwoColumnLayout
+    <TwoColumnLayout margin={{ vertical: "medium", horizontal: "none" }}
       left={(
         <Section>
           <Heading margin="none" level="1" size="small">
@@ -51,7 +51,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
         </Section>
       )}
       right={
-        (<Box>
+        (<Box gap="medium">
           <TitledSection titleId={root.revisions}>
             <Box gap="xsmall">
               {article.revisions.map((r) => (
