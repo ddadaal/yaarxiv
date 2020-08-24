@@ -19,14 +19,17 @@ export const Header: React.FC = (props) => {
       align="center"
       justify="center"
     >
-      <Box fill direction="row" justify="between" align="stretch">
-        <Box width="xsmall" direction="column" justify="center">
-          <FlexAnchorLink href="/">
-            <Logo />
-          </FlexAnchorLink>
-        </Box>
-        <Box direction="row" align="center" gap="small">
-          <MainNav />
+      <Box width="xlarge">
+
+        <Box fill direction="row" justify="between" align="stretch">
+          <Box width="xsmall" direction="column" justify="center">
+            <FlexAnchorLink href="/">
+              <Logo />
+            </FlexAnchorLink>
+          </Box>
+          <Box direction="row" align="center" gap="small">
+            <MainNav />
+          </Box>
         </Box>
       </Box>
     </GrommetHeader>

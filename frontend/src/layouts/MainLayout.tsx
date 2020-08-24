@@ -26,8 +26,10 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
           <Grommet theme={siteTheme} full={true} themeMode={theme}>
             <Box direction="column" height={{ min: "100vh" }} >
               <Header />
-              <Main pad="small" flex="grow" align="center" >
-                {children}
+              <Main pad="small" align="center" >
+                <Box width="xlarge" flex="grow">
+                  {children}
+                </Box>
               </Main>
               <Footer />
             </Box>
