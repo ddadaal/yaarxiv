@@ -75,7 +75,9 @@ export const ArticleEditForm: React.FC<Props> = ({
         </Heading>
         <Box margin={{ vertical: "small" }}>
           <Form
-
+            onKeyPress={(e) => {
+              if (e.key === "Enter") { e.preventDefault(); }
+            }}
             onReset={() => setInfo(initial)}
             value={info}
             onSubmit={() => onSubmit(file, info)}
