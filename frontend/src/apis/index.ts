@@ -9,6 +9,8 @@ import { isServer } from "src/utils/isServer";
 import { decrementRequest, incrementRequest } from "src/components/TopProgressBar";
 import { articleApisMock } from "./article.mock";
 import { authApisMock } from "./auth.mock";
+import { dashboardApis } from "./dashboard";
+import { dashboardApisMock } from "./dashboard.mock";
 
 export type ApiArgs = {
   jsonFetch: JsonFetch,
@@ -51,6 +53,7 @@ const USE_MOCK = true;
 const apis = [
   [authApis, USE_MOCK ? authApisMock : authApis],
   [articleApis, USE_MOCK ? articleApisMock : articleApis],
+  [dashboardApis, USE_MOCK ? dashboardApisMock : dashboardApis],
 ];
 
 const computedApis = new Map<unknown, unknown>();

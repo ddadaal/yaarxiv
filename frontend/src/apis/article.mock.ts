@@ -66,5 +66,6 @@ export const articleApisMock: MockApi<typeof articleApis> = () => ({
   get: async ({ path, query }) => ({ article: mockArticle(path.articleId, query.revision) }),
   uploadArticle: async () => ({ id: "1231243124" }),
   uploadPDF: async () => ({ token: "1231fn091mf02" }),
+  deleteArticle: async () => ({}),
 });
 

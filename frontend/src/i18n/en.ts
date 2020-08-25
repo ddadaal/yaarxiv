@@ -87,6 +87,25 @@ export default {
         keywords: "Includes Keywords",
         authors: "Includes Authors",
       },
+      dashboard: {
+        articles: {
+          title: "Articles I Published",
+          articleId: "Article ID",
+          articleTitle: "Article Title",
+          createTime: "Create Time",
+          lastUpdatedTime: "Last Updated Time",
+          revisionCount: "Revision Count",
+          actions: "Actions",
+          update: "Update",
+          delete: {
+            button: "Withdraw",
+            title: "Confirm to withdraw the article?",
+            content: "Are you sure to withdraw the article {}? All your revisions will be removed from our platform.",
+            confirm: "Confirm",
+            cancel: "Cancel",
+          },
+        },
+      },
     },
   },
 };

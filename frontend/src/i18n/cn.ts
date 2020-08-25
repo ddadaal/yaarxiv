@@ -86,6 +86,25 @@ export default {
         keywords: "包含关键词",
         authors: "包含作者",
       },
+      dashboard: {
+        articles: {
+          title: "我发表的文章",
+          articleId: "文章ID",
+          articleTitle: "文章标题",
+          createTime: "发布时间",
+          lastUpdatedTime: "最后更新时间",
+          revisionCount: "更新次数",
+          actions: "操作",
+          update: "更新",
+          delete: {
+            button: "撤回",
+            title: "撤回文章确认",
+            content: "确定要从系统上撤回文章{}？所有版本将会被从系统上删除。",
+            confirm: "确认",
+            cancel: "取消",
+          },
+        },
+      },
     },
   },
 };
