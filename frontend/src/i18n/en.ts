@@ -8,6 +8,10 @@ export default {
     components: {
       fileUploader: { zoneLabel: "Drag and drop your file(s) here, or click to select the file(s)." },
       tagInput: { placeholder: "Press Enter when completing input to add one item." },
+      requireAuth: {
+        title: "Not Authorized",
+        description: "You are not authorized to access this page. Please login as required user and try again.",
+      },
     },
     header: {
       home: "Home",

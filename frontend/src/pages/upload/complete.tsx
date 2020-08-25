@@ -5,10 +5,11 @@ import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { queryToString } from "src/utils/querystring";
 import { Checkmark } from "grommet-icons";
+import { requireAuth } from "src/components/RequireAuth";
 
 const root = lang.pages.upload.complete;
 
-export const UploadCompletePage: React.FC = () => {
+export const UploadCompletePage = requireAuth()(() => {
   const router = useRouter();
 
   const articleId = queryToString(router.query.articleId);
@@ -28,7 +29,6 @@ export const UploadCompletePage: React.FC = () => {
       </Paragraph>
     </Box>
   );
-
-};
+});
 
 export default UploadCompletePage;

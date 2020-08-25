@@ -6,6 +6,7 @@ import { LocalizedString } from "simstate-i18n";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { FileUploader } from "src/components/FileUploader";
+import { requireAuth } from "src/components/RequireAuth";
 import { TagInput } from "src/components/TagInput";
 import { useNotification } from "src/components/useNotification";
 import { lang } from "src/i18n";
@@ -21,7 +22,7 @@ const initialState ={
 
 const api = getApi(articleApis);
 
-export const UploadPage: React.FC = (props) => {
+export const UploadPage: React.FC = requireAuth()(() => {
 
   const router = useRouter();
 
@@ -151,6 +152,6 @@ export const UploadPage: React.FC = (props) => {
       </Box>
     </Box>
   );
-};
+});
 
 export default UploadPage;
