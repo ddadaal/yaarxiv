@@ -4,7 +4,7 @@ import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { requireAuth } from "src/pageComponents/RequireAuth";
-import { useNotification } from "src/utils/useNotification";
+import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 
 const initialState ={
   file: undefined,
@@ -22,12 +22,10 @@ export const UploadPage: React.FC = requireAuth()(() => {
 
   const [submitting, setSubmitting] = useState(false);
 
-  const notification = useNotification();
+  const handler = useHttpErrorHandler(setSubmitting);
 
   const submit = async (info: ArticleForm) => {
-    try {
-      setSubmitting(true);
-
+    handler(async () => {
       // 1. upload the PDF and get the token
       const pdfResp = await api.uploadPDF(info.file!);
 
@@ -41,14 +39,7 @@ export const UploadPage: React.FC = requireAuth()(() => {
 
       // 3. Route to complete page
       router.push({ pathname: "/upload/complete", query: { articleId: resp.id } });
-    } catch (e) {
-      notification.addNotification({
-        level: "error",
-        message: "Some network error is detected. Please retry.",
-      });
-    } finally {
-      setSubmitting(false);
-    }
+    });
   };
 
   return (
