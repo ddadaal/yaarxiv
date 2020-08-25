@@ -11,6 +11,10 @@ export default {
         title: "无权限",
         description: "您没有权限访问本页面。请以要求的权限的登录再尝试",
       },
+      httpHandler: {
+        tokenInvalid: "您的登录已经过期。请重新登录后继续。",
+        networkError: "抱歉，请求出错，请重试或者联系支持。",
+      },
     },
     header: {
       home: "主页",

@@ -61,11 +61,11 @@ const mockArticle = (id: string, revision: number | undefined): Article => ({
   },
 });
 
-export const articleApisMock: MockApi<typeof articleApis> = () => ({
+export const articleApisMock: MockApi<typeof articleApis> = ({ makeHttpError }) => ({
   search: async () => { return { results: mockResult, totalCount: mockResult.length };},
   get: async ({ path, query }) => ({ article: mockArticle(path.articleId, query.revision) }),
   uploadArticle: async () => ({ id: "1231243124" }),
   uploadPDF: async () => ({ token: "1231fn091mf02" }),
-  deleteArticle: async () => ({}),
+  deleteArticle: async () => { throw makeHttpError({}, 401);},
 });
 

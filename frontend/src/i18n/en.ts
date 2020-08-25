@@ -12,6 +12,10 @@ export default {
         title: "Not Authorized",
         description: "You are not authorized to access this page. Please login as required user and try again.",
       },
+      httpHandler: {
+        tokenInvalid: "Your login session is expired or invalid. Please re-login.",
+        networkError: "I am sorry that the previous request fails. Please retry or contact support.",
+      },
     },
     header: {
       home: "Home",
