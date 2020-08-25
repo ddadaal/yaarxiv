@@ -24,7 +24,7 @@ export const ArticleUpdatePage: React.FC = requireAuth()(() => {
 
   const router = useRouter();
 
-  const articleId = queryToString(router.query.articleId);
+  const articleId = queryToString(router.query.id);
 
   const getArticleInfo = useCallback(() => {
     return getArticle(articleId);
