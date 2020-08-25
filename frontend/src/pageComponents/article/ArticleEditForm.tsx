@@ -118,12 +118,16 @@ export const ArticleEditForm: React.FC<Props> = ({
             </FormField>
             <FormField
               label={<LocalizedString id={root.info.abstract} />}
-              htmlFor="text-area"
-              component={TextArea}
-              value={info.abstract}
-              disabled={disabled}
-              onChange={(e) => setInfo({ ...info, abstract: e.target.value })}
-            />
+              name="abstract"
+            >
+              <TextArea
+                disabled={disabled}
+                name="abstract"
+                value={info.abstract}
+                onChange={(e) => setInfo({ ...info, abstract: e.target.value })}
+                rows={15}
+              />
+            </FormField>
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
               <Button
                 type="reset"
