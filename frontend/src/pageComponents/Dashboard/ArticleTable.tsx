@@ -8,7 +8,7 @@ import { formatDateTime } from "src/utils/datetime";
 import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
-import { useHttpErrorHandler } from "src/components/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 
 const root = lang.pages.dashboard.articles;
 

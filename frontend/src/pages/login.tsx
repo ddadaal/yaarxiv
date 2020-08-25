@@ -11,7 +11,7 @@ import { authApis } from "src/apis/auth";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import { useRouter } from "next/router";
-import { useNotification } from "src/components/useNotification";
+import { useNotification } from "src/utils/useNotification";
 import { emailMask } from "src/styles/inputMasks";
 
 const root = lang.login;

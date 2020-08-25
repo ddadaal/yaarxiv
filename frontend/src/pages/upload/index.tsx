@@ -4,7 +4,7 @@ import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { requireAuth } from "src/pageComponents/RequireAuth";
-import { useNotification } from "src/components/useNotification";
+import { useNotification } from "src/utils/useNotification";
 
 const initialState ={
   file: undefined,

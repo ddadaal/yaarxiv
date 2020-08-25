@@ -4,7 +4,7 @@ import { Footer } from "src/layouts/footer";
 import { Header } from "src/layouts/header";
 import siteTheme from "src/styles/theme";
 import NotificationSystem, { System } from "react-notification-system";
-import { NotificationSystemContext } from "src/components/useNotification";
+import { NotificationSystemContext } from "src/utils/useNotification";
 import { MediaContextProvider } from "src/styles/media";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useStore } from "simstate";
