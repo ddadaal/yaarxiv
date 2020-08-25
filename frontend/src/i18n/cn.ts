@@ -66,6 +66,8 @@ export default {
         pdf: {
           title: "1. 上传PDF",
           description: "请先上传您的文章的PDF。我们的系统将会自动根据您的PDF填写部分文章信息。您将可以修改系统识别的详细信息。",
+          existing: "点击 {} 下载当前版本的PDF文件。",
+          here: "这里",
         },
         info: {
           title: "2. 填写文章信息",
@@ -73,7 +75,7 @@ export default {
           authors: "作者",
           keywords: "关键词",
           abstract: "摘要",
-          reset: "清空",
+          reset: "重置",
           upload: "上传",
         },
         complete: {
@@ -108,6 +110,10 @@ export default {
             cancel: "取消",
           },
         },
+      },
+      updateArticle: {
+        success: "更新文章成功。新版本编号：{}",
+        loading: "正在加载文章{}的当前版本……",
       },
     },
   },

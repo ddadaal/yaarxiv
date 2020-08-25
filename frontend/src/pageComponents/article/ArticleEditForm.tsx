@@ -1,4 +1,7 @@
-import { Box, Button, Form, FormField, Heading, Paragraph, TextArea } from "grommet";
+import {
+  Anchor, Box, Button, Form, FormField,
+  Heading, Paragraph, TextArea,
+} from "grommet";
 import React, { useState } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { FileUploader } from "src/components/FileUploader";
@@ -8,7 +11,6 @@ import { lang } from "src/i18n";
 const root = lang.pages.upload;
 
 export interface ArticleForm {
-  file?: File;
   title: string;
   authors: string[];
   keywords: string[];
@@ -16,21 +18,24 @@ export interface ArticleForm {
 }
 
 interface Props {
+  existingFileUrl: string | undefined;
   initial: ArticleForm;
   disabled: boolean;
-  onSubmit: (form: ArticleForm) => void;
+  onSubmit: (file: File | undefined, form: ArticleForm) => void;
 }
 
 export const ArticleEditForm: React.FC<Props> = ({
+  existingFileUrl,
   initial,
   disabled,
   onSubmit,
 }) => {
 
+  const [file, setFile] = useState<File | undefined>(undefined);
   const [info, setInfo] = useState(initial);
 
   const submittable =
-    info.file !== null
+    (existingFileUrl !== undefined || file !== undefined)
     && info.title !== ""
     && info.authors.length > 0
     && info.keywords.length > 0
@@ -45,11 +50,23 @@ export const ArticleEditForm: React.FC<Props> = ({
         <Paragraph fill>
           <LocalizedString id={root.pdf.description} />
         </Paragraph>
+        { existingFileUrl
+          ? (
+            <Paragraph>
+              <LocalizedString id={root.pdf.existing} replacements={[
+                <Anchor key="here" href={existingFileUrl} download>
+                  <LocalizedString id={root.pdf.here} />
+                </Anchor>,
+              ]}
+              />
+            </Paragraph>
+          ) : undefined
+        }
         <FileUploader
           options={{ accept: ".pdf", multiple: false }}
-          files={info.file ? [info.file] : []}
-          onFileRemoved={() => setInfo({ ...info, file: undefined })}
-          onFilesAccepted={(f) => setInfo({ ...info, file: f[0] })}
+          files={file ? [file] : []}
+          onFileRemoved={() => setFile(undefined)}
+          onFilesAccepted={(f) => setFile(f[0])}
         />
       </Box>
       <Box>
@@ -58,9 +75,10 @@ export const ArticleEditForm: React.FC<Props> = ({
         </Heading>
         <Box margin={{ vertical: "small" }}>
           <Form
+
             onReset={() => setInfo(initial)}
             value={info}
-            onSubmit={() => onSubmit(info)}
+            onSubmit={() => onSubmit(file, info)}
           >
             <FormField
               label={<LocalizedString id={root.info.articleTitle} />}

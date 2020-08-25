@@ -1,5 +1,6 @@
 import { NextRouter, useRouter } from "next/router";
 import React from "react";
+import { System } from "react-notification-system";
 import { useStore } from "simstate";
 import { LocalizedString } from "simstate-i18n";
 import { HttpError } from "src/apis/fetch";
@@ -17,10 +18,14 @@ export function useHttpErrorHandler(
   const router = useRouter();
   const userStore = useStore(UserStore);
 
-  return async (call: () => Promise<void>) => {
+  return async (call: (args: {
+    notification: System,
+    router: NextRouter,
+    userStore: ReturnType<typeof UserStore>,
+  }) => Promise<void>) => {
     try {
       setLoadingState(true);
-      const r = await call();
+      const r = await call({ notification, router, userStore });
       setLoadingState(false);
       return r;
     } catch (e) {

@@ -67,6 +67,8 @@ export default {
         pdf: {
           title: "1. Upload PDF",
           description: "Please upload your PDF first. The system will automatically fill some of the information based on your PDF. You can always change the information manually.",
+          existing: "Click {} to download current PDF file",
+          here: "here",
         },
         info: {
           title: "2. Fill Article Information",
@@ -109,6 +111,10 @@ export default {
             cancel: "Cancel",
           },
         },
+      },
+      updateArticle: {
+        success: "Article updated successfully. New revision number: {}.",
+        loading: "Loading current revision of article {}...",
       },
     },
   },

@@ -7,7 +7,6 @@ import { requireAuth } from "src/pageComponents/RequireAuth";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 
 const initialState ={
-  file: undefined,
   title: "",
   authors: [] as string[],
   keywords: [] as string[],
@@ -24,10 +23,10 @@ export const UploadPage: React.FC = requireAuth()(() => {
 
   const handler = useHttpErrorHandler(setSubmitting);
 
-  const submit = async (info: ArticleForm) => {
+  const submit = async (file: File | undefined, info: ArticleForm) => {
     handler(async () => {
       // 1. upload the PDF and get the token
-      const pdfResp = await api.uploadPDF(info.file!);
+      const pdfResp = await api.uploadPDF(file!);
 
       // 2. upload the rest information
       const resp = await api.uploadArticle({
@@ -44,6 +43,7 @@ export const UploadPage: React.FC = requireAuth()(() => {
 
   return (
     <ArticleEditForm
+      existingFileUrl={undefined}
       initial={initialState}
       disabled={submitting}
       onSubmit={submit}

@@ -67,5 +67,6 @@ export const articleApisMock: MockApi<typeof articleApis> = ({ makeHttpError }) 
   uploadArticle: async () => ({ id: "1231243124" }),
   uploadPDF: async () => ({ token: "1231fn091mf02" }),
   deleteArticle: async () => { throw makeHttpError({}, 401);},
+  updateArticle: async () => ({ revisionNumber: 3 }),
 });
 
