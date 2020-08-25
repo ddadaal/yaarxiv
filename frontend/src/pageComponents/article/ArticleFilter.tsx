@@ -2,8 +2,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import { Box, Heading, Text, TextInput } from "grommet";
 import { debounce } from "src/utils/debounce";
 import { max, min } from "src/utils/math";
-import { MultipleInput } from "./MultipleInput";
-import { TitledSection } from "../TitledSection";
+import { MultipleInput } from "../../components/Article/MultipleInput";
+import { TitledSection } from "../../components/TitledSection";
 import { lang } from "src/i18n";
 
 const root = lang.pages.search;

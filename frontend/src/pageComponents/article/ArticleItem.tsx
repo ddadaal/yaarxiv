@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Text, Heading } from "grommet";
-import { AnchorLink } from "../AnchorLink";
+import { AnchorLink } from "../../components/AnchorLink";
 import { UrlObject } from "url";
 import { ArticleSearchResult } from "yaarxiv-api/article/search";
 import { Author } from "yaarxiv-api/article/models";

@@ -5,7 +5,7 @@ import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { queryToString } from "src/utils/querystring";
 import { Checkmark } from "grommet-icons";
-import { requireAuth } from "src/components/RequireAuth";
+import { requireAuth } from "src/pageComponents/RequireAuth";
 
 const root = lang.pages.upload.complete;
 

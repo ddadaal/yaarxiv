@@ -4,7 +4,7 @@ import { GetServerSideProps } from "next";
 import { Article } from "yaarxiv-api/article/models";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
-import { ArticlePage as ArticlePageComponent } from "src/components/Article/ArticlePage";
+import { ArticlePage as ArticlePageComp } from "src/pageComponents/article/ArticlePage";
 
 interface Props {
   article: Article;
@@ -13,7 +13,7 @@ interface Props {
 const api = getApi(articleApis);
 
 export const ArticlePage: React.FC<Props> = ({ article }) => {
-  return <ArticlePageComponent article={article} />;
+  return <ArticlePageComp article={article} />;
 
 };
 

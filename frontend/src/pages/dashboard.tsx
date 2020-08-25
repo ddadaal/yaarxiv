@@ -5,7 +5,7 @@ import { LocalizedString } from "simstate-i18n";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { dashboardApis } from "src/apis/dashboard";
-import { requireAuth } from "src/components/RequireAuth";
+import { requireAuth } from "src/pageComponents/RequireAuth";
 import { lang } from "src/i18n";
 import { ArticleTable } from "src/pageComponents/Dashboard/ArticleTable";
 
