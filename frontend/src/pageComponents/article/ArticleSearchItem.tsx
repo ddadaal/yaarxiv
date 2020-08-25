@@ -28,7 +28,7 @@ const Keyword: React.FC<{
   </Box>
 );
 
-export const ArticleItem: React.FC<Props> = ({
+export const ArticleSearchItem: React.FC<Props> = ({
   article,
   onAuthorClicked,
   onKeywordClicked,

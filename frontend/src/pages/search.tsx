@@ -5,7 +5,7 @@ import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { SearchQuery } from "src/models/SearchQuery";
-import { ArticleItem } from "src/pageComponents/article/ArticleItem";
+import { ArticleSearchItem } from "src/pageComponents/article/ArticleSearchItem";
 import { GetServerSideProps } from "next";
 import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
@@ -84,7 +84,7 @@ export const Search: React.FC<Props> = (props) => {
                     <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
                       <Box gap="large">
                         {results.map((r) => (
-                          <ArticleItem
+                          <ArticleSearchItem
                             key={r.articleId}
                             article={r}
                             onAuthorClicked={onAuthorClicked}
