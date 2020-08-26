@@ -1,43 +1,80 @@
 import { startApp } from "../src/app";
 import { FastifyInstance } from "fastify/types/instance";
+import * as registerApi from "yaarxiv-api/auth/register";
+import * as loginApi from "yaarxiv-api/auth/login";
 
-describe("AuthController", () => {
-  let server: FastifyInstance;
+let server: FastifyInstance;
 
-  beforeEach(async () => {
-    server = await startApp();
-  });
-
-  afterEach(async () => {
-    await server.close();
-  });
-
-  it("should login with username and password match", async() => {
-
-    const username = "testusername";
-    const password = "testusername";
-
-    const resp = await server.inject({
-      method: "GET",
-      url: "/login",
-      query: { username, password  },
-    });
-
-    expect(resp.json()).toStrictEqual({ token: username });
-
-  });
-
-  it("should 403 if username and password do not match", async () => {
-    const username = "1";
-    const password = "2";
-
-    const resp = await server.inject({
-      method: "GET",
-      url: "/login",
-      query: { username, password },
-    });
-
-    expect(resp.statusCode).toEqual(403);
-  });
-
+beforeEach(async () => {
+  server = await startApp();
 });
+
+afterEach(async () => {
+  await server.close();
+});
+
+const email = "test@test.com";
+const password = "testpassword";
+
+it("should register and return token and name", async () => {
+
+  const resp = await server.inject({
+    ...registerApi.endpoint,
+    payload: { email, password  },
+  });
+
+  const json = resp.json();
+  expect(resp.statusCode).toBe(201);
+  expect(json.name).toStrictEqual("test");
+});
+
+it("should error if one email registers twice", async () => {
+
+  await server.inject({
+    ...registerApi.endpoint,
+    payload: { email, password  },
+  });
+
+  const resp = await server.inject({
+    ...registerApi.endpoint,
+    payload: { email, password  },
+  });
+
+  expect(resp.statusCode).toBe(405);
+});
+
+it("should login when the user registers", async () => {
+  await server.inject({
+    ...registerApi.endpoint,
+    payload: { email, password  },
+  });
+
+  const resp = await server.inject({
+    ...loginApi.endpoint,
+    query: { id: email, password },
+  });
+
+  expect(resp.statusCode).toBe(200);
+  const json = resp.json();
+  expect(json.name).toBe("test");
+  expect(json.role).toBe("user");
+});
+
+it("should not login when the password is wrong", async () => {
+  await server.inject({
+    ...registerApi.endpoint,
+    payload: { email, password  },
+  });
+
+  const resp = await server.inject({
+    ...loginApi.endpoint,
+    query: { id: email, password: password + "bad" },
+  });
+
+  expect(resp.statusCode).toBe(401);
+});
+
+
+
+
+

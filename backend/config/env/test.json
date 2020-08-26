@@ -9,5 +9,8 @@
     ],
     "logging": false
   },
-  "logger": false
+  "logger": {
+    "level": "info",
+    "prettyPrint": true
+  }
 }

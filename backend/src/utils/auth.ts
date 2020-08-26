@@ -1,6 +1,7 @@
 import fp from "fastify-plugin";
 import FastifyJwt from "fastify-jwt";
 import { FastifyPlugin, FastifyRequest, FastifyReply } from "fastify";
+import { User } from "@/entities/User";
 
 declare module "fastify" {
   // @ts-ignore

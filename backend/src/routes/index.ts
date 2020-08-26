@@ -1,10 +1,10 @@
 import * as home from "./home";
-import * as login from "./login";
+import * as login from "./auth";
 import * as article from "./article";
 
 export const routes = [
   home.homeRoutes,
-  login.loginRoutes,
+  login.authRoutes,
   article.articlesRoutes,
 ];
 

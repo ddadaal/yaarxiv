@@ -6,21 +6,6 @@ const { compilerOptions } = require("./tsconfig");
 
 module.exports = {
   rootDir: ".",
-  testMatch: ["**/tests/**/*.test.(ts|tsx|js|jsx)"],
-  verbose: false,
-  clearMocks: true,
-  resetModules: true,
-  coveragePathIgnorePatterns: [
-    "/node_modules/",
-    "/__fixtures__/",
-    "/__tests__/",
-    "/tests/",
-    "/(__)?mock(s__)?/",
-    "/__jest__/",
-    ".?.min.js",
-  ],
-  moduleDirectories: ["node_modules", "src"],
-  transform: { "^.+\\.(ts|tsx)$": "ts-jest" },
-  moduleFileExtensions: ["js", "jsx", "json", "ts"],
+  preset: "ts-jest",
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths , { prefix: '<rootDir>/' }  ),
 };

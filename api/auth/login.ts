@@ -26,7 +26,7 @@ export interface LoginSchema {
       role: UserRole;
     },
     /** The request fails */
-    403: {
+    401: {
     }
   }
 }
