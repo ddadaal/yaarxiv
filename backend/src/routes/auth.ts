@@ -3,6 +3,7 @@ import * as loginApi from "yaarxiv-api/auth/login";
 import * as registerApi from "yaarxiv-api/auth/register";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
+import { genId } from "@/utils/idgen";
 
 function signUser(fastify: FastifyInstance, user: User) {
   return fastify.jwt.sign({ id: user.id });
@@ -33,6 +34,7 @@ export async function authRoutes(fastify: FastifyInstance) {
       const userRepo = fastify.orm.getRepository(User);
 
       const user = new User();
+      user.id = genId();
       user.email = req.body.email;
       user.name = user.email.split("@")[0];
       user.password = req.body.password;
