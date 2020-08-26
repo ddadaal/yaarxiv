@@ -10,7 +10,7 @@
     "logging": false
   },
   "logger": {
-    "level": "info",
+    "level": "error",
     "prettyPrint": true
   }
 }
