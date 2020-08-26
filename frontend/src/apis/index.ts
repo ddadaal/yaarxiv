@@ -11,6 +11,8 @@ import { articleApisMock } from "./article.mock";
 import { authApisMock } from "./auth.mock";
 import { dashboardApis } from "./dashboard";
 import { dashboardApisMock } from "./dashboard.mock";
+import { adminApis } from "./admin";
+import { adminApisMock } from "./admin.mock";
 
 export type ApiArgs = {
   jsonFetch: JsonFetch,
@@ -54,6 +56,7 @@ const apis = [
   [authApis, USE_MOCK ? authApisMock : authApis],
   [articleApis, USE_MOCK ? articleApisMock : articleApis],
   [dashboardApis, USE_MOCK ? dashboardApisMock : dashboardApis],
+  [adminApis, USE_MOCK ? adminApisMock : adminApis],
 ];
 
 const computedApis = new Map<unknown, unknown>();

@@ -26,6 +26,7 @@ export default {
       welcome: "Welcome, {}",
       logout: "Logout",
       dashboard: "Dashboard",
+      admin: { articles: "Manage Articles" },
     },
     login: {
       id: "Email",
@@ -115,6 +116,24 @@ export default {
       updateArticle: {
         success: "Article updated successfully. New revision number: {}.",
         loading: "Loading current revision of article {}...",
+      },
+      admin: {
+        articles: {
+          title: "Articles on the system",
+          articleId: "Article ID",
+          articleTitle: "Article Title",
+          createTime: "Create Time",
+          lastUpdatedTime: "Last Updated Time",
+          revisionCount: "Revision Count",
+          actions: "Actions",
+          delete: {
+            button: "Withdraw",
+            title: "Confirm to withdraw the article?",
+            content: "Are you sure to withdraw the article {}? All your revisions will be removed from our platform.",
+            confirm: "Confirm",
+            cancel: "Cancel",
+          },
+        },
       },
     },
   },

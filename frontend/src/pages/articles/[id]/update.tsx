@@ -9,9 +9,9 @@ import { OverlayLoading } from "src/components/OverlayLoading";
 import { Spinner } from "src/components/Spinner";
 import { lang } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
-import { requireAuth } from "src/pageComponents/RequireAuth";
 import { queryToString } from "src/utils/querystring";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { requireAuth } from "src/utils/requireAuth";
 
 const root = lang.pages.updateArticle;
 
@@ -20,7 +20,7 @@ const api = getApi(articleApis);
 const getArticle = (articleId: string) => api.get({ path: { articleId }, query: {} })
   .then((x) => x.article);
 
-export const ArticleUpdatePage: React.FC = requireAuth()(() => {
+export const ArticleUpdatePage: React.FC = requireAuth({ roles: ["user"]})(() => {
 
   const router = useRouter();
 

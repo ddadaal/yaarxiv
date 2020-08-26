@@ -1,5 +1,60 @@
 {
   "routes": {
+    "AdminGetArticlesSchema": {
+      "type": "object",
+      "properties": {
+        "querystring": {
+          "type": "object",
+          "properties": {
+            "searchWord": {
+              "type": "string",
+              "description": "The keyword to search"
+            },
+            "page": {
+              "type": "number",
+              "description": "The page number. 10 results per page.",
+              "default": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "articles": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/AdminGetArticlesResult"
+                  },
+                  "description": "Paginated articles."
+                },
+                "totalCount": {
+                  "type": "number",
+                  "description": "The total count of articles with specified search keyword."
+                }
+              },
+              "required": [
+                "articles",
+                "totalCount"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "200"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "querystring",
+        "responses"
+      ],
+      "additionalProperties": false
+    },
     "DeleteArticleSchema": {
       "type": "object",
       "properties": {
@@ -59,7 +114,7 @@
           "properties": {
             "revision": {
               "type": "number",
-              "description": "Revision nunber.\r\nIf not set, the latest revision will be returned."
+              "description": "Revision nunber.\nIf not set, the latest revision will be returned."
             }
           },
           "additionalProperties": false
@@ -357,7 +412,7 @@
               "properties": {
                 "token": {
                   "type": "string",
-                  "description": "The token for the upload.\r\nIt is used to upload the following content of the article."
+                  "description": "The token for the upload.\nIt is used to upload the following content of the article."
                 }
               },
               "required": [
@@ -413,11 +468,16 @@
                 "name": {
                   "type": "string",
                   "description": "The name of the user"
+                },
+                "role": {
+                  "$ref": "#/definitions/UserRole",
+                  "description": "The role of the user."
                 }
               },
               "required": [
                 "token",
-                "name"
+                "name",
+                "role"
               ],
               "additionalProperties": false,
               "description": "The request is success"
@@ -588,6 +648,39 @@
     }
   },
   "models": {
+    "AdminGetArticlesResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The article id."
+        },
+        "title": {
+          "type": "string",
+          "description": "The article title of the latest revision."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "The time the article is first created."
+        },
+        "lastUpdatedTime": {
+          "type": "string",
+          "description": "Last updated time"
+        },
+        "revisionCount": {
+          "type": "number",
+          "description": "The number of revisions this article has."
+        }
+      },
+      "required": [
+        "id",
+        "title",
+        "createTime",
+        "lastUpdatedTime",
+        "revisionCount"
+      ],
+      "additionalProperties": false
+    },
     "Author": {
       "type": "object",
       "properties": {
@@ -660,7 +753,7 @@
         },
         "time": {
           "type": "string",
-          "description": "Upload time.\r\nMust be a valid ISO string with timezone."
+          "description": "Upload time.\nMust be a valid ISO string with timezone."
         }
       },
       "required": [
@@ -678,7 +771,7 @@
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Current revision number.\r\nMust be a integer."
+          "description": "Current revision number.\nMust be a integer."
         },
         "currentRevision": {
           "$ref": "#/definitions/ArticleInfo",
@@ -714,7 +807,7 @@
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Revision the comment is targeting.\r\nIf undefined, the comment is targeting the article itself."
+          "description": "Revision the comment is targeting.\nIf undefined, the comment is targeting the article itself."
         },
         "userId": {
           "type": "string",
@@ -787,11 +880,11 @@
         },
         "createTime": {
           "type": "string",
-          "description": "The time when the article is first uploaded to the platform.\r\nMust be a valid datetime string."
+          "description": "The time when the article is first uploaded to the platform.\nMust be a valid datetime string."
         },
         "lastUpdateTime": {
           "type": "string",
-          "description": "The time when the article is last updated.\r\nMust be a valid datetime string."
+          "description": "The time when the article is last updated.\nMust be a valid datetime string."
         }
       },
       "required": [
@@ -808,6 +901,13 @@
       ],
       "additionalProperties": false,
       "description": "A preview information of the article."
+    },
+    "UserRole": {
+      "type": "string",
+      "enum": [
+        "user",
+        "admin"
+      ]
     },
     "DashboardArticleInfo": {
       "type": "object",

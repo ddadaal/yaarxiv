@@ -17,3 +17,12 @@ export function arrayContainsElement<T>(array: T[] | null | undefined): array is
 export function removeFalsy<T>(array: (T | null | undefined)[]): T[] {
   return array.filter((x) => !!x) as T[];
 }
+
+export function removeNullOrUndefinedKey<T extends object>(object: T): T {
+  for (const key in object) {
+    if (object[key] === undefined || object[key] === null) {
+      delete object[key];
+    }
+  }
+  return object;
+}

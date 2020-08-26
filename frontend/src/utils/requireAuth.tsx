@@ -5,22 +5,27 @@ import { useStore } from "simstate";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { UserStore } from "src/stores/UserStore";
+import { UserRole } from "src/models/User";
 
 const root = lang.components.requireAuth;
 
 interface Props {
-
+  roles?: UserRole[];
 }
 
 export interface RequireAuthProps {
   userStore: ReturnType<typeof UserStore>;
 }
 
-export const requireAuth = () =>
+export const requireAuth = (props: Props) =>
   (Component: React.ComponentType<RequireAuthProps>) => () => {
     const userStore = useStore(UserStore);
 
-    if (!userStore.loggedIn) {
+    // auth
+    const authenticated = userStore.loggedIn
+      && (!props.roles || props.roles.includes(userStore.user!.role));
+
+    if (!authenticated) {
       return (
         <Box justify="center" align="center">
           <Heading level={1} size="small">

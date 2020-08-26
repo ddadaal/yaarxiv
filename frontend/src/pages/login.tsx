@@ -37,8 +37,13 @@ const LoginForm: React.FC = () => {
         name: res.name,
         token: res.token,
         remember: remember,
+        role: res.role,
       });
-      router.push("/");
+      if (res.role === "admin"){
+        router.push("/admin/articles");
+      } else {
+        router.push("/");
+      }
     } catch ({ status }) {
       if (status === 403) {
         notification.addNotification({

@@ -1,6 +1,7 @@
 import { useState, useCallback, useEffect } from "react";
 import { getApi } from "src/apis";
 import { changeToken } from "src/apis/fetch";
+import { UserRole } from "src/models/User";
 
 const STORAGE_KEY = "User";
 
@@ -9,6 +10,7 @@ interface User {
   name: string;
   token: string;
   remember: boolean;
+  role: UserRole;
 }
 
 export function getUserInfoInStorage(): User | null {

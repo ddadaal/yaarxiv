@@ -3,8 +3,8 @@ import React, { useState } from "react";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
-import { requireAuth } from "src/pageComponents/RequireAuth";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { requireAuth } from "src/utils/requireAuth";
 
 const initialState ={
   title: "",
@@ -15,7 +15,7 @@ const initialState ={
 
 const api = getApi(articleApis);
 
-export const UploadPage: React.FC = requireAuth()(() => {
+export const UploadPage: React.FC = requireAuth({ roles: ["user"]})(() => {
 
   const router = useRouter();
 

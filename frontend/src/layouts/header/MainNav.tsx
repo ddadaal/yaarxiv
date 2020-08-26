@@ -1,35 +1,18 @@
-import React, { useContext } from "react";
+import React, { useMemo } from "react";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
-import { Nav, Anchor, ResponsiveContext, Menu, Box, Text, BoxProps } from "grommet";
+import { Nav, Menu, Box, BoxProps } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { useRouter, NextRouter } from "next/router";
-import { Menu as MenuIcon, Login } from "grommet-icons";
+import { Menu as MenuIcon } from "grommet-icons";
 import Link from "next/link";
 import { Media } from "src/styles/media";
-import { Separator } from "src/components/Separator";
+import { TLink, commonLinks, adminLinks, userLinks } from "./links";
 
 const root = lang.header;
 
-type TLink = {
-  mode?: "startsWith" | "exact";
-  textId: string;
-  href?: string;
-  onClick?: () => void;
-};
-
-const commonLinks = [
-  { href: "/", textId: root.home, mode: "exact" },
-  { href: "/search", textId: root.search, mode: "startsWith" },
-  // { href: "/about", textId: root.about, mode: "startsWith" },
-] as TLink[];
-
-const authenticatedLinks = [
-  { href: "/upload", textId: root.upload, mode: "startsWith" },
-  { href: "/dashboard", textId: root.dashboard, mode: "startsWith" },
-] as TLink[];
 
 const matchRoute = (mode: TLink["mode"], href: string | undefined, curr: string) => {
   if (!href || !mode) return false;
@@ -61,8 +44,9 @@ function linksToAnchorLink(router: NextRouter, links: TLink[]) {
 const Unfolded: React.FC<{
    user: ReturnType<typeof UserStore>["user"],
    router: NextRouter,
+   authenticatedLinks: TLink[],
    logoutLink: TLink;
-}> = ({ user, router, logoutLink }) => {
+}> = ({ user, router, logoutLink, authenticatedLinks }) => {
 
   const children =
     user
@@ -111,8 +95,9 @@ function linksToMenuItem(router: NextRouter, links: TLink[]){
 const Folded: React.FC<{
    user: ReturnType<typeof UserStore>["user"],
    router: NextRouter,
+   authenticatedLinks: TLink[],
    logoutLink: TLink,
-}> = ({ user, router, logoutLink }) => {
+}> = ({ user, router, logoutLink, authenticatedLinks }) => {
 
   const items =
     user
@@ -153,10 +138,13 @@ const Folded: React.FC<{
 
 };
 
-
 export const MainNav: React.FC = () => {
 
   const userStore = useStore(UserStore);
+
+  const authenticatedLinks = userStore.user
+    ? userStore.user.role === "admin" ? adminLinks : userLinks
+    : [];
 
   const router = useRouter();
 
@@ -165,10 +153,20 @@ export const MainNav: React.FC = () => {
   return (
     <>
       <Media lessThan="sm">
-        <Folded user={userStore.user} router={router} logoutLink={logoutLink} />
+        <Folded
+          router={router}
+          user={userStore.user}
+          authenticatedLinks={authenticatedLinks}
+          logoutLink={logoutLink}
+        />
       </Media>
       <Media greaterThanOrEqual="sm">
-        <Unfolded router={router} user={userStore.user} logoutLink={logoutLink}/>
+        <Unfolded
+          router={router}
+          user={userStore.user}
+          authenticatedLinks={authenticatedLinks}
+          logoutLink={logoutLink}
+        />
       </Media>
     </>
   );

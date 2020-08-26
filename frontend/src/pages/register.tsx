@@ -37,6 +37,7 @@ const RegisterForm: React.FC = () => {
         name: res.name,
         token: res.token,
         remember: remember,
+        role: "user",
       });
       router.push("/");
     } catch ({ status }) {

@@ -25,6 +25,7 @@ export default {
       logout: "登出",
       dashboard: "个人中心",
       upload: "论文上传",
+      admin: { articles: "文章管理" },
     },
     login: {
       id: "Email",
@@ -114,6 +115,24 @@ export default {
       updateArticle: {
         success: "更新文章成功。新版本编号：{}",
         loading: "正在加载文章{}的当前版本……",
+      },
+      admin: {
+        articles: {
+          title: "系统上的所有文章",
+          articleId: "文章ID",
+          articleTitle: "文章标题",
+          createTime: "发布时间",
+          lastUpdatedTime: "最后更新时间",
+          revisionCount: "更新次数",
+          actions: "操作",
+          delete: {
+            button: "撤回",
+            title: "撤回文章确认",
+            content: "确定要从系统上撤回文章{}？所有版本将会被从系统上删除。",
+            confirm: "确认",
+            cancel: "取消",
+          },
+        },
       },
     },
   },

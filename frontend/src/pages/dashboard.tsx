@@ -5,9 +5,9 @@ import { LocalizedString } from "simstate-i18n";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { dashboardApis } from "src/apis/dashboard";
-import { requireAuth } from "src/pageComponents/RequireAuth";
 import { lang } from "src/i18n";
 import { ArticleTable } from "src/pageComponents/Dashboard/ArticleTable";
+import { requireAuth } from "src/utils/requireAuth";
 
 const root = lang.pages.dashboard;
 
@@ -18,7 +18,7 @@ const getDashboardData = () => dashboardApi.getArticles({}).then((x) => x.articl
 const deleteArticle = (articleId: string) =>
   articleApi.deleteArticle({ path: { articleId } });
 
-const DashboardPage = requireAuth()(({ userStore }) => {
+const DashboardPage = requireAuth({ roles: ["user"]})(({ userStore }) => {
 
   const { data, isPending, reload } = useAsync({ promiseFn: getDashboardData });
 

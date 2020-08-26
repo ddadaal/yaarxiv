@@ -5,6 +5,8 @@ export const endpoint = {
 
 export const summary = "Login using id and password";
 
+export type UserRole = "user" | "admin";
+
 /** Login */
 export interface LoginSchema {
   querystring: {
@@ -20,6 +22,8 @@ export interface LoginSchema {
       token: string;
       /** The name of the user */
       name: string;
+      /** The role of the user. */
+      role: UserRole;
     },
     /** The request fails */
     403: {

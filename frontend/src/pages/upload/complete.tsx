@@ -5,11 +5,11 @@ import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { queryToString } from "src/utils/querystring";
 import { Checkmark } from "grommet-icons";
-import { requireAuth } from "src/pageComponents/RequireAuth";
+import { requireAuth } from "src/utils/requireAuth";
 
 const root = lang.pages.upload.complete;
 
-export const UploadCompletePage = requireAuth()(() => {
+export const UploadCompletePage = requireAuth({ roles: ["user"]})(() => {
   const router = useRouter();
 
   const articleId = queryToString(router.query.articleId);
