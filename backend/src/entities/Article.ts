@@ -8,7 +8,7 @@ export class Article {
   @PrimaryGeneratedColumn("increment")
   id: number;
 
-  @OneToMany("ArticleRevision", "article", { cascade: true, onDelete: "CASCADE" })
+  @OneToMany(() => ArticleRevision, (r) => r.article, { cascade: true, onDelete: "CASCADE" })
   revisions: ArticleRevision[];
 
   @Column("datetime")
@@ -22,5 +22,8 @@ export class Article {
 
   @ManyToOne(() => User, (u) => u.articles)
   owner: User;
+
+  @Column()
+  ownerId: string;
 
 }

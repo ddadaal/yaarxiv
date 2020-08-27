@@ -19,7 +19,7 @@ normalUser2.password = "normal2@user.com";
 normalUser2.id = genId();
 
 export const adminUser = new User();
-adminUser.role = "user";
+adminUser.role = "admin";
 adminUser.name = "admin";
 adminUser.email = "admin@user.com";
 adminUser.password = "admin@user.com";

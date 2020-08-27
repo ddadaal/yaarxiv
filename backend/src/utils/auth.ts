@@ -8,6 +8,11 @@ declare module "fastify" {
   interface FastifyInstance {
     jwtAuth(): Promise<void>;
   }
+
+  interface FastifyRequest {
+    userId(): string;
+    dbUser(): Promise<User>;
+  }
 }
 
 // define options
@@ -16,21 +21,29 @@ export interface AuthPluginOptions {
 }
 
 // define plugin
-const jwtAuth: FastifyPlugin<AuthPluginOptions> = (fastify, { secret }, done) => {
+const jwtAuth: FastifyPlugin<AuthPluginOptions> = async (fastify, { secret }, done) => {
   fastify.register(FastifyJwt, { secret });
 
-  fastify.decorate("jwtAuth", async function(req: FastifyRequest, reply: FastifyReply) {
+  fastify.decorate("jwtAuth", async function (req: FastifyRequest, reply: FastifyReply) {
     try {
       await req.jwtVerify();
     } catch (err) {
       reply.send(err);
     }
   });
-  done();
+
+  fastify.decorateRequest("userId", function () {
+    return (this.user as any).id;
+  });
+
+  fastify.decorateRequest("dbUser", async function () {
+    return await fastify.orm.getRepository(User).findOne(this.userId());
+  });
 };
 
 export function signUser(fastify: FastifyInstance, user: User) {
   return fastify.jwt.sign({ id: user.id });
 }
+
 
 export default fp(jwtAuth);

@@ -14,7 +14,7 @@
     ]
   },
   "logger": {
-    "level": "info",
+    "level": "error",
     "prettyPrint": true
   }
 }

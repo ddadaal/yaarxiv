@@ -15,9 +15,9 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  articles = range(0, 2).map(generateArticle);
-
   await insertUserInfo();
+
+  articles = range(0, 2).map(generateArticle);
   // append items
   const articleRepo = getRepository(Article);
   await articleRepo.save(articles);
@@ -37,8 +37,8 @@ it("delete the article and all revisions as admin", async () => {
   });
 
   expect(resp.statusCode).toBe(200);
-  expect(getRepository(Article).count()).toBe(1);
-  expect(getRepository(ArticleRevision).count()).toBe(2);
+  expect(await getRepository(Article).count()).toBe(1);
+  expect(await getRepository(ArticleRevision).count()).toBe(2);
 });
 
 it("delete the article and all revisions as owner", async () => {
@@ -49,20 +49,20 @@ it("delete the article and all revisions as owner", async () => {
   });
 
   expect(resp.statusCode).toBe(200);
-  expect(getRepository(Article).count()).toBe(1);
-  expect(getRepository(ArticleRevision).count()).toBe(1);
+  expect(await getRepository(Article).count()).toBe(1);
+  expect(await getRepository(ArticleRevision).count()).toBe(1);
 });
 
 it("cannot delete the article and all revisions as neither owner nor admin",  async () => {
   const resp = await server.inject({
     method: deleteApi.endpoint.method,
-    url: "/articles/2",
+    url: "/articles/0",
     ...login(server, normalUser1),
   });
 
   expect(resp.statusCode).toBe(403);
-  expect(getRepository(Article).count()).toBe(2);
-  expect(getRepository(ArticleRevision).count()).toBe(3);
+  expect(await getRepository(Article).count()).toBe(2);
+  expect(await getRepository(ArticleRevision).count()).toBe(3);
 });
 
 it("cannot delete non-existent article",  async () => {

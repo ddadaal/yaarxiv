@@ -32,6 +32,6 @@ export class ArticleRevision {
   @Column()
   pdfLink: string;
 
-  @ManyToOne(() => Article, (a) => a.revisions)
+  @ManyToOne(() => Article, (a) => a.revisions, {onDelete:"CASCADE"})
   article: Article;
 }

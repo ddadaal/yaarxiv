@@ -24,6 +24,6 @@ export class User {
   })
   role: UserRole;
 
-  @OneToMany(() => Article, (a) => a.owner)
+  @OneToMany(() => Article, (a) => a.owner, { cascade: true, onDelete: "CASCADE" })
   articles: Article[];
 }

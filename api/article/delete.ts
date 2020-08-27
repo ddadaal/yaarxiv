@@ -3,7 +3,7 @@ export const endpoint = {
   method: "DELETE",
 } as const;
 
-const summary = "Delete an article from the platform.";
+export const summary = "Delete an article from the platform.";
 
 /**
  * Delete an article and all of its revisions.
