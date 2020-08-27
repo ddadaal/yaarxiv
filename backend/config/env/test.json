@@ -7,10 +7,14 @@
     "entities": [
       "src/entities/**/*.ts"
     ],
-    "logging": false
+    "logging": [
+      "schema",
+      "query",
+      "error"
+    ]
   },
   "logger": {
-    "level": "error",
+    "level": "info",
     "prettyPrint": true
   }
 }
