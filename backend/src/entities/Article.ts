@@ -1,5 +1,6 @@
-import { PrimaryGeneratedColumn, Entity, Column, OneToMany, OneToOne, JoinColumn } from "typeorm";
+import { PrimaryGeneratedColumn, Entity, Column, OneToMany, OneToOne, JoinColumn, ManyToOne } from "typeorm";
 import { ArticleRevision } from "./ArticleRevision";
+import { User } from "./User";
 
 @Entity()
 export class Article {
@@ -18,5 +19,8 @@ export class Article {
 
   @Column()
   latestRevisionNumber: number;
+
+  @ManyToOne(() => User, (u) => u.articles)
+  owner: User;
 
 }

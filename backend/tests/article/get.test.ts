@@ -5,6 +5,7 @@ import { Article } from "../../src/entities/Article";
 import { getRepository } from "typeorm";
 import * as getApi from "yaarxiv-api/article/get";
 import { generateArticle } from "./utils/generateArticles";
+import { insertUserInfo } from "./utils/login";
 
 const articleCount = 12;
 
@@ -15,6 +16,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
+  await insertUserInfo();
   articles = range(0, articleCount).map(generateArticle);
 
   // append items

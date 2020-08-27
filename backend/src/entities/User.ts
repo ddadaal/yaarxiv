@@ -1,4 +1,5 @@
-import { Entity, Column, PrimaryColumn } from "typeorm";
+import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import { Article } from "./Article";
 
 export type UserRole = "user" | "admin";
 
@@ -22,4 +23,7 @@ export class User {
     default: "user",
   })
   role: UserRole;
+
+  @OneToMany(() => Article, (a) => a.owner)
+  articles: Article[];
 }

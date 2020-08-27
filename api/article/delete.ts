@@ -3,7 +3,12 @@ export const endpoint = {
   method: "DELETE",
 } as const;
 
-/** Delete an article and all of its revisions. */
+const summary = "Delete an article from the platform.";
+
+/**
+ * Delete an article and all of its revisions.
+ * Only the owner and admin can do it.
+ */
 export interface DeleteArticleSchema {
   path: {
     /** The ID of the article to be deleted. */
@@ -12,6 +17,14 @@ export interface DeleteArticleSchema {
   responses: {
     /** The article and all is deleted. */
     200: {
+
+    },
+    /** The article is not found. */
+    404: {
+
+    },
+    /** The user cannot delete the article. */
+    403: {
 
     }
   }

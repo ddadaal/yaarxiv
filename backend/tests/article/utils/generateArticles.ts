@@ -2,6 +2,7 @@ import { ArticleRevision } from "../../../src/entities/ArticleRevision";
 import { Article } from "../../../src/entities/Article";
 import { range } from "../../../src/utils/array";
 import { Author } from "yaarxiv-api/article/models";
+import { normalUser1, normalUser2 } from "./login";
 
 const pdfLink = "https://docs.microsoft.com/en-us/dotnet/opbuildpdf/core/toc.pdf?branch=live";
 
@@ -33,5 +34,6 @@ export const generateArticle = (id: number) => {
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
   article.latestRevisionNumber = article.revisions.length-1;
+  article.owner = id % 2 == 1 ? normalUser1 : normalUser2;
   return article;
 };

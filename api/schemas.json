@@ -78,10 +78,22 @@
               "type": "object",
               "additionalProperties": false,
               "description": "The article and all is deleted."
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The user cannot delete the article."
+            },
+            "404": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The article is not found."
             }
           },
           "required": [
-            "200"
+            "200",
+            "404",
+            "403"
           ],
           "additionalProperties": false
         }
@@ -91,7 +103,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Delete an article and all of its revisions."
+      "description": "Delete an article and all of its revisions.\nOnly the owner and admin can do it."
     },
     "GetArticleSchema": {
       "type": "object",
