@@ -1,5 +1,5 @@
 import { FastifyInstance, FastifyRequest, FastifyReply, FastifySchema } from "fastify";
-import { Endpoint, Schema, Responses, SchemaObject } from "yaarxiv-api";
+import { Endpoint, Schema, SchemaObject } from "yaarxiv-api";
 import { routes } from "./schemas";
 
 interface RouteExtraInfo extends FastifySchema {

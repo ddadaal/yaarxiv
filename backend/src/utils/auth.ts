@@ -21,7 +21,7 @@ export interface AuthPluginOptions {
 }
 
 // define plugin
-const jwtAuth: FastifyPlugin<AuthPluginOptions> = async (fastify, { secret }, done) => {
+const jwtAuth: FastifyPlugin<AuthPluginOptions> = async (fastify: FastifyInstance, { secret }) => {
   fastify.register(FastifyJwt, { secret });
 
   fastify.decorate("jwtAuth", async function (req: FastifyRequest, reply: FastifyReply) {

@@ -11,12 +11,11 @@ export async function deleteArticleRoute(fastify: FastifyInstance) {
   })(
     async (req, rep) => {
       const { articleId } = req.params;
-      const numArticleId = Number(articleId);
 
       const user = await req.dbUser();
 
       const repo = fastify.orm.getRepository(Article);
-      const article = await repo.findOne(numArticleId);
+      const article = await repo.findOne(articleId);
 
       if (!article) {
         return { 404: {} };
