@@ -1,34 +1,11 @@
 import { FastifyInstance } from "fastify";
-import * as loginApi from "yaarxiv-api/auth/login";
-import * as registerApi from "yaarxiv-api/auth/register";
 import { route } from "@/utils/route";
+import * as registerApi from "yaarxiv-api/auth/register";
 import { User } from "@/entities/User";
 import { genId } from "@/utils/idgen";
+import { signUser } from "@/utils/auth";
 
-function signUser(fastify: FastifyInstance, user: User) {
-  return fastify.jwt.sign({ id: user.id });
-}
-
-export async function authRoutes(fastify: FastifyInstance) {
-  route<loginApi.LoginSchema>(fastify, loginApi.endpoint, "LoginSchema", { summary: loginApi.summary })(
-    async (req, reply) => {
-      const { id, password } = req.query;
-      const userRepo = fastify.orm.getRepository(User);
-
-      const user = await userRepo.findOne({ email: id });
-      if (!user || user.password !== password) {
-        return { 401: {} };
-      }
-
-      return {
-        200: {
-          token: signUser(fastify, user),
-          name: user.name,
-          role: user.role,
-        },
-      };
-
-    });
+export async function registerRoute(fastify: FastifyInstance) {
 
   route<registerApi.RegisterSchema>(fastify, registerApi.endpoint, "RegisterSchema", { summary: registerApi.summary })(
     async (req, reply) => {

@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import FastifyJwt from "fastify-jwt";
-import { FastifyPlugin, FastifyRequest, FastifyReply } from "fastify";
+import { FastifyPlugin, FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User } from "@/entities/User";
 
 declare module "fastify" {
@@ -28,5 +28,9 @@ const jwtAuth: FastifyPlugin<AuthPluginOptions> = (fastify, { secret }, done) =>
   });
   done();
 };
+
+export function signUser(fastify: FastifyInstance, user: User) {
+  return fastify.jwt.sign({ id: user.id });
+}
 
 export default fp(jwtAuth);

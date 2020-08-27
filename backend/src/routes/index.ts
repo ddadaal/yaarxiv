@@ -1,8 +1,12 @@
-import * as login from "./auth";
-import * as article from "./article";
+import { searchArticleRoute } from "./article/search";
+import { getArticleRoute } from "./article/get";
+import { registerRoute } from "./auth/register";
+import { loginRoute } from "./auth/login";
 
 export const routes = [
-  login.authRoutes,
-  article.articlesRoutes,
+  loginRoute,
+  registerRoute,
+  searchArticleRoute,
+  getArticleRoute,
 ];
 
