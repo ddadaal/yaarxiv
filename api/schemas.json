@@ -138,8 +138,20 @@
             },
             "404": {
               "type": "object",
+              "properties": {
+                "notFound": {
+                  "type": "string",
+                  "enum": [
+                    "article",
+                    "revision"
+                  ]
+                }
+              },
+              "required": [
+                "notFound"
+              ],
               "additionalProperties": false,
-              "description": "The article is not found."
+              "description": "The article or specified revision is not found."
             }
           },
           "required": [
@@ -482,7 +494,7 @@
               "additionalProperties": false,
               "description": "The request is success"
             },
-            "403": {
+            "401": {
               "type": "object",
               "additionalProperties": false,
               "description": "The request fails"
@@ -490,7 +502,7 @@
           },
           "required": [
             "200",
-            "403"
+            "401"
           ],
           "additionalProperties": false
         }

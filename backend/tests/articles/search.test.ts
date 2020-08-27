@@ -1,44 +1,10 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { Author } from "yaarxiv-api/article/models";
-import { startApp } from "../src/app";
-import { range } from "../src/utils/array";
-import { Article } from "../src/entities/Article";
+import { startApp } from "../../src/app";
+import { range } from "../../src/utils/array";
+import { Article } from "../../src/entities/Article";
 import { getRepository } from "typeorm";
 import * as searchApi from "yaarxiv-api/article/search";
-import { ArticleRevision } from "../src/entities/ArticleRevision";
-
-const pdfLink = "https://docs.microsoft.com/en-us/dotnet/opbuildpdf/core/toc.pdf?branch=live";
-
-const articleTime = new Date();
-
-const authors: Author[] = [
-  { name: "CJD", affiliation: "NJU" },
-  { name: "CJY" },
-];
-
-const genRevision = (article: Article, revisionId: number) => {
-  const rev = new ArticleRevision();
-  rev.title = `Article ${article.id} Revision ${revisionId}`;
-  rev.revisionNumber = revisionId;
-  rev.authors = authors;
-  rev.abstract = rev.title + " Abstract";
-  rev.time = articleTime;
-  rev.pdfLink = pdfLink;
-  rev.category = rev.title + "Category";
-  rev.keywords = [article.id+""];
-  return rev;
-};
-
-const genArticle = (i: number) => {
-  const article = new Article();
-  article.id = i;
-  article.revisions = range(0,i+1).map((i) => genRevision(article, i));
-  article.createTime = new Date(articleTime);
-  article.createTime.setFullYear(2000 + i);
-  article.lastUpdateTime = articleTime;
-  article.latestRevisionNumber = article.revisions.length-1;
-  return article;
-};
+import { generateArticle } from "./utils/generateArticles";
 
 const articleCount = 12;
 
@@ -49,7 +15,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  articles = range(0, articleCount).map(genArticle);
+  articles = range(0, articleCount).map(generateArticle);
 
   // append items
   const articleRepo = getRepository(Article);
@@ -59,6 +25,7 @@ beforeEach(async () => {
 afterEach(async () => {
   await server.close();
 });
+
 
 it("should return the first page (10) of articles when no query is input.", async () => {
   const resp = await server.inject({ ...searchApi.endpoint });
@@ -115,7 +82,7 @@ it("should filter according to start and end", async () => {
   };
 
   await t(2, 2010);
-  // await t(6, undefined, 2005);
+  await t(6, undefined, 2005);
   await t(4, 2004, 2007);
 
 

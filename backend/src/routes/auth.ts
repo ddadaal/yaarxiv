@@ -17,14 +17,15 @@ export async function authRoutes(fastify: FastifyInstance) {
 
       const user = await userRepo.findOne({ email: id });
       if (!user || user.password !== password) {
-        reply.code(401);
-        return {};
+        return { 401: {} };
       }
 
       return {
-        token: signUser(fastify, user),
-        name: user.name,
-        role: user.role,
+        200: {
+          token: signUser(fastify, user),
+          name: user.name,
+          role: user.role,
+        },
       };
 
     });
@@ -42,16 +43,16 @@ export async function authRoutes(fastify: FastifyInstance) {
 
       try {
         await userRepo.save(user);
-        reply.code(201);
         return {
-          token: signUser(fastify, user),
-          name: user.name,
+          201: {
+            token: signUser(fastify, user),
+            name: user.name,
+          },
         };
       } catch (e) {
         // handle unique constraint violation
         fastify.log.error(e);
-        reply.code(405);
-        return {};
+        return { 405: {} };
       }
     },
   );

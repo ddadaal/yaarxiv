@@ -24,9 +24,9 @@ export interface GetArticleSchema {
       /** The article information. */
       article: Article;
     },
-    /** The article is not found. */
+    /** The article or specified revision is not found. */
     404: {
-
+      notFound: "article" | "revision";
     }
   }
 }
