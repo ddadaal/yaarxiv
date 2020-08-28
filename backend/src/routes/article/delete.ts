@@ -6,7 +6,7 @@ import { Article } from "@/entities/Article";
 export async function deleteArticleRoute(fastify: FastifyInstance) {
   route<deleteArticle.DeleteArticleSchema>(fastify, deleteArticle.endpoint, "DeleteArticleSchema", {
     summary: deleteArticle.summary,
-    jwtAuth: true,
+    authOption: true,
   })(
     async (req) => {
       const { articleId } = req.params;

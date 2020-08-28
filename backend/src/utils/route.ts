@@ -1,9 +1,11 @@
+import { UserRole } from "@/entities/User";
 import { FastifyInstance, FastifyRequest, FastifyReply, FastifySchema } from "fastify";
 import { Endpoint, Schema, SchemaObject } from "yaarxiv-api";
+import { AuthOption } from "./auth";
 import { routes } from "./schemas";
 
 interface RouteExtraInfo extends FastifySchema {
-  jwtAuth?: boolean;
+  authOption?: AuthOption;
 }
 
 type Res<T> = Partial<T>;
@@ -12,7 +14,7 @@ export const route = <TSchema extends Schema>(
   fastify: FastifyInstance,
   endpoint: Endpoint,
   schemaName: keyof typeof routes,
-  { jwtAuth = false, ...rest }: RouteExtraInfo,
+  { authOption = undefined, ...rest }: RouteExtraInfo,
 ) => (handler: (
     req: FastifyRequest<{
       Body: TSchema["body"];
@@ -38,7 +40,7 @@ export const route = <TSchema extends Schema>(
         response: schema.properties.responses.properties,
         ...rest,
       },
-      preValidation: jwtAuth ? [fastify.jwtAuth] : undefined,
+      preValidation: authOption ? [fastify.jwtAuth(authOption)] : undefined,
       handler: async (req, rep) => {
         const resp = await handler(req, rep);
         const code = Object.keys(resp)[0];

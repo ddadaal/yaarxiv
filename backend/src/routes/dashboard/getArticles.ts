@@ -5,7 +5,7 @@ import { Article } from "@/entities/Article";
 
 export async function dashboardGetArticlesRoute(fastify: FastifyInstance) {
   route<api.UserGetArticleInfoSchema>(fastify, api.endpoint, "UserGetArticleInfoSchema", {
-    jwtAuth: true,
+    authOption: true,
     summary: api.summary,
   })(
     async (req) => {

@@ -5,12 +5,10 @@ import { Article } from "@/entities/Article";
 
 export async function adminGetArticlesRoute(fastify: FastifyInstance) {
   route<api.AdminGetArticlesSchema>(fastify, api.endpoint, "AdminGetArticlesSchema", {
-    jwtAuth: true,
+    authOption: ["admin"],
     summary: api.summary,
   })(
     async (req) => {
-
-      if ((await req.dbUser()).role !== "admin") { return { 403: {} };}
 
       const { page, searchWord } = req.query;
 

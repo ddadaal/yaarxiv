@@ -28,13 +28,16 @@ afterEach(async () => {
   await server.close();
 });
 
-it("return 401 if not admin.", async () => {
-  let resp = await server.inject({ ...api.endpoint });
+it("return 401 if not login.", async () => {
+  const resp = await server.inject({ ...api.endpoint });
 
   expect(resp.statusCode).toBe(401);
 
-  resp = await server.inject({
-    ...api.endpoint,
+});
+
+it("return 403 if not admin", async () => {
+  const resp = await server.inject({
+    ...api.endpoint ,
     ...login(server, normalUser1),
   });
 
