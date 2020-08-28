@@ -3,6 +3,8 @@ export const endpoint = {
   method: "GET",
 } as const;
 
+export const summary = "Get all articles on the platform as an admin.";
+
 export interface AdminGetArticlesResult {
   /** The article id. */
   id: string;
@@ -39,6 +41,14 @@ export interface AdminGetArticlesSchema {
        * @type {integer}
        */
       totalCount: number;
+    },
+    /** Not admin. */
+    403: {
+
+    },
+    /** Not login */
+    401: {
+
     }
   }
 }

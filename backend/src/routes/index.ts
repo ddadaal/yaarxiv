@@ -4,6 +4,7 @@ import { registerRoute } from "./auth/register";
 import { loginRoute } from "./auth/login";
 import { deleteArticleRoute } from "./article/delete";
 import { dashboardGetArticlesRoute } from "./dashboard/getArticles";
+import { adminGetArticlesRoute } from "./admin/getArticles";
 
 export const routes = [
   loginRoute,
@@ -12,5 +13,6 @@ export const routes = [
   getArticleRoute,
   deleteArticleRoute,
   dashboardGetArticlesRoute,
+  adminGetArticlesRoute,
 ];
 
