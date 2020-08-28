@@ -12,6 +12,7 @@
     "start": "npm run dev",
     "copy-static-assets": "ts-node scripts/copyStaticAssets.ts",
     "test": "cross-env NODE_ENV=test jest --verbose",
+    "test:coverage": "npm run test -- --coverage",
     "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
     "generateConfig": "node-config-ts"
   },
