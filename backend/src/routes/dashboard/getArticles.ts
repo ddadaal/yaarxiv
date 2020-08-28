@@ -1,8 +1,6 @@
 import * as api from "yaarxiv-api/dashboard/getArticles";
 import { FastifyInstance } from "fastify/types/instance";
 import { route } from "@/utils/route";
-import { User } from "@/entities/User";
-import { signUser } from "@/utils/auth";
 import { Article } from "@/entities/Article";
 
 export async function dashboardGetArticlesRoute(fastify: FastifyInstance) {
@@ -24,6 +22,7 @@ export async function dashboardGetArticlesRoute(fastify: FastifyInstance) {
 
       const articlesRevisionCount = await repo.createQueryBuilder("a")
         .leftJoin("a.revisions", "r")
+        .where("a.ownerId = :userId", { userId: user.id })
         .groupBy("a.id")
         .select("a.id", "aid")
         .addSelect("COUNT(r.id)", "rcount")
