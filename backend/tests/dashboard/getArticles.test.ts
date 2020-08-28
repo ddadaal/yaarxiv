@@ -47,7 +47,7 @@ it("return the first page of articles whose owner is the logged in user.", async
   expect(payload.totalCount).toBe(12);
 });
 
-it("return the first page of articles whose owner is the logged in user.", async () => {
+it("return the second page of articles with query.", async () => {
   const resp = await server.inject({
     ...api.endpoint,
     ...login(server, normalUser1),
