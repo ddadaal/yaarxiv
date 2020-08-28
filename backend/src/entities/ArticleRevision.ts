@@ -1,37 +1,39 @@
-import { Entity } from "typeorm/decorator/entity/Entity";
-import { PrimaryColumn, Column, ManyToOne, PrimaryGeneratedColumn, OneToOne, JoinTable, JoinColumn } from "typeorm";
+import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from "mikro-orm";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
 
 @Entity()
 export class ArticleRevision {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryKey()
   id: number;
 
-  @Column()
+  @Property()
   revisionNumber: number;
 
-  @Column("datetime")
+  @Property()
   time: Date;
 
-  @Column()
+  @Property()
   title: string;
 
-  @Column("simple-json")
+  @Property()
   authors: Author[];
 
-  @Column("simple-array")
+  @Property()
   keywords: string[];
 
-  @Column("varchar", { length: 500 })
+  @Property()
   abstract: string
 
-  @Column()
+  @Property()
   category: string;
 
-  @Column()
+  @Property()
   pdfLink: string;
 
-  @ManyToOne(() => Article, (a) => a.revisions, {onDelete:"CASCADE"})
+  @ManyToOne()
   article: Article;
+
+  @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true })
+  latestRevisionOf: Article | null;
 }

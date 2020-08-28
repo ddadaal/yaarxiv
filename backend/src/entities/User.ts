@@ -1,29 +1,25 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import { Cascade, Collection, Entity, Enum, OneToMany, PrimaryKey, Property } from "mikro-orm";
 import { Article } from "./Article";
 
 export type UserRole = "user" | "admin";
 
 @Entity()
 export class User {
-  @PrimaryColumn()
+  @PrimaryKey()
   id: string;
 
-  @Column()
+  @Property()
   name: string;
 
-  @Column()
+  @Property()
   password: string;
 
-  @Column({ unique: true })
+  @Property({ unique: true })
   email: string;
 
-  @Column({
-    type: "simple-enum",
-    enum: ["user", "admin"],
-    default: "user",
-  })
+  @Enum({ items: ["user", "admin"]})
   role: UserRole;
 
-  @OneToMany(() => Article, (a) => a.owner, { cascade: true, onDelete: "CASCADE" })
-  articles: Article[];
+  @OneToMany(() => Article, (a) => a.owner, { cascade: [Cascade.ALL]})
+  articles = new Collection<Article>(this);
 }

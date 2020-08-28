@@ -1,18 +1,8 @@
 {
   "loadSwagger": true,
-  "typeorm": {
+  "orm": {
     "type": "sqlite",
-    "database": "./db.db",
-    "entities": [
-      "src/entities/**/*.ts"
-    ],
-    "logging": true,
-    "migrations": [
-      "migrations/*.ts"
-    ],
-    "cli": {
-      "migrationsDir": "migrations"
-    }
+    "clientUrl": "./db.db"
   },
   "logger": {
     "level": "info",

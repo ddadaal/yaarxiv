@@ -3,7 +3,16 @@
   "loadSwagger": true,
   "logger": true,
   "jwtSecret": "testsecret",
-  "typeorm": {
-    "synchronize": true
+  "orm": {
+    "dbName": "yaarxiv",
+    "entitiesDirs": [
+      "src/entities"
+    ],
+    "migrations": [
+      "migrations/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "migrations"
+    }
   }
 }

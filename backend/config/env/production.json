@@ -1,18 +1,8 @@
 {
   "loadSwagger": true,
-  "typeorm": {
+  "orm": {
     "type": "sqlite",
-    "database": "./db.db",
-    "entities": [
-      "out/src/entities/**/*.js"
-    ],
-    "logging": true,
-    "migrations": [
-      "migrations/*.ts"
-    ],
-    "cli": {
-      "migrationsDir": "migrations"
-    }
+    "clientUrl": "./db.db"
   },
   "jwtSecret": "productionsecret",
   "logger": true

@@ -19,7 +19,7 @@ export async function registerRoute(fastify: FastifyInstance) {
       user.role = "user";
 
       try {
-        await userRepo.save(user);
+        await userRepo.persistAndFlush(user);
         return {
           201: {
             token: signUser(fastify, user),

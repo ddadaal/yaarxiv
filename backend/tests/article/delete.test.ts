@@ -1,8 +1,7 @@
-import { FastifyInstance } from "fastify/types/instance";
+import fastify, { FastifyInstance } from "fastify";
 import { startApp } from "../../src/app";
 import { range } from "../../src/utils/array";
 import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
 import * as deleteApi from "yaarxiv-api/article/delete";
 import { generateArticle } from "./utils/generateArticles";
 import { insertUserInfo, login, adminUser, normalUser1 } from "./utils/login";
@@ -12,15 +11,19 @@ let articles: Article[];
 
 let server: FastifyInstance;
 
+let articleRepo;
+
+let articleRevRepo;
+
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
+  await insertUserInfo(server);
 
   articles = range(0, 2).map(generateArticle);
   // append items
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
+  articleRepo = server.orm.getRepository(Article);
+  await articleRepo.persistAndFlush(articles);
 
 });
 
@@ -37,8 +40,8 @@ it("delete the article and all revisions as admin", async () => {
   });
 
   expect(resp.statusCode).toBe(200);
-  expect(await getRepository(Article).count()).toBe(1);
-  expect(await getRepository(ArticleRevision).count()).toBe(2);
+  expect(await server.orm.getRepository(Article).count()).toBe(1);
+  expect(await server.orm.getRepository(ArticleRevision).count()).toBe(2);
 });
 
 it("delete the article and all revisions as owner", async () => {
@@ -49,8 +52,8 @@ it("delete the article and all revisions as owner", async () => {
   });
 
   expect(resp.statusCode).toBe(200);
-  expect(await getRepository(Article).count()).toBe(1);
-  expect(await getRepository(ArticleRevision).count()).toBe(1);
+  expect(await server.orm.getRepository(Article).count()).toBe(1);
+  expect(await server.orm.getRepository(ArticleRevision).count()).toBe(1);
 });
 
 it("cannot delete the article and all revisions as neither owner nor admin",  async () => {
@@ -61,8 +64,8 @@ it("cannot delete the article and all revisions as neither owner nor admin",  as
   });
 
   expect(resp.statusCode).toBe(403);
-  expect(await getRepository(Article).count()).toBe(2);
-  expect(await getRepository(ArticleRevision).count()).toBe(3);
+  expect(await server.orm.getRepository(Article).count()).toBe(2);
+  expect(await server.orm.getRepository(ArticleRevision).count()).toBe(3);
 });
 
 it("cannot delete non-existent article",  async () => {

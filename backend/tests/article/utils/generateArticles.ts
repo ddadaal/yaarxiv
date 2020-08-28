@@ -33,7 +33,7 @@ export const generateArticle = (id: number) => {
   article.createTime = new Date(articleTime);
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
-  article.latestRevisionNumber = article.revisions.length-1;
+  article.latestRevision = article.revisions[article.revisions.length-1];
   article.owner = id % 2 == 1 ? normalUser1 : normalUser2;
   return article;
 };

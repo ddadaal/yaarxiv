@@ -21,7 +21,7 @@ export interface AuthPluginOptions {
 }
 
 // define plugin
-const jwtAuth: FastifyPlugin<AuthPluginOptions> = async (fastify: FastifyInstance, { secret }) => {
+export const jwtAuth = fp<AuthPluginOptions>(async (fastify: FastifyInstance, { secret }) => {
   fastify.register(FastifyJwt, { secret });
 
   fastify.decorate("jwtAuth", async function (req: FastifyRequest, reply: FastifyReply) {
@@ -33,17 +33,15 @@ const jwtAuth: FastifyPlugin<AuthPluginOptions> = async (fastify: FastifyInstanc
   });
 
   fastify.decorateRequest("userId", function () {
+    console.log(this);
     return (this.user as any).id;
   });
 
   fastify.decorateRequest("dbUser", async function () {
-    return await fastify.orm.getRepository(User).findOne(this.userId());
+    return await this.orm.getRepository(User).findOne(this.userId());
   });
-};
+});
 
 export function signUser(fastify: FastifyInstance, user: User) {
   return fastify.jwt.sign({ id: user.id });
 }
-
-
-export default fp(jwtAuth);

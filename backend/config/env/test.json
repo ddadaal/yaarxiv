@@ -1,17 +1,9 @@
 {
   "port": 0,
   "loadSwagger": false,
-  "typeorm": {
+  "orm": {
     "type": "sqlite",
-    "database": ":memory:",
-    "entities": [
-      "src/entities/**/*.ts"
-    ],
-    "logging": [
-      "schema",
-      "query",
-      "error"
-    ]
+    "path": ":memory:"
   },
   "logger": {
     "level": "error",

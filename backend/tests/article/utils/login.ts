@@ -1,4 +1,4 @@
-import { getRepository } from "typeorm";
+
 import { User } from "../../../src/entities/User";
 import { genId } from "../../../src/utils/genId";
 import { signUser } from "../../../src/utils/auth";
@@ -29,9 +29,8 @@ export function login(fastify: FastifyInstance, user: User) {
   return { headers: { authorization: `bearer ${signUser(fastify, user)}` } };
 }
 
-export async function insertUserInfo() {
-  const repo = getRepository(User);
+export async function insertUserInfo(fastify: FastifyInstance) {
+  const repo = fastify.orm.getRepository(User);
 
-
-  await repo.save([normalUser1, normalUser2, adminUser]);
+  await repo.persistAndFlush([normalUser1, normalUser2, adminUser]);
 }

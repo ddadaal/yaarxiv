@@ -9,20 +9,18 @@ export async function getArticleRoute(fastify: FastifyInstance) {
       const { articleId } = req.params;
       const { revision } = req.query;
 
-      const numArticleId = articleId + "";
+      const repo = req.orm.getRepository(Article);
 
-      const repo = fastify.orm.getRepository(Article);
-
-      const article = await repo.findOne(numArticleId, { relations: ["revisions"]});
+      const article = await repo.findOne(parseInt(articleId), ["latestRevision"]);
 
       if (!article) {
         return { 404: { notFound: "article" } };
       }
 
-      const targetRevisionNumber = revision ?? article.latestRevisionNumber;
-
-      const targetRevision = article.revisions.find((x) =>
-        x.revisionNumber === targetRevisionNumber);
+      const targetRevision = revision
+        ? article.revisions.getItems().find((x) =>
+          x.revisionNumber === revision)
+        : article.latestRevision;
 
       if (!targetRevision) {
         return { 404: { notFound: "revision" } };
@@ -32,7 +30,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
         200: {
           article: {
             id: articleId,
-            revisionNumber: targetRevisionNumber,
+            revisionNumber: targetRevision.revisionNumber,
             currentRevision: {
               abstract: targetRevision.abstract,
               authors: targetRevision.authors,
@@ -41,7 +39,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
               pdfLink: targetRevision.pdfLink,
               title: targetRevision.title,
             },
-            revisions: article.revisions.map((r) => ({
+            revisions: article.revisions.getItems().map((r) => ({
               number: r.revisionNumber,
               time: r.time.toISOString(),
             })),

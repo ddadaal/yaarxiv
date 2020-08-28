@@ -1,26 +1,19 @@
 import "reflect-metadata";
-import { createConnection, ConnectionOptions } from "typeorm";
 
 import fastify from "fastify";
-import FastifyTypeormPlugin from "fastify-typeorm-plugin";
 import FastifySwagger from "fastify-swagger";
-import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
-import jwtAuth from "./utils/auth";
-import { routes }  from "./routes";
+import { jwtAuth } from "./utils/auth";
+import { routes } from "./routes";
 import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
 import FileUpload from "fastify-file-upload";
+import { fastifyMikroPlugin } from "./utils/orm";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
   const server = fastify({ logger: config.logger });
 
   server.log.info(`Loaded config: \n${JSON.stringify(config, null, 2)}`);
-
-  const dbConnection = await createConnection({
-    ...(config.typeorm) as ConnectionOptions,
-    logger: new TypeormPinoLogger(server.log),
-  });
 
   Object.values(models).forEach((s) => server.addSchema(s));
 
@@ -48,8 +41,8 @@ export async function startApp(config: Config = envConfig, start = true) {
   }
 
   server.register(FileUpload);
+  server.register(fastifyMikroPlugin);
   server.register(jwtAuth, { secret: config.jwtSecret });
-  server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
   routes.forEach((r) => server.register(r));
 

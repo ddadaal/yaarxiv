@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
 import { range } from "../../src/utils/array";
 import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
 import * as searchApi from "yaarxiv-api/article/search";
 import { generateArticle } from "./utils/generateArticles";
 import { insertUserInfo } from "./utils/login";
@@ -16,12 +15,12 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
+  await insertUserInfo(server);
   articles = range(0, articleCount).map(generateArticle);
 
   // append items
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
+  const articleRepo = server.orm.getRepository(Article);
+  await articleRepo.persistAndFlush(articles);
 });
 
 afterEach(async () => {

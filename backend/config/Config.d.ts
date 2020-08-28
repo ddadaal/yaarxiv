@@ -6,16 +6,15 @@ declare module "node-config-ts" {
     loadSwagger: boolean
     logger: Logger
     jwtSecret: string
-    typeorm: Typeorm
+    orm: Orm
   }
-  interface Typeorm {
+  interface Orm {
     synchronize: boolean
-    type: string
-    database: string
-    entities: string[]
-    logging: boolean
+    entitiesDirs: string[]
     migrations: string[]
     cli: Cli
+    type: string
+    clientUrl: string
   }
   interface Cli {
     migrationsDir: string
