@@ -23,7 +23,4 @@ export class Article {
   @ManyToOne(() => User)
   owner: User;
 
-  @Property()
-  ownerId: string;
-
 }

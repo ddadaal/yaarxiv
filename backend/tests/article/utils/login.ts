@@ -30,7 +30,7 @@ export function login(fastify: FastifyInstance, user: User) {
 }
 
 export async function insertUserInfo(fastify: FastifyInstance) {
-  const repo = fastify.orm.getRepository(User);
+  const repo = fastify.orm.em.getRepository(User);
 
   await repo.persistAndFlush([normalUser1, normalUser2, adminUser]);
 }

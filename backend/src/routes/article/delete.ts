@@ -21,7 +21,7 @@ export async function deleteArticleRoute(fastify: FastifyInstance) {
         return { 404: {} };
       }
 
-      if (article.ownerId !== user.id && user.role !== "admin") {
+      if (article.owner !== user && user.role !== "admin") {
         return { 403: {} };
       }
 
