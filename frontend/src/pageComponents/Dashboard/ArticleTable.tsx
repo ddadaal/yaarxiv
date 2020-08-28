@@ -9,6 +9,11 @@ import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { Pagination } from "src/components/Pagination";
+import { useAsync } from "react-async";
+import { getApi } from "src/apis";
+import { articleApis } from "src/apis/article";
+import { dashboardApis } from "src/apis/dashboard";
 
 const root = lang.pages.dashboard.articles;
 
@@ -91,19 +96,27 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   },
 ];
 
-interface Props {
-  data: DashboardArticleInfo[];
-  loading: boolean;
-  reload: () => void;
-  deleteArticle: (articleId: string) => Promise<any>;
-}
+const dashboardApi = getApi(dashboardApis);
+const articleApi = getApi(articleApis);
 
-export const ArticleTable: React.FC<Props> = ({
-  data,
-  loading,
-  reload,
-  deleteArticle,
-}) => {
+const getDashboardData = ([page]) => dashboardApi.getArticles({ query: { page } });
+const getDashboardDataFirstPage = () => getDashboardData([1]);
+const deleteArticle = (articleId: string) =>
+  articleApi.deleteArticle({ path: { articleId } });
+
+export const ArticleTable: React.FC = ({}) => {
+
+  const [page, setPage] = useState(0);
+
+  const { data, isPending, run } = useAsync({
+    promiseFn: getDashboardDataFirstPage,
+    deferFn: getDashboardData,
+  });
+
+  const onPageClicked = useCallback((page: number) => {
+    setPage(page);
+    run(page);
+  }, [setPage, run]);
 
   const fullColumns = useMemo(() => [
     ...columns,
@@ -120,19 +133,29 @@ export const ArticleTable: React.FC<Props> = ({
           <DeleteLink
             articleId={d.id}
             deleteArticle={deleteArticle}
-            reload={reload}
+            reload={() => run(page)}
           />
         </Box>
       ),
     },
-  ], [reload, deleteArticle]);
+  ], [run, deleteArticle]);
 
   return (
-    <OverlayLoading loading={loading}>
-      <DataTable
-        columns={fullColumns}
-        data={data}
-      />
+    <OverlayLoading loading={isPending}>
+      <Box>
+        <DataTable
+          columns={fullColumns}
+          data={data?.articles ?? []}
+        />
+      </Box>
+      <Box align="center">
+        <Pagination
+          currentPage={page}
+          itemsPerPage={10}
+          totalItemsCount={data?.totalCount ?? 0}
+          onPageClicked={onPageClicked}
+        />
+      </Box>
     </OverlayLoading>
   );
 };

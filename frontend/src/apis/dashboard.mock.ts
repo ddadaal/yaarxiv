@@ -1,9 +1,10 @@
+import { range } from "src/utils/array";
 /* eslint-disable max-len */
 import { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
 import { MockApi } from ".";
 import { dashboardApis } from "./dashboard";
 
-const mockArticles: DashboardArticleInfo[] = [
+const base: DashboardArticleInfo[] = [
   {
     id: "12312412",
     title: "AcademyCloud: A education-oriented IaaS cloud built on OpenStack",
@@ -20,5 +21,16 @@ const mockArticles: DashboardArticleInfo[] = [
   },
 ];
 
+const totalCount = 22;
+const mockArticles = range(0, totalCount).map((x) => ({ ...base[x % 2], id: x + "" }));
 
-export const dashboardApisMock: MockApi<typeof dashboardApis> = () => ({ getArticles: async () => ({ articles: mockArticles }) });
+
+export const dashboardApisMock: MockApi<typeof dashboardApis> = () => ({
+  getArticles: async ({ query: { page = 1 } }) => {
+    const start = (page - 1) * 10;
+    return {
+      articles: mockArticles.slice(start, start + 10),
+      totalCount: totalCount,
+    };
+  },
+});
