@@ -7,7 +7,7 @@ import * as api from "yaarxiv-api/dashboard/getArticles";
 import { insertUserInfo, login, normalUser1 } from "../article/utils/login";
 import { generateArticle } from "../article/utils/generateArticles";
 
-const articleCount = 3;
+const articleCount = 24;
 
 let articles: Article[];
 
@@ -34,7 +34,7 @@ it("return 401 if not logged in.", async () => {
   expect(resp.statusCode).toBe(401);
 });
 
-it("return articles whose owner is the logged in user.", async () => {
+it("return the first page of articles whose owner is the logged in user.", async () => {
   const resp = await server.inject({
     ...api.endpoint,
     ...login(server, normalUser1),
@@ -42,6 +42,20 @@ it("return articles whose owner is the logged in user.", async () => {
 
   expect(resp.statusCode).toBe(200);
   const payload = resp.json() as api.UserGetArticleInfoSchema["responses"]["200"];
-  expect(payload.articles).toHaveLength(1);
-  expect(payload.articles.map((x) => x.id)).toEqual(["1"]);
+  expect(payload.articles).toHaveLength(10);
+  expect(payload.articles.map((x) => parseInt(x.id) % 2 === 1)).toEqual(range(0, 10).map(() => true));
+  expect(payload.totalCount).toBe(12);
+});
+
+it("return the first page of articles whose owner is the logged in user.", async () => {
+  const resp = await server.inject({
+    ...api.endpoint,
+    ...login(server, normalUser1),
+    query: { page: "2" },
+  });
+
+  expect(resp.statusCode).toBe(200);
+  const payload = resp.json() as api.UserGetArticleInfoSchema["responses"]["200"];
+  expect(payload.articles).toHaveLength(2);
+  expect(payload.totalCount).toBe(12);
 });

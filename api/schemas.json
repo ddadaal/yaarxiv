@@ -41,10 +41,22 @@
                 "totalCount"
               ],
               "additionalProperties": false
+            },
+            "401": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Not login"
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Not admin."
             }
           },
           "required": [
-            "200"
+            "200",
+            "403",
+            "401"
           ],
           "additionalProperties": false
         }
@@ -103,7 +115,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Delete an article and all of its revisions.\nOnly the owner and admin can do it."
+      "description": "Delete an article and all of its revisions.\r\nOnly the owner and admin can do it."
     },
     "GetArticleSchema": {
       "type": "object",
@@ -126,7 +138,7 @@
           "properties": {
             "revision": {
               "type": "number",
-              "description": "Revision nunber.\nIf not set, the latest revision will be returned."
+              "description": "Revision nunber.\r\nIf not set, the latest revision will be returned."
             }
           },
           "additionalProperties": false
@@ -436,7 +448,7 @@
               "properties": {
                 "token": {
                   "type": "string",
-                  "description": "The token for the upload.\nIt is used to upload the following content of the article."
+                  "description": "The token for the upload.\r\nIt is used to upload the following content of the article."
                 }
               },
               "required": [
@@ -592,6 +604,17 @@
     "UserGetArticleInfoSchema": {
       "type": "object",
       "properties": {
+        "querystring": {
+          "type": "object",
+          "properties": {
+            "page": {
+              "type": "number",
+              "description": "The page number. 10 results per page.",
+              "default": 1
+            }
+          },
+          "additionalProperties": false
+        },
         "responses": {
           "type": "object",
           "properties": {
@@ -604,21 +627,33 @@
                     "$ref": "#/definitions/DashboardArticleInfo"
                   },
                   "description": "The articles the user has."
+                },
+                "totalCount": {
+                  "type": "number",
+                  "description": "The total count of articles."
                 }
               },
               "required": [
-                "articles"
+                "articles",
+                "totalCount"
               ],
               "additionalProperties": false
+            },
+            "401": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The request is not authenticated."
             }
           },
           "required": [
-            "200"
+            "200",
+            "401"
           ],
           "additionalProperties": false
         }
       },
       "required": [
+        "querystring",
         "responses"
       ],
       "additionalProperties": false
@@ -777,7 +812,7 @@
         },
         "time": {
           "type": "string",
-          "description": "Upload time.\nMust be a valid ISO string with timezone."
+          "description": "Upload time.\r\nMust be a valid ISO string with timezone."
         }
       },
       "required": [
@@ -795,7 +830,7 @@
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Current revision number.\nMust be a integer."
+          "description": "Current revision number.\r\nMust be a integer."
         },
         "currentRevision": {
           "$ref": "#/definitions/ArticleInfo",
@@ -831,7 +866,7 @@
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Revision the comment is targeting.\nIf undefined, the comment is targeting the article itself."
+          "description": "Revision the comment is targeting.\r\nIf undefined, the comment is targeting the article itself."
         },
         "userId": {
           "type": "string",
@@ -904,11 +939,11 @@
         },
         "createTime": {
           "type": "string",
-          "description": "The time when the article is first uploaded to the platform.\nMust be a valid datetime string."
+          "description": "The time when the article is first uploaded to the platform.\r\nMust be a valid datetime string."
         },
         "lastUpdateTime": {
           "type": "string",
-          "description": "The time when the article is last updated.\nMust be a valid datetime string."
+          "description": "The time when the article is last updated.\r\nMust be a valid datetime string."
         }
       },
       "required": [
@@ -965,7 +1000,7 @@
         "revisionCount"
       ],
       "additionalProperties": false,
-      "description": "Get the articles this user has."
+      "description": "Get the articles this user is the owner of."
     }
   }
 }

@@ -22,13 +22,24 @@ export interface DashboardArticleInfo {
   revisionCount: number;
 }
 
-export const requireAuth = true;
-
 export interface UserGetArticleInfoSchema {
+  querystring: {
+    /**
+     * The page number. 10 results per page.
+     * @default 1
+     * @type {integer}
+     */
+    page?: number;
+  },
   responses: {
     200: {
       /** The articles the user has. */
       articles: DashboardArticleInfo[];
+      /**
+       * The total count of articles.
+       * @type {integer}
+       */
+      totalCount: number;
     },
     /** The request is not authenticated. */
     401: {
