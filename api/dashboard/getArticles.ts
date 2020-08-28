@@ -3,7 +3,9 @@ export const endpoint = {
   method: "GET",
 } as const;
 
-/** Get the articles this user has. */
+export const summary = "Get the articles this user is the owner of.";
+
+/** Get the articles this user is the owner of. */
 export interface DashboardArticleInfo {
   /** The article id. */
   id: string;
@@ -27,6 +29,10 @@ export interface UserGetArticleInfoSchema {
     200: {
       /** The articles the user has. */
       articles: DashboardArticleInfo[];
+    },
+    /** The request is not authenticated. */
+    401: {
+
     }
   }
 }
