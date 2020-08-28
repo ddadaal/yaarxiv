@@ -34,4 +34,7 @@ export class ArticleRevision {
 
   @ManyToOne(() => Article, (a) => a.revisions, { onDelete:"CASCADE" })
   article: Article;
+
+  @Column()
+  articleId: number;
 }

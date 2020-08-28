@@ -2,6 +2,7 @@ import { FastifyInstance } from "fastify";
 import * as get from "yaarxiv-api/article/get";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
+import { ArticleRevision } from "@/entities/ArticleRevision";
 
 export async function getArticleRoute(fastify: FastifyInstance) {
   route<get.GetArticleSchema>(fastify, get.endpoint, "GetArticleSchema", {})(
@@ -9,20 +10,29 @@ export async function getArticleRoute(fastify: FastifyInstance) {
       const { articleId } = req.params;
       const { revision } = req.query;
 
-      const numArticleId = articleId + "";
-
       const repo = fastify.orm.getRepository(Article);
+      const revisionRepo = fastify.orm.getRepository(ArticleRevision);
 
-      const article = await repo.findOne(numArticleId, { relations: ["revisions"]});
+      const article = await repo.findOne(articleId);
+
+      const articlesRevisionInfo = await revisionRepo
+        .createQueryBuilder("r")
+        .where("r.articleId = :aid", { aid: articleId })
+        .select("r.revisionNumber", "number")
+        .addSelect("r.time", "time")
+        .getMany();
 
       if (!article) {
         return { 404: { notFound: "article" } };
       }
 
-      const targetRevisionNumber = revision ?? article.latestRevisionNumber;
+      const targetRevisionNumber =revision ?? article.latestRevisionNumber;
 
-      const targetRevision = article.revisions.find((x) =>
-        x.revisionNumber === targetRevisionNumber);
+      const targetRevision = await revisionRepo
+        .createQueryBuilder("r")
+        .where("r.articleId = :aid", { aid: articleId })
+        .andWhere("r.revisionNumber = :rn", { rn: targetRevisionNumber })
+        .getOne();
 
       if (!targetRevision) {
         return { 404: { notFound: "revision" } };
@@ -41,9 +51,9 @@ export async function getArticleRoute(fastify: FastifyInstance) {
               pdfLink: targetRevision.pdfLink,
               title: targetRevision.title,
             },
-            revisions: article.revisions.map((r) => ({
-              number: r.revisionNumber,
-              time: r.time.toISOString(),
+            revisions: articlesRevisionInfo.map((x) => ({
+              time: x.time.toISOString(),
+              number: x.revisionNumber,
             })),
           },
         },
