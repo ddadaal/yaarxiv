@@ -1,5 +1,3 @@
-/// <reference path="../../../src/utils/orm.ts" />
-
 import { FastifyInstance } from "fastify";
 import { Article } from "../../../src/entities/Article";
 import { range } from "../../../src/utils/array";
@@ -18,7 +16,7 @@ export async function fillData(fastify: FastifyInstance, articleCount: number) {
   const articles = range(0, articleCount).map(generateArticle);
   // append items
   const articleRepo = em.getRepository(Article);
-  await articleRepo.persist(articles);
+  articleRepo.persist(articles);
 
   await em.flush();
 

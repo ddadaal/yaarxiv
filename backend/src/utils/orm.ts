@@ -1,12 +1,13 @@
 import fp from "fastify-plugin";
 
-import { EntityManager, MikroORM, ReflectMetadataProvider } from "mikro-orm";
+import { MikroORM, ReflectMetadataProvider } from "@mikro-orm/core";
+import { EntityManager as SqliteEntityManager } from "@mikro-orm/sqlite";
 import * as plugin from "fastify-request-context";
 import { config } from "node-config-ts";
 
 declare module "fastify" {
   interface FastifyRequest {
-    getEm(): EntityManager;
+    getEm(): SqliteEntityManager;
   }
 
   interface FastifyInstance {
@@ -17,6 +18,7 @@ declare module "fastify" {
 
 export const fastifyMikroPlugin = fp(async (fastify) => {
 
+  // @ts-ignore
   const orm = await MikroORM.init({
     ...config.orm,
     metadataProvider: ReflectMetadataProvider,

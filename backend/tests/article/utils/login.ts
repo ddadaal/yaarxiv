@@ -3,7 +3,7 @@ import { User } from "../../../src/entities/User";
 import { genId } from "../../../src/utils/genId";
 import { signUser } from "../../../src/utils/auth";
 import { FastifyInstance } from "fastify";
-import { EntityManager } from "mikro-orm";
+import { EntityManager } from "@mikro-orm/core";
 
 export const normalUser1 = new User();
 normalUser1.role = "user";

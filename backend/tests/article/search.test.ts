@@ -6,7 +6,7 @@ import * as searchApi from "yaarxiv-api/article/search";
 import { generateArticle } from "./utils/generateArticles";
 import { insertUserInfo } from "./utils/login";
 import { fillData } from "./utils/data";
-import { EntityManager } from "mikro-orm";
+import { EntityManager } from "@mikro-orm/core";
 
 const articleCount = 12;
 

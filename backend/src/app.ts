@@ -8,7 +8,6 @@ import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
 import FileUpload from "fastify-file-upload";
 import { fastifyMikroPlugin } from "./utils/orm";
-import { MikroORM } from "mikro-orm";
 
 export async function startApp(config: Config = envConfig, start = true) {
 

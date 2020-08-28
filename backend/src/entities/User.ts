@@ -1,4 +1,4 @@
-import { Cascade, Collection, Entity, Enum, OneToMany, PrimaryKey, Property } from "mikro-orm";
+import { Cascade, Collection, Entity, Enum, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
 import { Article } from "./Article";
 
 export type UserRole = "user" | "admin";

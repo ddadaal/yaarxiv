@@ -9,12 +9,13 @@ declare module "node-config-ts" {
     orm: Orm
   }
   interface Orm {
-    synchronize: boolean
-    entitiesDirs: string[]
+    dbName: string
+    entities: string[]
     migrations: string[]
     cli: Cli
     type: string
     clientUrl: string
+    debug: boolean
   }
   interface Cli {
     migrationsDir: string

@@ -5,7 +5,7 @@ import * as deleteApi from "yaarxiv-api/article/delete";
 import { login, adminUser, normalUser1 } from "./utils/login";
 import { ArticleRevision } from "../../src/entities/ArticleRevision";
 import { dropData, fillData } from "./utils/data";
-import { EntityManager } from "mikro-orm";
+import { EntityManager } from "@mikro-orm/core";
 
 let server: FastifyInstance;
 

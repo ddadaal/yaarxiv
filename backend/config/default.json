@@ -5,14 +5,8 @@
   "jwtSecret": "testsecret",
   "orm": {
     "dbName": "yaarxiv",
-    "entitiesDirs": [
+    "entities": [
       "src/entities"
-    ],
-    "migrations": [
-      "migrations/*.ts"
-    ],
-    "cli": {
-      "migrationsDir": "migrations"
-    }
+    ]
   }
 }

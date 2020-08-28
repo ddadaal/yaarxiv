@@ -3,7 +3,7 @@ import { startApp } from "../../src/app";
 import { Article } from "../../src/entities/Article";
 import * as getApi from "yaarxiv-api/article/get";
 import { dropData, fillData } from "./utils/data";
-import { EntityManager } from "mikro-orm";
+import { EntityManager } from "@mikro-orm/core";
 
 const articleCount = 12;
 

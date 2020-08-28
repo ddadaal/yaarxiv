@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify";
 import * as search from "yaarxiv-api/article/search";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
-import { QueryOrder } from "mikro-orm";
+import { QueryOrder } from "@mikro-orm/core";
 
 // Must add async
 export async function searchArticleRoute(fastify: FastifyInstance) {

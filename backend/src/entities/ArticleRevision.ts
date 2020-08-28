@@ -1,4 +1,4 @@
-import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from "mikro-orm";
+import { Entity, ManyToOne, OneToOne, PrimaryKey, Property } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
 
