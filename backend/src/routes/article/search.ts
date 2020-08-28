@@ -6,9 +6,9 @@ import { Article } from "@/entities/Article";
 // Must add async
 export async function searchArticleRoute(fastify: FastifyInstance) {
   route<search.SearchArticleSchema>(fastify, search.endpoint, "SearchArticleSchema", { summary: search.summary })(
-    async (req, reply) => {
+    async (req) => {
 
-      const { searchText, page, keywords, authorNames, startYear, endYear } = req.query;
+      const { searchText, page, startYear, endYear } = req.query;
 
       const repo = fastify.orm.getRepository(Article);
 

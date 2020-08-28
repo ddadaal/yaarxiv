@@ -1,5 +1,5 @@
 import { Entity } from "typeorm/decorator/entity/Entity";
-import { PrimaryColumn, Column, ManyToOne, PrimaryGeneratedColumn, OneToOne, JoinTable, JoinColumn } from "typeorm";
+import { Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
 
@@ -32,6 +32,6 @@ export class ArticleRevision {
   @Column()
   pdfLink: string;
 
-  @ManyToOne(() => Article, (a) => a.revisions, {onDelete:"CASCADE"})
+  @ManyToOne(() => Article, (a) => a.revisions, { onDelete:"CASCADE" })
   article: Article;
 }

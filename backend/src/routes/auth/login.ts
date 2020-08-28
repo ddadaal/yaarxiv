@@ -6,7 +6,7 @@ import { signUser } from "@/utils/auth";
 
 export async function loginRoute(fastify: FastifyInstance) {
   route<loginApi.LoginSchema>(fastify, loginApi.endpoint, "LoginSchema", { summary: loginApi.summary })(
-    async (req, reply) => {
+    async (req) => {
       const { id, password } = req.query;
       const userRepo = fastify.orm.getRepository(User);
 

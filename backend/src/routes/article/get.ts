@@ -5,7 +5,7 @@ import { Article } from "@/entities/Article";
 
 export async function getArticleRoute(fastify: FastifyInstance) {
   route<get.GetArticleSchema>(fastify, get.endpoint, "GetArticleSchema", {})(
-    async (req, reply) => {
+    async (req) => {
       const { articleId } = req.params;
       const { revision } = req.query;
 

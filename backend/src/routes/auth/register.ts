@@ -8,7 +8,7 @@ import { signUser } from "@/utils/auth";
 export async function registerRoute(fastify: FastifyInstance) {
 
   route<registerApi.RegisterSchema>(fastify, registerApi.endpoint, "RegisterSchema", { summary: registerApi.summary })(
-    async (req, reply) => {
+    async (req) => {
       const userRepo = fastify.orm.getRepository(User);
 
       const user = new User();

@@ -5,7 +5,7 @@ import fastify from "fastify";
 import FastifyTypeormPlugin from "fastify-typeorm-plugin";
 import FastifySwagger from "fastify-swagger";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
-import jwtAuth from "./utils/auth";
+import { jwtAuthPlugin } from "./utils/auth";
 import { routes }  from "./routes";
 import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
@@ -48,7 +48,7 @@ export async function startApp(config: Config = envConfig, start = true) {
   }
 
   server.register(FileUpload);
-  server.register(jwtAuth, { secret: config.jwtSecret });
+  server.register(jwtAuthPlugin, { secret: config.jwtSecret });
   server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
   routes.forEach((r) => server.register(r));

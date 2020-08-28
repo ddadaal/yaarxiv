@@ -2,14 +2,13 @@ import { route } from "@/utils/route";
 import * as deleteArticle from "yaarxiv-api/article/delete";
 import { FastifyInstance } from "fastify";
 import { Article } from "@/entities/Article";
-import { User } from "@/entities/User";
 
 export async function deleteArticleRoute(fastify: FastifyInstance) {
   route<deleteArticle.DeleteArticleSchema>(fastify, deleteArticle.endpoint, "DeleteArticleSchema", {
     summary: deleteArticle.summary,
     jwtAuth: true,
   })(
-    async (req, rep) => {
+    async (req) => {
       const { articleId } = req.params;
 
       const user = await req.dbUser();
