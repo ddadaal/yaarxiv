@@ -9,7 +9,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
       const { articleId } = req.params;
       const { revision } = req.query;
 
-      const repo = req.orm.getRepository(Article);
+      const repo = req.getEm().getRepository(Article);
 
       const article = await repo.findOne(parseInt(articleId), ["latestRevision"]);
 

@@ -4,7 +4,6 @@ import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User } from "@/entities/User";
 
 declare module "fastify" {
-  // @ts-ignore
   interface FastifyInstance {
     jwtAuth(): Promise<void>;
   }
@@ -37,8 +36,8 @@ export const jwtAuth = fp<AuthPluginOptions>(async (fastify: FastifyInstance, { 
   });
 
   fastify.decorateRequest("dbUser", async function () {
-    return await this.orm.getRepository(User).findOne(this.userId());
-  }, ["userId", "orm"]);
+    return await this.getEm().getRepository(User).findOne(this.userId());
+  });
 
   const decorated = fastify.hasRequestDecorator("userId");
 

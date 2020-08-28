@@ -9,7 +9,7 @@ export async function registerRoute(fastify: FastifyInstance) {
 
   route<registerApi.RegisterSchema>(fastify, registerApi.endpoint, "RegisterSchema", { summary: registerApi.summary })(
     async (req, reply) => {
-      const userRepo = req.orm.getRepository(User);
+      const userRepo = req.getEm().getRepository(User);
 
       const user = new User();
       user.id = genId();

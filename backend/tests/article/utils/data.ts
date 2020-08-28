@@ -1,3 +1,5 @@
+/// <reference path="../../../src/utils/orm.ts" />
+
 import { FastifyInstance } from "fastify";
 import { Article } from "../../../src/entities/Article";
 import { range } from "../../../src/utils/array";
@@ -6,17 +8,24 @@ import { insertUserInfo } from "./login";
 
 export async function fillData(fastify: FastifyInstance, articleCount: number) {
 
-  await insertUserInfo(fastify);
+  const generator = fastify.orm.getSchemaGenerator();
+  await generator.createSchema();
+
+  const em = fastify.orm.em.fork();
+
+  await insertUserInfo(em);
 
   const articles = range(0, articleCount).map(generateArticle);
   // append items
-  const articleRepo = fastify.orm.em.getRepository(Article);
-  await articleRepo.persistAndFlush(articles);
+  const articleRepo = em.getRepository(Article);
+  await articleRepo.persist(articles);
 
-  return articles;
+  await em.flush();
+
+  return em;
 }
 
 export async function dropData(fastify: FastifyInstance) {
   const generator = fastify.orm.getSchemaGenerator();
-  generator.dropSchema();
+  await generator.dropSchema();
 }

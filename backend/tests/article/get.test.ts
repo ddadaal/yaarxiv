@@ -3,17 +3,18 @@ import { startApp } from "../../src/app";
 import { Article } from "../../src/entities/Article";
 import * as getApi from "yaarxiv-api/article/get";
 import { dropData, fillData } from "./utils/data";
+import { EntityManager } from "mikro-orm";
 
 const articleCount = 12;
 
-let articles: Article[];
 
 let server: FastifyInstance;
+let em: EntityManager;
 
 beforeEach(async () => {
   server = await startApp();
 
-  articles = await fillData(server, articleCount);
+  em = await fillData(server, articleCount);
 });
 
 afterEach(async () => {

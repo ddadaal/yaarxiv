@@ -11,7 +11,7 @@ export async function searchArticleRoute(fastify: FastifyInstance) {
 
       const { searchText, page, keywords, authorNames, startYear, endYear } = req.query;
 
-      const repo = req.orm.getRepository(Article);
+      const repo = req.getEm().getRepository(Article);
 
       const builder =repo.createQueryBuilder("a")
         .leftJoin("a.latestRevision", "r");

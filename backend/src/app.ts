@@ -8,6 +8,7 @@ import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
 import FileUpload from "fastify-file-upload";
 import { fastifyMikroPlugin } from "./utils/orm";
+import { MikroORM } from "mikro-orm";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
@@ -41,8 +42,8 @@ export async function startApp(config: Config = envConfig, start = true) {
   }
 
   server.register(FileUpload);
-  server.register(fastifyMikroPlugin);
   server.register(jwtAuth, { secret: config.jwtSecret });
+  server.register(fastifyMikroPlugin);
 
   routes.forEach((r) => server.register(r));
 

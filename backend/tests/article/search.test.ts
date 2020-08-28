@@ -6,17 +6,17 @@ import * as searchApi from "yaarxiv-api/article/search";
 import { generateArticle } from "./utils/generateArticles";
 import { insertUserInfo } from "./utils/login";
 import { fillData } from "./utils/data";
+import { EntityManager } from "mikro-orm";
 
 const articleCount = 12;
 
-let articles: Article[];
-
 let server: FastifyInstance;
+let em: EntityManager;
 
 beforeEach(async () => {
   server = await startApp();
 
-  articles = await fillData(server, articleCount);
+  em = await fillData(server, articleCount);
 });
 
 afterEach(async () => {

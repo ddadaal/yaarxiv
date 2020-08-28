@@ -5,8 +5,7 @@ import * as deleteApi from "yaarxiv-api/article/delete";
 import { login, adminUser, normalUser1 } from "./utils/login";
 import { ArticleRevision } from "../../src/entities/ArticleRevision";
 import { dropData, fillData } from "./utils/data";
-
-let articles: Article[];
+import { EntityManager } from "mikro-orm";
 
 let server: FastifyInstance;
 
@@ -14,12 +13,14 @@ let articleRepo;
 
 let articleRevRepo;
 
+let em: EntityManager;
+
 beforeEach(async () => {
   server = await startApp();
 
-  articles = await fillData(server, 2);
-  articleRepo = server.orm.em.getRepository(Article);
-  articleRevRepo = server.orm.em.getRepository(ArticleRevision);
+  em = await fillData(server, 2);
+  articleRepo = em.getRepository(Article);
+  articleRevRepo = em.getRepository(ArticleRevision);
 
 });
 

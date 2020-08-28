@@ -31,9 +31,6 @@ export class ArticleRevision {
   @Property()
   pdfLink: string;
 
-  @ManyToOne()
+  @ManyToOne(() => Article)
   article: Article;
-
-  @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true })
-  latestRevisionOf: Article | null;
 }

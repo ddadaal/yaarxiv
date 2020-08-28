@@ -8,7 +8,7 @@ export async function loginRoute(fastify: FastifyInstance) {
   route<loginApi.LoginSchema>(fastify, loginApi.endpoint, "LoginSchema", { summary: loginApi.summary })(
     async (req, reply) => {
       const { id, password } = req.query;
-      const userRepo = req.orm.getRepository(User);
+      const userRepo = req.getEm().getRepository(User);
 
       const user = await userRepo.findOne({ email: id });
       if (!user || user.password !== password) {

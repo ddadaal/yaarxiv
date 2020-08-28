@@ -3,6 +3,7 @@ import { User } from "../../../src/entities/User";
 import { genId } from "../../../src/utils/genId";
 import { signUser } from "../../../src/utils/auth";
 import { FastifyInstance } from "fastify";
+import { EntityManager } from "mikro-orm";
 
 export const normalUser1 = new User();
 normalUser1.role = "user";
@@ -29,8 +30,8 @@ export function login(fastify: FastifyInstance, user: User) {
   return { headers: { authorization: `bearer ${signUser(fastify, user)}` } };
 }
 
-export async function insertUserInfo(fastify: FastifyInstance) {
-  const repo = fastify.orm.em.getRepository(User);
+export async function insertUserInfo(em: EntityManager) {
+  const repo = em.getRepository(User);
 
-  await repo.persistAndFlush([normalUser1, normalUser2, adminUser]);
+  await repo.persist([normalUser1, normalUser2, adminUser]);
 }
