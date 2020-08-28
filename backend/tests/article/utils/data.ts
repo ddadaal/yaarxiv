@@ -1,14 +1,10 @@
 import { FastifyInstance } from "fastify";
-import { EntityRepository } from "mikro-orm";
 import { Article } from "../../../src/entities/Article";
 import { range } from "../../../src/utils/array";
 import { generateArticle } from "./generateArticles";
 import { insertUserInfo } from "./login";
 
 export async function fillData(fastify: FastifyInstance, articleCount: number) {
-
-  const generator = fastify.orm.getSchemaGenerator();
-  await generator.createSchema();
 
   await insertUserInfo(fastify);
 
@@ -22,5 +18,5 @@ export async function fillData(fastify: FastifyInstance, articleCount: number) {
 
 export async function dropData(fastify: FastifyInstance) {
   const generator = fastify.orm.getSchemaGenerator();
-  await generator.dropSchema();
+  generator.dropSchema();
 }

@@ -3,7 +3,6 @@ import fp from "fastify-plugin";
 import { EntityManager, MikroORM } from "mikro-orm";
 import * as plugin from "fastify-request-context";
 
-
 declare module "fastify" {
   interface FastifyRequest {
     orm: EntityManager;
@@ -16,8 +15,10 @@ declare module "fastify" {
 
 export const fastifyMikroPlugin = fp(async (fastify) => {
   const orm = await MikroORM.init();
+  const generator = orm.getSchemaGenerator();
+  await generator.ensureDatabase();
 
-  fastify.decorate("orm", orm );
+  fastify.decorate("orm", orm);
 
   fastify.register((plugin as any).fastifyRequestContextPlugin, {
     hook: "preValidation",

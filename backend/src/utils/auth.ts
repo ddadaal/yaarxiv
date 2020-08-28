@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import FastifyJwt from "fastify-jwt";
-import { FastifyPlugin, FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
+import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User } from "@/entities/User";
 
 declare module "fastify" {
@@ -33,13 +33,15 @@ export const jwtAuth = fp<AuthPluginOptions>(async (fastify: FastifyInstance, { 
   });
 
   fastify.decorateRequest("userId", function () {
-    console.log(this);
     return (this.user as any).id;
   });
 
   fastify.decorateRequest("dbUser", async function () {
     return await this.orm.getRepository(User).findOne(this.userId());
-  });
+  }, ["userId", "orm"]);
+
+  const decorated = fastify.hasRequestDecorator("userId");
+
 });
 
 export function signUser(fastify: FastifyInstance, user: User) {

@@ -2,7 +2,8 @@
   "loadSwagger": true,
   "orm": {
     "type": "sqlite",
-    "clientUrl": "./db.db"
+    "clientUrl": "./db.db",
+    "debug": true
   },
   "logger": {
     "level": "info",

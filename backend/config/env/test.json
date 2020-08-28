@@ -3,7 +3,8 @@
   "loadSwagger": false,
   "orm": {
     "type": "sqlite",
-    "path": ":memory:"
+    "path": ":memory:",
+    "debug": true
   },
   "logger": {
     "level": "error",

@@ -1,11 +1,8 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { range } from "../../src/utils/array";
 import { Article } from "../../src/entities/Article";
 import * as getApi from "yaarxiv-api/article/get";
-import { generateArticle } from "./utils/generateArticles";
-import { insertUserInfo } from "./utils/login";
-import { fillData } from "./utils/data";
+import { dropData, fillData } from "./utils/data";
 
 const articleCount = 12;
 
@@ -21,6 +18,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await server.close();
+  await dropData(server);
 });
 
 it("should return 404 if article doesn't exist", async () => {

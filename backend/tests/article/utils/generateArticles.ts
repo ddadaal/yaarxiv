@@ -29,11 +29,12 @@ const genRevision = (article: Article, revisionId: number) => {
 export const generateArticle = (id: number) => {
   const article = new Article();
   article.id = id;
-  article.revisions = range(0,id+1).map((i) => genRevision(article, i));
+  const revisions = range(0,id+1).map((i) => genRevision(article, i));
+  article.revisions.add(...revisions);
   article.createTime = new Date(articleTime);
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
-  article.latestRevision = article.revisions[article.revisions.length-1];
+  article.latestRevision = revisions[revisions.length-1];
   article.owner = id % 2 == 1 ? normalUser1 : normalUser2;
   return article;
 };
