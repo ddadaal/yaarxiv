@@ -5,6 +5,7 @@ import { loginRoute } from "./auth/login";
 import { deleteArticleRoute } from "./article/delete";
 import { dashboardGetArticlesRoute } from "./dashboard/getArticles";
 import { adminGetArticlesRoute } from "./admin/getArticles";
+import { uploadArticleRoute } from "./article/upload";
 
 export const routes = [
   loginRoute,
@@ -14,5 +15,6 @@ export const routes = [
   deleteArticleRoute,
   dashboardGetArticlesRoute,
   adminGetArticlesRoute,
+  uploadArticleRoute,
 ];
 
