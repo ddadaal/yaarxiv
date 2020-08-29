@@ -4,7 +4,7 @@ import { range } from "../../../src/utils/array";
 import { Author } from "yaarxiv-api/article/models";
 import { normalUser1, normalUser2 } from "./login";
 
-const pdfLink = "https://docs.microsoft.com/en-us/dotnet/opbuildpdf/core/toc.pdf?branch=live";
+export const pdfLink = "https://docs.microsoft.com/en-us/dotnet/opbuildpdf/core/toc.pdf?branch=live";
 
 const articleTime = new Date();
 
@@ -16,7 +16,7 @@ const authors: Author[] = [
 const genRevision = (article: Article, revisionId: number) => {
   const rev = new ArticleRevision();
   rev.title = `Article ${article.id} Revision ${revisionId}`;
-  rev.revisionNumber = revisionId;
+  rev.revisionNumber = revisionId + 1;
   rev.authors = authors;
   rev.abstract = rev.title + " Abstract";
   rev.time = articleTime;
@@ -33,7 +33,7 @@ export const generateArticle = (id: number) => {
   article.createTime = new Date(articleTime);
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
-  article.latestRevisionNumber = article.revisions.length-1;
+  article.latestRevisionNumber = id+1;
   article.owner = id % 2 == 1 ? normalUser1 : normalUser2;
   return article;
 };

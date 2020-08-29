@@ -22,6 +22,6 @@ export interface UploadArticleSchema {
     201: {
       /** The id of the new article. */
       id: string;
-    }
+    },
   }
 }

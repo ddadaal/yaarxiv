@@ -336,10 +336,28 @@
               ],
               "additionalProperties": false,
               "description": "The update is successful."
+            },
+            "401": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Not logged in."
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The user is not the owner."
+            },
+            "404": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The article is not found."
             }
           },
           "required": [
-            "201"
+            "201",
+            "401",
+            "403",
+            "404"
           ],
           "additionalProperties": false
         }

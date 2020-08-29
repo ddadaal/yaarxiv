@@ -28,6 +28,17 @@ export interface UpdateArticleSchema {
        * @type {integer}
        */
       revisionNumber: number;
+    },
+    /** Not logged in. */
+    401: {
+
+    }
+    /** The user is not the owner. */
+    403: {
+    }
+    /** The article is not found. */
+    404: {
+
     }
   }
 }
