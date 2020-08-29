@@ -1,5 +1,6 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import { Article } from "./Article";
+import { PdfUpload } from "./PdfUpload";
 
 export type UserRole = "user" | "admin";
 
@@ -23,6 +24,9 @@ export class User {
     default: "user",
   })
   role: UserRole;
+
+  @OneToMany(() => PdfUpload, (p) => p.user, { cascade: true, onDelete: "CASCADE" })
+  uploads: PdfUpload[];
 
   @OneToMany(() => Article, (a) => a.owner, { cascade: true, onDelete: "CASCADE" })
   articles: Article[];

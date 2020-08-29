@@ -3,10 +3,17 @@ export const endpoint = {
   method: "POST",
 } as const;
 
+/**
+ * Upload a PDF into the platform.
+ * Expect Content-Type to be multipart/form-data.
+ */
 export interface UploadPDFSchema {
   body: {
-    /** The file object. 1 PDF per request. */
-    file: object;
+    /**
+     * The file object.
+     * 1 PDF per request.
+     */
+    file: File;
   },
   responses: {
     /** The upload is successful. */

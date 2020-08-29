@@ -3,6 +3,7 @@ import { User } from "../../../src/entities/User";
 import { genId } from "../../../src/utils/genId";
 import { signUser } from "../../../src/utils/auth";
 import { FastifyInstance } from "fastify";
+import http from "http";
 
 export const normalUser1 = new User();
 normalUser1.role = "user";
@@ -25,8 +26,16 @@ adminUser.email = "admin@user.com";
 adminUser.password = "admin@user.com";
 adminUser.id = genId();
 
-export function login(fastify: FastifyInstance, user: User) {
-  return { headers: { authorization: `bearer ${signUser(fastify, user)}` } };
+export function login(
+  fastify: FastifyInstance,
+  user: User,
+  extraHeaders?: http.IncomingHttpHeaders | http.OutgoingHttpHeaders) {
+  return {
+    headers: {
+      authorization: `bearer ${signUser(fastify, user)}`,
+      ...extraHeaders,
+    },
+  };
 }
 
 export async function insertUserInfo() {

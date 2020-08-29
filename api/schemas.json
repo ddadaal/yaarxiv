@@ -449,8 +449,8 @@
           "type": "object",
           "properties": {
             "file": {
-              "type": "object",
-              "description": "The file object. 1 PDF per request."
+              "$ref": "#/definitions/File",
+              "description": "The file object.\r\n1 PDF per request."
             }
           },
           "required": [
@@ -486,7 +486,8 @@
         "body",
         "responses"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "Upload a PDF into the platform.\r\nExpect Content-Type to be multipart/form-data."
     },
     "LoginSchema": {
       "type": "object",

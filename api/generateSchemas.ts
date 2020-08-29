@@ -19,6 +19,7 @@ async function start() {
   const routeSchemas: typeof allDefinitions = {};
   const models: typeof allDefinitions = {};
   for (const key in allDefinitions) {
+    if (key === "File" || key === "Blob") { continue; }
     if (key.endsWith("Schema")) {
       routeSchemas[key] = allDefinitions[key];
     } else {

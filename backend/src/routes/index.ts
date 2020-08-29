@@ -7,6 +7,7 @@ import { dashboardGetArticlesRoute } from "./dashboard/getArticles";
 import { adminGetArticlesRoute } from "./admin/getArticles";
 import { uploadArticleRoute } from "./article/upload";
 import { updateArticleRoute } from "./article/update";
+import { uploadPdfRoute } from "./article/uploadPdf";
 
 export const routes = [
   loginRoute,
@@ -18,5 +19,6 @@ export const routes = [
   adminGetArticlesRoute,
   uploadArticleRoute,
   updateArticleRoute,
+  uploadPdfRoute,
 ];
 

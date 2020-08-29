@@ -16,5 +16,6 @@
   "logger": {
     "level": "error",
     "prettyPrint": true
-  }
+  },
+  "fileUploadPath": "testupload"
 }
