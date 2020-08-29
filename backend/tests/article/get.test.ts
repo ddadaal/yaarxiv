@@ -49,7 +49,7 @@ it("should return the latest revision of article if revision is not specified", 
   const { article } = resp.json() as getApi.GetArticleSchema["responses"]["200"];
 
   expect(article.id).toBe("2");
-  expect(article.revisionNumber).toBe(2);
+  expect(article.revisionNumber).toBe(3);
 });
 
 it("should return the specified revision of article if specified", async () => {
@@ -72,7 +72,7 @@ it("shoud return 404 if revision is not found.", async () => {
   const resp = await server.inject({
     method: getApi.endpoint.method,
     url: "/articles/2",
-    query: { revision: "3" },
+    query: { revision: "5" },
   });
 
   expect(resp.statusCode).toBe(404);
