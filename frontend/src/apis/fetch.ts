@@ -1,4 +1,4 @@
-import { Endpoint, Schema } from "yaarxiv-api";
+import { Endpoint, replacePathArgs, Schema } from "yaarxiv-api";
 import {  incrementRequest, decrementRequest } from "src/components/TopProgressBar";
 import { isServer } from "src/utils/isServer";
 
@@ -127,12 +127,7 @@ export function fromApi<TSchema extends Schema>(endpoint: Endpoint) {
     const anyArgs = args as any;
     // replace path params
     const replacedPath = anyArgs.path
-      ? endpoint.url
-        .split("/")
-        .reduce((prev, curr) => ([
-          ...prev,
-          curr.startsWith(":") ? anyArgs.path[curr.slice(1)] : curr]), [])
-        .join("/")
+      ? replacePathArgs(endpoint.url, anyArgs)
       : endpoint.url;
 
     return jsonFetch({
