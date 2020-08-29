@@ -42,3 +42,11 @@ it("should error if one email registers twice", async () => {
   expect(resp.statusCode).toBe(405);
 });
 
+it("should fail if input email is not a valid email address", async () => {
+  const resp = await server.inject({
+    ...registerApi.endpoint,
+    payload: { email: "123", password: "123" },
+  });
+
+  expect(resp.statusCode).toBe(400);
+});

@@ -8,7 +8,11 @@ export const summary = "Register.";
 /** Register */
 export interface RegisterSchema {
   body: {
-    /** The email. Requires to be an edu email*/
+    /**
+     * The email.
+     * Requires to be an edu email.
+     * @format email
+     */
     email: string;
     /** The password */
     password: string;

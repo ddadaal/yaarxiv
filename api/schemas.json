@@ -564,7 +564,8 @@
           "properties": {
             "email": {
               "type": "string",
-              "description": "The email. Requires to be an edu email"
+              "description": "The email.\r\nRequires to be an edu email.",
+              "format": "email"
             },
             "password": {
               "type": "string",
