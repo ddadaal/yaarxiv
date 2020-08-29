@@ -1,4 +1,3 @@
-import { UserRole } from "@/entities/User";
 import { FastifyInstance, FastifyRequest, FastifyReply, FastifySchema } from "fastify";
 import { Endpoint, Schema, SchemaObject } from "yaarxiv-api";
 import { AuthOption } from "./auth";
@@ -36,8 +35,10 @@ export const route = <TSchema extends Schema>(
       schema: {
         description: schema.description,
         querystring: schema.properties.querystring,
+        params: schema.properties.path,
         body: schema.properties.body,
         response: schema.properties.responses.properties,
+        consumes: ["application/json"],
         ...rest,
       },
       preValidation: authOption ? [fastify.jwtAuth(authOption)] : undefined,
