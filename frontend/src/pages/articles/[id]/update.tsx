@@ -1,12 +1,8 @@
-import { Box, Text } from "grommet";
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
-import { useAsync } from "react-async";
 import { LocalizedString } from "simstate-i18n";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
-import { OverlayLoading } from "src/components/OverlayLoading";
-import { Spinner } from "src/components/Spinner";
 import { lang } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { queryToString } from "src/utils/querystring";
@@ -14,7 +10,6 @@ import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
 import { Article } from "yaarxiv-api/article/models";
 import { GetServerSideProps } from "next";
-import { parseCookies } from "nookies";
 import { getCurrentUserInCookie } from "src/stores/UserStore";
 import { changeToken, HttpError } from "src/apis/fetch";
 import { NotFound } from "src/components/errors/NotFound";
@@ -24,14 +19,14 @@ const root = lang.pages.updateArticle;
 
 const api = getApi(articleApis);
 
-interface Props {
-  articleInfo: Article | null;
-  serverError?: HttpError;
+type Props = {
+  article: Article;
+} | {
+  serverError: HttpError;
 }
 
-export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) => {
 
-  const { articleInfo, serverError } = props;
+export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) => {
 
   const router = useRouter();
 
@@ -66,15 +61,15 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
     });
   }, [articleId]);
 
-  if (!articleInfo) {
-    if (serverError) {
-      return <ServerError error={serverError} />;
-    } else {
+  if (!("article" in props)) {
+    if (props.serverError.status === 404) {
       return <NotFound />;
+    } else {
+      return <ServerError error={props.serverError} />;
     }
   }
 
-  const current = articleInfo.currentRevision;
+  const current = props.article.currentRevision;
 
   return (
     <ArticleEditForm
@@ -88,27 +83,17 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
 
 export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
   const user = getCurrentUserInCookie(ctx);
-  console.log(user, ctx.query, ctx.params);
 
   if (user) {
     changeToken(user.token);
-    try  {
-      const resp = await api.get({
-        path: { articleId: queryToString(ctx.query.id) },
-        query: {},
-      });
-      return { props: { articleInfo: resp.article } };
-    } catch (e) {
-      const ex = e as HttpError;
-      if (ex.status === 404) {
-        return { props: { articleInfo: null } };
-      } else {
-        return { props: { articleInfo: null, serverError: ex } };
-      }
-    }
+    const data = await api.get({
+      path: { articleId: queryToString(ctx.query.id) },
+      query: {},
+    });
 
+    return { props: data };
   } else {
-    return { props: { articleInfo: null } };
+    return { props: { serverError: { status: 401, data: {} } } };
   }
 };
 
