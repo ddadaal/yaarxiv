@@ -1,4 +1,5 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, OneToOne } from "typeorm";
+import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 
 @Entity()
@@ -14,5 +15,8 @@ export class PdfUpload {
 
   @Column()
   link: string;
+
+  @OneToOne(() => ArticleRevision, (r) => r.pdf, { nullable: true })
+  articleRevision: ArticleRevision | undefined;
 
 }

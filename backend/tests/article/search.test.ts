@@ -1,27 +1,18 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { range } from "../../src/utils/array";
 import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
 import * as searchApi from "yaarxiv-api/article/search";
-import { generateArticle } from "./utils/generateArticles";
-import { insertUserInfo } from "./utils/login";
+import { insertData } from "./utils/data";
 
 const articleCount = 12;
 
-let articles: Article[];
 
 let server: FastifyInstance;
 
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
-  articles = range(0, articleCount).map(generateArticle);
-
-  // append items
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
+  await insertData(articleCount);
 });
 
 afterEach(async () => {
@@ -32,6 +23,7 @@ afterEach(async () => {
 it("should return the first page (10) of articles when no query is input.", async () => {
   const resp = await server.inject({ ...searchApi.endpoint });
 
+  const payload = resp.json();
   expect(resp.statusCode).toBe(200);
   const json = resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
 

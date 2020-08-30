@@ -1,5 +1,7 @@
 import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
+import { PdfUpload } from "@/entities/PdfUpload";
+import { makeError } from "@/utils/error";
 import { route } from "@/utils/route";
 import { FastifyInstance } from "fastify";
 import * as api from "yaarxiv-api/article/upload";
@@ -7,7 +9,13 @@ import * as api from "yaarxiv-api/article/upload";
 export async function uploadArticleRoute(fastify: FastifyInstance) {
   route<api.UploadArticleSchema>(fastify, api.endpoint, "UploadArticleSchema", { authOption: true })(
     async (req) => {
-      // should validate the pdfToken first.
+      // validate the pdfToken first.
+
+      const pdfRepo = fastify.orm.getRepository(PdfUpload);
+      const pdf = await pdfRepo.findOne(req.body.pdfToken);
+      if (!pdf) {
+        throw makeError(400, "PDF token is invalid.");
+      }
 
       const articleRepo = fastify.orm.getRepository(Article);
 
@@ -24,7 +32,7 @@ export async function uploadArticleRoute(fastify: FastifyInstance) {
       rev.article = article;
       rev.category = "";
       rev.keywords = req.body.keywords;
-      rev.pdfLink = req.body.pdfToken;
+      rev.pdf = pdf;
       rev.revisionNumber = 1;
       rev.title = req.body.title;
       rev.time = createTime;

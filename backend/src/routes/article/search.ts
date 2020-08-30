@@ -50,7 +50,6 @@ export async function searchArticleRoute(fastify: FastifyInstance) {
               keywords: rev.keywords,
               category: rev.category,
               commentCount: 0,
-              pdfLink: rev.pdfLink,
             };
           }),
         },

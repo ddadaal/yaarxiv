@@ -1,26 +1,18 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { range } from "../../src/utils/array";
 import { Article } from "../../src/entities/Article";
 import { getRepository } from "typeorm";
 import * as deleteApi from "yaarxiv-api/article/delete";
-import { generateArticle } from "./utils/generateArticles";
-import { insertUserInfo, login, adminUser, normalUser1 } from "./utils/login";
+import { login, adminUser, normalUser1 } from "./utils/login";
 import { ArticleRevision } from "../../src/entities/ArticleRevision";
-
-let articles: Article[];
+import { insertData } from "./utils/data";
 
 let server: FastifyInstance;
 
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
-
-  articles = range(0, 2).map(generateArticle);
-  // append items
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
+  await insertData(2);
 
 });
 

@@ -1,7 +1,8 @@
 import { Entity } from "typeorm/decorator/entity/Entity";
-import { Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
+import { PdfUpload } from "./PdfUpload";
 
 @Entity()
 export class ArticleRevision {
@@ -29,8 +30,9 @@ export class ArticleRevision {
   @Column()
   category: string;
 
-  @Column()
-  pdfLink: string;
+  @OneToOne(() => PdfUpload, (p) => p.articleRevision, { cascade: true, onDelete: "CASCADE" })
+  @JoinColumn()
+  pdf: PdfUpload;
 
   @ManyToOne(() => Article, (a) => a.revisions, { onDelete:"CASCADE" })
   article: Article;

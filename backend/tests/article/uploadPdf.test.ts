@@ -7,6 +7,7 @@ import { PdfUpload } from "../../src/entities/PdfUpload";
 import fs from "fs";
 import FormData from "form-data";
 import { config } from "node-config-ts";
+import { mockFileForm } from "./utils/mockFileForm";
 
 let server: FastifyInstance;
 
@@ -22,20 +23,10 @@ afterEach(async () => {
   await fs.promises.rmdir(config.upload.path, { recursive: true });
 });
 
-function mockForm(size: number) {
-  const formData = new FormData();
-  formData.append("file", Buffer.alloc(size), {
-    filename: "test.pdf",
-    contentType: "application/pdf",
-    knownLength: size,
-  });
-  return formData;
-}
-
 it("upload an PDF to the system.", async () => {
 
   const fileSize = 1* 1024*1024; // 1MB
-  const formData = mockForm(fileSize);
+  const formData = mockFileForm(fileSize);
 
   const resp = await server.inject({
     ...api.endpoint,
@@ -57,7 +48,7 @@ it("upload an PDF to the system.", async () => {
 
 it("fails if the file size is too big.", async () => {
   const fileSize = 10* 1024*1024; // 10MB
-  const formData = mockForm(fileSize);
+  const formData = mockFileForm(fileSize);
 
   const resp = await server.inject({
     ...api.endpoint,

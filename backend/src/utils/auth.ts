@@ -2,7 +2,7 @@ import fp from "fastify-plugin";
 import FastifyJwt from "fastify-jwt";
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User, UserRole } from "@/entities/User";
-import { makeError } from "./error";
+import { make500Error } from "./error";
 import createError from "http-errors";
 import { config } from "node-config-ts";
 

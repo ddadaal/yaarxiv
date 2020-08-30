@@ -945,10 +945,6 @@
           "type": "string",
           "description": "The category of the article."
         },
-        "pdfLink": {
-          "type": "string",
-          "description": "The download link of the pdf"
-        },
         "articleId": {
           "type": "string",
           "description": "The id of the article."
@@ -975,11 +971,52 @@
         "createTime",
         "keywords",
         "lastUpdateTime",
-        "pdfLink",
         "title"
       ],
       "additionalProperties": false,
       "description": "A preview information of the article."
+    },
+    "Omit<ArticleInfo,\"pdfLink\">": {
+      "$ref": "#/definitions/Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22pdfLink%22)%2C%22pdfLink%22%3E%3E"
+    },
+    "Pick<ArticleInfo,Exclude<(\"title\"|\"authors\"|\"abstract\"|\"keywords\"|\"category\"|\"pdfLink\"),\"pdfLink\">>": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "The title of the article."
+        },
+        "authors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Author"
+          },
+          "description": "The authors of the article."
+        },
+        "abstract": {
+          "type": "string",
+          "description": "The abstract."
+        },
+        "keywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "The keywords of the article."
+        },
+        "category": {
+          "type": "string",
+          "description": "The category of the article."
+        }
+      },
+      "required": [
+        "title",
+        "authors",
+        "abstract",
+        "keywords",
+        "category"
+      ],
+      "additionalProperties": false
     },
     "UserRole": {
       "type": "string",

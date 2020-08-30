@@ -32,6 +32,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
         .createQueryBuilder("r")
         .where("r.articleId = :aid", { aid: articleId })
         .andWhere("r.revisionNumber = :rn", { rn: targetRevisionNumber })
+        .leftJoinAndSelect("r.pdf", "a")
         .getOne();
 
       if (!targetRevision) {
@@ -48,7 +49,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
               authors: targetRevision.authors,
               category: targetRevision.category,
               keywords: targetRevision.keywords,
-              pdfLink: targetRevision.pdfLink,
+              pdfLink: targetRevision.pdf.link,
               title: targetRevision.title,
             },
             revisions: articlesRevisionInfo.map((x) => ({

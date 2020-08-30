@@ -1,52 +1,41 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { range } from "../../src/utils/array";
 import { Article } from "../../src/entities/Article";
 import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/article/upload";
-import { generateArticle } from "./utils/generateArticles";
-import { insertUserInfo, login, normalUser1 } from "./utils/login";
+import { login, normalUser1 } from "./utils/login";
+import { PdfUpload } from "../../src/entities/PdfUpload";
+import { generatePdf, insertData } from "./utils/data";
 
 const articleCount = 12;
-
-let articles: Article[];
 
 let server: FastifyInstance;
 
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
-  articles = range(0, articleCount).map(generateArticle);
-
-  // append items
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
+  await insertData(articleCount);
 });
 
 afterEach(async () => {
   await server.close();
 });
 
-const payload: api.UploadArticleSchema["body"] = {
-  abstract: "123",
-  authors: ["author"],
-  keywords: ["k1", "k2"],
-  pdfToken: "1231212",
-  title: "123",
-};
-
-it("return 401 if not logged in.", async () => {
-
-  const resp = await server.inject({
-    ...api.endpoint,
-    payload,
-  });
-  expect(resp.statusCode).toBe(401);
-});
 
 it("upload an article.", async () => {
 
+  // upload a pdf and get token
+  const pdfRepo = getRepository(PdfUpload);
+  const pdf = generatePdf();
+  await pdfRepo.save(pdf);
+
+  const payload: api.UploadArticleSchema["body"] = {
+    abstract: "123",
+    authors: ["author"],
+    keywords: ["k1", "k2"],
+    pdfToken: pdf.id,
+    title: "123",
+  };
 
   const resp = await server.inject({
     ...api.endpoint,
@@ -63,5 +52,23 @@ it("upload an article.", async () => {
   expect(article!.latestRevisionNumber).toBe(1);
   expect(article!.revisions[0].abstract).toBe(payload.abstract);
   expect(article!.revisions[0].title).toBe(payload.title);
+});
 
+it("fails if pdf token is invalid.", async () => {
+  const payload: api.UploadArticleSchema["body"] = {
+    abstract: "123",
+    authors: ["author"],
+    keywords: ["k1", "k2"],
+    pdfToken: "12112ifjinaso",
+    title: "123",
+  };
+
+  const resp = await server.inject({
+    ...api.endpoint,
+    payload,
+    ...login(server, normalUser1),
+  });
+
+  const info = resp.json();
+  expect(resp.statusCode).toBe(400);
 });
