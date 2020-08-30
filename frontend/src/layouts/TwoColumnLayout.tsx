@@ -25,7 +25,7 @@ export const TwoColumnLayout: React.FC<Props> = ({
     <>
       <Media lessThan={breakpoint}>
         {(className) => (
-          <Box direction="row" className={className} wrap>
+          <Box direction="row" className={className} flex wrap>
             <Box margin={margin} basis={"100%"}>
               {left}
             </Box>
@@ -37,7 +37,7 @@ export const TwoColumnLayout: React.FC<Props> = ({
       </Media>
       <Media greaterThanOrEqual={breakpoint}>
         {(className) => (
-          <Box direction="row" className={className}>
+          <Box direction="row" className={className} flex>
             <Box margin={margin} basis={leftProportion}>
               {left}
             </Box>

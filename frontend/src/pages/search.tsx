@@ -1,5 +1,5 @@
 import React, { useCallback } from "react";
-import { Box, ResponsiveContext } from "grommet";
+import { Box } from "grommet";
 import { useRouter } from "next/router";
 import { useAsync } from "react-async";
 import { getApi } from "src/apis";
@@ -7,7 +7,6 @@ import { articleApis } from "src/apis/article";
 import { SearchQuery } from "src/models/SearchQuery";
 import { ArticleSearchItem } from "src/pageComponents/article/ArticleSearchItem";
 import { GetServerSideProps } from "next";
-import { compareBreakpoints } from "src/utils/compareBreakpoints";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { ArticleFilter } from "src/pageComponents/article/ArticleFilter";
 import { queryToIntOrDefault, queryToString, queryToArray } from "src/utils/querystring";
@@ -73,56 +72,48 @@ export const Search: React.FC<Props> = (props) => {
           onConfirm={(k) => updateQuery({ searchText: k })}
         />
       </Box>
-      <ResponsiveContext.Consumer>
-        {(res) => {
-          const bigger = compareBreakpoints(res, "medium") >= 0;
-          return (
-            <Box direction="row" wrap={!bigger}>
-              <TwoColumnLayout
-                left={
-                  <Section pad="none" elevation={"none"}>
-                    <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
-                      <Box gap="large">
-                        {results.map((r) => (
-                          <ArticleSearchItem
-                            key={r.articleId}
-                            article={r}
-                            onAuthorClicked={onAuthorClicked}
-                            onKeywordClicked={onKeywordClicked}
-                          />
-                        ))}
-                      </Box>
-                      <Box direction="row" justify="center">
-                        <Pagination
-                          currentPage={currentPage}
-                          itemsPerPage={1}
-                          totalItemsCount={totalCount}
-                          getUrl={(i) => ({
-                            pathname: "/search",
-                            query: { ...query, page: i },
-                          })}
-                        />
-                      </Box>
-                    </OverlayLoading>
-                  </Section>
-                }
-                right={
-                  <ArticleFilter
-                    startYear={queryToIntOrDefault(query.startYear)}
-                    endYear={queryToIntOrDefault(query.endYear)}
-                    authorNames={queryToArray(query.authorNames)}
-                    keywords={queryToArray(query.keywords)}
-                    onAuthorsChange={updateQuery}
-                    onYearChange={updateQuery}
-                    onKeywordsChange={updateQuery}
+      <Box direction="row" justify="center" flex="grow">
+        <TwoColumnLayout
+          left={
+            <Section pad="none" elevation={"none"}>
+              <OverlayLoading loading={isPending} showSpinner={totalCount === 0}>
+                <Box gap="large">
+                  {results.map((r) => (
+                    <ArticleSearchItem
+                      key={r.articleId}
+                      article={r}
+                      onAuthorClicked={onAuthorClicked}
+                      onKeywordClicked={onKeywordClicked}
+                    />
+                  ))}
+                </Box>
+                <Box direction="row" justify="center">
+                  <Pagination
+                    currentPage={currentPage}
+                    itemsPerPage={1}
+                    totalItemsCount={totalCount}
+                    getUrl={(i) => ({
+                      pathname: "/search",
+                      query: { ...query, page: i },
+                    })}
                   />
-                }
-              />
-            </Box>
-          );
-        }}
-      </ResponsiveContext.Consumer>
-
+                </Box>
+              </OverlayLoading>
+            </Section>
+          }
+          right={
+            <ArticleFilter
+              startYear={queryToIntOrDefault(query.startYear)}
+              endYear={queryToIntOrDefault(query.endYear)}
+              authorNames={queryToArray(query.authorNames)}
+              keywords={queryToArray(query.keywords)}
+              onAuthorsChange={updateQuery}
+              onYearChange={updateQuery}
+              onKeywordsChange={updateQuery}
+            />
+          }
+        />
+      </Box>
     </Box>
   );
 };
