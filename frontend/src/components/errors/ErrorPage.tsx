@@ -1,4 +1,4 @@
-import { Box, Heading, Paragraph } from "grommet";
+import { Box, Heading, Paragraph, Text } from "grommet";
 import { IconProps  } from "grommet-icons";
 import React from "react";
 import { LocalizedString } from "simstate-i18n";
@@ -17,10 +17,12 @@ export const ErrorPage: React.FC<Props> = ({
 }) => {
   return (
     <Box justify="center" align="center">
-      <Heading level={1} size="small">
+      <Box direction="row" gap="small" align="center" justify="center">
         <Icon color="status-error" />
-        <LocalizedString id={titleId} />
-      </Heading>
+        <Heading level={1} size="small">
+          <LocalizedString id={titleId} />
+        </Heading>
+      </Box>
       <Paragraph>
         <LocalizedString
           id={descriptionId}
