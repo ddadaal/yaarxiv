@@ -18,9 +18,10 @@ export async function getArticleRoute(fastify: FastifyInstance) {
       const articlesRevisionInfo = await revisionRepo
         .createQueryBuilder("r")
         .where("r.articleId = :aid", { aid: articleId })
-        .select("r.revisionNumber", "number")
-        .addSelect("r.time", "time")
+        .orderBy("r.revisionNumber")
         .getMany();
+
+      req.log.info(articlesRevisionInfo);
 
       if (!article) {
         return { 404: { notFound: "article" } };

@@ -12,27 +12,27 @@ import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/Article
 import { queryToString } from "src/utils/querystring";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
+import { Article } from "yaarxiv-api/article/models";
+import { GetServerSideProps } from "next";
+import { parseCookies } from "nookies";
+import { getCurrentUserInCookie } from "src/stores/UserStore";
+import { changeToken } from "src/apis/fetch";
 
 const root = lang.pages.updateArticle;
 
 const api = getApi(articleApis);
 
-const getArticle = (articleId: string) => api.get({ path: { articleId }, query: {} })
-  .then((x) => x.article);
+interface Props {
+  articleInfo?: Article;
+}
 
-export const ArticleUpdatePage: React.FC = requireAuth({ roles: ["user"]})(() => {
+export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) => {
+
+  const { articleInfo } = props;
 
   const router = useRouter();
 
   const articleId = queryToString(router.query.id);
-
-  console.log(articleId);
-
-  const getArticleInfo = useCallback(() => {
-    return getArticle(articleId);
-  }, [articleId]);
-
-  const { data, isPending } = useAsync({ promiseFn: getArticleInfo });
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -63,29 +63,33 @@ export const ArticleUpdatePage: React.FC = requireAuth({ roles: ["user"]})(() =>
     });
   }, [articleId]);
 
-  if (isPending) {
-    return (
-      <Box align="center" gap="medium" margin="medium">
-        <Spinner/>
-        <Text>
-          <LocalizedString id={root.loading} replacements={[articleId]} />
-        </Text>
-      </Box>
-    );
-  }
-
-  const current = data!.currentRevision;
+  const current = articleInfo!.currentRevision;
 
   return (
-    <OverlayLoading loading={isPending}>
-      <ArticleEditForm
-        disabled={submitting}
-        existingFileUrl={current.pdfLink}
-        initial={{ ...current, authors: current.authors.map((x) => x.name) }}
-        onSubmit={submit}
-      />
-    </OverlayLoading>
+    <ArticleEditForm
+      disabled={submitting}
+      existingFileUrl={current.pdfLink}
+      initial={{ ...current, authors: current.authors.map((x) => x.name) }}
+      onSubmit={submit}
+    />
   );
 });
+
+export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+  const user = getCurrentUserInCookie(ctx);
+  console.log(user, ctx.query, ctx.params);
+
+  if (user) {
+    changeToken(user.token);
+    const resp = await api.get({
+      path: { articleId: queryToString(ctx.query.id) },
+      query: {},
+    });
+
+    return { props: { articleInfo: resp.article } };
+  } else {
+    return { props: { } };
+  }
+};
 
 export default ArticleUpdatePage;

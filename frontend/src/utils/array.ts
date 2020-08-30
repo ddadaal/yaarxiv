@@ -14,8 +14,8 @@ export function arrayContainsElement<T>(array: T[] | null | undefined): array is
   return !!array && array.length > 0;
 }
 
-export function removeFalsy<T>(array: (T | null | undefined)[]): T[] {
-  return array.filter((x) => !!x) as T[];
+export function removeNullOrUndefined<T>(array: (T | null | undefined)[]): T[] {
+  return array.filter((x) => x !== undefined && x !== null) as T[];
 }
 
 export function removeNullOrUndefinedKey<T extends object>(object: T): T {

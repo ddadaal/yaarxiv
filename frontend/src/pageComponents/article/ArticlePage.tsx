@@ -18,6 +18,8 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
 
   const { currentRevision } = article;
 
+  console.log(article);
+
   return (
     <TwoColumnLayout margin={{ vertical: "medium", horizontal: "none" }}
       left={(

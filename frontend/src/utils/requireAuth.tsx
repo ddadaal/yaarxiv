@@ -18,7 +18,7 @@ export interface RequireAuthProps {
 }
 
 export const requireAuth = (props: Props) =>
-  (Component: React.ComponentType<RequireAuthProps>) => () => {
+  <CP extends {}>(Component: React.ComponentType<RequireAuthProps & CP>) => (cp) => {
     const userStore = useStore(UserStore);
 
     // auth
@@ -40,6 +40,6 @@ export const requireAuth = (props: Props) =>
         </Box>
       );
     } else {
-      return <Component userStore={userStore} />;
+      return <Component userStore={userStore} {...cp} />;
     }
   };

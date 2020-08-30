@@ -4,7 +4,6 @@
   "logger": true,
   "jwtSecret": "testsecret",
   "typeorm": {
-    "synchronize": true
   },
   "upload": {
     "path": "upload",

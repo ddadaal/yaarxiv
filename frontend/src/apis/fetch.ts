@@ -1,6 +1,7 @@
 import { Endpoint, replacePathArgs, Schema } from "yaarxiv-api";
 import {  incrementRequest, decrementRequest } from "src/components/TopProgressBar";
 import { isServer, isFormData } from "src/utils/isServer";
+import { removeNullOrUndefinedKey } from "src/utils/array";
 
 const baseUrl = "http://127.0.0.1:3000";
 
@@ -127,13 +128,13 @@ export function fromApi<TSchema extends Schema>(endpoint: Endpoint) {
     const anyArgs = args as any;
     // replace path params
     const replacedPath = anyArgs.path
-      ? replacePathArgs(endpoint.url, anyArgs)
+      ? replacePathArgs(endpoint.url, anyArgs.path)
       : endpoint.url;
 
     return jsonFetch({
       path: replacedPath,
       method: endpoint.method,
-      query: anyArgs.query,
+      query: removeNullOrUndefinedKey(anyArgs.query),
       body: anyArgs.body,
     });
   };

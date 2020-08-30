@@ -21,6 +21,8 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
   const articleId = queryToString(context.query.id);
   const revision = queryToIntOrDefault(context.query.revision, undefined);
 
+  console.log(articleId, revision);
+
   const resp = await api.get({ path: { articleId }, query: { revision } });
 
   return { props: { article: resp.article } };

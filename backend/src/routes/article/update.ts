@@ -37,7 +37,7 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
       const latestRev = await revRepo.findOne({
         articleId: article.id,
         revisionNumber: article.latestRevisionNumber,
-      });
+      }, { relations: ["pdf"]});
 
       if (!latestRev) {
         throw makeError(500, "Latest revision does not exists.");

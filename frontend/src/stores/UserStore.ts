@@ -1,9 +1,15 @@
 import { useState, useCallback, useEffect } from "react";
-import { getApi } from "src/apis";
 import { changeToken } from "src/apis/fetch";
 import { UserRole } from "src/models/User";
+import { setCookie, parseCookies, destroyCookie } from "nookies";
 
 const STORAGE_KEY = "User";
+
+type Ctx = Parameters<typeof parseCookies>[0];
+
+export function getCurrentUserInCookie(ctx?: Ctx): User | null {
+  return JSON.parse(parseCookies(ctx)[STORAGE_KEY]);
+}
 
 interface User {
   userId: string;
@@ -14,7 +20,8 @@ interface User {
 }
 
 export function getUserInfoInStorage(): User | null {
-  const data = localStorage.getItem(STORAGE_KEY);
+  const cookies = parseCookies();
+  const data = cookies[STORAGE_KEY];
   if (data) {
     const user =  JSON.parse(data) as User;
     changeToken(user.token);
@@ -25,7 +32,7 @@ export function getUserInfoInStorage(): User | null {
 }
 
 function saveUserInfo(user: User) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify(user));
+  setCookie(null, STORAGE_KEY, JSON.stringify(user), { maxAge: 30 * 24 * 60 * 60 });
 }
 
 export function UserStore() {
@@ -34,7 +41,7 @@ export function UserStore() {
   const loggedIn = !!user;
 
   const logout = useCallback(() => {
-    localStorage.removeItem(STORAGE_KEY);
+    destroyCookie(null, STORAGE_KEY);
     setUser(null);
   }, []);
 
