@@ -10,6 +10,7 @@ import { routes }  from "./routes";
 import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
 import { uploadPlugin } from "./utils/upload";
+import fastifyCorsPlugin from "fastify-cors";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
@@ -21,6 +22,8 @@ export async function startApp(config: Config = envConfig, start = true) {
     ...(config.typeorm) as ConnectionOptions,
     logger: new TypeormPinoLogger(server.log),
   });
+
+  server.register(fastifyCorsPlugin);
 
   Object.values(models).forEach((s) => server.addSchema(s));
 

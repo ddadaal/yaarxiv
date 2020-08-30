@@ -14,7 +14,7 @@ export const articleApis = () => ({
     const api = fromApi<uploadPDF.UploadPDFSchema>(uploadPDF.endpoint);
     const formData = new FormData();
     formData.set("file", file);
-    return await api({ body: formData as any }, { bodyStringify: false });
+    return await api({ body: formData as any  });
   },
   uploadArticle: fromApi<uploadArticle.UploadArticleSchema>(uploadArticle.endpoint),
   deleteArticle: fromApi<deleteArticle.DeleteArticleSchema>(deleteArticle.endpoint),

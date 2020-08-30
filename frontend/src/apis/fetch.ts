@@ -1,6 +1,6 @@
 import { Endpoint, replacePathArgs, Schema } from "yaarxiv-api";
 import {  incrementRequest, decrementRequest } from "src/components/TopProgressBar";
-import { isServer } from "src/utils/isServer";
+import { isServer, isFormData } from "src/utils/isServer";
 
 const baseUrl = "http://127.0.0.1:3000";
 
@@ -63,10 +63,6 @@ export function makeHttpError<T>(data: T, status: number) {
   return { data, status };
 }
 
-export interface JsonFetchOptions {
-  bodyStringify?: boolean;
-}
-
 /**
  * Fetch and returns as json.
  * @param info the fetch info
@@ -74,12 +70,17 @@ export interface JsonFetchOptions {
  */
 export async function jsonFetch<T>(
   info: FetchInfo,
-  { bodyStringify }: JsonFetchOptions,
 ): Promise<JsonFetchResult<T>> {
+
+  const isForm = isFormData(info.body);
+
   const resp = await fullFetch(info.path, info.query, {
     method: info.method ?? "GET",
-    headers: info.headers,
-    body: bodyStringify ? JSON.stringify(info.body) : info.body as any,
+    headers: {
+      ...isForm ? undefined : { "content-type": "application/json" },
+      ...info.headers,
+    },
+    body: isForm ? (info.body as any) : JSON.stringify(info.body),
   });
 
   const obj = await resp.json();
@@ -121,7 +122,6 @@ export function fromApi<TSchema extends Schema>(endpoint: Endpoint) {
       query: TSchema["querystring"];
       body: TSchema["body"];
     }>,
-    options?: JsonFetchOptions,
   ): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
 
     const anyArgs = args as any;
@@ -135,6 +135,6 @@ export function fromApi<TSchema extends Schema>(endpoint: Endpoint) {
       method: endpoint.method,
       query: anyArgs.query,
       body: anyArgs.body,
-    }, { bodyStringify: true, ...options });
+    });
   };
 }

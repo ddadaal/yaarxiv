@@ -26,6 +26,8 @@ export const ArticleUpdatePage: React.FC = requireAuth({ roles: ["user"]})(() =>
 
   const articleId = queryToString(router.query.id);
 
+  console.log(articleId);
+
   const getArticleInfo = useCallback(() => {
     return getArticle(articleId);
   }, [articleId]);
