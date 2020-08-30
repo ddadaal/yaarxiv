@@ -16,6 +16,24 @@ export default {
         tokenInvalid: "Your login session is expired or invalid. Please re-login.",
         networkError: "I am sorry that the previous request fails. Please retry or contact support.",
       },
+      errors: {
+        notAuthorized: {
+          title: "Not Authorized",
+          description: "Login is required to access this page. Please login and retry.",
+        },
+        forbidden: {
+          title: "Forbiddden",
+          description: "You can't access this page. Please login as required user and retry.",
+        },
+        notFound: {
+          title: "404",
+          description: "The resource you are trying to access does not exist.",
+        },
+        serverError: {
+          title: "Server Error",
+          description: "We are sorry that our server just got a problem. Please continue when it is fixed.",
+        },
+      },
     },
     header: {
       home: "Home",

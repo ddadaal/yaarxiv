@@ -1,13 +1,10 @@
-import { Box, Heading, Paragraph } from "grommet";
-import { Lock } from "grommet-icons";
 import React from "react";
 import { useStore } from "simstate";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
 import { UserStore } from "src/stores/UserStore";
 import { UserRole } from "src/models/User";
+import { Forbidden } from "src/components/errors/Forbidden";
+import { NotAuthorized } from "src/components/errors/NotAuthorized";
 
-const root = lang.components.requireAuth;
 
 interface Props {
   roles?: UserRole[];
@@ -21,25 +18,13 @@ export const requireAuth = (props: Props) =>
   <CP extends {}>(Component: React.ComponentType<RequireAuthProps & CP>) => (cp) => {
     const userStore = useStore(UserStore);
 
-    // auth
-    const authenticated = userStore.loggedIn
-      && (!props.roles || props.roles.includes(userStore.user!.role));
-
-    if (!authenticated) {
-      return (
-        <Box justify="center" align="center">
-          <Heading level={1} size="small">
-            <Lock color="status-error" />
-            <LocalizedString id={root.title} />
-          </Heading>
-          <Paragraph>
-            <LocalizedString
-              id={root.description}
-            />
-          </Paragraph>
-        </Box>
-      );
-    } else {
-      return <Component userStore={userStore} {...cp} />;
+    if (!userStore.loggedIn) {
+      return <NotAuthorized />;
     }
+
+    if (props.roles && !props.roles.includes(userStore.user!.role)) {
+      return <Forbidden />;
+    }
+
+    return <Component userStore={userStore} {...cp} />;
   };

@@ -16,19 +16,22 @@ import { Article } from "yaarxiv-api/article/models";
 import { GetServerSideProps } from "next";
 import { parseCookies } from "nookies";
 import { getCurrentUserInCookie } from "src/stores/UserStore";
-import { changeToken } from "src/apis/fetch";
+import { changeToken, HttpError } from "src/apis/fetch";
+import { NotFound } from "src/components/errors/NotFound";
+import { ServerError } from "src/components/errors/ServerError";
 
 const root = lang.pages.updateArticle;
 
 const api = getApi(articleApis);
 
 interface Props {
-  articleInfo?: Article;
+  articleInfo: Article | null;
+  serverError?: HttpError;
 }
 
 export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) => {
 
-  const { articleInfo } = props;
+  const { articleInfo, serverError } = props;
 
   const router = useRouter();
 
@@ -63,7 +66,15 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
     });
   }, [articleId]);
 
-  const current = articleInfo!.currentRevision;
+  if (!articleInfo) {
+    if (serverError) {
+      return <ServerError error={serverError} />;
+    } else {
+      return <NotFound />;
+    }
+  }
+
+  const current = articleInfo.currentRevision;
 
   return (
     <ArticleEditForm
@@ -81,14 +92,23 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
 
   if (user) {
     changeToken(user.token);
-    const resp = await api.get({
-      path: { articleId: queryToString(ctx.query.id) },
-      query: {},
-    });
+    try  {
+      const resp = await api.get({
+        path: { articleId: queryToString(ctx.query.id) },
+        query: {},
+      });
+      return { props: { articleInfo: resp.article } };
+    } catch (e) {
+      const ex = e as HttpError;
+      if (ex.status === 404) {
+        return { props: { articleInfo: null } };
+      } else {
+        return { props: { articleInfo: null, serverError: ex } };
+      }
+    }
 
-    return { props: { articleInfo: resp.article } };
   } else {
-    return { props: { } };
+    return { props: { articleInfo: null } };
   }
 };
 

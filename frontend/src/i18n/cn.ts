@@ -7,13 +7,27 @@ export default {
     components: {
       fileUploader: { zoneLabel: "把文件拖拽到这里，或者点击这里选择文件。" },
       tagInput: { placeholder: "输入完成后按下回车以增加一项。" },
-      requireAuth: {
-        title: "无权限",
-        description: "您没有权限访问本页面。请以要求的权限的登录再尝试",
-      },
       httpHandler: {
         tokenInvalid: "您的登录已经过期。请重新登录后继续。",
         networkError: "抱歉，请求出错，请重试或者联系支持。",
+      },
+      errors: {
+        notAuthorized: {
+          title: "请登录",
+          description: "访问此页面需要登录，请先登录后再重试。",
+        },
+        forbidden: {
+          title: "无权限",
+          description: "您没有权限访问本页面。请以要求的权限的用户登录后再尝试。",
+        },
+        notFound: {
+          title: "404",
+          description: "您所查找的资源不存在。",
+        },
+        serverError: {
+          title: "服务器出错",
+          description: "非常抱歉，服务器出现错误，请等待我们将问题解决后再继续，或将问题报告至支持。",
+        },
       },
     },
     header: {
