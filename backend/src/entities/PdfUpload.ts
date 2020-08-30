@@ -16,7 +16,7 @@ export class PdfUpload {
   @Column()
   link: string;
 
-  @OneToOne(() => ArticleRevision, (r) => r.pdf, { nullable: true })
+  @OneToOne(() => ArticleRevision, (r) => r.pdf, { onDelete: "CASCADE", nullable: true })
   articleRevision: ArticleRevision | undefined;
 
 }
