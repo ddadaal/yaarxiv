@@ -1,18 +1,10 @@
 import { route } from "@/utils/route";
-import { FastifyInstance, FastifyRequest } from "fastify";
-import { pipeline } from "stream";
-import { promisify } from "util";
-import fs from "fs";
+import { FastifyInstance } from "fastify";
 import path from "path";
 import * as api from "yaarxiv-api/article/uploadPDF";
 import { config } from "node-config-ts";
 import { PdfUpload } from "@/entities/PdfUpload";
-
-const pump = promisify(pipeline);
-
-type ThenArg<T> = T extends PromiseLike<infer U> ? U : T
-
-type Multipart = ThenArg<ReturnType<FastifyRequest["file"]>>;
+import { UploadedFile } from "@/utils/upload";
 
 // Save uploaded pdf to /{uploadPath}/{userId}/{current date}_{filename}
 export async function uploadPdfRoute(fastify: FastifyInstance) {
@@ -21,20 +13,19 @@ export async function uploadPdfRoute(fastify: FastifyInstance) {
     consumes: ["multipart/form-data"],
   })(
     async (req) => {
-      const data = req.body.file as any as Multipart;
+      const data = req.body.file as UploadedFile;
 
       const userId = req.userId();
 
-      const filename =`${Date.now()}_${data.filename}`;
+      const filename =`${Date.now()}_${data.name}`;
       const fileRelativePath = path.join(userId, filename);
 
       const filePath = path.join(config.upload.path, fileRelativePath);
 
-      req.log.info(`Received file ${data.filename} from ${userId} saving to ${filePath}.`);
+      req.log.info(`Received file ${data.name} from ${userId}.
+      Saving it to ${filePath}.`);
 
-      // create the path if not exists
-      await fs.promises.mkdir(path.join(config.upload.path, userId), { recursive: true });
-      await pump(data.file, fs.createWriteStream(filePath));
+      await data.mv(filePath);
 
       req.log.info(`${filePath} saved successfully.`);
 

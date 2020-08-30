@@ -13,7 +13,7 @@ export interface UploadPDFSchema {
      * The file object.
      * 1 PDF per request.
      */
-    file: File;
+    file: object;
   },
   responses: {
     /** The upload is successful. */

@@ -449,7 +449,7 @@
           "type": "object",
           "properties": {
             "file": {
-              "$ref": "#/definitions/File",
+              "type": "object",
               "description": "The file object.\r\n1 PDF per request."
             }
           },
