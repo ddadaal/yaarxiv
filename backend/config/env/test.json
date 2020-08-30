@@ -17,5 +17,7 @@
     "level": "error",
     "prettyPrint": true
   },
-  "fileUploadPath": "testupload"
+  "upload": {
+    "path": "testupload"
+  }
 }

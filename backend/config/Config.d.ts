@@ -7,7 +7,11 @@ declare module "node-config-ts" {
     logger: Logger
     jwtSecret: string
     typeorm: Typeorm
-    fileUploadPath: string
+    upload: Upload
+  }
+  interface Upload {
+    path: string
+    maxFileSize: number
   }
   interface Typeorm {
     synchronize: boolean

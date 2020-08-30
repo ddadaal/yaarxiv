@@ -9,7 +9,7 @@ import { jwtAuthPlugin } from "./utils/auth";
 import { routes }  from "./routes";
 import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
-import FastifyMultipart from "fastify-multipart";
+import { uploadPlugin } from "./utils/upload";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
@@ -47,11 +47,8 @@ export async function startApp(config: Config = envConfig, start = true) {
     });
   }
 
-  server.register(FastifyMultipart, {
-    attachFieldsToBody: true,
-    sharedSchemaId: "File",
-  });
-  server.register(jwtAuthPlugin, { secret: config.jwtSecret });
+  server.register(uploadPlugin);
+  server.register(jwtAuthPlugin);
   server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
   routes.forEach((r) => server.register(r));

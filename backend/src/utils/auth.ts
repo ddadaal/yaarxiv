@@ -4,6 +4,7 @@ import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User, UserRole } from "@/entities/User";
 import { makeError } from "./error";
 import createError from "http-errors";
+import { config } from "node-config-ts";
 
 
 declare module "fastify" {
@@ -26,13 +27,10 @@ export interface JwtTokenPayload {
 }
 
 // define options
-export interface AuthPluginOptions {
-  secret: string;
-}
-
 // define plugin
-export const jwtAuthPlugin = fp<AuthPluginOptions>(async (fastify, { secret }) => {
-  fastify.register(FastifyJwt, { secret });
+export const jwtAuthPlugin = fp(async (fastify) => {
+
+  fastify.register(FastifyJwt, { secret: config.jwtSecret });
 
   fastify.decorate("jwtAuth", (opts: AuthOption) => async (req: FastifyRequest, reply: FastifyReply) => {
     if (!opts) { return; }

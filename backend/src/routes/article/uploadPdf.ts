@@ -28,12 +28,12 @@ export async function uploadPdfRoute(fastify: FastifyInstance) {
       const filename =`${Date.now()}_${data.filename}`;
       const fileRelativePath = path.join(userId, filename);
 
-      const filePath = path.join(config.fileUploadPath, fileRelativePath);
+      const filePath = path.join(config.upload.path, fileRelativePath);
 
       req.log.info(`Received file ${data.filename} from ${userId} saving to ${filePath}.`);
 
       // create the path if not exists
-      await fs.promises.mkdir(path.join(config.fileUploadPath, userId), { recursive: true });
+      await fs.promises.mkdir(path.join(config.upload.path, userId), { recursive: true });
       await pump(data.file, fs.createWriteStream(filePath));
 
       req.log.info(`${filePath} saved successfully.`);

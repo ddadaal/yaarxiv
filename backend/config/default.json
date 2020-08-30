@@ -6,5 +6,8 @@
   "typeorm": {
     "synchronize": true
   },
-  "fileUploadPath": "upload"
+  "upload": {
+    "path": "upload",
+    "maxFileSize": 5242880
+  }
 }
