@@ -3,12 +3,20 @@
   "loadSwagger": true,
   "logger": true,
   "jwtSecret": "testsecret",
-  "typeorm": {},
+  "typeorm": {
+    "logging": true,
+    "migrations": [
+      "migrations/*.ts"
+    ],
+    "cli": {
+      "migrationsDir": "migrations"
+    }
+  },
   "upload": {
     "path": "upload",
     "maxFileSize": 5242880
   },
-  "localhost": "http://localhost:3000",
+  "domain": "http://localhost:3000",
   "staticPrefix": "static",
   "bcryptSaltLength": 10
 }

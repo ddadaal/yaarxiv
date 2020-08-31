@@ -1,0 +1,10 @@
+{
+  "typeorm": {
+    "type": "sqlite",
+    "database": "./db.db",
+    "entities": [
+      "out/src/entities/**/*.js"
+    ]
+  },
+  "jwtSecret": "productionsecret"
+}

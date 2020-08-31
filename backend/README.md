@@ -19,12 +19,8 @@
 # Install dependencies
 npm install
 
-# Set env (development | production)
-export NODE_ENV=development
-# Windows: $env:NODE_ENV="development"
-
-# Generate config according to current NODE_ENV
-npm run generateConfig
+# Generate dev config
+npm run generateConfig:dev
 
 # Run migrations
 npm run typeorm:cli migration:run
@@ -34,5 +30,29 @@ npm start
 
 # When executing typeorm:cli, pass argument using -- as follows
 npm run typeorm:cli migration:generate -- -n now
+```
 
+# Deployment
+
+```bash
+# Clone the project (with the api project on the parent)
+
+# Set env `NODE_ENV` to `production`
+export NODE_ENV=production
+
+# Copy `config/production.sample.json` to `config/production.json` and change the configs
+cp config/production.sample.json config/production.json
+vim config/production.json
+
+# Install dependencies
+npm install
+
+# Generate config
+npm run generateConfig:prod
+
+# Build
+npm run build
+
+# Serve
+npm run serve
 ```
