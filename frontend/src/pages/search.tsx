@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { Box } from "grommet";
 import { useRouter } from "next/router";
 import { useAsync } from "react-async";
@@ -16,6 +16,7 @@ import { ArticleSearchResult } from "yaarxiv-api/article/search";
 import { Author } from "yaarxiv-api/article/models";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
+import { useFirstMount } from "src/utils/useFirstMount";
 
 const api = getApi(articleApis);
 
@@ -34,13 +35,18 @@ export const Search: React.FC<Props> = (props) => {
   const query = router.query;
 
 
+
   const { data, isPending, run } = useAsync({
     deferFn: search,
     initialValue: { results: props.results ?? [], totalCount: props.totalCount ?? 0 },
   });
 
+  const firstMount = useFirstMount();
+
   useEffect(() => {
-    run(query);
+    if (!firstMount) {
+      run(query);
+    }
   }, [query]);
 
   const { results, totalCount } = data!;
