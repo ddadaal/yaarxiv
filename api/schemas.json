@@ -212,17 +212,31 @@
               "description": "The end year limit."
             },
             "authorNames": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
               "description": "The name of authors"
             },
             "keywords": {
-              "type": "array",
-              "items": {
-                "type": "string"
-              },
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              ],
               "description": "Keywords"
             },
             "page": {

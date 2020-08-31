@@ -34,14 +34,20 @@ export interface SearchArticleSchema {
   querystring: {
     /** The search text */
     searchText?: string;
-    /** The start year limit. */
+    /**
+     * The start year limit.
+     * @type {integer} should be an integer
+     */
     startYear?: number;
-    /** The end year limit. */
+    /**
+     * The end year limit.
+     * @type {integer} should be an integer
+     */
     endYear?: number;
     /** The name of authors */
-    authorNames?: string[];
+    authorNames?: string | string[];
     /** Keywords */
-    keywords?: string[];
+    keywords?: string | string[];
     /**
      * The page number. 10 results per page.
      * @default 1
