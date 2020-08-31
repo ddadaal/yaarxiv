@@ -1,6 +1,8 @@
 import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, OneToOne } from "typeorm";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
+import { config } from "node-config-ts";
+import urlJoin from "url-join";
 
 @Entity()
 export class PdfUpload {
@@ -18,5 +20,9 @@ export class PdfUpload {
 
   @OneToMany(() => ArticleRevision, (r) => r.pdf, { onDelete: "CASCADE" })
   articleRevisions: ArticleRevision[];
+
+  get pdfUrl(): string {
+    return urlJoin(config.localhost, config.staticPrefix, config.upload.path, this.link);
+  }
 
 }

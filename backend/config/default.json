@@ -3,10 +3,11 @@
   "loadSwagger": true,
   "logger": true,
   "jwtSecret": "testsecret",
-  "typeorm": {
-  },
+  "typeorm": {},
   "upload": {
     "path": "upload",
     "maxFileSize": 5242880
-  }
+  },
+  "localhost": "http://localhost:3000",
+  "staticPrefix": "static"
 }

@@ -11,6 +11,9 @@ import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
 import { uploadPlugin } from "./utils/upload";
 import fastifyCorsPlugin from "fastify-cors";
+import fastifyStatic from "fastify-static";
+import path from "path";
+import urljoin from "url-join";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
@@ -49,6 +52,12 @@ export async function startApp(config: Config = envConfig, start = true) {
       },
     });
   }
+
+  // serve upload file
+  server.register(fastifyStatic, {
+    root: path.join(__dirname, "..", config.upload.path),
+    prefix: "/" + urljoin(config.staticPrefix, config.upload.path),
+  });
 
   server.register(uploadPlugin);
   server.register(jwtAuthPlugin);

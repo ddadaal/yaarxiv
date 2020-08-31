@@ -32,7 +32,8 @@ export async function uploadPdfRoute(fastify: FastifyInstance) {
       const repo = fastify.orm.getRepository(PdfUpload);
 
       const pdf = new PdfUpload();
-      pdf.link = fileRelativePath;
+      // the link must be joined by /
+      pdf.link = [userId, filename].join("/");
       pdf.userId = userId;
 
       await repo.save(pdf);

@@ -74,7 +74,11 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
             </Box>
           </TitledSection>
           <TitledSection titleId={root.download}>
-            <Anchor href={currentRevision.pdfLink} download>
+            <Anchor
+              href={currentRevision.pdfLink}
+              download
+              target="__blank"
+            >
             PDF
             </Anchor>
           </TitledSection>

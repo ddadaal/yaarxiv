@@ -8,13 +8,14 @@ declare module "node-config-ts" {
     jwtSecret: string
     typeorm: Typeorm
     upload: Upload
+    localhost: string
+    staticPrefix: string
   }
   interface Upload {
     path: string
     maxFileSize: number
   }
   interface Typeorm {
-    synchronize: boolean
     type: string
     database: string
     entities: string[]

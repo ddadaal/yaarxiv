@@ -21,8 +21,6 @@ export async function getArticleRoute(fastify: FastifyInstance) {
         .orderBy("r.revisionNumber")
         .getMany();
 
-      req.log.info(articlesRevisionInfo);
-
       if (!article) {
         return { 404: { notFound: "article" } };
       }
@@ -50,7 +48,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
               authors: targetRevision.authors,
               category: targetRevision.category,
               keywords: targetRevision.keywords,
-              pdfLink: targetRevision.pdf.link,
+              pdfLink: targetRevision.pdf.pdfUrl,
               title: targetRevision.title,
             },
             revisions: articlesRevisionInfo.map((x) => ({
