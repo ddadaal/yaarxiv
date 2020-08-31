@@ -47,7 +47,7 @@
     "form-data": "^3.0.0",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4",
-    "pino-pretty": "^4.1.0",
+    "pino-pretty": "^4.2.0",
     "shelljs": "^0.8.4",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0",
