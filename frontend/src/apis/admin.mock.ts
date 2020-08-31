@@ -1,7 +1,7 @@
 /* eslint-disable max-len */
-import { MockApi } from ".";
-import { adminApis } from "./admin";
-import { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
+import type { MockApi } from ".";
+import type { adminApis } from "./admin";
+import type { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
 
 const mockArticles: AdminGetArticlesResult[] = [
   {

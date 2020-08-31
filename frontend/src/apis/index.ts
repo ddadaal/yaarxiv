@@ -45,6 +45,7 @@ export function createMockApi<T extends (actions: ApiArgs) => any>
     }), {}) as T;
 }
 
+// changing this line during development to set USE_MOCK dynamically
 const USE_MOCK = process.env.USE_MOCK === "true";
 
 // judge whether USE_MOCK here can help reduce the size of bundle

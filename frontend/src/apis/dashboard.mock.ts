@@ -1,8 +1,7 @@
-import { range } from "src/utils/array";
 /* eslint-disable max-len */
-import { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
-import { MockApi } from ".";
-import { dashboardApis } from "./dashboard";
+import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
+import type { MockApi } from ".";
+import type { dashboardApis } from "./dashboard";
 
 const base: DashboardArticleInfo[] = [
   {
@@ -13,7 +12,7 @@ const base: DashboardArticleInfo[] = [
     revisionCount: 3,
   },
   {
-    id: "sdad12312412",
+    id: "dashboard123123123",
     title: "Understanding the interleaving-space overlap across inputs and software versions",
     lastUpdatedTime: "2020-07-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
@@ -21,16 +20,12 @@ const base: DashboardArticleInfo[] = [
   },
 ];
 
-const totalCount = 22;
-const mockArticles = range(0, totalCount).map((x) => ({ ...base[x % 2], id: x + "" }));
-
-
 export const dashboardApisMock: MockApi<typeof dashboardApis> = () => ({
   getArticles: async ({ query: { page = 1 } }) => {
     const start = (page - 1) * 10;
     return {
-      articles: mockArticles.slice(start, start + 10),
-      totalCount: totalCount,
+      articles: base.slice(start, start + 10),
+      totalCount: base.length,
     };
   },
 });

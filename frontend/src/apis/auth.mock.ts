@@ -1,5 +1,5 @@
-import { MockApi } from ".";
-import { authApis } from "./auth";
+import type { MockApi } from ".";
+import type { authApis } from "./auth";
 
 export const authApisMock: MockApi<typeof authApis> = (({ makeHttpError }) => ({
   login: async ({ query: { id, password } }) => {

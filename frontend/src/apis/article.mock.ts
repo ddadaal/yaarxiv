@@ -2,7 +2,7 @@
 import type { Article } from "yaarxiv-api/article/models";
 import type { MockApi } from ".";
 import type { ArticleSearchResult } from "yaarxiv-api/article/search";
-import { articleApis } from "./article";
+import type { articleApis } from "./article";
 
 const pdfLink = "https://docs.microsoft.com/en-us/dotnet/opbuildpdf/core/toc.pdf?branch=live";
 
