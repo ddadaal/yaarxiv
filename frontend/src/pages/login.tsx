@@ -12,7 +12,8 @@ import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import { useRouter } from "next/router";
 import { useNotification } from "src/utils/useNotification";
-import { emailMask } from "src/styles/inputMasks";
+import { emailValidation } from "src/utils/validations/emailValidation";
+import { emailMask } from "src/utils/validations/emailMask";
 
 const root = lang.login;
 
@@ -57,9 +58,12 @@ const LoginForm: React.FC = () => {
   };
 
   return (
-    <Form value={value} onChange={setValue} onSubmit={login}>
-      <FormField label={<LocalizedString id={root.id} />} name="id" required={true}
+    <Form value={value} onChange={setValue} onSubmit={login} validate="blur">
+      <FormField
+        label={<LocalizedString id={root.id} />}
+        name="id" required={true}
         disabled={inProgress}
+        validate={emailValidation}
       >
         <MaskedInput mask={emailMask} name="id"/>
       </FormField>

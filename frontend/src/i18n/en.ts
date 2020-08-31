@@ -34,6 +34,7 @@ export default {
           description: "We are sorry that our server just got a problem. Please continue when it is fixed.",
         },
       },
+      form: { validationError: { email: "Please input a valid email." } },
     },
     header: {
       home: "Home",

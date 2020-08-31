@@ -14,3 +14,4 @@ export const emailMask = [
     placeholder: "com",
   },
 ];
+

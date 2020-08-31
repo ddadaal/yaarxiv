@@ -29,6 +29,7 @@ export default {
           description: "非常抱歉，服务器出现错误，请等待我们将问题解决后再继续，或将问题报告至支持。",
         },
       },
+      form: { validationError: { email: "请输入有效的电子邮箱" } },
     },
     header: {
       home: "主页",
