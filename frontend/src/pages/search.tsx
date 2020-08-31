@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Box } from "grommet";
 import { useRouter } from "next/router";
 import { useAsync } from "react-async";
@@ -33,18 +33,23 @@ export const Search: React.FC<Props> = (props) => {
 
   const query = router.query;
 
+
   const { data, isPending, run } = useAsync({
     deferFn: search,
     initialValue: { results: props.results ?? [], totalCount: props.totalCount ?? 0 },
   });
 
+  useEffect(() => {
+    run(query);
+  }, [query]);
+
   const { results, totalCount } = data!;
 
   const updateQuery = useCallback((newQuery: Partial<SearchQuery>) => {
     const combinedQuery = { ...query, ...newQuery };
+    console.log(query, newQuery, combinedQuery);
     router.push({ pathname: "/search", query: combinedQuery });
-    run(query);
-  }, [query]);
+  }, [router, run, query]);
 
   const onAuthorClicked = ({ name }: Author) => {
     const authorNames = [...queryToArray(query.authorNames)];
