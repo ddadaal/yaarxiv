@@ -15,6 +15,7 @@ interface Props {
   onChange?: (currentInput: string) => void;
   onRemove: (str: string) => void;
   disabled?: boolean;
+  maxLength?: number;
 }
 
 
@@ -25,6 +26,7 @@ export const TagInput: React.FC<Props> = ({
   onChange,
   onRemove,
   disabled = false,
+  maxLength = 30,
 }) => {
   const [currentTag, setCurrentTag] = React.useState("");
 
@@ -74,6 +76,7 @@ export const TagInput: React.FC<Props> = ({
             onChange={updateCurrentTag}
             disabled={disabled}
             value={currentTag}
+            maxLength={maxLength}
             placeholder={<LocalizedString id={root.placeholder} />}
             onSelect={(event) => {
               // event.stopPropagation();

@@ -83,13 +83,17 @@ export const ArticleEditForm: React.FC<Props> = ({
             onSubmit={() => onSubmit(file, info)}
           >
             <FormField
-              label={<LocalizedString id={root.info.articleTitle} />}
+              label={<LocalizedString id={root.info.articleTitle} replacements={[100]} />}
               name="title"
               value={info.title}
               disabled={disabled}
+              maxLength={100}
               onChange={(e) => setInfo({ ...info, title: e.target.value })}
             />
-            <FormField label={<LocalizedString id={root.info.authors} />} name="authors">
+            <FormField
+              label={<LocalizedString id={root.info.authors} replacements={[30]} />}
+              name="authors"
+            >
               <TagInput
                 name="authors"
                 value={info.authors}
@@ -99,16 +103,18 @@ export const ArticleEditForm: React.FC<Props> = ({
                   ...info,
                   authors: info.authors.filter((x) => x !== val),
                 })}
+                maxLength={30}
               />
             </FormField>
             <FormField
-              label={<LocalizedString id={root.info.keywords} />}
+              label={<LocalizedString id={root.info.keywords} replacements={[30]} />}
               name="keywords"
             >
               <TagInput
                 disabled={disabled}
                 name="keywords"
                 value={info.keywords}
+                maxLength={30}
                 onAdd={(val) => setInfo({ ...info, keywords: [...info.keywords, val]})}
                 onRemove={(val) => setInfo({
                   ...info,
@@ -117,7 +123,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               />
             </FormField>
             <FormField
-              label={<LocalizedString id={root.info.abstract} />}
+              label={<LocalizedString id={root.info.abstract} replacements={[2000]} />}
               name="abstract"
             >
               <TextArea
@@ -125,6 +131,7 @@ export const ArticleEditForm: React.FC<Props> = ({
                 name="abstract"
                 value={info.abstract}
                 onChange={(e) => setInfo({ ...info, abstract: e.target.value })}
+                maxLength={2000}
                 rows={15}
               />
             </FormField>
