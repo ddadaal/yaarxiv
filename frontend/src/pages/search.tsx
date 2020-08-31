@@ -95,7 +95,7 @@ export const Search: React.FC<Props> = (props) => {
                 <Box direction="row" justify="center">
                   <Pagination
                     currentPage={currentPage}
-                    itemsPerPage={1}
+                    itemsPerPage={10}
                     totalItemsCount={totalCount}
                     getUrl={(i) => ({
                       pathname: "/search",
