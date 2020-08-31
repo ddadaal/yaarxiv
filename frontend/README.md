@@ -29,3 +29,16 @@ npm run dev
 # Build for production
 npm run build
 ```
+
+# Configuration
+
+We utilize [next.js's environment variables feature](https://nextjs.org/docs/basic-features/environment-variables) to handle configs. Available configurations are as follows:
+
+| env        | Description                             | Possible Values |
+| ---------- | --------------------------------------- | --------------- |
+| `API_ROOT` | The root of backend API                 | string          |
+| `USE_MOCK` | Whether to use mock API for development | "true"/"false"  |
+
+This git repo contains a `.env` as default config. You should create a `.env.production` for production configration and this `.env.production` should be git ignored.
+
+To dynamically changing `USE_MOCK` config during development, changing the USE_MOCK directly on the code and after hot reload, new USE_MOCK will be available.

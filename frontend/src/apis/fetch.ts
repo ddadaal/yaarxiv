@@ -3,7 +3,7 @@ import {  incrementRequest, decrementRequest } from "src/components/TopProgressB
 import { isServer, isFormData } from "src/utils/isServer";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 
-const baseUrl = "http://127.0.0.1:3000";
+const baseUrl = process.env.API_ROOT;
 
 export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 
