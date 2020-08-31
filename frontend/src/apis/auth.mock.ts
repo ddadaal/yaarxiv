@@ -9,11 +9,11 @@ export const authApisMock: MockApi<typeof authApis> = (({ makeHttpError }) => ({
     if (id === password) {
       return { token: id, name: "cjd", role: "user" };
     } else {
-      throw makeHttpError({}, 403);
+      throw makeHttpError({}, 401);
     }
   },
   register: async ({ body: { email } }) => {
-    if (email === "c") {
+    if (email === "c@c.com") {
       throw makeHttpError({}, 405);
     } else {
       return { token: email, name: email.split("@")[0] };

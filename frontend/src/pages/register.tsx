@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailMask } from "src/utils/validations/emailMask";
 import { emailValidation } from "src/utils/validations/emailValidation";
+import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 
 const root = lang.register;
 
@@ -27,10 +28,10 @@ const RegisterForm: React.FC = () => {
   const [inProgress, setInProgress] = useState(false);
   const notification = useNotification();
   const router = useRouter();
+  const handler = useHttpErrorHandler(setInProgress);
 
-  const login = async () => {
+  const login = () => handler(async () => {
     const { email, password, remember } = value;
-    setInProgress(true);
     try {
       const res = await api.register({ body: { email, password } });
       userStore.login({
@@ -41,18 +42,18 @@ const RegisterForm: React.FC = () => {
         role: "user",
       });
       router.push("/");
-    } catch ({ status }) {
-      if (status === 405) {
+    } catch (e) {
+      if (e.status === 405) {
         notification.addNotification({
-          message: "The email have been used. Change an email.",
+          message: <LocalizedString id={root.conflict} />,
           level: "error",
           position: "tc",
         });
+      } else {
+        throw e;
       }
     }
-
-    setInProgress(false);
-  };
+  });
 
   return (
     <Form value={value} onChange={setValue} onSubmit={login} validate="blur">

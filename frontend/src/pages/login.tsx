@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { emailMask } from "src/utils/validations/emailMask";
+import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 
 const root = lang.login;
 
@@ -27,10 +28,10 @@ const LoginForm: React.FC = () => {
   const [inProgress, setInProgress] = useState(false);
   const notification = useNotification();
   const router = useRouter();
+  const handler = useHttpErrorHandler(setInProgress);
 
-  const login = async () => {
+  const login = () => handler(async () => {
     const { id, password, remember } = value;
-    setInProgress(true);
     try {
       const res = await api.login({ query: { id, password } });
       userStore.login({
@@ -45,17 +46,18 @@ const LoginForm: React.FC = () => {
       } else {
         router.push("/");
       }
-    } catch ({ status }) {
-      if (status === 403) {
+    } catch (e) {
+      if (e.status === 401) {
         notification.addNotification({
-          message: "Your username and password is invalid",
+          message: <LocalizedString id={root.invalid} />,
           level: "error",
           position: "tc",
         });
+      } else {
+        throw e;
       }
     }
-    setInProgress(false);
-  };
+  });
 
   return (
     <Form value={value} onChange={setValue} onSubmit={login} validate="blur">
