@@ -6,7 +6,7 @@ import { LocalizedString } from "simstate-i18n";
 import { HttpError } from "src/apis/fetch";
 import { lang } from "src/i18n";
 import { UserStore } from "src/stores/UserStore";
-import { useNotification } from "./useNotification";
+import { NotificationActions, useNotification } from "./useNotification";
 
 const root = lang.components.httpHandler;
 
@@ -19,7 +19,7 @@ export function useHttpErrorHandler(
   const userStore = useStore(UserStore);
 
   return async (call: (args: {
-    notification: System,
+    notification: NotificationActions,
     router: NextRouter,
     userStore: ReturnType<typeof UserStore>,
   }) => Promise<void>) => {

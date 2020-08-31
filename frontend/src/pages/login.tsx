@@ -51,7 +51,6 @@ const LoginForm: React.FC = () => {
         notification.addNotification({
           message: <LocalizedString id={root.invalid} />,
           level: "error",
-          position: "tc",
         });
       } else {
         throw e;

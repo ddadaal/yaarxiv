@@ -47,7 +47,6 @@ const RegisterForm: React.FC = () => {
         notification.addNotification({
           message: <LocalizedString id={root.conflict} />,
           level: "error",
-          position: "tc",
         });
       } else {
         throw e;
