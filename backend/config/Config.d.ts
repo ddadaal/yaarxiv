@@ -10,6 +10,7 @@ declare module "node-config-ts" {
     upload: Upload
     localhost: string
     staticPrefix: string
+    bcryptSaltLength: number
   }
   interface Upload {
     path: string

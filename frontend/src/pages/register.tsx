@@ -30,7 +30,7 @@ const RegisterForm: React.FC = () => {
   const router = useRouter();
   const handler = useHttpErrorHandler(setInProgress);
 
-  const login = () => handler(async () => {
+  const register = () => handler(async () => {
     const { email, password, remember } = value;
     try {
       const res = await api.register({ body: { email, password } });
@@ -55,7 +55,7 @@ const RegisterForm: React.FC = () => {
   });
 
   return (
-    <Form value={value} onChange={setValue} onSubmit={login} validate="blur">
+    <Form value={value} onChange={setValue} onSubmit={register} validate="blur">
       <FormField label={<LocalizedString id={root.email} />} name="email" required={true}
         disabled={inProgress} validate={emailValidation}
       >

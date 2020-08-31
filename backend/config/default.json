@@ -9,5 +9,6 @@
     "maxFileSize": 5242880
   },
   "localhost": "http://localhost:3000",
-  "staticPrefix": "static"
+  "staticPrefix": "static",
+  "bcryptSaltLength": 10
 }

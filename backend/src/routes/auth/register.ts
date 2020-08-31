@@ -4,6 +4,7 @@ import * as registerApi from "yaarxiv-api/auth/register";
 import { User } from "@/entities/User";
 import { genId } from "@/utils/genId";
 import { signUser } from "@/utils/auth";
+import { encrypt } from "@/utils/bcrypt";
 
 export async function registerRoute(fastify: FastifyInstance) {
 
@@ -15,7 +16,7 @@ export async function registerRoute(fastify: FastifyInstance) {
       user.id = genId();
       user.email = req.body.email;
       user.name = user.email.split("@")[0];
-      user.password = req.body.password;
+      user.password = await encrypt(req.body.password);
       user.role = "user";
 
       try {
