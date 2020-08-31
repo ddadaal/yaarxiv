@@ -47,6 +47,7 @@ it("update an article.", async () => {
     ...login(server, normalUser2),
   });
 
+  const info = resp.json();
   expect(resp.statusCode).toBe(201);
   const repo =  getRepository(Article);
   expect(await repo.count()).toBe(articleCount);

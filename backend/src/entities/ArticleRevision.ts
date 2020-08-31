@@ -30,8 +30,7 @@ export class ArticleRevision {
   @Column()
   category: string;
 
-  @OneToOne(() => PdfUpload, (p) => p.articleRevision, { cascade: true, onDelete: "CASCADE" })
-  @JoinColumn()
+  @ManyToOne(() => PdfUpload, (p) => p.articleRevisions, { cascade: true, onDelete: "CASCADE" })
   pdf: PdfUpload;
 
   @ManyToOne(() => Article, (a) => a.revisions, { onDelete:"CASCADE" })
