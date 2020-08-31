@@ -11,7 +11,8 @@
       "schema",
       "query",
       "error"
-    ]
+    ],
+    "synchronize": true
   },
   "logger": {
     "level": "error",

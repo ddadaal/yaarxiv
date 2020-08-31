@@ -297,7 +297,8 @@
             },
             "title": {
               "type": "string",
-              "description": "The title of the article."
+              "description": "The title of the article.",
+              "maxLength": 100
             },
             "authors": {
               "type": "array",
@@ -315,7 +316,8 @@
             },
             "abstract": {
               "type": "string",
-              "description": "The abstract of the article."
+              "description": "The abstract of the article.",
+              "maxLength": 2000
             }
           },
           "additionalProperties": false
@@ -381,7 +383,8 @@
             },
             "title": {
               "type": "string",
-              "description": "The title of the article."
+              "description": "The title of the article.",
+              "maxLength": 100
             },
             "authors": {
               "type": "array",
@@ -399,7 +402,8 @@
             },
             "abstract": {
               "type": "string",
-              "description": "The abstract of the article."
+              "description": "The abstract of the article.",
+              "maxLength": 2000
             }
           },
           "required": [
