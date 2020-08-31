@@ -17,6 +17,7 @@ import { useRouter } from "next/router";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { SearchBar } from "src/components/SearchBar";
 import { Pagination } from "src/components/Pagination";
+import { removeNullOrUndefinedKey } from "src/utils/array";
 
 const root = lang.pages.admin.articles;
 
@@ -70,14 +71,20 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
   const { data, isLoading, run } = useAsync({ deferFn: getArticles });
 
   const updateQuery = useCallback((newQuery: SearchQuery) => {
-    const combinedQuery = { searchWord, ...newQuery, ...page ? { page } : undefined };
-    router.push({ pathname: "/admin/articles", query: combinedQuery });
-    run(searchWord);
+    const combinedQuery = removeNullOrUndefinedKey({
+      searchWord,
+      ...newQuery,
+      ...page ? { page } : undefined,
+    });
+    router.push({
+      pathname: "/admin/articles",
+      query: combinedQuery,
+    });
   }, [searchWord]);
 
   useEffect(() => {
-    run({ page, searchWord });
-  }, [page, searchWord]);
+    run(router.query);
+  }, [router.query]);
 
   return (
     <Box gap="medium">
@@ -103,7 +110,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
             itemsPerPage={10}
             totalItemsCount={data?.totalCount ?? 0}
             getUrl={(i) => ({
-              pathname: "/admin/artricles",
+              pathname: "/admin/articles",
               query: { searchWord, page: i },
             })}
           />
