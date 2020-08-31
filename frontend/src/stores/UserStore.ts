@@ -24,15 +24,10 @@ export function getUserInfoInStorage(): User | null {
   const data = cookies[STORAGE_KEY];
   if (data) {
     const user =  JSON.parse(data) as User;
-    changeToken(user.token);
     return user;
   } else {
     return null;
   }
-}
-
-function saveUserInfo(user: User) {
-  setCookie(null, STORAGE_KEY, JSON.stringify(user), { maxAge: 30 * 24 * 60 * 60 });
 }
 
 export function UserStore() {
@@ -43,12 +38,14 @@ export function UserStore() {
   const logout = useCallback(() => {
     destroyCookie(null, STORAGE_KEY);
     setUser(null);
+    changeToken("");
   }, []);
 
   const login = useCallback((user: User) => {
     setUser(user);
+    changeToken(user.token);
     if (user.remember) {
-      saveUserInfo(user);
+      setCookie(null, STORAGE_KEY, JSON.stringify(user), { maxAge: 30 * 24 * 60 * 60 });
     }
   }, []);
 
