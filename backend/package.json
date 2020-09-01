@@ -8,7 +8,7 @@
     "lint": "tsc --noEmit && eslint \"src/**/*.{js,ts}\" --quiet --fix",
     "serve": "cross-env NODE_ENV=production node out/src/index.js",
     "build-ts": "ts-node scripts/cleanOut.ts && cross-env NODE_ENV=production tsc && tscpaths -p tsconfig.json -s ./src -o ./out",
-    "build": "npm run lint && npm run build-ts && npm run copy-static-assets",
+    "build": "npm run lint && npm run build-ts",
     "start": "npm run dev",
     "copy-static-assets": "ts-node scripts/copyStaticAssets.ts",
     "test": "cross-env NODE_ENV=test jest --verbose",
