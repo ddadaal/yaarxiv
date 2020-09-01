@@ -5,10 +5,15 @@ import { ErrorPage } from "./ErrorPage";
 
 const root = lang.components.errors.notAuthorized;
 
-export const NotAuthorized = () => (
+interface Props {
+  description?: React.ReactNode;
+}
+
+export const NotAuthorized: React.FC<Props> = ({ description }) => (
   <ErrorPage
     titleId={root.title}
-    descriptionId={root.description}
+    defaultDescriptionId={root.description}
+    description={description}
     Icon={Lock}
   />
 );

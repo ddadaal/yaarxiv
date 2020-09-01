@@ -5,13 +5,15 @@ import { LocalizedString } from "simstate-i18n";
 
 export interface Props {
   titleId: string;
-  descriptionId: string;
+  defaultDescriptionId: string;
+  description?: React.ReactNode;
   Icon: React.ComponentType<IconProps>;
 }
 
 export const ErrorPage: React.FC<Props> = ({
   titleId,
-  descriptionId,
+  defaultDescriptionId,
+  description,
   Icon,
   children,
 }) => {
@@ -24,9 +26,10 @@ export const ErrorPage: React.FC<Props> = ({
         </Heading>
       </Box>
       <Paragraph>
-        <LocalizedString
-          id={descriptionId}
-        />
+        {
+          description ??
+          <LocalizedString id={defaultDescriptionId}/>
+        }
       </Paragraph>
       {children}
     </Box>

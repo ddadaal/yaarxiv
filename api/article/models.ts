@@ -45,6 +45,8 @@ export interface Article {
   currentRevision: ArticleInfo;
   /** All revisions */
   revisions: ArticleRevision[];
+  /** Owner User Id */
+  ownerId: string;
 }
 
 /** The comment to an article. */

@@ -880,13 +880,18 @@
             "$ref": "#/definitions/ArticleRevision"
           },
           "description": "All revisions"
+        },
+        "ownerId": {
+          "type": "string",
+          "description": "Owner User Id"
         }
       },
       "required": [
         "id",
         "revisionNumber",
         "currentRevision",
-        "revisions"
+        "revisions",
+        "ownerId"
       ],
       "additionalProperties": false,
       "description": "The full article info."

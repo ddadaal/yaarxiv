@@ -5,10 +5,15 @@ import { ErrorPage } from "./ErrorPage";
 
 const root = lang.components.errors.forbidden;
 
-export const Forbidden = () => (
+interface Props {
+  description?: React.ReactNode;
+}
+
+export const Forbidden: React.FC<Props> = ({ description }) => (
   <ErrorPage
     titleId={root.title}
-    descriptionId={root.description}
+    defaultDescriptionId={root.description}
+    description={description}
     Icon={Clear}
   />
 );

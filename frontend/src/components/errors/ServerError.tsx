@@ -14,7 +14,7 @@ export const ServerError: React.FC<Props> = ({ error }) => {
   return (
     <ErrorPage
       titleId={root.serverError.title}
-      descriptionId={root.serverError.description}
+      defaultDescriptionId={root.serverError.description}
       Icon={Alert}
     >
       {JSON.stringify(error)}

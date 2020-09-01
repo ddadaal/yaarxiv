@@ -11,9 +11,10 @@ import { requireAuth } from "src/utils/requireAuth";
 import { Article } from "yaarxiv-api/article/models";
 import { GetServerSideProps } from "next";
 import { getCurrentUserInCookie } from "src/stores/UserStore";
-import { changeToken, HttpError } from "src/apis/fetch";
+import { changeToken, HttpError, makeHttpError } from "src/apis/fetch";
 import { NotFound } from "src/components/errors/NotFound";
 import { ServerError } from "src/components/errors/ServerError";
+import { Forbidden } from "src/components/errors/Forbidden";
 
 const root = lang.pages.updateArticle;
 
@@ -67,6 +68,17 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
     if (props.serverError.status === 401) {
       invalidTokenHandler();
       return null;
+    } else if (props.serverError.status === 403) {
+      return (
+        <Forbidden
+          description={(
+            <LocalizedString
+              id={root.forbidden}
+              replacements={[articleId]}
+            />
+          )}
+        />
+      );
     } else if (props.serverError.status === 404) {
       return <NotFound />;
     } else {
@@ -94,7 +106,15 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
     const data = await api.get({
       path: { articleId: queryToString(ctx.query.id) },
       query: {},
-    });
+    })
+      .then((x) => {
+        if (x.article.ownerId !== user.userId) {
+          throw makeHttpError({}, 403);
+        } else {
+          return x;
+        }
+      })
+      .catch((x: HttpError) => ({ serverError: x }));
 
     return { props: data };
   } else {

@@ -135,6 +135,7 @@ export default {
       updateArticle: {
         success: "更新文章成功。新版本编号：{}",
         loading: "正在加载文章{}的当前版本……",
+        forbidden: "您没有权限修改文章{}。",
       },
       admin: {
         articles: {

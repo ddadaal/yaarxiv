@@ -140,6 +140,7 @@ export default {
       updateArticle: {
         success: "Article updated successfully. New revision number: {}.",
         loading: "Loading current revision of article {}...",
+        forbidden: "You cannot update article {}.",
       },
       admin: {
         articles: {
