@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --watch src --watch ../api -e ts,tsx --exec ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.{js,ts}\" --quiet --fix",
-    "serve": "cross-env NODE_ENV=production node out/src/index.js",
+    "serve": "cross-env NODE_ENV=production node out/index.js",
     "build-ts": "ts-node scripts/cleanOut.ts && cross-env NODE_ENV=production tsc && tscpaths -p tsconfig.json -s ./src -o ./out",
     "build": "npm run lint && npm run build-ts",
     "start": "npm run dev",
