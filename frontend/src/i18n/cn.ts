@@ -10,6 +10,7 @@ export default {
       httpHandler: {
         tokenInvalid: "您的登录已经过期。请重新登录后继续。",
         networkError: "抱歉，请求出错，请重试或者联系支持。",
+        localNetworkError: "本地网络出错，请检查本地网络是否已经连通。",
       },
       errors: {
         notAuthorized: {

@@ -1,13 +1,17 @@
 import { Endpoint, replacePathArgs, Schema } from "yaarxiv-api";
-import {  incrementRequest, decrementRequest } from "src/components/TopProgressBar";
-import { isServer, isFormData } from "src/utils/isServer";
+import { isFormData } from "src/utils/isServer";
 import { removeNullOrUndefinedKey } from "src/utils/array";
+import { failEvent, finallyEvent, prefetchEvent, successEvent } from "./events";
 
 const baseUrl = process.env.API_ROOT;
 
 export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 
 let token = "";
+
+export function changeToken(newToken: string): void {
+  token = newToken;
+}
 
 export type Querystring =Record<string, string | string[] | number | undefined>;
 
@@ -27,20 +31,13 @@ export function fullFetch(
     url += new URLSearchParams(query as any).toString();
   }
 
-  if (!isServer()) {
-    incrementRequest();
-  }
-
   return fetch(url,
     {
       ...init,
       headers,
       mode: "cors",
-    }).finally(() => {
-    if (!isServer()) {
-      decrementRequest();
-    }
-  });
+    });
+
 }
 
 export type FullFetch = typeof fullFetch;
@@ -75,30 +72,39 @@ export async function jsonFetch<T>(
 
   const isForm = isFormData(info.body);
 
-  const resp = await fullFetch(info.path, info.query, {
-    method: info.method ?? "GET",
-    headers: {
-      ...isForm ? undefined : { "content-type": "application/json" },
-      ...info.headers,
-    },
-    body: isForm ? (info.body as any) : JSON.stringify(info.body),
-  });
+  prefetchEvent.execute(undefined);
 
-  const obj = await resp.json();
+  try {
+    const resp = await fullFetch(info.path, info.query, {
+      method: info.method ?? "GET",
+      headers: {
+        ...isForm ? undefined : { "content-type": "application/json" },
+        ...info.headers,
+      },
+      body: isForm ? (info.body as any) : JSON.stringify(info.body),
+    });
 
-  if (resp.status >= 200 && resp.status < 300) {
-    return obj;
-  } else {
-    throw { data: obj, status: resp.status };
+    const obj = await resp.json();
+
+    if (resp.ok) {
+      successEvent.execute({ status: resp.status, data: obj });
+      return obj;
+    } else {
+      const payload = { status: resp.status, data: obj };
+      failEvent.execute(payload);
+      throw payload;
+    }
+  } catch (r) {
+    const payload = { status: -1, data: r };
+    failEvent.execute(payload);
+    throw payload;
+  } finally {
+    finallyEvent.execute(undefined);
   }
 
 }
 
 export type JsonFetch = typeof jsonFetch;
-
-export function changeToken(newToken: string): void {
-  token = newToken;
-}
 
 type Responses<T extends Schema> = T["responses"];
 

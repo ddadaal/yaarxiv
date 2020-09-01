@@ -15,6 +15,7 @@ export default {
       httpHandler: {
         tokenInvalid: "Your login session is expired or invalid. Please re-login.",
         networkError: "I am sorry that the previous request fails. Please retry or contact support.",
+        localNetworkError: "It seems you are not connected. Please check your local network.",
       },
       errors: {
         notAuthorized: {
