@@ -17,13 +17,16 @@ import { Author } from "yaarxiv-api/article/models";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { useFirstMount } from "src/utils/useFirstMount";
+import { HttpError } from "src/apis/fetch";
+import { SSRPageProps } from "src/utils/ssr";
+import { ServerError } from "src/components/errors/ServerError";
 
 const api = getApi(articleApis);
 
-interface Props {
+type Props = SSRPageProps<{
   results: ArticleSearchResult[];
   totalCount: number;
-}
+}>;
 
 const search = ([query]: any[]) => api.search({ query });
 
@@ -34,7 +37,9 @@ export const Search: React.FC<Props> = (props) => {
 
   const query = router.query;
 
-
+  if ("error" in props) {
+    return <ServerError error={props.error} />;
+  }
 
   const { data, isPending, run } = useAsync({
     deferFn: search,
@@ -131,7 +136,11 @@ export const Search: React.FC<Props> = (props) => {
 
 export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
   const query = context.query;
-  return { props: await api.search({ query }) };
+
+  const data = await api.search({ query })
+    .catch((r: HttpError) => ({ error: r }));
+
+  return { props: data };
 };
 
 export default Search;

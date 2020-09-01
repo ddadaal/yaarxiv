@@ -22,7 +22,7 @@ export class PdfUpload {
   articleRevisions: ArticleRevision[];
 
   get pdfUrl(): string {
-    return urlJoin(config.domain, config.staticPrefix, config.upload.path, this.link);
+    return urlJoin(config.staticPrefix, config.upload.path, this.link);
   }
 
 }

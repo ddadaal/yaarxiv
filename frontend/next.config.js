@@ -9,5 +9,6 @@ module.exports = withPlugins([
   env: {
     USE_MOCK: process.env.USE_MOCK,
     API_ROOT: process.env.API_ROOT,
+    STATIC_ROOT: process.env.STATIC_ROOT,
   }
 });

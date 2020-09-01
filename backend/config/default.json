@@ -16,7 +16,6 @@
     "path": "upload",
     "maxFileSize": 5242880
   },
-  "domain": "http://localhost:3000",
   "staticPrefix": "static",
   "bcryptSaltLength": 10
 }

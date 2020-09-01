@@ -34,10 +34,12 @@ npm run build
 
 We utilize [next.js's environment variables feature](https://nextjs.org/docs/basic-features/environment-variables) to handle configs. Available configurations are as follows:
 
-| env        | Description                             | Possible Values |
-| ---------- | --------------------------------------- | --------------- |
-| `API_ROOT` | The root of backend API                 | string          |
-| `USE_MOCK` | Whether to use mock API for development | "true"/"false"  |
+| env           | Description                             | Possible Values |
+| ------------- | --------------------------------------- | --------------- |
+| `API_ROOT`    | The root of backend API                 | string          |
+| `STATIC_ROOT` | The root of static files                | string          |
+| `USE_MOCK`    | Whether to use mock API for development | "true"/"false"  |
+
 
 This git repo contains a `.env` as default config. You should create a `.env.production` for production configration and this `.env.production` should be git ignored.
 
