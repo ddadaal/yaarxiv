@@ -59,6 +59,7 @@ const mockArticle = (id: string, revision: number | undefined): Article => ({
     category: "Computer Science",
     pdfLink,
   },
+  ownerId: "123",
 });
 
 export const articleApisMock: MockApi<typeof articleApis> = ({ makeHttpError }) => ({

@@ -28,6 +28,9 @@ npm run dev
 
 # Build for production
 npm run build
+
+# Start at port 3000
+npm start -- --port 3000
 ```
 
 # Configuration
