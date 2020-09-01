@@ -9,7 +9,12 @@ const COOKIE_PATH = "/";
 type Ctx = Parameters<typeof parseCookies>[0];
 
 export function getCurrentUserInCookie(ctx?: Ctx): User | null {
-  return JSON.parse(parseCookies(ctx)[STORAGE_KEY]);
+  const cookie = parseCookies(ctx)[STORAGE_KEY];
+  if (cookie) {
+    return JSON.parse(cookie);
+  } else {
+    return null;
+  }
 }
 
 interface User {

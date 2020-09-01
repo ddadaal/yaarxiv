@@ -16,7 +16,7 @@ export interface LoginSchema {
     password: string;
   };
   responses: {
-    /** The request is success */
+    /** Logged in successfully. Returns user info. */
     200: {
       /** The generated token */
       token: string;
@@ -27,7 +27,7 @@ export interface LoginSchema {
       /** User id */
       userId: string;
     },
-    /** The request fails */
+    /** Login failed. The username and password are not valid. */
     401: {
     }
   }

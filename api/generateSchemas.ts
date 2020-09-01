@@ -12,7 +12,7 @@ function stringify(obj: object): string {
 async function start() {
   // generate all definitions
   const allDefinitions = tsj
-    .createGenerator({ path: "!(node_modules)/**/*.ts", jsDoc: "extended", expose: "all" })
+    .createGenerator({ path: "!(node_modules|out)/**/*.ts", jsDoc: "extended", expose: "all" })
     .createSchema()
     .definitions;
 

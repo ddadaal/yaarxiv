@@ -18,7 +18,7 @@ export interface RegisterSchema {
     password: string;
   };
   responses: {
-    /** Registration is success. */
+    /** Registered successfully. */
     201: {
       /** The generated token */
       token: string;

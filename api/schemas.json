@@ -545,20 +545,25 @@
                 "role": {
                   "$ref": "#/definitions/UserRole",
                   "description": "The role of the user."
+                },
+                "userId": {
+                  "type": "string",
+                  "description": "User id"
                 }
               },
               "required": [
                 "token",
                 "name",
-                "role"
+                "role",
+                "userId"
               ],
               "additionalProperties": false,
-              "description": "The request is success"
+              "description": "Logged in successfully. Returns user info."
             },
             "401": {
               "type": "object",
               "additionalProperties": false,
-              "description": "The request fails"
+              "description": "Login failed. The username and password are not valid."
             }
           },
           "required": [
@@ -610,14 +615,19 @@
                 "name": {
                   "type": "string",
                   "description": "The initial name of the newly-created user."
+                },
+                "userId": {
+                  "type": "string",
+                  "description": "User id"
                 }
               },
               "required": [
                 "token",
-                "name"
+                "name",
+                "userId"
               ],
               "additionalProperties": false,
-              "description": "Registration is success."
+              "description": "Registered successfully."
             },
             "405": {
               "type": "object",
@@ -742,27 +752,6 @@
       ],
       "additionalProperties": false,
       "description": "Home page api"
-    },
-    "Schema": {
-      "type": "object",
-      "properties": {
-        "path": {
-          "$ref": "#/definitions/Record%3Cstring%2C(string%7Cnumber%7Cundefined)%3E"
-        },
-        "querystring": {
-          "$ref": "#/definitions/Record%3Cstring%2C(string%7Cnumber%7Cstring%5B%5D%7Cundefined)%3E"
-        },
-        "body": {
-          "$ref": "#/definitions/Record%3C(string%7Cnumber)%2Cunknown%3E"
-        },
-        "responses": {
-          "$ref": "#/definitions/Record%3Cnumber%2CRecord%3C(string%7Cnumber)%2Cunknown%3E%3E"
-        }
-      },
-      "required": [
-        "responses"
-      ],
-      "additionalProperties": false
     }
   },
   "models": {
@@ -1102,109 +1091,6 @@
       ],
       "additionalProperties": false,
       "description": "Get the articles this user is the owner of."
-    },
-    "Endpoint": {
-      "type": "object",
-      "properties": {
-        "url": {
-          "type": "string"
-        },
-        "method": {
-          "type": "string",
-          "enum": [
-            "GET",
-            "POST",
-            "DELETE",
-            "PUT",
-            "PATCH"
-          ]
-        }
-      },
-      "required": [
-        "url",
-        "method"
-      ],
-      "additionalProperties": false
-    },
-    "Record<string,(string|number|undefined)>": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "string"
-          },
-          {
-            "type": "number"
-          },
-          {
-            "not": {}
-          }
-        ]
-      }
-    },
-    "Record<string,(string|number|string[]|undefined)>": {
-      "type": "object",
-      "additionalProperties": {
-        "anyOf": [
-          {
-            "type": "string"
-          },
-          {
-            "type": "number"
-          },
-          {
-            "type": "array",
-            "items": {
-              "type": "string"
-            }
-          },
-          {
-            "not": {}
-          }
-        ]
-      }
-    },
-    "Record<(string|number),unknown>": {
-      "type": "object",
-      "additionalProperties": {}
-    },
-    "Record<number,Record<(string|number),unknown>>": {
-      "type": "array",
-      "items": {
-        "$ref": "#/definitions/Record%3C(string%7Cnumber)%2Cunknown%3E"
-      }
-    },
-    "SchemaObject": {
-      "type": "object",
-      "properties": {
-        "description": {
-          "type": "string"
-        },
-        "properties": {
-          "type": "object",
-          "properties": {
-            "path": {},
-            "querystring": {},
-            "body": {},
-            "responses": {
-              "type": "object",
-              "properties": {
-                "properties": {}
-              },
-              "additionalProperties": false
-            }
-          },
-          "required": [
-            "responses"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "description",
-        "properties"
-      ],
-      "additionalProperties": false
     }
   }
 }
