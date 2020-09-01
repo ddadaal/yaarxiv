@@ -4,6 +4,7 @@ import { UserRole } from "src/models/User";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
 
 const STORAGE_KEY = "User";
+const COOKIE_PATH = "/";
 
 type Ctx = Parameters<typeof parseCookies>[0];
 
@@ -36,7 +37,7 @@ export function UserStore() {
   const loggedIn = !!user;
 
   const logout = useCallback(() => {
-    destroyCookie(null, STORAGE_KEY);
+    destroyCookie(null, STORAGE_KEY, { path: COOKIE_PATH });
     setUser(null);
     changeToken("");
   }, []);
@@ -45,7 +46,10 @@ export function UserStore() {
     setUser(user);
     changeToken(user.token);
     if (user.remember) {
-      setCookie(null, STORAGE_KEY, JSON.stringify(user), { maxAge: 30 * 24 * 60 * 60 });
+      setCookie(null, STORAGE_KEY, JSON.stringify(user), {
+        maxAge: 30 * 24 * 60 * 60,
+        path: COOKIE_PATH,
+      });
     }
   }, []);
 
