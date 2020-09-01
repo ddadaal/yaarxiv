@@ -4,7 +4,11 @@
   "description": "",
   "sideEffects": false,
   "scripts": {
-    "compile": "ts-node -T ./generateSchemas.ts"
+    "compile": "ts-node -T ./generateSchemas.ts",
+    "build": "ts-node cleanOut.ts && npm run compile && tsc && ts-node cpSchema.ts"
+  },
+  "exports": {
+    "./": "./out/"
   },
   "author": "",
   "license": "ISC",

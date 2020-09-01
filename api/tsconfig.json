@@ -2,6 +2,7 @@
   "compilerOptions": {
     "module": "commonjs",
     "target": "es2018",
+    "outDir": "out",
     "moduleResolution": "node",
     "noImplicitAny": true,
     "noImplicitReturns": true,
@@ -14,6 +15,9 @@
     "declaration": true,
   },
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "cleanOut.ts",
+    "cpSchema.ts",
+    "generateSchemas.ts"
   ]
 }
