@@ -67,7 +67,7 @@ export async function startApp(config: Config = envConfig, start = true) {
 
   if (start) {
     try {
-      await server.listen(config.port);
+      await server.listen(config.port, "0.0.0.0");
     } catch (err) {
       server.log.error(err);
       throw err;
