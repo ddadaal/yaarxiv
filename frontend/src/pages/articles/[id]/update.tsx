@@ -48,6 +48,7 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
         path: { articleId },
         body: { pdfToken, ...form },
       });
+      await router.push("/articles/[id]", `/articles/${articleId}`);
       notification.addNotification({
         level: "success",
         message: (
@@ -57,7 +58,6 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
           />
         ),
       });
-      router.push(`/articles/${articleId}`);
     });
   }, [articleId]);
 
