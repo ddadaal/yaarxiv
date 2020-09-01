@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --watch src --watch ../api -e ts,tsx --exec ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.{js,ts}\" --quiet --fix",
-    "serve": "node out/src/index.js",
+    "serve": "cross-env NODE_ENV=production node out/src/index.js",
     "build-ts": "ts-node scripts/cleanOut.ts && cross-env NODE_ENV=production tsc && tscpaths -p tsconfig.json -s ./src -o ./out",
     "build": "npm run lint && npm run build-ts && npm run copy-static-assets",
     "start": "npm run dev",
@@ -49,14 +49,13 @@
     "typeorm": "^0.2.25",
     "typescript": "^4.0.2",
     "url-join": "^4.0.1",
-    "yaarxiv-api": "file:../api"
-  },
-  "devDependencies": {
+    "yaarxiv-api": "file:../api",
     "@types/jest": "^26.0.10",
     "eslint": "^7.7.0",
     "jest": "^26.4.2",
     "nodemon": "^2.0.4",
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0"
-  }
+  },
+  "devDependencies": {}
 }

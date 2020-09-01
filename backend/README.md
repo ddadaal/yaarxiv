@@ -37,9 +37,6 @@ npm run typeorm:cli migration:generate -- -n now
 ```bash
 # Clone the project (with the api project on the parent)
 
-# Set env `NODE_ENV` to `production`
-export NODE_ENV=production
-
 # Copy `config/production.sample.json` to `config/production.json` and change the configs
 cp config/production.sample.json config/production.json
 vim config/production.json
@@ -47,7 +44,7 @@ vim config/production.json
 # Install dependencies
 npm install
 
-# Generate config
+# Generate production config typings
 npm run generateConfig:prod
 
 # Build
