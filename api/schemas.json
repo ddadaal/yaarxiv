@@ -742,6 +742,27 @@
       ],
       "additionalProperties": false,
       "description": "Home page api"
+    },
+    "Schema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "$ref": "#/definitions/Record%3Cstring%2C(string%7Cnumber%7Cundefined)%3E"
+        },
+        "querystring": {
+          "$ref": "#/definitions/Record%3Cstring%2C(string%7Cnumber%7Cstring%5B%5D%7Cundefined)%3E"
+        },
+        "body": {
+          "$ref": "#/definitions/Record%3C(string%7Cnumber)%2Cunknown%3E"
+        },
+        "responses": {
+          "$ref": "#/definitions/Record%3Cnumber%2CRecord%3C(string%7Cnumber)%2Cunknown%3E%3E"
+        }
+      },
+      "required": [
+        "responses"
+      ],
+      "additionalProperties": false
     }
   },
   "models": {
@@ -1081,6 +1102,109 @@
       ],
       "additionalProperties": false,
       "description": "Get the articles this user is the owner of."
+    },
+    "Endpoint": {
+      "type": "object",
+      "properties": {
+        "url": {
+          "type": "string"
+        },
+        "method": {
+          "type": "string",
+          "enum": [
+            "GET",
+            "POST",
+            "DELETE",
+            "PUT",
+            "PATCH"
+          ]
+        }
+      },
+      "required": [
+        "url",
+        "method"
+      ],
+      "additionalProperties": false
+    },
+    "Record<string,(string|number|undefined)>": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "not": {}
+          }
+        ]
+      }
+    },
+    "Record<string,(string|number|string[]|undefined)>": {
+      "type": "object",
+      "additionalProperties": {
+        "anyOf": [
+          {
+            "type": "string"
+          },
+          {
+            "type": "number"
+          },
+          {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          {
+            "not": {}
+          }
+        ]
+      }
+    },
+    "Record<(string|number),unknown>": {
+      "type": "object",
+      "additionalProperties": {}
+    },
+    "Record<number,Record<(string|number),unknown>>": {
+      "type": "array",
+      "items": {
+        "$ref": "#/definitions/Record%3C(string%7Cnumber)%2Cunknown%3E"
+      }
+    },
+    "SchemaObject": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "type": "string"
+        },
+        "properties": {
+          "type": "object",
+          "properties": {
+            "path": {},
+            "querystring": {},
+            "body": {},
+            "responses": {
+              "type": "object",
+              "properties": {
+                "properties": {}
+              },
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "responses"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "description",
+        "properties"
+      ],
+      "additionalProperties": false
     }
   }
 }

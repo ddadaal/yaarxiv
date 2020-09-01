@@ -24,6 +24,8 @@ export interface LoginSchema {
       name: string;
       /** The role of the user. */
       role: UserRole;
+      /** User id */
+      userId: string;
     },
     /** The request fails */
     401: {

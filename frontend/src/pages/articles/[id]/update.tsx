@@ -103,7 +103,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       query: {},
     })
       .then((x) => {
-        if (x.article.ownerId !== user.userId) {
+        if (x.article.ownerId !== user.email) {
           throw makeHttpError({}, 403);
         } else {
           return x;

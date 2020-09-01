@@ -39,11 +39,12 @@ const RegisterForm: React.FC = () => {
       });
       await Router.push("/");
       userStore.login({
-        userId: email,
+        email: email,
         name: res.name,
         token: res.token,
         remember: remember,
         role: "user",
+        id: res.userId,
       });
     } catch (e) {
       if (e.status === 405) {

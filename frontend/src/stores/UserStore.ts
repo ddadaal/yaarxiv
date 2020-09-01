@@ -13,7 +13,8 @@ export function getCurrentUserInCookie(ctx?: Ctx): User | null {
 }
 
 interface User {
-  userId: string;
+  id: string;
+  email: string;
   name: string;
   token: string;
   remember: boolean;

@@ -24,6 +24,8 @@ export interface RegisterSchema {
       token: string;
       /** The initial name of the newly-created user. */
       name: string;
+      /** User id */
+      userId: string;
     },
     /** The email already exists. */
     405: {

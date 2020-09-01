@@ -21,6 +21,7 @@ export async function loginRoute(fastify: FastifyInstance) {
           token: signUser(fastify, user),
           name: user.name,
           role: user.role,
+          userId: user.id,
         },
       };
 

@@ -43,11 +43,12 @@ const LoginForm: React.FC = () => {
         await Router.push("/");
       }
       userStore.login({
-        userId: id,
+        email: id,
         name: res.name,
         token: res.token,
         remember: remember,
         role: res.role,
+        id: res.userId,
       });
     } catch (e) {
       console.log(e);

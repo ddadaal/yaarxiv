@@ -25,6 +25,7 @@ export async function registerRoute(fastify: FastifyInstance) {
           201: {
             token: signUser(fastify, user),
             name: user.name,
+            userId: user.id,
           },
         };
       } catch (e) {
