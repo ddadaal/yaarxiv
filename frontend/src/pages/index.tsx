@@ -1,12 +1,10 @@
 import React from "react";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { Box } from "grommet";
 import { SearchBar } from "src/components/SearchBar";
 import { Logo } from "src/components/Logo";
 
 const Home: React.FC = () => {
-
-  const router = useRouter();
 
   return(
     <Box justify="center" flex="grow">
@@ -15,7 +13,7 @@ const Home: React.FC = () => {
           <Logo />
         </Box>
         <Box width="medium">
-          <SearchBar initialText="" onConfirm={(k) => router.push({
+          <SearchBar initialText="" onConfirm={(k) => Router.push({
             pathname: "/search",
             query: { searchText: k },
           })}
