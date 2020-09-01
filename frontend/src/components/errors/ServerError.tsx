@@ -10,6 +10,7 @@ interface Props {
   error: HttpError;
 }
 
+// handle 500
 export const ServerError: React.FC<Props> = ({ error }) => {
   return (
     <ErrorPage

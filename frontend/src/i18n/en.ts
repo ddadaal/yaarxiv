@@ -14,8 +14,8 @@ export default {
       },
       httpHandler: {
         tokenInvalid: "Your login session is expired or invalid. Please re-login.",
-        networkError: "I am sorry that the previous request fails. Please retry or contact support.",
-        localNetworkError: "It seems you are not connected. Please check your local network.",
+        serverError: "I am sorry that the request fails. Please retry or contact support.",
+        networkError: "Network error. Please check your local network, or our network is down.",
       },
       errors: {
         notAuthorized: {
@@ -33,6 +33,10 @@ export default {
         serverError: {
           title: "Server Error",
           description: "We are sorry that our server just got a problem. Please continue when it is fixed.",
+        },
+        localNetworkError: {
+          title: "Network Error",
+          description: "Please check your local network, or our network is down.",
         },
       },
       form: { validationError: { email: "Please input a valid email." } },

@@ -18,6 +18,7 @@ import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { SearchBar } from "src/components/SearchBar";
 import { Pagination } from "src/components/Pagination";
 import { removeNullOrUndefinedKey } from "src/utils/array";
+import { handleHttpError, useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 
 const root = lang.pages.admin.articles;
 
@@ -68,7 +69,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
   const page = queryToIntOrDefault(router.query.page, undefined);
   const searchWord = queryToString(router.query.searchWord);
 
-  const { data, isLoading, run } = useAsync({ deferFn: getArticles });
+  const { data, isLoading, run, error } = useAsync({ deferFn: getArticles });
 
   const updateQuery = useCallback((newQuery: SearchQuery) => {
     const combinedQuery = removeNullOrUndefinedKey({
@@ -85,6 +86,12 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
   useEffect(() => {
     run(router.query);
   }, [router.query]);
+
+  const handler = useHttpErrorHandler();
+
+  if (error) {
+    handler(error);
+  }
 
   return (
     <Box gap="medium">

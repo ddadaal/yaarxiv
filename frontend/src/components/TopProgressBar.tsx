@@ -1,6 +1,7 @@
 import Router from "next/router";
 import NProgress from "nprogress";
 import { finallyEvent, prefetchEvent } from "src/apis/events";
+import { isServer } from "src/utils/isServer";
 
 NProgress.configure({ showSpinner: false });
 
@@ -47,8 +48,10 @@ export function decrementRequest() {
 }
 
 // register HTTP request loading
-prefetchEvent.register(incrementRequest);
-finallyEvent.register(decrementRequest);
+if (!isServer()){
+  prefetchEvent.register(incrementRequest);
+  finallyEvent.register(decrementRequest);
+}
 
 export default function Dummy () {
   return null;

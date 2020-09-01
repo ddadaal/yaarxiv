@@ -9,6 +9,7 @@ interface Props {
   description?: React.ReactNode;
 }
 
+// handle 401
 export const NotAuthorized: React.FC<Props> = ({ description }) => (
   <ErrorPage
     titleId={root.title}

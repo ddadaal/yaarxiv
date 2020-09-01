@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
 import Router from "next/router";
 
@@ -19,10 +19,10 @@ export const UploadPage: React.FC = requireAuth({ roles: ["user"]})(() => {
 
   const [submitting, setSubmitting] = useState(false);
 
-  const handler = useHttpErrorHandler(setSubmitting);
+  const request = useHttpRequest(setSubmitting);
 
   const submit = async (file: File | undefined, info: ArticleForm) => {
-    handler(async () => {
+    request(async () => {
       // 1. upload the PDF and get the token
       const pdfResp = await api.uploadPDF(file!);
 

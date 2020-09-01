@@ -14,7 +14,7 @@ import Router from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailMask } from "src/utils/validations/emailMask";
 import { emailValidation } from "src/utils/validations/emailValidation";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 
 const root = lang.register;
 
@@ -27,9 +27,9 @@ const RegisterForm: React.FC = () => {
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
   const notification = useNotification();
-  const handler = useHttpErrorHandler(setInProgress);
+  const request = useHttpRequest(setInProgress);
 
-  const register = () => handler(async () => {
+  const register = () => request(async () => {
     const { email, password, remember } = value;
     try {
       const res = await api.register({ body: { email, password } });

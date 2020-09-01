@@ -8,19 +8,20 @@ import { formatDateTime } from "src/utils/datetime";
 import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { Pagination } from "src/components/Pagination";
 import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { dashboardApis } from "src/apis/dashboard";
+import { HttpError } from "src/apis/fetch";
 
 const root = lang.pages.dashboard.articles;
 
 const DeleteLink = ({ articleId, deleteArticle, reload }) => {
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
-  const handler = useHttpErrorHandler(setConfirming);
+  const handler = useHttpRequest(setConfirming);
 
   const onDelete = useCallback(async () => {
     handler(async () => {
@@ -108,7 +109,7 @@ export const ArticleTable: React.FC = ({}) => {
 
   const [page, setPage] = useState(0);
 
-  const { data, isPending, run } = useAsync({
+  const { data, isPending, run, error } = useAsync({
     promiseFn: getDashboardDataFirstPage,
     deferFn: getDashboardData,
   });
@@ -139,6 +140,12 @@ export const ArticleTable: React.FC = ({}) => {
       ),
     },
   ], [run, deleteArticle]);
+
+  const handler = useHttpErrorHandler();
+
+  if (error) {
+    handler(error);
+  }
 
   return (
     <OverlayLoading loading={isPending}>

@@ -24,14 +24,43 @@ export function handleTokenInvalid(
   };
 }
 
-export function use401Handler() {
+export function useInvalidTokenHandler() {
   const notification = useNotification();
   const userStore = useStore(UserStore);
 
   return () => handleTokenInvalid(userStore, notification);
 }
 
-export function useHttpErrorHandler(
+export function handleHttpError(
+  e: HttpError,
+  notification: NotificationActions,
+  userStore: ReturnType<typeof UserStore>,
+) {
+  if (e.status === -1) {
+    notification.addNotification({
+      level: "error",
+      message: <LocalizedString id={root.networkError} />,
+    });
+  } else if (e.status === 401) {
+    // Route back to login page and show a notification.
+    handleTokenInvalid(userStore, notification);
+  } else {
+    notification.addNotification({
+      level: "error",
+      message: <LocalizedString id={root.serverError} />,
+    });
+  }
+}
+
+export function useHttpErrorHandler() {
+  const notification = useNotification();
+  const userStore = useStore(UserStore);
+
+  return (e: Error) => handleHttpError(e as any as HttpError, notification, userStore);
+}
+
+
+export function useHttpRequest(
   setLoadingState: (b: boolean) => void,
 ) {
 
@@ -44,28 +73,11 @@ export function useHttpErrorHandler(
   }) => Promise<void>) => {
     try {
       setLoadingState(true);
-      const r = await call({ notification, userStore });
-      setLoadingState(false);
-      return r;
+      return await call({ notification, userStore });
     } catch (e) {
+      handleHttpError(e, notification, userStore);
+    } finally {
       setLoadingState(false);
-      const ex = e as HttpError;
-      if (ex.status === -1) {
-        notification.addNotification({
-          level: "error",
-          message: <LocalizedString id={root.localNetworkError} />,
-        });
-      }
-      // The token is now invalid.
-      // Route back to login page and show a notification.
-      else if (ex.status === 401) {
-        handleTokenInvalid(userStore, notification);
-      } else {
-        notification.addNotification({
-          level: "error",
-          message: <LocalizedString id={root.networkError} />,
-        });
-      }
     }
   };
 

@@ -95,6 +95,13 @@ export async function jsonFetch<T>(
       throw payload;
     }
   } catch (r) {
+    // existence of r.type indicates it's a server error (node-fetch)
+    if (r.name === "FetchError") {
+      const payload = { status: -2, data: JSON.parse(JSON.stringify(r)) };
+      failEvent.execute(payload);
+      throw payload;
+    }
+    // TypeError is client side fetch error
     if (r instanceof TypeError) {
       const payload = { status: -1, data: r };
       failEvent.execute(payload);

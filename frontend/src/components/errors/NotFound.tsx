@@ -9,6 +9,7 @@ interface Props {
   description?: React.ReactNode;
 }
 
+// handle 404
 export const NotFound: React.FC<Props> = ({ description }) => (
   <ErrorPage
     titleId={root.title}

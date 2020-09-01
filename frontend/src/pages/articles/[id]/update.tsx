@@ -6,15 +6,14 @@ import { articleApis } from "src/apis/article";
 import { lang } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { queryToString } from "src/utils/querystring";
-import { use401Handler, useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
 import { Article } from "yaarxiv-api/article/models";
 import { GetServerSideProps } from "next";
 import { getCurrentUserInCookie } from "src/stores/UserStore";
 import { changeToken, HttpError, makeHttpError } from "src/apis/fetch";
-import { NotFound } from "src/components/errors/NotFound";
-import { ServerError } from "src/components/errors/ServerError";
 import { Forbidden } from "src/components/errors/Forbidden";
+import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 
 const root = lang.pages.updateArticle;
 
@@ -23,7 +22,7 @@ const api = getApi(articleApis);
 type Props = {
   article: Article;
 } | {
-  serverError: HttpError;
+  error: HttpError;
 }
 
 
@@ -35,12 +34,10 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
 
   const [submitting, setSubmitting] = useState(false);
 
-  const handler = useHttpErrorHandler(setSubmitting);
-
-  const invalidTokenHandler = use401Handler();
+  const request = useHttpRequest(setSubmitting);
 
   const submit = useCallback((file: File | undefined, form: ArticleForm) => {
-    handler(async ({ notification }) => {
+    request(async ({ notification }) => {
       let pdfToken: string | undefined = undefined;
       if (file) {
         // user wants to update the pdf. so upload it first.
@@ -64,26 +61,24 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
     });
   }, [articleId]);
 
-  if (!("article" in props)) {
-    if (props.serverError.status === 401) {
-      invalidTokenHandler();
-      return null;
-    } else if (props.serverError.status === 403) {
-      return (
-        <Forbidden
-          description={(
-            <LocalizedString
-              id={root.forbidden}
-              replacements={[articleId]}
+  if ("error" in props) {
+    return (
+      <UnifiedErrorPage
+        error={props.error}
+        customComponents={{
+          403:(
+            <Forbidden
+              description={(
+                <LocalizedString
+                  id={root.forbidden}
+                  replacements={[articleId]}
+                />
+              )}
             />
-          )}
-        />
-      );
-    } else if (props.serverError.status === 404) {
-      return <NotFound />;
-    } else {
-      return <ServerError error={props.serverError} />;
-    }
+          ),
+        }}
+      />
+    );
   }
 
   const current = props.article.currentRevision;
@@ -114,11 +109,11 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
           return x;
         }
       })
-      .catch((x: HttpError) => ({ serverError: x }));
+      .catch((x: HttpError) => ({ error: x }));
 
     return { props: data };
   } else {
-    return { props: { serverError: { status: 401, data: {} } } };
+    return { props: { error: { status: 401, data: {} } } };
   }
 };
 

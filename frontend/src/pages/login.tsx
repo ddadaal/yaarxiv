@@ -14,7 +14,7 @@ import Router from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { emailMask } from "src/utils/validations/emailMask";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 
 const root = lang.login;
 
@@ -27,9 +27,9 @@ const LoginForm: React.FC = () => {
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
   const notification = useNotification();
-  const handler = useHttpErrorHandler(setInProgress);
+  const request = useHttpRequest(setInProgress);
 
-  const login = () => handler(async () => {
+  const login = () => request(async () => {
     const { id, password, remember } = value;
     try {
       const res = await api.login({ query: { id, password } });

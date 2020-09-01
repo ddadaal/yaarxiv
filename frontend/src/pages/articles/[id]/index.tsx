@@ -6,27 +6,22 @@ import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { ArticlePage as ArticlePageComp } from "src/pageComponents/article/ArticlePage";
 import { HttpError } from "src/apis/fetch";
-import { ServerError } from "src/components/errors/ServerError";
-import { NotFound } from "src/components/errors/NotFound";
+import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 
 type Props = {
   article: Article;
 } | {
-  serverError: HttpError;
+  error: HttpError;
 }
 
 const api = getApi(articleApis);
 
 export const ArticlePage: React.FC<Props> = (props) => {
-  if ("article" in props) {
-    return <ArticlePageComp article={props.article} />;
-  } else {
-    if (props.serverError.status === 404) {
-      return <NotFound />;
-    } else {
-      return <ServerError error={props.serverError} />;
-    }
+
+  if ("error" in props) {
+    return <UnifiedErrorPage error={props.error} />;
   }
+  return <ArticlePageComp article={props.article} />;
 
 };
 
@@ -36,7 +31,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
 
   const data = await api.get({ path: { articleId }, query: { revision } })
     .then((x) => ({ article: x.article }))
-    .catch((e: HttpError) => ({ serverError: e }));
+    .catch((e: HttpError) => ({ error: e }));
 
   return { props: data };
 };

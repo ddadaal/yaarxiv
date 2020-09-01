@@ -9,8 +9,8 @@ export default {
       tagInput: { placeholder: "输入完成后按下回车以增加一项。" },
       httpHandler: {
         tokenInvalid: "您的登录已经过期。请重新登录后继续。",
-        networkError: "抱歉，请求出错，请重试或者联系支持。",
-        localNetworkError: "本地网络出错，请检查本地网络是否已经连通。",
+        serverError: "抱歉，请求出错，请重试或者联系支持。",
+        networkError: "网络连接出错，请检查本地网络是否已经连通，或服务器开了小差……",
       },
       errors: {
         notAuthorized: {
@@ -28,6 +28,10 @@ export default {
         serverError: {
           title: "服务器出错",
           description: "非常抱歉，服务器出现错误，请等待我们将问题解决后再继续，或将问题报告至支持。",
+        },
+        localNetworkError: {
+          title: "网络连接出错",
+          description: "本地网络出错，请检查本地网络是否已经连通，或者服务器暂时开了小差……",
         },
       },
       form: { validationError: { email: "请输入有效的电子邮箱" } },

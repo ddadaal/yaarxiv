@@ -19,7 +19,7 @@ import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { useFirstMount } from "src/utils/useFirstMount";
 import { HttpError } from "src/apis/fetch";
 import { SSRPageProps } from "src/utils/ssr";
-import { ServerError } from "src/components/errors/ServerError";
+import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 
 const api = getApi(articleApis);
 
@@ -38,7 +38,7 @@ export const Search: React.FC<Props> = (props) => {
   const query = router.query;
 
   if ("error" in props) {
-    return <ServerError error={props.error} />;
+    return <UnifiedErrorPage error={props.error} />;
   }
 
   const { data, isPending, run } = useAsync({

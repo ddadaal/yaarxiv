@@ -9,6 +9,7 @@ interface Props {
   description?: React.ReactNode;
 }
 
+// handle 403
 export const Forbidden: React.FC<Props> = ({ description }) => (
   <ErrorPage
     titleId={root.title}

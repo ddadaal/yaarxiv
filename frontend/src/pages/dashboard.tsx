@@ -10,7 +10,6 @@ const root = lang.pages.dashboard;
 
 const DashboardPage = requireAuth({ roles: ["user"]})(({ }) => {
 
-
   return (
     <Box>
       <Box gap="medium">
