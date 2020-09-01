@@ -1,6 +1,5 @@
-import { NextRouter, useRouter } from "next/router";
+import Router from "next/router";
 import React from "react";
-import { System } from "react-notification-system";
 import { useStore } from "simstate";
 import { LocalizedString } from "simstate-i18n";
 import { HttpError } from "src/apis/fetch";
@@ -15,26 +14,30 @@ export function useHttpErrorHandler(
 ) {
 
   const notification = useNotification();
-  const router = useRouter();
   const userStore = useStore(UserStore);
 
   return async (call: (args: {
     notification: NotificationActions,
-    router: NextRouter,
     userStore: ReturnType<typeof UserStore>,
   }) => Promise<void>) => {
     try {
       setLoadingState(true);
-      const r = await call({ notification, router, userStore });
+      const r = await call({ notification, userStore });
       setLoadingState(false);
       return r;
     } catch (e) {
       setLoadingState(false);
       const ex = e as HttpError;
+      if (ex.status === -1) {
+        notification.addNotification({
+          level: "error",
+          message: <LocalizedString id={root.localNetworkError} />,
+        });
+      }
       // The token is now invalid.
       // Route back to login page and show a notification.
-      if (ex.status === 401) {
-        router.push("/login");
+      else if (ex.status === 401) {
+        Router.push("/login");
         userStore.logout();
         notification.addNotification({
           level: "error",

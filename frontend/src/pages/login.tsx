@@ -47,6 +47,7 @@ const LoginForm: React.FC = () => {
         router.push("/");
       }
     } catch (e) {
+      console.log(e);
       if (e.status === 401) {
         notification.addNotification({
           message: <LocalizedString id={root.invalid} />,

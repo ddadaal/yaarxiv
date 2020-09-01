@@ -95,9 +95,12 @@ export async function jsonFetch<T>(
       throw payload;
     }
   } catch (r) {
-    const payload = { status: -1, data: r };
-    failEvent.execute(payload);
-    throw payload;
+    if (r instanceof TypeError) {
+      const payload = { status: -1, data: r };
+      failEvent.execute(payload);
+      throw payload;
+    }
+    throw r;
   } finally {
     finallyEvent.execute(undefined);
   }
