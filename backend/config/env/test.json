@@ -4,9 +4,6 @@
   "typeorm": {
     "type": "sqlite",
     "database": ":memory:",
-    "entities": [
-      "src/entities/**/*.ts"
-    ],
     "logging": [
       "schema",
       "query",

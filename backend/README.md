@@ -34,6 +34,8 @@ npm run typeorm:cli migration:generate -- -n now
 
 # Deployment
 
+## Build
+
 We use `webpack` to bundle the backend for simpler build and deployment and freedom from building API project separately.
 
 ```bash
@@ -49,7 +51,39 @@ npm install
 # Build
 npm run build
 
-# Serve
-npm run serve
 ```
 
+## Built Assets
+
+When copying built asset from bundled files, copy the following files and keep them organized as such:
+
+```
+.
+├── config
+│   ├── Config.d.ts
+│   ├── default.json
+│   └── env
+│       └── production.json
+├── db.db
+├── migrations
+├── ormconfig.js
+├── out
+│   └── bundle.js
+├── package.json
+├── package-lock.json
+├── tsconfig.json
+└── upload
+```
+
+## Serve
+
+On the folder with built assets shown above,
+
+```bash
+# Only install production dependencies
+npm install --production
+
+# Run!
+npm run serve
+
+```

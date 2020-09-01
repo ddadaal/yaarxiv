@@ -3,9 +3,6 @@
   "typeorm": {
     "type": "sqlite",
     "database": "./db.db",
-    "entities": [
-      "src/entities/**/*.ts"
-    ],
     "logging": true,
     "migrations": [
       "migrations/*.ts"

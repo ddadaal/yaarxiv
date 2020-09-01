@@ -1,10 +1,7 @@
 {
   "typeorm": {
     "type": "sqlite",
-    "database": "./db.db",
-    "entities": [
-      "out/bundle.js"
-    ]
+    "database": "./db.db"
   },
   "jwtSecret": "productionsecret"
 }

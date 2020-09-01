@@ -30,4 +30,5 @@ export default {
     extensions: [ ".tsx", ".ts", ".js" ],
     plugins: [new TsconfigPathsPlugin()],
   },
+  optimization: { minimize: false },
 } as webpack.Configuration;

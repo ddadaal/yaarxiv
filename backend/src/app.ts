@@ -14,6 +14,7 @@ import fastifyCorsPlugin from "fastify-cors";
 import fastifyStatic from "fastify-static";
 import path from "path";
 import urljoin from "url-join";
+import { entities } from "./entities";
 
 export async function startApp(config: Config = envConfig, start = true) {
 
@@ -24,6 +25,7 @@ export async function startApp(config: Config = envConfig, start = true) {
   const dbConnection = await createConnection({
     ...(config.typeorm) as ConnectionOptions,
     logger: new TypeormPinoLogger(server.log),
+    entities,
   });
 
   server.register(fastifyCorsPlugin);
