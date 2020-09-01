@@ -81,13 +81,13 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
     );
   }
 
-  const current = props.article.currentRevision;
+  const { pdfLink, ...rest } = props.article.currentRevision;
 
   return (
     <ArticleEditForm
       disabled={submitting}
-      existingFileUrl={current.pdfLink}
-      initial={{ ...current, authors: current.authors.map((x) => x.name) }}
+      existingFileUrl={pdfLink}
+      initial={{ ...rest, authors: rest.authors.map((x) => x.name) }}
       onSubmit={submit}
     />
   );
