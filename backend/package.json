@@ -7,10 +7,8 @@
     "dev": "cross-env NODE_ENV=development nodemon --watch src --watch ../api -e ts,tsx --exec ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.{js,ts}\" --quiet --fix",
     "serve": "cross-env NODE_ENV=production node out/index.js",
-    "build-ts": "ts-node scripts/cleanOut.ts && cross-env NODE_ENV=production tsc && tscpaths -p tsconfig.json -s ./src -o ./out",
-    "build": "npm run lint && npm run build-ts",
+    "build": "npm run lint && npm run generateConfig:prod && cross-env NODE_ENV=production webpack",
     "start": "npm run dev",
-    "copy-static-assets": "ts-node scripts/copyStaticAssets.ts",
     "test": "cross-env NODE_ENV=test jest --verbose",
     "test:coverage": "npm run test -- --coverage",
     "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
@@ -57,5 +55,13 @@
     "ts-jest": "^26.3.0",
     "ts-node": "^9.0.0"
   },
-  "devDependencies": {}
+  "devDependencies": {
+    "@types/webpack": "^4.41.21",
+    "@types/webpack-node-externals": "^2.5.0",
+    "ts-loader": "^8.0.3",
+    "tsconfig-paths-webpack-plugin": "^3.3.0",
+    "webpack": "^4.44.1",
+    "webpack-cli": "^3.3.12",
+    "webpack-node-externals": "^2.5.2"
+  }
 }

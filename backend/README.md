@@ -34,12 +34,10 @@ npm run typeorm:cli migration:generate -- -n now
 
 # Deployment
 
+We use `webpack` to bundle the backend for simpler build and deployment and freedom from building API project separately.
+
 ```bash
 # Clone the project (with the api project on the parent)
-# Build the api project
-cd ../api
-npm run build
-cd ../backend
 
 # Copy `config/production.sample.json` to `config/production.json` and change the configs
 cp config/production.sample.json config/production.json
@@ -48,12 +46,10 @@ vim config/production.json
 # Install dependencies
 npm install
 
-# Generate production config typings
-npm run generateConfig:prod
-
 # Build
 npm run build
 
 # Serve
 npm run serve
 ```
+

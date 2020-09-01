@@ -1,7 +1,6 @@
 {
   "compilerOptions": {
     "baseUrl": ".",
-    "outDir": "./out",
     "module": "commonjs",
     "target": "es2018",
     "allowSyntheticDefaultImports": true,
@@ -22,12 +21,6 @@
       "@/*": [
         "src/*"
       ],
-      "schemas/*": [
-        "schemas/*"
-      ],
-      "types/*": [
-        "types/*"
-      ]
     }
   },
   "include": [

@@ -3,7 +3,7 @@
     "type": "sqlite",
     "database": "./db.db",
     "entities": [
-      "out/entities/**/*.js"
+      "out/bundle.js"
     ]
   },
   "jwtSecret": "productionsecret"
