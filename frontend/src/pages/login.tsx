@@ -10,7 +10,7 @@ import { getApi } from "src/apis";
 import { authApis } from "src/apis/auth";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { emailMask } from "src/utils/validations/emailMask";
@@ -27,13 +27,21 @@ const LoginForm: React.FC = () => {
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
   const notification = useNotification();
-  const router = useRouter();
   const handler = useHttpErrorHandler(setInProgress);
 
   const login = () => handler(async () => {
     const { id, password, remember } = value;
     try {
       const res = await api.login({ query: { id, password } });
+      notification.addNotification({
+        level: "success",
+        message: <LocalizedString id={root.success} />,
+      });
+      if (res.role === "admin"){
+        await Router.push("/admin/articles");
+      } else {
+        await Router.push("/");
+      }
       userStore.login({
         userId: id,
         name: res.name,
@@ -41,11 +49,6 @@ const LoginForm: React.FC = () => {
         remember: remember,
         role: res.role,
       });
-      if (res.role === "admin"){
-        router.push("/admin/articles");
-      } else {
-        router.push("/");
-      }
     } catch (e) {
       console.log(e);
       if (e.status === 401) {

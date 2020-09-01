@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
+import Router from "next/router";
 
 const initialState ={
   title: "",
@@ -16,8 +16,6 @@ const initialState ={
 const api = getApi(articleApis);
 
 export const UploadPage: React.FC = requireAuth({ roles: ["user"]})(() => {
-
-  const router = useRouter();
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -37,7 +35,7 @@ export const UploadPage: React.FC = requireAuth({ roles: ["user"]})(() => {
       });
 
       // 3. Route to complete page
-      router.push({ pathname: "/upload/complete", query: { articleId: resp.id } });
+      Router.push({ pathname: "/upload/complete", query: { articleId: resp.id } });
     });
   };
 

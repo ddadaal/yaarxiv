@@ -56,6 +56,7 @@ export default {
       inProgress: "Logging In",
       register: "Register",
       invalid: "The email and password are invalid. Please check them and try again.",
+      success: "Logged in successfully!",
     },
     register: {
       email: "Email",
@@ -66,6 +67,7 @@ export default {
       title: "Register",
       login: "Back to Login",
       conflict: "This email has been token by another account. Please change an email and try again.",
+      success: "Registered successful!",
     },
     footer: {
       main: {

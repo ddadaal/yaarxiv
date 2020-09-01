@@ -51,6 +51,7 @@ export default {
       inProgress: "登录中",
       register: "注册",
       invalid: "您的用户名和密码无效，请检查用户名和密码后重试。",
+      success: "登录成功！",
     },
     register: {
       email: "Email",
@@ -61,6 +62,7 @@ export default {
       title: "注册",
       login: "返回登录",
       conflict: "这个email已经被占用了，请更换一个。",
+      success: "注册成功！",
     },
     footer: {
       main: {

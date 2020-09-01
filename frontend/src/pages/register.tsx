@@ -10,7 +10,7 @@ import { getApi } from "src/apis";
 import { authApis } from "src/apis/auth";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
-import { useRouter } from "next/router";
+import Router from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailMask } from "src/utils/validations/emailMask";
 import { emailValidation } from "src/utils/validations/emailValidation";
@@ -27,13 +27,17 @@ const RegisterForm: React.FC = () => {
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
   const notification = useNotification();
-  const router = useRouter();
   const handler = useHttpErrorHandler(setInProgress);
 
   const register = () => handler(async () => {
     const { email, password, remember } = value;
     try {
       const res = await api.register({ body: { email, password } });
+      notification.addNotification({
+        level: "success",
+        message: <LocalizedString id={root.success} />,
+      });
+      await Router.push("/");
       userStore.login({
         userId: email,
         name: res.name,
@@ -41,7 +45,6 @@ const RegisterForm: React.FC = () => {
         remember: remember,
         role: "user",
       });
-      router.push("/");
     } catch (e) {
       if (e.status === 405) {
         notification.addNotification({

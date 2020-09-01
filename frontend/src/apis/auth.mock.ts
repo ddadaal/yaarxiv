@@ -3,10 +3,10 @@ import type { authApis } from "./auth";
 
 export const authApisMock: MockApi<typeof authApis> = (({ makeHttpError }) => ({
   login: async ({ query: { id, password } }) => {
-    if (id === "admin") {
+    if (password === "admin") {
       return { token: "admin" ,name: "admin1", role: "admin" };
     }
-    if (id === password) {
+    if (password === "1") {
       return { token: id, name: "cjd", role: "user" };
     } else {
       throw makeHttpError({}, 401);
