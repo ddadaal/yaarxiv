@@ -9,6 +9,28 @@ import { NotificationActions, useNotification } from "./useNotification";
 
 const root = lang.components.httpHandler;
 
+
+export function handleTokenInvalid(
+  userStore: ReturnType<typeof UserStore>,
+  notification: NotificationActions
+) {
+  return () => {
+    Router.push("/login");
+    userStore.logout();
+    notification.addNotification({
+      level: "error",
+      message: <LocalizedString id={root.tokenInvalid} />,
+    });
+  };
+}
+
+export function use401Handler() {
+  const notification = useNotification();
+  const userStore = useStore(UserStore);
+
+  return () => handleTokenInvalid(userStore, notification);
+}
+
 export function useHttpErrorHandler(
   setLoadingState: (b: boolean) => void,
 ) {
@@ -37,12 +59,7 @@ export function useHttpErrorHandler(
       // The token is now invalid.
       // Route back to login page and show a notification.
       else if (ex.status === 401) {
-        Router.push("/login");
-        userStore.logout();
-        notification.addNotification({
-          level: "error",
-          message: <LocalizedString id={root.tokenInvalid} />,
-        });
+        handleTokenInvalid(userStore, notification);
       } else {
         notification.addNotification({
           level: "error",

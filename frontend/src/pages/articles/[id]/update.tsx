@@ -6,7 +6,7 @@ import { articleApis } from "src/apis/article";
 import { lang } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { queryToString } from "src/utils/querystring";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { use401Handler, useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
 import { Article } from "yaarxiv-api/article/models";
 import { GetServerSideProps } from "next";
@@ -36,6 +36,8 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
 
   const handler = useHttpErrorHandler(setSubmitting);
 
+  const invalidTokenHandler = use401Handler();
+
   const submit = useCallback((file: File | undefined, form: ArticleForm) => {
     handler(async ({ notification }) => {
       let pdfToken: string | undefined = undefined;
@@ -62,7 +64,10 @@ export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) 
   }, [articleId]);
 
   if (!("article" in props)) {
-    if (props.serverError.status === 404) {
+    if (props.serverError.status === 401) {
+      invalidTokenHandler();
+      return null;
+    } else if (props.serverError.status === 404) {
       return <NotFound />;
     } else {
       return <ServerError error={props.serverError} />;
