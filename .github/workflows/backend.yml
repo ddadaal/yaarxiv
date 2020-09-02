@@ -30,7 +30,7 @@ jobs:
         uses: coverallsapp/github-action@v1.1.1
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
-          path-to-lcov: backend/lcov.info
+          path-to-lcov: backend/coverage/lcov.info
 
       # - name: Build and publish backend image
       #   uses: VaultVulp/gp-docker-action@1.1.7
