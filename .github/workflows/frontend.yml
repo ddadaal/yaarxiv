@@ -18,7 +18,7 @@ jobs:
         uses: docker/build-push-action@v1
         with:
           repository: yaarxiv/frontend
-          tag_with_ref: true
+          tags: latest
           registry: ${{ secrets.REGISTRY }}
           dockerfile: frontend/Dockerfile
-          build-args: API_ROOT=${{ secrets.API_ROOT }}
+          build_args: API_ROOT=${{ secrets.API_ROOT }}
