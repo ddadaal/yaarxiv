@@ -2,9 +2,9 @@ import { route } from "@/utils/route";
 import { FastifyInstance } from "fastify";
 import path from "path";
 import * as api from "yaarxiv-api/article/uploadPDF";
-import { config } from "node-config-ts";
 import { PdfUpload } from "@/entities/PdfUpload";
-import { UploadedFile } from "@/utils/upload";
+import { UploadedFile } from "@/plugins/upload";
+import { getConfig } from "@/utils/config";
 
 // Save uploaded pdf to /{uploadPath}/{userId}/{current date}_{filename}
 export async function uploadPdfRoute(fastify: FastifyInstance) {
@@ -20,7 +20,7 @@ export async function uploadPdfRoute(fastify: FastifyInstance) {
       const filename =`${Date.now()}_${data.name}`;
       const fileRelativePath = path.join(userId, filename);
 
-      const filePath = path.join(config.upload.path, fileRelativePath);
+      const filePath = path.join(getConfig("upload.path"), fileRelativePath);
 
       req.log.info(`Received file ${data.name} from ${userId}.
       Saving it to ${filePath}.`);

@@ -5,8 +5,7 @@ import * as api from "yaarxiv-api/article/uploadPDF";
 import { insertUserInfo, login, normalUser1 } from "./utils/login";
 import { PdfUpload } from "../../src/entities/PdfUpload";
 import fs from "fs";
-import FormData from "form-data";
-import { config } from "node-config-ts";
+import { getConfig } from "../../src/utils/config";
 import { mockFileForm } from "./utils/mockFileForm";
 
 let server: FastifyInstance;
@@ -20,7 +19,7 @@ beforeEach(async () => {
 afterEach(async () => {
   await server.close();
   // delete the test upload path
-  await fs.promises.rmdir(config.upload.path, { recursive: true });
+  await fs.promises.rmdir(getConfig("upload.path"), { recursive: true });
 });
 
 it("upload an PDF to the system.", async () => {

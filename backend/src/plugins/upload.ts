@@ -1,11 +1,11 @@
 import fp from "fastify-plugin";
-import { config } from "node-config-ts";
 import fileUpload from "fastify-file-upload";
+import { getConfig } from "@/utils/config";
 
 export const uploadPlugin = fp(async (fastify) => {
 
   fastify.register(fileUpload, {
-    limits: { fileSize: config.upload.maxFileSize },
+    limits: { fileSize: getConfig("upload.maxFileSize") },
     createParentPath: true,
     abortOnLimit: true,
   });

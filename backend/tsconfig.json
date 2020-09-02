@@ -20,12 +20,13 @@
     "paths": {
       "@/*": [
         "src/*"
-      ],
+      ]
     }
   },
   "include": [
     "src/**/*",
-    "config"
+    "config",
+    "test/**/*"
   ],
   "exclude": [
     "node_modules",

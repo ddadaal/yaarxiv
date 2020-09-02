@@ -3,7 +3,7 @@ import { route } from "@/utils/route";
 import * as registerApi from "yaarxiv-api/auth/register";
 import { User } from "@/entities/User";
 import { genId } from "@/utils/genId";
-import { signUser } from "@/utils/auth";
+import { signUser } from "@/plugins/auth";
 import { encrypt } from "@/utils/bcrypt";
 
 export async function registerRoute(fastify: FastifyInstance) {

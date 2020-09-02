@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply, FastifySchema } from "fastify";
 import { Endpoint, Schema, SchemaObject } from "yaarxiv-api";
-import { AuthOption } from "./auth";
+import { AuthOption } from "../plugins/auth";
 import { routes } from "./schemas";
 
 interface RouteExtraInfo extends FastifySchema {

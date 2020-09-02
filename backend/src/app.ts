@@ -1,29 +1,29 @@
 import "reflect-metadata";
-import { createConnection, ConnectionOptions } from "typeorm";
+import { createConnection } from "typeorm";
 
 import fastify from "fastify";
 import FastifyTypeormPlugin from "fastify-typeorm-plugin";
 import FastifySwagger from "fastify-swagger";
 import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
-import { jwtAuthPlugin } from "./utils/auth";
+import { jwtAuthPlugin } from "./plugins/auth";
 import { routes }  from "./routes";
-import { Config, config as envConfig } from "node-config-ts";
 import { models } from "./utils/schemas";
-import { uploadPlugin } from "./utils/upload";
+import { uploadPlugin } from "./plugins/upload";
 import fastifyCorsPlugin from "fastify-cors";
 import fastifyStatic from "fastify-static";
 import path from "path";
 import urljoin from "url-join";
 import { entities } from "./entities";
+import { config, getConfig } from "./utils/config";
 
-export async function startApp(config: Config = envConfig, start = true) {
+export async function startApp(start = true) {
 
-  const server = fastify({ logger: config.logger });
+  const server = fastify({ logger: getConfig("logger") });
 
   server.log.info(`Loaded config: \n${JSON.stringify(config, null, 2)}`);
 
   const dbConnection = await createConnection({
-    ...(config.typeorm) as ConnectionOptions,
+    ...(getConfig("typeorm")),
     logger: new TypeormPinoLogger(server.log),
     entities,
   });
@@ -32,7 +32,7 @@ export async function startApp(config: Config = envConfig, start = true) {
 
   Object.values(models).forEach((s) => server.addSchema(s));
 
-  if (config.loadSwagger) {
+  if (getConfig("loadSwagger")) {
     server.register(FastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
@@ -57,8 +57,8 @@ export async function startApp(config: Config = envConfig, start = true) {
 
   // serve upload file
   server.register(fastifyStatic, {
-    root: path.join(__dirname, "..", config.upload.path),
-    prefix: "/" + urljoin(config.staticPrefix, config.upload.path),
+    root: path.join(__dirname, "..", getConfig("upload.path")),
+    prefix: "/" + urljoin(getConfig("staticPrefix"), getConfig("upload.path")),
   });
 
   server.register(uploadPlugin);
@@ -69,7 +69,7 @@ export async function startApp(config: Config = envConfig, start = true) {
 
   if (start) {
     try {
-      await server.listen(config.port, "0.0.0.0");
+      await server.listen(getConfig("port"), "0.0.0.0");
     } catch (err) {
       server.log.error(err);
       throw err;

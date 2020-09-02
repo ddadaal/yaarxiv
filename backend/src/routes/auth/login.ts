@@ -2,7 +2,7 @@ import * as loginApi from "yaarxiv-api/auth/login";
 import { FastifyInstance } from "fastify/types/instance";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
-import { signUser } from "@/utils/auth";
+import { signUser } from "@/plugins/auth";
 import { compare } from "@/utils/bcrypt";
 
 export async function loginRoute(fastify: FastifyInstance) {

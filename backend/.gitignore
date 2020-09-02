@@ -1,5 +1,4 @@
 upload/
 testupload/
-config/Config.d.ts
-config/env/production.json
+config/production.json
 dist/

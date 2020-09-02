@@ -21,6 +21,7 @@
   "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
+    "cross-env": "^7.0.2",
     "fastify": "^3.3.0",
     "fastify-cors": "^4.1.0",
     "fastify-file-upload": "^3.0.0",
@@ -31,20 +32,19 @@
     "fastify-typeorm-plugin": "^2.1.2",
     "form-data": "^3.0.0",
     "nanoid": "^3.1.12",
-    "node-config-ts": "^3.0.4",
     "pino-pretty": "^4.2.0",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.0",
+    "ts-node": "^9.0.0",
     "tsconfig-paths": "^3.9.0",
-    "tscpaths": "0.0.9",
     "typeorm": "^0.2.25",
     "typescript": "^4.0.2",
-    "url-join": "^4.0.1",
-    "cross-env": "^7.0.2",
-    "ts-node": "^9.0.0"
+    "config": "^3.3.1",
+    "url-join": "^4.0.1"
   },
   "devDependencies": {
     "@types/bcryptjs": "^2.4.2",
+    "@types/config": "0.0.36",
     "@types/fs-extra": "^9.0.1",
     "@types/jest": "^26.0.10",
     "@types/pino": "^6.3.0",

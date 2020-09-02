@@ -1,7 +1,7 @@
 import { getRepository } from "typeorm";
 import { User } from "../../../src/entities/User";
 import { genId } from "../../../src/utils/genId";
-import { signUser } from "../../../src/utils/auth";
+import { signUser } from "../../../src/plugins/auth";
 import { FastifyInstance } from "fastify";
 import http from "http";
 
