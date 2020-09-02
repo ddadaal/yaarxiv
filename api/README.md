@@ -4,4 +4,5 @@ This project contains the API information (endpoints and data schema) of yaarxiv
 
 # Development
 
-After modifying any APIs, run `npm run compile` to generate data schema based on the `Schema` interface.
+After modifying any API, run `npm run compile` to generate data schema based on the `Schema` interface.
+
