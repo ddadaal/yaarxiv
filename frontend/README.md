@@ -44,6 +44,6 @@ We utilize [next.js's environment variables feature](https://nextjs.org/docs/bas
 | `USE_MOCK`    | Whether to use mock API for development | "true"/"false"  |
 
 
-This git repo contains a `.env` as default config. You should create a `.env.production` for production configration and this `.env.production` should be git ignored.
+This git repo contains a `.env` as default config. You can create a `.env.production` for production configration and this `.env.production` should be git ignored.
 
-To dynamically changing `USE_MOCK` config during development, changing the USE_MOCK directly on the code and after hot reload, new USE_MOCK will be available.
+To dynamically changing `USE_MOCK` config during development, changing the USE_MOCK directly on the code and after hot reload, new USE_MOCK will be available. But please remember not to check in the changed code. The value inside version control should always be derived from USE_MOCK config.

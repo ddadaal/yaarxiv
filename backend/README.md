@@ -29,6 +29,13 @@ npm start
 npm run typeorm:cli migration:generate -- -n now
 ```
 
+# Configuration
+
+
+[node-config](https://github.com/lorenwest/node-config) is used for configuration. Create config files on `config` dir according to its strategy.
+
+For example, you will need a `production.json` (which can be copied from `production.sample.json`) for production deployment.
+
 # Deployment
 
 ## Build
@@ -37,7 +44,6 @@ We use `webpack` to bundle the backend for simpler build and deployment and free
 
 ```bash
 # Clone the project (with the api project on the parent)
-
 
 # Install dependencies
 npm install
