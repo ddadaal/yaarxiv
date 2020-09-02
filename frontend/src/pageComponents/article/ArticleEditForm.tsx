@@ -7,7 +7,7 @@ import { LocalizedString } from "simstate-i18n";
 import { FileUploader } from "src/components/FileUploader";
 import { TagInput } from "src/components/TagInput";
 import { lang } from "src/i18n";
-import urljoin from "url-join";
+import { getStaticFileUrl } from "src/utils/staticFiles";
 
 const root = lang.pages.upload;
 
@@ -57,7 +57,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               <LocalizedString id={root.pdf.existing} replacements={[
                 <Anchor
                   key="here"
-                  href={urljoin(process.env.STATIC_ROOT as string, existingFileUrl)}
+                  href={getStaticFileUrl(existingFileUrl)}
                   download
                 >
                   <LocalizedString id={root.pdf.here} />

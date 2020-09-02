@@ -7,7 +7,7 @@ import { TitledSection } from "src/components/TitledSection";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { lang } from "src/i18n";
-import urljoin from "url-join";
+import { getStaticFileUrl } from "src/utils/staticFiles";
 
 const root = lang.pages.article;
 
@@ -76,7 +76,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
           </TitledSection>
           <TitledSection titleId={root.download}>
             <Anchor
-              href={urljoin(process.env.STATIC_ROOT ?? "", currentRevision.pdfLink)}
+              href={getStaticFileUrl(currentRevision.pdfLink)}
               download
               target="__blank"
             >

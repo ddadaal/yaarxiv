@@ -5,10 +5,4 @@ const images = require('next-images')
 module.exports = withPlugins([
   [tm],
   [images, {}]
-], {
-  env: {
-    USE_MOCK: process.env.USE_MOCK,
-    API_ROOT: process.env.API_ROOT,
-    STATIC_ROOT: process.env.STATIC_ROOT,
-  }
-});
+]);

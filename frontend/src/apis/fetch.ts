@@ -3,7 +3,7 @@ import { isFormData } from "src/utils/isServer";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { failEvent, finallyEvent, prefetchEvent, successEvent } from "./events";
 
-const baseUrl = process.env.API_ROOT;
+const baseUrl = process.env.NEXT_PUBLIC_API_ROOT;
 
 export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 
