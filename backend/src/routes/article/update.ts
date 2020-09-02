@@ -59,8 +59,10 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
 
       article.latestRevisionNumber = revNumber;
 
-      await articleRepo.save(article);
-      await revRepo.save(rev);
+      await fastify.orm.transaction(async (em) => {
+        await em.save(article);
+        await em.save(rev);
+      });
 
       return { 201: { revisionNumber: revNumber } };
 
