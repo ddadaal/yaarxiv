@@ -32,7 +32,9 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: backend/coverage/lcov.info
           base-path: backend
-          flag-name: Backend Integration
+        # https://github.com/coverallsapp/github-action/issues/50
+        env:
+          COVERALLS_FLAG_NAME: Backend Integration
 
       # - name: Build and publish backend image
       #   uses: docker/build-push-action@v1
