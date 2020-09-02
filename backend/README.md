@@ -31,7 +31,6 @@ npm run typeorm:cli migration:generate -- -n now
 
 # Configuration
 
-
 [node-config](https://github.com/lorenwest/node-config) is used for configuration. Create config files on `config` dir according to its strategy.
 
 For example, you will need a `production.json` (which can be copied from `production.sample.json`) for production deployment.
