@@ -19,9 +19,6 @@
 # Install dependencies
 npm install
 
-# Generate dev config
-npm run generateConfig:dev
-
 # Run migrations
 npm run typeorm:cli migration:run
 
@@ -41,9 +38,6 @@ We use `webpack` to bundle the backend for simpler build and deployment and free
 ```bash
 # Clone the project (with the api project on the parent)
 
-# Copy `config/production.sample.json` to `config/production.json` and change the configs
-cp config/production.sample.json config/production.json
-vim config/production.json
 
 # Install dependencies
 npm install
@@ -60,21 +54,17 @@ npm run build
 ```
 .
 ├── config
-│   ├── Config.d.ts
 │   ├── default.json
-│   └── env
-│       └── production.json
-├── db.db
+│   ├── production.json
 ├── migrations
 ├── ormconfig.js
 ├── out
 │   └── bundle.js
 ├── package.json
-├── tsconfig.json
-└── upload
+└── tsconfig.json
 ```
 
-`scripts/copyAssets.ts` will copy the files above to the `dist` folder when building.
+`scripts/copyAssets.ts` will copy the files above to the `dist` folder when building. The configuration files in `config`
 
 ## Serve
 
@@ -84,6 +74,10 @@ On the folder with built assets shown above,
 # Only install production dependencies
 npm install --production
 
+# Copy `config/production.sample.json` to `config/production.json` and change the configs
+# Or use symlink or docker mount to mount a predefined production.json to the config directory
+cp config/production.sample.json config/production.json
+vim config/production.json
 
 # Run!
 npm run serve

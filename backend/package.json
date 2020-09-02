@@ -8,14 +8,11 @@
     "lint": "tsc --noEmit && eslint \"src/**/*.{js,ts}\" --quiet --fix",
     "serve": "cross-env NODE_ENV=production node out/index.js",
     "copyAssets": "ts-node scripts/copyAssets.ts",
-    "build": "npm run lint && npm run generateConfig:prod && cross-env NODE_ENV=production webpack && npm run copyAssets",
+    "build": "npm run lint && cross-env NODE_ENV=production webpack && npm run copyAssets",
     "start": "npm run dev",
     "test": "cross-env NODE_ENV=test jest --verbose",
     "test:coverage": "npm run test -- --coverage",
-    "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js",
-    "generateConfig": "node-config-ts",
-    "generateConfig:dev": "cross-env NODE_ENV=development npm run generateConfig",
-    "generateConfig:prod": "cross-env NODE_ENV=production npm run generateConfig"
+    "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
   },
   "author": "",
   "license": "ISC",
