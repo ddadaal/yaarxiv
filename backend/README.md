@@ -55,7 +55,7 @@ npm run build
 
 ## Built Assets
 
-When copying built asset from bundled files, copy the following files and keep them organized as such:
+`dist` contains the following files which should be deployed to the production env.
 
 ```
 .
@@ -70,10 +70,11 @@ When copying built asset from bundled files, copy the following files and keep t
 ├── out
 │   └── bundle.js
 ├── package.json
-├── package-lock.json
 ├── tsconfig.json
 └── upload
 ```
+
+`scripts/copyAssets.ts` will copy the files above to the `dist` folder when building.
 
 ## Serve
 
@@ -82,6 +83,7 @@ On the folder with built assets shown above,
 ```bash
 # Only install production dependencies
 npm install --production
+
 
 # Run!
 npm run serve
