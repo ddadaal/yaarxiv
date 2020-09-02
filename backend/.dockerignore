@@ -1,0 +1,6 @@
+*.db
+upload/
+testupload/
+config/production.json
+out/
+dist/

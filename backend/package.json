@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --watch src --watch ../api -e ts,tsx --exec ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "tsc --noEmit && eslint \"src/**/*.{js,ts}\" --quiet --fix",
-    "serve": "cross-env NODE_ENV=production node out/index.js",
+    "serve": "cross-env NODE_ENV=production node out/bundle.js",
     "copyAssets": "ts-node scripts/copyAssets.ts",
     "build": "npm run lint && cross-env NODE_ENV=production webpack && npm run copyAssets",
     "start": "npm run dev",
