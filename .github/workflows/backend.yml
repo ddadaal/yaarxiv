@@ -31,6 +31,8 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: backend/coverage/lcov.info
+          base-path: backend
+          flag-name: Backend Integration
 
       # - name: Build and publish backend image
       #   uses: docker/build-push-action@v1
