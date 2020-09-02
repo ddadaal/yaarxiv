@@ -13,7 +13,6 @@ import { UserStore } from "src/stores/UserStore";
 import Router from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailValidation } from "src/utils/validations/emailValidation";
-import { emailMask } from "src/utils/validations/emailMask";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 
 const root = lang.login;
@@ -71,7 +70,7 @@ const LoginForm: React.FC = () => {
         disabled={inProgress}
         validate={emailValidation}
       >
-        <MaskedInput mask={emailMask} name="id"/>
+        <TextInput name="id"/>
       </FormField>
       <FormField
         label={<LocalizedString id={root.password} />} name="password" required={true}
