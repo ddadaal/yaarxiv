@@ -14,11 +14,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build and publish frontend image
-        uses: docker/build-push-action@v1
-        with:
-          repository: yaarxiv/frontend
-          tags: latest
-          registry: ${{ secrets.REGISTRY }}
-          dockerfile: frontend/Dockerfile
-          build_args: API_ROOT=${{ secrets.API_ROOT }}
+      # - name: Build and publish frontend image
+      #   uses: docker/build-push-action@v1
+      #   with:
+      #     repository: yaarxiv/frontend
+      #     tags: latest
+      #     registry: ${{ secrets.REGISTRY }}
+      #     dockerfile: frontend/Dockerfile
+      #     build_args: API_ROOT=${{ secrets.API_ROOT }}

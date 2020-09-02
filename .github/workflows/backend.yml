@@ -32,10 +32,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: backend/coverage/lcov.info
 
-      - name: Build and publish backend image
-        uses: docker/build-push-action@v1
-        with:
-          repository: yaarxiv/backend
-          tags: latest
-          registry: ${{ secrets.REGISTRY }}
-          dockerfile: backend/Dockerfile
+      # - name: Build and publish backend image
+      #   uses: docker/build-push-action@v1
+      #   with:
+      #     repository: yaarxiv/backend
+      #     tags: latest
+      #     registry: ${{ secrets.REGISTRY }}
+      #     dockerfile: backend/Dockerfile
