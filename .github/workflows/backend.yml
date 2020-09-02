@@ -32,10 +32,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: backend/coverage/lcov.info
 
-      # - name: Build and publish backend image
-      #   uses: VaultVulp/gp-docker-action@1.1.7
-      #   with:
-      #     github-token: ${{ secrets.GITHUB_TOKEN }} # Provide GITHUB_TOKEN to login into the GitHub Packages
-      #     image-name: yaarxiv-frontend # Provide Docker image name
-      #     dockerfile: backend/Dockerfile
-      #     build-context: .
+      - name: Build and publish backend image
+        uses: docker/build-push-action@v1
+        with:
+          repository: yaarxiv/backend
+          tag_with_ref: true
+          registry: ${{ secrets.REGISTRY }}
+          dockerfile: backend/Dockerfile
