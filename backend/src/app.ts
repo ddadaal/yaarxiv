@@ -12,7 +12,6 @@ import fastifyCorsPlugin from "fastify-cors";
 import { entities } from "./entities";
 import { config, getConfig } from "./utils/config";
 import { staticPlugin } from "./plugins/static";
-import gracefulShutdown from "fastify-graceful-shutdown";
 
 export async function startApp(start = true) {
 
@@ -53,7 +52,6 @@ export async function startApp(start = true) {
     });
   }
 
-  server.register(gracefulShutdown);
   server.register(staticPlugin);
   server.register(uploadPlugin);
   server.register(jwtAuthPlugin);
