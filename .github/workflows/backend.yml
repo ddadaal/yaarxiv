@@ -13,6 +13,25 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
+
+      - uses: actions/setup-node@v2-beta
+        with:
+          node-version: "12"
+
+      - name: Install dependencies
+        run: npm ci
+        working-directory: backend
+
+      - name: Run tests with coverage
+        run: npm run test:coverage
+        working-directory: backend
+
+      - name: Publish tests coverage result to coveralls
+        uses: coverallsapp/github-action@v1.1.1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path-to-lcov: backend/lcov.info
+
       - name: Build and publish backend image
         uses: VaultVulp/gp-docker-action@1.1.7
         with:
