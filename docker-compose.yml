@@ -1,0 +1,22 @@
+version: "3"
+services:
+  frontend:
+    image: frontend
+    build:
+      context: .
+      dockerfile: frontend/Dockerfile
+      args:
+        USE_MOCK: "false"
+        API_ROOT: "http://localhost:5000"
+    ports:
+      - "80:3000"
+  backend:
+    image: backend
+    build:
+      context: .
+      dockerfile: backend/Dockerfile
+    volumes:
+      - "./backend/config/production.json:/dist/config/production.json"
+      - "./prod.db:/dist/db.db"
+    ports:
+      - "5000:3000"

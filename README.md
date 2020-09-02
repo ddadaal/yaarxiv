@@ -1,7 +1,5 @@
 # yaarxiv: Yet Another ArXiv
 
-!! WIP !!
-
 A new open-source and modern preprint platform.
 
 # Vision
@@ -17,6 +15,20 @@ A Node.js TypeScript full stack
 - Backend: [fastify](https://www.fastify.io/) with TypeScript and [typeorm](https://typeorm.io)
 
 # Deployment
+
+## Docker Compose
+
+A `docker-compose.yml` is provided. So you can just `docker-compose up` to start a system.
+
+Default configs are provided in `docker-compose.yml`. The following can be changed.
+
+| config                     | default value                                  | extra                                                       |
+| -------------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
+| frontend port              | 80                                             | mapped from 3000                                            |
+| backend port               | 5000                                           | mapped from 3000                                            |
+| frontend args (see below)  | USE_MOCK=false, API_ROOT=http://localhost:5000 |                                                             |
+| backend db file            | ./prod.db                                      | Currently a SQLite db, will change to real db in the future |
+| backend configuration file | ./backend/config/production.sample.env         |                                                             |
 
 ## Build
 
