@@ -12,4 +12,4 @@ services:
       - "./production.json:/dist/config/production.json"
       - "./prod.db:/dist/db.db"
     ports:
-      - "5000:3000"
+      - "3000:3000"
