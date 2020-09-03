@@ -33,7 +33,7 @@ jobs:
         env:
           COVERALLS_FLAG_NAME: Backend Integration
 
-  publish_to_registry:
+  publish-to-registry:
     runs-on: ubuntu-latest
     needs: test
     steps:
