@@ -35,4 +35,4 @@ jobs:
           method: POST
           contentType: "text/plain"
           data: "frontend"
-          customHeaders: '{"auth": ${{ secrets.DEPLOY_AGENT_HEADER }}'
+          customHeaders: '{"x-deploy-agent-key": ${{ secrets.DEPLOY_AGENT_KEY }}'
