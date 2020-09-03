@@ -9,6 +9,7 @@ const requiredItems = [
   "ormconfig.js",
   "migrations",
   "package.json",
+  "package-lock.json",
   "tsconfig.json",
 ];
 

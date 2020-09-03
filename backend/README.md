@@ -66,6 +66,7 @@ npm run build
 ├── out
 │   └── bundle.js
 ├── package.json
+├── package-lock.json
 └── tsconfig.json
 ```
 
@@ -77,7 +78,7 @@ On the folder with built assets shown above,
 
 ```bash
 # Only install production dependencies
-npm install --production
+npm ci --only=production
 
 # Copy `config/production.sample.json` to `config/production.json` and change the configs
 # Or use symlink or docker mount to mount a predefined production.json to the config directory
