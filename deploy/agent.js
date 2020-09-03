@@ -5,7 +5,7 @@ const dataLengthLimit = 20;
 
 const deployAgentKey = process.env.DEPLOY_AGENT_KEY;
 const port = process.env.DEPLOY_AGENT_PORT;
-const { exec } = require("child_process");
+const { spawn } = require("child_process");
 
 const server = http.createServer((req, res) => {
   // validate the deploy request
@@ -32,7 +32,7 @@ const server = http.createServer((req, res) => {
   req.on("end", () => {
     if (data === "frontend" || data === "backend") {
       console.log(`${data} deployment requested. Trying to update deployment.`);
-      exec("docker-compose pull && docker-compose up -d")
+      spawn("docker-compose pull && docker-compose up -d", { stdio: "inherit", shell: true });
       res.writeHead(200);
     } else {
       res.writeHead(400);
