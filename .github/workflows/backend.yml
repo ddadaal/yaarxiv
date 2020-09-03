@@ -57,6 +57,5 @@ jobs:
           url: ${{ secrets.DEPLOY_AGENT_URL }}
           method: POST
           contentType: "text/plain"
-          data: "backend"
+          data: '"backend"'
           customHeaders: '{"x-deploy-agent-key": "${{ secrets.DEPLOY_AGENT_KEY }}"}'
-
