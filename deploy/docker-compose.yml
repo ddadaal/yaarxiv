@@ -1,0 +1,15 @@
+version: "3"
+services:
+  frontend:
+    image: yaarxiv/frontend
+    restart: always
+    ports:
+      - "80:3000"
+  backend:
+    image: yaarxiv/backend
+    restart: always
+    volumes:
+      - "./production.json:/dist/config/production.json"
+      - "./prod.db:/dist/db.db"
+    ports:
+      - "5000:3000"

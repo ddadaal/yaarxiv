@@ -25,3 +25,14 @@ jobs:
           # tag_with_sha: true
           dockerfile: frontend/Dockerfile
           build_args: API_ROOT=${{ secrets.API_ROOT }}
+
+  request-deployment:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: fjogeleit/http-request-action@master
+        with:
+          url: ${{ secrets.DEPLOY_AGENT_URL }}
+          method: POST
+          contentType: "text/plain"
+          data: "frontend"
+          customHeaders: '{"auth": ${{ secrets.DEPLOY_AGENT_HEADER }}'
