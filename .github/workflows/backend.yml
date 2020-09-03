@@ -50,6 +50,7 @@ jobs:
 
   request-deployment:
     runs-on: ubuntu-latest
+    needs: publish_to_registry
     steps:
       - uses: fjogeleit/http-request-action@master
         with:
