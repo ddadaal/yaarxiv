@@ -10,7 +10,7 @@ on:
       - api/**
 
 jobs:
-  build:
+  publish_to_registry:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
