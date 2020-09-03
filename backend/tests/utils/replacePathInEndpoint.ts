@@ -6,6 +6,6 @@ export function replacePathInEndpoint<T extends Schema>(
 ): Endpoint {
   return {
     method: endpoint.method,
-    url: replacePathArgs(endpoint.url, args),
+    url: replacePathArgs(endpoint.url, args as {}),
   };
 }
