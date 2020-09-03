@@ -11,5 +11,6 @@ services:
     volumes:
       - "./production.json:/dist/config/production.json"
       - "./prod.db:/dist/db.db"
+      - "./upload:/dist/upload"
     ports:
       - "3000:3000"

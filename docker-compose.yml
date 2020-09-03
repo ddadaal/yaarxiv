@@ -18,5 +18,6 @@ services:
     volumes:
       - "./backend/config/production.json:/dist/config/production.json"
       - "./prod.db:/dist/db.db"
+      - "./backend/upload:/dist/upload"
     ports:
       - "5000:3000"
