@@ -1,10 +1,10 @@
 import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { PdfUpload } from "@/entities/PdfUpload";
-import { makeError } from "@/utils/error";
 import { route } from "@/utils/route";
 import { FastifyInstance } from "fastify";
 import * as api from "yaarxiv-api/article/update";
+import createError from "http-errors";
 
 export async function updateArticleRoute(fastify: FastifyInstance) {
   route<api.UpdateArticleSchema>(fastify, api.endpoint, "UpdateArticleSchema", { authOption: true })(
@@ -15,7 +15,7 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
         const pdfRepo = fastify.orm.getRepository(PdfUpload);
         pdf = await pdfRepo.findOne(req.body.pdfToken);
         if (!pdf) {
-          throw makeError(400, "PDF token is invalid.");
+          throw createError(400, "PDF token is invalid.");
         }
       }
 
@@ -40,7 +40,7 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
       }, { relations: ["pdf"]});
 
       if (!latestRev) {
-        throw makeError(500, "Latest revision does not exists.");
+        throw createError(500, "Latest revision does not exists.");
       }
 
       const time = new Date();
