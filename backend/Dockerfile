@@ -13,7 +13,8 @@ WORKDIR /backend
 
 # Copy package.json and install all dependencies
 COPY backend/package.json .
-RUN npm install
+COPY backend/package-lock.json .
+RUN npm ci
 
 # Build image
 COPY backend .
@@ -24,8 +25,9 @@ FROM node:lts-alpine
 
 # Copy the package.json and run production install
 COPY --from=builder /backend/dist/package.json /dist/
+COPY --from=builder /backend/dist/package-lock.json /dist/
 WORKDIR /dist
-RUN npm install --production
+RUN npm ci --only=production
 
 # Copy the rest dist
 COPY --from=builder /backend/dist .

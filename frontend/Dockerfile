@@ -12,7 +12,8 @@ WORKDIR /src/frontend
 
 # Copy package.json and install all dependencies
 COPY frontend/package.json .
-RUN npm install
+COPY frontend/package-lock.json .
+RUN npm ci
 
 # Build args
 ARG API_ROOT
