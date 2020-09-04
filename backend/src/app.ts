@@ -1,6 +1,5 @@
 import "reflect-metadata";
 import fastify from "fastify";
-import FastifySwagger from "fastify-swagger";
 import { jwtAuthPlugin } from "./plugins/auth";
 import { routes }  from "./routes";
 import { models } from "./utils/schemas";
@@ -9,6 +8,7 @@ import fastifyCorsPlugin from "fastify-cors";
 import { config } from "./utils/config";
 import { staticPlugin } from "./plugins/static";
 import { ormPlugin } from "./plugins/orm";
+import { swaggerPlugin } from "./plugins/swagger";
 
 export async function startApp(start = true) {
 
@@ -20,29 +20,7 @@ export async function startApp(start = true) {
 
   Object.values(models).forEach((s) => server.addSchema(s));
 
-  if (config.loadSwagger) {
-    server.register(FastifySwagger, {
-      routePrefix: "/swagger",
-      exposeRoute: true,
-      swagger: {
-        info: {
-          title: "yaarxiv API",
-          description: "The API spec for yaarxiv, the modern and open-source preprint platform",
-          version: "1.0",
-        },
-        consumes: ["application/json"],
-        produces: ["application/json"],
-        securityDefinitions: {
-          apiKey: {
-            type: "apiKey",
-            name: "Authorization",
-            in: "header",
-          },
-        },
-      },
-    });
-  }
-
+  server.register(swaggerPlugin);
   server.register(staticPlugin);
   server.register(uploadPlugin);
   server.register(ormPlugin);
