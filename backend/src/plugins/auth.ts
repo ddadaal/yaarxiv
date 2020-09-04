@@ -3,7 +3,7 @@ import FastifyJwt from "fastify-jwt";
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User, UserRole } from "@/entities/User";
 import createError from "http-errors";
-import { getConfig } from "@/utils/config";
+import { config } from "@/utils/config";
 
 declare module "fastify" {
   // @ts-ignore
@@ -28,7 +28,7 @@ export interface JwtTokenPayload {
 // define plugin
 export const jwtAuthPlugin = fp(async (fastify) => {
 
-  fastify.register(FastifyJwt, { secret: getConfig("jwtSecret") });
+  fastify.register(FastifyJwt, { secret: config.jwtSecret });
 
   fastify.decorate("jwtAuth", (opts: AuthOption) => async (req: FastifyRequest, reply: FastifyReply) => {
     if (!opts) { return; }

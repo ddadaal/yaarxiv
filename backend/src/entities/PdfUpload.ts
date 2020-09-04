@@ -2,7 +2,7 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, OneToOne 
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 import urlJoin from "url-join";
-import { getConfig } from "@/utils/config";
+import { config } from "@/utils/config";
 
 @Entity()
 export class PdfUpload {
@@ -23,8 +23,8 @@ export class PdfUpload {
 
   get pdfUrl(): string {
     return urlJoin(
-      getConfig("staticPrefix"),
-      getConfig("upload.path"),
+      config.staticPrefix,
+      config.upload.path,
       this.link,
     );
   }

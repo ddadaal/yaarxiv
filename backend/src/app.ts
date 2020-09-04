@@ -6,22 +6,21 @@ import { routes }  from "./routes";
 import { models } from "./utils/schemas";
 import { uploadPlugin } from "./plugins/upload";
 import fastifyCorsPlugin from "fastify-cors";
-import { config, getConfig } from "./utils/config";
+import { config } from "./utils/config";
 import { staticPlugin } from "./plugins/static";
 import { ormPlugin } from "./plugins/orm";
 
 export async function startApp(start = true) {
 
-  const server = fastify({ logger: getConfig("logger") });
+  const server = fastify({ logger: config.logger });
 
   server.log.info(`Loaded config: \n${JSON.stringify(config, null, 2)}`);
-
 
   server.register(fastifyCorsPlugin);
 
   Object.values(models).forEach((s) => server.addSchema(s));
 
-  if (getConfig("loadSwagger")) {
+  if (config.loadSwagger) {
     server.register(FastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
@@ -53,7 +52,7 @@ export async function startApp(start = true) {
 
   if (start) {
     try {
-      await server.listen(getConfig("port"), "0.0.0.0");
+      await server.listen(config.port, "0.0.0.0");
     } catch (err) {
       server.log.error(err);
       throw err;
