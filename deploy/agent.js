@@ -13,12 +13,11 @@ const server = http.createServer((req, res) => {
     req.method !== "POST" || 
     req.headers["content-type"] !== "text/plain" ||
     req.headers[authHeader] !== deployAgentKey
-    ) {
+  ) {
     res.writeHead(403).end();
     return;
   }
 
-  // do the validation
   let data = "";
   req.on("data", (d) => {
     data += d;
@@ -32,7 +31,7 @@ const server = http.createServer((req, res) => {
   req.on("end", () => {
     if (data === "frontend" || data === "backend") {
       console.log(`${data} deployment requested. Trying to update deployment.`);
-      spawn("docker-compose pull && docker-compose up -d", { stdio: "inherit", shell: true });
+      spawn(`docker-compose pull ${data} && docker-compose up -d ${data}`, { stdio: "inherit", shell: true });
       res.writeHead(200);
     } else {
       res.writeHead(400);
