@@ -1,17 +1,14 @@
 import "reflect-metadata";
-import { createConnection } from "typeorm";
 import fastify from "fastify";
-import FastifyTypeormPlugin from "fastify-typeorm-plugin";
 import FastifySwagger from "fastify-swagger";
-import { TypeormPinoLogger } from "./utils/TypeormPinoLogger";
 import { jwtAuthPlugin } from "./plugins/auth";
 import { routes }  from "./routes";
 import { models } from "./utils/schemas";
 import { uploadPlugin } from "./plugins/upload";
 import fastifyCorsPlugin from "fastify-cors";
-import { entities } from "./entities";
 import { config, getConfig } from "./utils/config";
 import { staticPlugin } from "./plugins/static";
+import { ormPlugin } from "./plugins/orm";
 
 export async function startApp(start = true) {
 
@@ -19,11 +16,6 @@ export async function startApp(start = true) {
 
   server.log.info(`Loaded config: \n${JSON.stringify(config, null, 2)}`);
 
-  const dbConnection = await createConnection({
-    ...(getConfig("typeorm")),
-    logger: new TypeormPinoLogger(server.log),
-    entities,
-  });
 
   server.register(fastifyCorsPlugin);
 
@@ -54,8 +46,8 @@ export async function startApp(start = true) {
 
   server.register(staticPlugin);
   server.register(uploadPlugin);
+  server.register(ormPlugin);
   server.register(jwtAuthPlugin);
-  server.register(FastifyTypeormPlugin, { connection: dbConnection });
 
   routes.forEach((r) => server.register(r));
 
@@ -69,6 +61,5 @@ export async function startApp(start = true) {
   }
 
   return server;
-
 }
 

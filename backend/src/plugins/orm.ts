@@ -1,7 +1,13 @@
+import fp from "fastify-plugin";
+import typeormPlugin from "fastify-typeorm-plugin";
+import { createConnection } from "typeorm";
+import { getConfig } from "@/utils/config";
+import { entities } from "@/entities";
+
 import { Logger, QueryRunner } from "typeorm";
 import { FastifyLoggerInstance } from "fastify";
 
-export class TypeormPinoLogger implements Logger {
+class TypeormPinoLogger implements Logger {
 
   constructor(private logger: FastifyLoggerInstance) { }
 
@@ -49,3 +55,13 @@ export class TypeormPinoLogger implements Logger {
   }
 
 }
+
+export const ormPlugin = fp(async (fastify) => {
+  const dbConnection = await createConnection({
+    ...(getConfig("typeorm")),
+    logger: new TypeormPinoLogger(fastify.log),
+    entities,
+  });
+
+  fastify.register(typeormPlugin, { connection: dbConnection });
+});
