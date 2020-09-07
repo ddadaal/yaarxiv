@@ -58,7 +58,6 @@ export const Search: React.FC<Props> = (props) => {
 
   const updateQuery = useCallback((newQuery: Partial<SearchQuery>) => {
     const combinedQuery = { ...query, ...newQuery };
-    console.log(query, newQuery, combinedQuery);
     router.push({ pathname: "/search", query: combinedQuery });
   }, [router, run, query]);
 

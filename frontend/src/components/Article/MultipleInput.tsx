@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { Box, Text, TextInput, Anchor } from "grommet";
+import { Box, Text, Anchor } from "grommet";
 import { ButtonInput } from "../ButtonInput";
 import { Add, Clear } from "grommet-icons";
 
@@ -23,6 +23,7 @@ export const MultipleInput: React.FC<Props> = ({
       newValues.push(value);
     }
     onChange(newValues);
+    setInput("");
   }, [onChange]);
 
   return (
