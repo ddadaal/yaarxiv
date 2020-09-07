@@ -3,6 +3,7 @@ import { startApp } from "../../src/app";
 import { Article } from "../../src/entities/Article";
 import * as searchApi from "yaarxiv-api/article/search";
 import { insertData } from "./utils/data";
+import { commonKeyword } from "./utils/generateArticles";
 
 const articleCount = 12;
 
@@ -81,3 +82,31 @@ it("should filter according to start and end", async () => {
 
 
 });
+
+
+it("should return the articles with ALL of specified keyword", async () => {
+
+  const resp = await server.inject({
+    ...searchApi.endpoint,
+    query: { keywords: [commonKeyword, "1"]},
+  });
+
+  const data = resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
+
+  expect(data.totalCount).toBe(3);
+  expect(data.results.map((x) => x.articleId)).toEqual(["1","10","11"]);
+});
+
+it("should return the articles with specified single keyword", async () => {
+
+  const resp = await server.inject({
+    ...searchApi.endpoint,
+    query: { keywords: "8" },
+  });
+
+  const data = resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
+
+  expect(data.totalCount).toBe(1);
+  expect(data.results.map((x) => x.articleId)).toEqual(["8"]);
+});
+

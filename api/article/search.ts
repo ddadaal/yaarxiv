@@ -46,7 +46,16 @@ export interface SearchArticleSchema {
     endYear?: number;
     /** The name of authors */
     authorNames?: string | string[];
-    /** Keywords */
+    /**
+     * Keywords.
+     * Search articles with ALL of specified keywords.
+     * Keyword can be incomplete.
+     * For example, for keywords ["Computer", "Biology"]:
+     *    ["Computer", "Biology", "Chemistry"] Yes
+     *    ["Computer Science", "Biology", "Cheistry"] Yes
+     *    ["Computer Science", "Physics"] No
+     *    ["Computer", "Physics"] No
+     */
     keywords?: string | string[];
     /**
      * The page number. 10 results per page.

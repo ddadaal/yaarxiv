@@ -2,13 +2,14 @@ import { FastifyInstance } from "fastify";
 import * as search from "yaarxiv-api/article/search";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
+import { Brackets } from "typeorm";
 
 // Must add async
 export async function searchArticleRoute(fastify: FastifyInstance) {
   route<search.SearchArticleSchema>(fastify, search.endpoint, "SearchArticleSchema", { summary: search.summary })(
     async (req) => {
 
-      const { searchText, page, startYear, endYear } = req.query;
+      const { searchText, page, startYear, endYear, keywords } = req.query;
 
       const repo = fastify.orm.getRepository(Article);
 
@@ -27,6 +28,15 @@ export async function searchArticleRoute(fastify: FastifyInstance) {
 
       if (searchText) {
         builder.andWhere("r.title LIKE :text", { text: `%${searchText}%` });
+      }
+
+      // ALL of specified keywords
+      // Allows search part of keyword ("Computer" -> "Computer Science")
+      if (keywords) {
+        const arr = Array.isArray(keywords) ? keywords : [keywords];
+        arr.forEach((k) => {
+          builder.andWhere("r.keywords LIKE :pattern", { pattern: `%${k}%` });
+        });
       }
 
       const [results, count] = await builder

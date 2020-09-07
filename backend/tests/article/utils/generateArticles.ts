@@ -13,6 +13,8 @@ const authors: Author[] = [
   { name: "CJY" },
 ];
 
+export const commonKeyword = "commonKeyword";
+
 const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
   const rev = new ArticleRevision();
   rev.title = `Article ${article.id} Revision ${revisionId}`;
@@ -22,7 +24,7 @@ const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
   rev.time = articleTime;
   rev.pdf = pdf;
   rev.category = rev.title + "Category";
-  rev.keywords = [article.id+""];
+  rev.keywords = [commonKeyword, article.id+""];
   return rev;
 };
 

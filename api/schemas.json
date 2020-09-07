@@ -237,7 +237,7 @@
                   }
                 }
               ],
-              "description": "Keywords"
+              "description": "Keywords.\r\nSearch articles with ALL of specified keywords.\r\nAllow search part of keyword.\r\nFor example, for keywords [\"Computer\", \"Biology\"]:\r\n    [\"Computer\", \"Biology\", \"Chemistry\"] Yes\r\n    [\"Computer Science\", \"Biology\", \"Cheistry\"] Yes\r\n    [\"Computer Science\", \"Physics\"] No\r\n    [\"Computer\", \"Physics\"] No"
             },
             "page": {
               "type": "number",
