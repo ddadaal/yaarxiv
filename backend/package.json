@@ -30,7 +30,7 @@
     "fastify-typeorm-plugin": "^2.1.2",
     "form-data": "^3.0.0",
     "nanoid": "^3.1.12",
-    "pino-pretty": "^4.2.0",
+    "pino-pretty": "^4.2.1",
     "reflect-metadata": "^0.1.13",
     "sqlite3": "^5.0.0",
     "ts-node": "^9.0.0",
