@@ -11,8 +11,10 @@ export interface ChangeProfileSchema {
   body: {
     /** New name */
     name?: string;
-
-    /** New email. */
+    /**
+     * New email.
+     * @format email
+     */
     email?: string;
   };
   responses: {

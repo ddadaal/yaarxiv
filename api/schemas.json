@@ -710,7 +710,8 @@
             },
             "email": {
               "type": "string",
-              "description": "New email."
+              "description": "New email.",
+              "format": "email"
             }
           },
           "additionalProperties": false
