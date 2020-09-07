@@ -8,7 +8,7 @@ interface Props {
   left: React.ReactNode;
   right: React.ReactNode;
   breakpoint?: Breakpoint;
-  margin?: MarginType;
+  gap?: string;
   leftProportion?: BasisType;
   rightProportion?: BasisType;
 }
@@ -17,7 +17,7 @@ export const TwoColumnLayout: React.FC<Props> = ({
   left,
   right,
   breakpoint = "md",
-  margin = "small",
+  gap = "small",
   leftProportion = "3/4",
   rightProportion = "1/4",
 }) => {
@@ -26,10 +26,10 @@ export const TwoColumnLayout: React.FC<Props> = ({
       <Media lessThan={breakpoint}>
         {(className) => (
           <Box direction="row" className={className} flex wrap>
-            <Box margin={margin} basis={"100%"}>
+            <Box margin={{ vertical: gap }} basis={"100%"}>
               {left}
             </Box>
-            <Box margin={margin} basis={"100%"}>
+            <Box margin={{ vertical: gap }} basis={"100%"}>
               {right}
             </Box>
           </Box>
@@ -37,11 +37,15 @@ export const TwoColumnLayout: React.FC<Props> = ({
       </Media>
       <Media greaterThanOrEqual={breakpoint}>
         {(className) => (
-          <Box direction="row" className={className} flex>
-            <Box margin={margin} basis={leftProportion}>
+          <Box
+            direction="row"
+            className={className}
+            flex gap={gap}
+          >
+            <Box basis={leftProportion}>
               {left}
             </Box>
-            <Box margin={margin} basis={rightProportion}>
+            <Box basis={rightProportion}>
               {right}
             </Box>
           </Box>

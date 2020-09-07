@@ -649,6 +649,94 @@
       "additionalProperties": false,
       "description": "Register"
     },
+    "ChangePasswordSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "current": {
+              "type": "string",
+              "description": "Current password."
+            },
+            "changed": {
+              "type": "string",
+              "description": "The new password."
+            }
+          },
+          "required": [
+            "current",
+            "changed"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The password has been changed."
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The current password is not correct."
+            }
+          },
+          "required": [
+            "201",
+            "403"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Change the password of the current logged in user."
+    },
+    "ChangeProfileSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "New name"
+            },
+            "email": {
+              "type": "string",
+              "description": "New email."
+            }
+          },
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The profile has been updated."
+            }
+          },
+          "required": [
+            "201"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Change the profile of the current logged in user."
+    },
     "UserGetArticleInfoSchema": {
       "type": "object",
       "properties": {
@@ -705,6 +793,49 @@
         "responses"
       ],
       "additionalProperties": false
+    },
+    "DashboardGetProfileSchema": {
+      "type": "object",
+      "properties": {
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user."
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email of the user."
+                },
+                "userId": {
+                  "type": "string",
+                  "description": "The id of the user."
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "userId"
+              ],
+              "additionalProperties": false,
+              "description": "Returns the profile of current logged in user."
+            }
+          },
+          "required": [
+            "200"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Get the profile of current logged in user."
     },
     "GreetingSchema": {
       "type": "object",

@@ -4,20 +4,35 @@ import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { ArticleTable } from "src/pageComponents/Dashboard/ArticleTable";
 import { requireAuth } from "src/utils/requireAuth";
+import { UserProfile } from "src/pageComponents/Dashboard/UserProfile";
 
 const root = lang.pages.dashboard;
 
+const DashboardSection: React.FC<{ titleId: string }> = ({
+  children,
+  titleId,
+}) => {
+  return (
+    <Box gap="medium">
+      <Heading level={1} size="small" margin="none">
+        <LocalizedString id={titleId} />
+      </Heading>
+      {children}
+    </Box>
+  );
+};
 
-const DashboardPage = requireAuth({ roles: ["user"]})(({ }) => {
+
+const DashboardPage = requireAuth({ roles: ["user"]})(({ userStore }) => {
 
   return (
-    <Box>
-      <Box gap="medium">
-        <Heading level={1} size="small" margin="none">
-          <LocalizedString id={root.articles.title} />
-        </Heading>
-        <ArticleTable/>
-      </Box>
+    <Box gap="xlarge">
+      <DashboardSection titleId={root.profile.title}>
+        <UserProfile userStore={userStore} />
+      </DashboardSection>
+      <DashboardSection titleId={root.articles.title}>
+        <ArticleTable />
+      </DashboardSection>
     </Box>
   );
 });

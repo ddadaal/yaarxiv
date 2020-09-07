@@ -2,6 +2,7 @@
 import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
 import type { MockApi } from ".";
 import type { dashboardApis } from "./dashboard";
+import { makeHttpError } from "./fetch";
 
 const base: DashboardArticleInfo[] = [
   {
@@ -28,4 +29,19 @@ export const dashboardApisMock: MockApi<typeof dashboardApis> = () => ({
       totalCount: base.length,
     };
   },
+  getProfile: async () => {
+    return {
+      userId: "123",
+      email: "123@123.com",
+      role: "user",
+      name: "123name",
+    };
+  },
+  changePassword: async ({ body: { current, changed } }) => {
+    if (current !== "1") {
+      throw makeHttpError({}, 403);
+    }
+    return {};
+  },
+  changeProfile: async () => ({}),
 });
