@@ -223,7 +223,7 @@
                   }
                 }
               ],
-              "description": "The name of authors"
+              "description": "The name of authors\r\nSearch articles with ALL of specified authors.\r\nKeyword can NOT be incomplete.\r\nFor example, for keywords [\"Author1\", \"Author2\"]:\r\n    [\"Author1\", \"Author2\", \"Author3\"] Yes\r\n    [\"Author1\"] No\r\n    [\"Author\", \"Author2\"] No"
             },
             "keywords": {
               "anyOf": [
@@ -237,7 +237,7 @@
                   }
                 }
               ],
-              "description": "Keywords.\r\nSearch articles with ALL of specified keywords.\r\nAllow search part of keyword.\r\nFor example, for keywords [\"Computer\", \"Biology\"]:\r\n    [\"Computer\", \"Biology\", \"Chemistry\"] Yes\r\n    [\"Computer Science\", \"Biology\", \"Cheistry\"] Yes\r\n    [\"Computer Science\", \"Physics\"] No\r\n    [\"Computer\", \"Physics\"] No"
+              "description": "Keywords.\r\nSearch articles with ALL of specified keywords.\r\nKeyword can be incomplete.\r\nFor example, for keywords [\"Computer\", \"Biology\"]:\r\n    [\"Computer\", \"Biology\", \"Chemistry\"] Yes\r\n    [\"Computer Science\", \"Biology\", \"Cheistry\"] Yes\r\n    [\"Computer Science\", \"Physics\"] No\r\n    [\"Computer\", \"Physics\"] No"
             },
             "page": {
               "type": "number",

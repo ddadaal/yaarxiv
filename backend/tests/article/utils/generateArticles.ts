@@ -8,9 +8,9 @@ import { generatePdf } from "./data";
 
 const articleTime = new Date();
 
-const authors: Author[] = [
-  { name: "CJD", affiliation: "NJU" },
-  { name: "CJY" },
+const authors: Author[][] = [
+  [{ name: "CJD", affiliation: "NJU" }, { name: "CX", affiliation: "NJU" }, { name: "CST", affiliation: "NJU" }],
+  [{ name: "CJY" }, { name: "CJD", affiliation: "NJU" }],
 ];
 
 export const commonKeyword = "commonKeyword";
@@ -19,7 +19,7 @@ const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
   const rev = new ArticleRevision();
   rev.title = `Article ${article.id} Revision ${revisionId}`;
   rev.revisionNumber = revisionId + 1;
-  rev.authors = authors;
+  rev.authors = authors[revisionId % 2];
   rev.abstract = rev.title + " Abstract";
   rev.time = articleTime;
   rev.pdf = pdf;

@@ -4,6 +4,7 @@ import { Article } from "../../src/entities/Article";
 import * as searchApi from "yaarxiv-api/article/search";
 import { insertData } from "./utils/data";
 import { commonKeyword } from "./utils/generateArticles";
+import { range } from "@/utils/array";
 
 const articleCount = 12;
 
@@ -110,3 +111,14 @@ it("should return the articles with specified single keyword", async () => {
   expect(data.results.map((x) => x.articleId)).toEqual(["8"]);
 });
 
+it("should return articls with ALL of specified authors", async () => {
+  const resp = await server.inject({
+    ...searchApi.endpoint,
+    query: { authorNames: ["CJD", "CX"]},
+  });
+
+  const data = resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
+
+  expect(data.totalCount).toBe(6);
+  expect(data.results.map((x) => x.articleId)).toEqual(range(0, 12, 2).map((x) => x + ""));
+});

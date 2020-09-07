@@ -44,7 +44,15 @@ export interface SearchArticleSchema {
      * @type {integer} should be an integer
      */
     endYear?: number;
-    /** The name of authors */
+    /**
+     * The name of authors
+     * Search articles with ALL of specified authors.
+     * Keyword can NOT be incomplete.
+     * For example, for keywords ["Author1", "Author2"]:
+     *    ["Author1", "Author2", "Author3"] Yes
+     *    ["Author1"] No
+     *    ["Author", "Author2"] No
+     */
     authorNames?: string | string[];
     /**
      * Keywords.

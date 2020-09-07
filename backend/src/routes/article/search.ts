@@ -9,7 +9,7 @@ export async function searchArticleRoute(fastify: FastifyInstance) {
   route<search.SearchArticleSchema>(fastify, search.endpoint, "SearchArticleSchema", { summary: search.summary })(
     async (req) => {
 
-      const { searchText, page, startYear, endYear, keywords } = req.query;
+      const { searchText, page, startYear, endYear, keywords, authorNames } = req.query;
 
       const repo = fastify.orm.getRepository(Article);
 
@@ -36,6 +36,16 @@ export async function searchArticleRoute(fastify: FastifyInstance) {
         const arr = Array.isArray(keywords) ? keywords : [keywords];
         arr.forEach((k) => {
           builder.andWhere("r.keywords LIKE :pattern", { pattern: `%${k}%` });
+        });
+      }
+
+      // ALL of specified authors
+      // Does not allow search part of keywords ("CJ" does not match "CJD")
+      // TODO limit the author input
+      if (authorNames) {
+        const arr = Array.isArray(authorNames) ? authorNames : [authorNames];
+        arr.forEach((k) => {
+          builder.andWhere("r.authors LIKE :pattern", { pattern: `%{"name":"${k}"%` });
         });
       }
 
