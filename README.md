@@ -22,14 +22,14 @@ A `docker-compose.yml` is provided. So you can just `docker-compose up` to start
 
 Default configs are provided in `docker-compose.yml`. The following can be changed.
 
-| config                     | default value                                  | extra                                                       |
-| -------------------------- | ---------------------------------------------- | ----------------------------------------------------------- |
-| frontend port              | 80                                             | mapped from 3000                                            |
-| backend port               | 5000                                           | mapped from 3000                                            |
-| frontend args (see below)  | USE_MOCK=false, API_ROOT=http://localhost:5000 |                                                             |
-| backend db file            | ./prod.db                                      | Currently a SQLite db, will change to real db in the future |
-| backend configuration file | ./backend/config/production.sample.env         |                                                             |
-| backend upload dir         | ./backend/upload                               |                                                             |
+| config                     | default value                              | extra                                                       |
+| -------------------------- | ------------------------------------------ | ----------------------------------------------------------- |
+| frontend port              | 80                                         | mapped from 3000                                            |
+| backend port               | 5000                                       | mapped from 3000                                            |
+| frontend args (see below)  | USE_MOCK=0, API_ROOT=http://localhost:5000 |                                                             |
+| backend db file            | ./prod.db                                  | Currently a SQLite db, will change to real db in the future |
+| backend configuration file | ./backend/config/production.sample.env     |                                                             |
+| backend upload dir         | ./backend/upload                           |                                                             |
 
 ## Build
 
@@ -40,6 +40,7 @@ Default configs are provided in `docker-compose.yml`. The following can be chang
 # STATIC_ROOT is optional
 # The args must be provided during build
 docker build . -f frontend/Dockerfile \
+    --build-arg USE_MOCK=0 \
     --build-arg API_ROOT=$API_ROOT \
     --build-arg STATIC_ROOT=$STATIC_ROOT \
     --tag frontend

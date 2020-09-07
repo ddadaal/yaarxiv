@@ -30,23 +30,24 @@ export function createMockApi<T extends (actions: ApiArgs) => any>
   const functions = (mock as any)({ makeHttpError });
   return Object
     .keys(functions)
-    .reduce((prev, curr) => ({
-      ...prev, [curr]: async (...args: any) => {
+    .reduce((prev, curr) => {
+      prev[curr] = async (...args: any) => {
         if (!isServer()) {
           incrementRequest();
         }
-        await delay(1000);
+        await delay(500);
         return functions[curr](...args)
           .finally(() => {
             if (!isServer()) {
               decrementRequest();
             }});
-      },
-    }), {}) as T;
+      };
+      return prev;
+    }, {}) as T;
 }
 
 // changing this line during development to set USE_MOCK dynamically
-const USE_MOCK = process.env.USE_MOCK === "true";
+const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === "1";
 // const USE_MOCK = false;
 
 // judge whether USE_MOCK here can help reduce the size of bundle

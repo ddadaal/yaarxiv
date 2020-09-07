@@ -7,9 +7,9 @@ declare global {
   namespace NodeJS {
     interface ProcessEnv {
       NODE_ENV: "development" | "production";
-      API_ROOT: string;
-      STATIC_ROOT: string;
-      USE_MOCK: "true" | "false";
+      NEXT_PUBLIC_API_ROOT: string;
+      NEXT_PUBLIC_STATIC_ROOT: string;
+      NEXT_PUBLIC_USE_MOCK: "1" | "0";
     }
   }
 }
