@@ -33,7 +33,7 @@ export const UserInfo: React.FC = () => {
     onResolve: (profile) => setForm(profile),
   });
 
-  const submit = () => request(async ({ notification }) => {
+  const submit = () => request(async ({ notification, userStore }) => {
     await api.changeProfile({
       body: {
         email: form.email,
@@ -44,6 +44,12 @@ export const UserInfo: React.FC = () => {
         notification.addNotification({
           level: "success",
           message: <LocalizedString id={root.success} />,
+        });
+        // change user store information
+        userStore.login({
+          ...userStore.user!,
+          email: form.email,
+          name: form.name,
         });
       });
   });
