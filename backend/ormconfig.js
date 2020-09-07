@@ -1,3 +1,3 @@
-const config = require("node-config");
+const config = require("config");
 
-module.exports = config.get("typeorm");
+module.exports = { ...config.typeorm };

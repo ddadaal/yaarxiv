@@ -7,6 +7,9 @@
     "migrations": [
       "migrations/*.ts"
     ],
+    "entities": [
+      "./src/entities/**/*.ts"
+    ],
     "cli": {
       "migrationsDir": "migrations"
     }
@@ -16,3 +19,4 @@
     "prettyPrint": true
   }
 }
+
