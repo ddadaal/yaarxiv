@@ -3,6 +3,8 @@ export const endpoint = {
   method: "PATCH",
 } as const;
 
+export const summary = "Change user's password.";
+
 /** Change the password of the current logged in user. */
 export interface ChangePasswordSchema {
 
@@ -14,7 +16,7 @@ export interface ChangePasswordSchema {
   };
   responses: {
     /** The password has been changed. */
-    201: {
+    200: {
     };
     /** The current password is not correct. */
     403: {

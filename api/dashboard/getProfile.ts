@@ -3,6 +3,8 @@ export const endpoint = {
   method: "GET",
 } as const;
 
+export const summary = "Change user profile.";
+
 /** Get the profile of current logged in user. */
 export interface DashboardGetProfileSchema {
   responses: {

@@ -3,6 +3,8 @@ export const endpoint = {
   method: "PATCH",
 } as const;
 
+export const summary = "Change user's profile.";
+
 /** Change the profile of the current logged in user. */
 export interface ChangeProfileSchema {
 
@@ -15,7 +17,7 @@ export interface ChangeProfileSchema {
   };
   responses: {
     /** The profile has been updated. */
-    201: {
+    200: {
     };
   }
 }

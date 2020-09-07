@@ -673,7 +673,7 @@
         "responses": {
           "type": "object",
           "properties": {
-            "201": {
+            "200": {
               "type": "object",
               "additionalProperties": false,
               "description": "The password has been changed."
@@ -685,7 +685,7 @@
             }
           },
           "required": [
-            "201",
+            "200",
             "403"
           ],
           "additionalProperties": false
@@ -718,14 +718,14 @@
         "responses": {
           "type": "object",
           "properties": {
-            "201": {
+            "200": {
               "type": "object",
               "additionalProperties": false,
               "description": "The profile has been updated."
             }
           },
           "required": [
-            "201"
+            "200"
           ],
           "additionalProperties": false
         }

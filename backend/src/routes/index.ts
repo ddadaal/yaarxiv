@@ -8,6 +8,9 @@ import { adminGetArticlesRoute } from "./admin/getArticles";
 import { uploadArticleRoute } from "./article/upload";
 import { updateArticleRoute } from "./article/update";
 import { uploadPdfRoute } from "./article/uploadPdf";
+import { changePasswordRoute } from "./dashboard/changePassword";
+import { changeProfileRoute } from "./dashboard/changeProfile";
+import { getProfileRoute } from "./dashboard/getProfile";
 
 export const routes = [
   loginRoute,
@@ -20,5 +23,8 @@ export const routes = [
   uploadArticleRoute,
   updateArticleRoute,
   uploadPdfRoute,
+  changePasswordRoute,
+  changeProfileRoute,
+  getProfileRoute,
 ];
 
