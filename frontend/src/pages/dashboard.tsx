@@ -13,8 +13,8 @@ const DashboardSection: React.FC<{ titleId: string }> = ({
   titleId,
 }) => {
   return (
-    <Box gap="medium">
-      <Heading level={1} size="small" margin="none">
+    <Box>
+      <Heading level={1} size="small" margin={{ horizontal: "small", vertical: "none" }}>
         <LocalizedString id={titleId} />
       </Heading>
       {children}
