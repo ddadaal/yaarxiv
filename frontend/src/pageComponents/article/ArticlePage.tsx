@@ -20,7 +20,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
   const { currentRevision } = article;
 
   return (
-    <TwoColumnLayout gap={{ vertical: "medium", horizontal: "none" }}
+    <TwoColumnLayout
       left={(
         <Section>
           <Heading margin="none" level="1" size="small">
