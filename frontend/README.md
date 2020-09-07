@@ -1,5 +1,7 @@
 # yaarxiv frontend
 
+![Frontend Build and Deploy Status](https://img.shields.io/github/workflow/status/ddadaal/yaarxiv/Build%20and%20Publish%20frontend?label=Frontend%20Build%20and%20Deploy&style=flat-square)
+
 The frontend of yaarxiv.
 
 # Features

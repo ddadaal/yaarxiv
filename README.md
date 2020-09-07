@@ -1,5 +1,9 @@
 # yaarxiv: Yet Another ArXiv
 
+![Frontend Build and Deploy Status](https://img.shields.io/github/workflow/status/ddadaal/yaarxiv/Build%20and%20Publish%20frontend?label=Frontend%20Build%20and%20Deploy&style=flat-square)
+![Backend Build and Deploy Status](https://img.shields.io/github/workflow/status/ddadaal/yaarxiv/Build%20and%20Publish%20backend?label=Backend%20Build%20and%20Deploy&style=flat-square)
+![Backend Coveralls](https://img.shields.io/coveralls/github/ddadaal/yaarxiv?label=Backend%20Test%20Coverage&style=flat-square)
+
 A new open-source and modern preprint platform.
 
 # Vision
