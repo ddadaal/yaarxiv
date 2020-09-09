@@ -34,13 +34,15 @@ const YearRangeFilter: React.FC<Pick<Props,"endYear" | "startYear" | "onYearChan
    };
 
    const onStartYearChange = (e) => {
-     const newStart = e.target.value;
+     const newStart = parseInt(e.target.value);
+     if (Number.isNaN(newStart)) {return;}
      const newEnd = max(newStart, end);
      update(newStart, newEnd);
    };
 
    const onEndYearChange = (e) => {
-     const newEnd = e.target.value;
+     const newEnd = parseInt(e.target.value);
+     if (Number.isNaN(newEnd)) {return;}
      const newStart = min(start, newEnd);
      update(newStart, newEnd);
    };
