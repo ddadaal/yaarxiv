@@ -156,6 +156,8 @@ export const ArticleTable: React.FC = ({}) => {
         <DataTable
           columns={fullColumns}
           data={data?.articles ?? []}
+          // IE11 need this
+          width="100%"
         />
       </Box>
       <Box align="center">
