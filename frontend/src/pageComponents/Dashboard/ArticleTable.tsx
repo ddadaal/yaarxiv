@@ -110,7 +110,7 @@ const deleteArticle = (articleId: string) =>
 
 export const ArticleTable: React.FC = ({}) => {
 
-  const [page, setPage] = useState(0);
+  const [page, setPage] = useState(1);
 
   const { data, isPending, run, error } = useAsync({
     promiseFn: getDashboardDataFirstPage,
@@ -142,7 +142,7 @@ export const ArticleTable: React.FC = ({}) => {
         </Box>
       ),
     },
-  ], [run, deleteArticle]);
+  ], [page, run, deleteArticle]);
 
   const handler = useHttpErrorHandler();
 
