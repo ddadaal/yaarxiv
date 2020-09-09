@@ -56,12 +56,14 @@ const YearRangeFilter: React.FC<Pick<Props,"endYear" | "startYear" | "onYearChan
          type="number"
          value={start}
          onChange={onStartYearChange}
+         min={0}
        />
        <Text>To</Text>
        <TextInput
          type="number"
          value={end}
          onChange={onEndYearChange}
+         min={0}
        />
      </Box>
    );
