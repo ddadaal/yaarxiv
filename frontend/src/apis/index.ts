@@ -35,6 +35,11 @@ export function createMockApi<T extends (actions: ApiArgs) => any>
         if (!isServer()) {
           incrementRequest();
         }
+
+        if (process.env.NODE_ENV === "development") {
+          // eslint-disable-next-line max-len
+          console.log(`Calling API ${functions[curr].name}, args ${JSON.stringify(args)}`);
+        }
         await delay(500);
         return functions[curr](...args)
           .finally(() => {
