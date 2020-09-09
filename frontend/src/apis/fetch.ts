@@ -22,7 +22,7 @@ export function fullFetch(
 ): Promise<Response> {
   const headers = token
     ? { ...init?.headers, "authorization": `Bearer ${token}` }
-    : init?.headers;
+    : init?.headers ?? {};
 
   let url = baseUrl + path;
   if (query) {
@@ -36,6 +36,8 @@ export function fullFetch(
       ...init,
       headers,
       mode: "cors",
+      // disable cache for IE11
+      cache: "no-cache",
     });
 
 }
