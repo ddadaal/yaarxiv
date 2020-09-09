@@ -14,22 +14,25 @@ import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { dashboardApis } from "src/apis/dashboard";
-import { HttpError } from "src/apis/fetch";
 
 const root = lang.pages.dashboard.articles;
 
-const DeleteLink = ({ articleId, deleteArticle, reload }) => {
+const DeleteLink: React.FC<{
+  articleId: string;
+  deleteArticle: (articleId: string) => Promise<any>;
+  reload: () => void;
+}> = ({ articleId, deleteArticle, reload }) => {
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const handler = useHttpRequest(setConfirming);
 
-  const onDelete = useCallback(async () => {
+  const onDelete = async () => {
     handler(async () => {
       await deleteArticle(articleId);
-      reload();
       setOpen(false);
+      reload();
     });
-  }, [reload, deleteArticle]);
+  };
 
   return (
     <>

@@ -1,17 +1,18 @@
 import React, { useRef } from "react";
-import { Grommet, Main, Box } from "grommet";
+import { Grommet, Box } from "grommet";
 import { Footer } from "src/layouts/footer";
 import { Header } from "src/layouts/header";
 import siteTheme from "src/styles/theme";
 import NotificationSystem, { System } from "react-notification-system";
 import { NotificationSystemContext } from "src/utils/useNotification";
 import { MediaContextProvider } from "src/styles/media";
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { useStore } from "simstate";
 import { ThemeStore } from "src/stores/ThemeStore";
+import { GlobalStyle } from "src/styles/global";
 
 interface Props {
 }
+
 
 export const MainLayout: React.FC<Props> = ({ children }) => {
   const notificationRef = useRef<System | null>(null);
@@ -20,17 +21,18 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
 
   return (
     <>
+      <GlobalStyle />
       <NotificationSystem ref={notificationRef} />
       <NotificationSystemContext.Provider value={notificationRef}>
         <MediaContextProvider>
           <Grommet theme={siteTheme} full={true} themeMode={theme}>
-            <Box direction="column" height={{ min: "100vh" }} >
+            <Box direction="column" height="100vh">
               <Header />
-              <Main pad="small" align="center" >
+              <Box as="main" flex="grow" pad="small" align="center" >
                 <Box width="xlarge" flex="grow">
                   {children}
                 </Box>
-              </Main>
+              </Box>
               <Footer />
             </Box>
           </Grommet>

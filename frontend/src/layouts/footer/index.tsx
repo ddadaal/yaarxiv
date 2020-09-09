@@ -41,7 +41,7 @@ export const Footer: React.FC = () => {
       </Box>
       <Box>
         <Text textAlign="center" size="small">
-        © 2020 <LocalizedString id={root.copyright} />
+          © 2020 <LocalizedString id={root.copyright} />
         </Text>
       </Box>
       <Box alignSelf="end">

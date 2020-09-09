@@ -1,8 +1,8 @@
 import React from "react";
-import { MediaContextProvider, Media } from "src/styles/media";
+import { Media } from "src/styles/media";
 import { Breakpoint } from "src/styles/theme/breakpoints";
 import { Box } from "grommet";
-import { MarginType, BasisType } from "grommet/utils";
+import { BasisType } from "grommet/utils";
 
 interface Props {
   left: React.ReactNode;
@@ -25,7 +25,9 @@ export const TwoColumnLayout: React.FC<Props> = ({
     <>
       <Media lessThan={breakpoint}>
         {(className) => (
-          <Box direction="row" className={className} flex wrap>
+          // basis="auto" must be set, or the height will be 0 in IE11
+          // https://github.com/philipwalton/flexbugs/issues/58
+          <Box direction="row" className={className} flex wrap basis="auto">
             <Box margin={{ vertical: gap }} basis={"100%"}>
               {left}
             </Box>
@@ -40,6 +42,7 @@ export const TwoColumnLayout: React.FC<Props> = ({
           <Box
             direction="row"
             className={className}
+            basis="auto"
             flex gap={gap}
           >
             <Box basis={leftProportion}>

@@ -1,7 +1,7 @@
 import React from "react";
 import { UserStore } from "src/stores/UserStore";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
-import { UserInfo } from "./Profile";
+import { Profile } from "./Profile";
 import { ChangePassword } from "./ChangePassword";
 import { Box } from "grommet";
 interface Props {
@@ -17,7 +17,7 @@ export const UserProfile: React.FC<Props> = () => {
         leftProportion="1/2"
         rightProportion="1/2"
         left={
-          <UserInfo />
+          <Profile />
         }
         right={
           <ChangePassword />

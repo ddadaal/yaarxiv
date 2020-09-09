@@ -21,7 +21,7 @@ const emptyForm = {
   name: "",
 };
 
-export const UserInfo: React.FC = () => {
+export const Profile: React.FC = () => {
 
   const [form, setForm] = useState(emptyForm);
 

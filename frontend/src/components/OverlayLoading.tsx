@@ -22,19 +22,16 @@ export const OverlayLoading: React.FC<Props> = ({
 }) => {
 
   return (
-    <Box height={{ min: "xxsmall" }}>
-
-      <Stack anchor={anchor} fill>
-        <Box opacity={loading ? "medium" : undefined}>
-          {children}
-        </Box>
-        { loading && showSpinner
-          ? (
-            <Spinner />
-          )
-          : undefined
-        }
-      </Stack>
-    </Box>
+    <Stack anchor={anchor}>
+      <Box opacity={loading ? "medium" : undefined}>
+        {children}
+      </Box>
+      { loading && showSpinner
+        ? (
+          <Spinner />
+        )
+        : undefined
+      }
+    </Stack>
   );
 };

@@ -1,5 +1,5 @@
 import React from "react";
-import { Header as GrommetHeader, Box, Avatar, Anchor } from "grommet";
+import { Header as GrommetHeader, Box } from "grommet";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Logo } from "src/components/Logo";
 import styled from "styled-components";
@@ -9,7 +9,7 @@ const FlexAnchorLink = styled(AnchorLink)`
   display: flex;
 `;
 
-export const Header: React.FC = (props) => {
+export const Header: React.FC = () => {
   return (
     <GrommetHeader
       background="background"
@@ -18,9 +18,9 @@ export const Header: React.FC = (props) => {
       border={{ side: "bottom" }}
       align="center"
       justify="center"
+      height="xxsmall"
     >
       <Box width="xlarge">
-
         <Box fill direction="row" justify="between" align="stretch">
           <Box width="xsmall" direction="column" justify="center">
             <FlexAnchorLink href="/">

@@ -36,6 +36,9 @@ export function handleHttpError(
   notification: NotificationActions,
   userStore: ReturnType<typeof UserStore>,
 ) {
+  if (process.env.NODE_ENV === "development") {
+    console.log(e);
+  }
   if (e.status === -1) {
     notification.addNotification({
       level: "error",

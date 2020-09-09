@@ -8,8 +8,8 @@ const Home: React.FC = () => {
 
   return(
     <Box justify="center" flex="grow">
-      <Box justify="center" align="center" gap="medium" pad="small">
-        <Box width="medium">
+      <Box justify="center" align="center" pad="small">
+        <Box width="medium" height="small">
           <Logo />
         </Box>
         <Box width="medium">

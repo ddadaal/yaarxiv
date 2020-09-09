@@ -7,7 +7,9 @@ interface Props {
 }
 
 export const Logo: React.FC<Props> = (props)=> (
-  <Image fit="contain"
-    src={SvgLogo} title="logo"
+  <Image
+    fit="contain"
+    src={SvgLogo}
+    title="logo"
   />
 );
