@@ -61,6 +61,34 @@ export default {
       register: "Register",
       invalid: "The email and password are invalid. Please check them and try again.",
       success: "Logged in successfully!",
+      forget: "Forget Password",
+    },
+    forgetPassword: {
+      title: "Forget password",
+      email: "Email",
+      sendRecoveryMail: "Send Password Reset Mail",
+      accountNotExist: "Account does not exist.",
+      sent: {
+        title: "Password reset mail has been sent!",
+        description: "Please check your mail for further instructions.",
+      },
+      reset: {
+        error: {
+          title: "Password reset link is invalid",
+          description: "Please request password reset again.",
+        },
+        title: "Reset password",
+        password: "New Password",
+        confirm: "Confirm New Password",
+        notMatch: "New password do not match!",
+        submit: "Submit",
+        reset: "Clear",
+        complete: {
+          title: "Password has been reset successfully.",
+          description: "Click {} to login.",
+          loginLink: "here",
+        },
+      },
     },
     register: {
       email: "Email",
@@ -153,7 +181,7 @@ export default {
             current: "Current password",
             changed: "New password",
             confirmChanged: "Confirm new password",
-            changedNotMatch: "New passwords not match!",
+            changedNotMatch: "New passwords do not match!",
             confirm: "Change password",
             confirming: "Changing password...",
             reset: "Reset",

@@ -19,6 +19,10 @@ export const authApisMock: MockApi<typeof authApis> = (({ makeHttpError }) => ({
       return { token: email, name: email.split("@")[0], userId: email };
     }
   },
-
+  requestPasswordReset: async () => {
+    return {};
+  },
+  validatePasswordResetToken: async ({ query: { token } }) => ({ valid: !!token }),
+  resetPassword: async () => ({}),
 }));
 

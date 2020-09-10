@@ -649,6 +649,145 @@
       "additionalProperties": false,
       "description": "Register"
     },
+    "RequestPasswordResetSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "Account email."
+            }
+          },
+          "required": [
+            "email"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Email reset mail has been sent."
+            },
+            "404": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Account does not exist."
+            }
+          },
+          "required": [
+            "201",
+            "404"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Request to reset a password."
+    },
+    "ResetPasswordSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "The reset password request token."
+            },
+            "newPassword": {
+              "type": "string",
+              "description": "New password"
+            }
+          },
+          "required": [
+            "token",
+            "newPassword"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Password is reset."
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The reset password token is invalid."
+            }
+          },
+          "required": [
+            "403",
+            "201"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Reset password with a password reset token."
+    },
+    "ValidatePasswordResetTokenSchema": {
+      "type": "object",
+      "properties": {
+        "querystring": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string",
+              "description": "The token of password reset."
+            }
+          },
+          "required": [
+            "token"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "valid": {
+                  "type": "boolean",
+                  "description": "Whether the token is valid."
+                }
+              },
+              "required": [
+                "valid"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "200"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "querystring",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Validate a token (a link) for password reset."
+    },
     "ChangePasswordSchema": {
       "type": "object",
       "properties": {

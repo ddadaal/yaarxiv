@@ -1,11 +1,10 @@
 import React, { useState } from "react";
 import {
   Box, Form, FormField,
-  TextInput, Button, CheckBox, MaskedInput, Heading,
+  TextInput, Button, CheckBox, Heading,
 } from "grommet";
 import { lang } from "src/i18n";
 import { LocalizedString } from "simstate-i18n";
-import Link from "next/link";
 import { getApi } from "src/apis";
 import { authApis } from "src/apis/auth";
 import { useStore } from "simstate";
@@ -14,6 +13,7 @@ import Router from "next/router";
 import { useNotification } from "src/utils/useNotification";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { AnchorLink } from "src/components/AnchorLink";
 
 const root = lang.register;
 
@@ -73,18 +73,18 @@ const RegisterForm: React.FC = () => {
       <FormField name="remember" disabled={inProgress}>
         <CheckBox name="remember" label={<LocalizedString id={root.remember} />}/>
       </FormField>
-      <Box direction="row" justify="between" margin={{ top: "medium" }}>
-        <Link href="/login">
-          <Button label={<LocalizedString id={root.login} />}
-            disabled={inProgress}
-          />
-        </Link>
+      <Box>
         <Button
           type="submit"
           label={<LocalizedString id={inProgress ? root.inProgress : root.register} />}
           primary={true}
           disabled={inProgress}
         />
+      </Box>
+      <Box direction="row" justify="center" margin={{ top: "medium" }}>
+        <AnchorLink href="/login">
+          <LocalizedString id={root.login} />
+        </AnchorLink>
       </Box>
     </Form>
   );

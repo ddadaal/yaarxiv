@@ -1,7 +1,8 @@
-import { Box, Heading, Paragraph, Text } from "grommet";
+import { Paragraph } from "grommet";
 import { IconProps  } from "grommet-icons";
 import React from "react";
 import { LocalizedString } from "simstate-i18n";
+import { OperationCompletePage } from "../OperationCompletePage";
 
 export interface Props {
   titleId: string;
@@ -18,13 +19,10 @@ export const ErrorPage: React.FC<Props> = ({
   children,
 }) => {
   return (
-    <Box justify="center" align="center">
-      <Box direction="row" gap="small" align="center" justify="center">
-        <Icon color="status-error" />
-        <Heading level={1} size="small">
-          <LocalizedString id={titleId} />
-        </Heading>
-      </Box>
+    <OperationCompletePage
+      titleId={titleId}
+      icon={<Icon color="status-error" />}
+    >
       <Paragraph>
         {
           description ??
@@ -32,7 +30,7 @@ export const ErrorPage: React.FC<Props> = ({
         }
       </Paragraph>
       {children}
-    </Box>
+    </OperationCompletePage>
   );
 };
 

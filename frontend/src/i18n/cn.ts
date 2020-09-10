@@ -56,6 +56,34 @@ export default {
       register: "注册",
       invalid: "您的用户名和密码无效，请检查用户名和密码后重试。",
       success: "登录成功！",
+      forget: "忘记密码",
+    },
+    forgetPassword: {
+      title: "忘记密码",
+      email: "账号电子邮箱",
+      sendRecoveryMail: "发送重置密码邮件",
+      accountNotExist: "账号不存在",
+      sent: {
+        title: "重置密码邮件已发送！",
+        description: "请按照邮箱内的指示进行下一步操作。",
+      },
+      reset: {
+        error: {
+          title: "重置密码链接无效",
+          description: "请重新请求密码重置。",
+        },
+        title: "重置密码",
+        password: "新密码",
+        confirm: "确认新密码",
+        notMatch: "两个密码不匹配",
+        submit: "提交",
+        reset: "清空",
+        complete: {
+          title: "密码重置成功！",
+          description: "点击{}去登录。",
+          loginLink: "此处",
+        },
+      },
     },
     register: {
       email: "Email",
