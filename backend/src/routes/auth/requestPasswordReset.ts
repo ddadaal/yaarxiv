@@ -30,8 +30,9 @@ export async function requestPasswordResetRoute(fastify: FastifyInstance) {
       const url = template.replace("{}", token.id);
 
       // send the email with token.
+      // most email service requires from to be the same as the login user.
       await fastify.mail.sendMail({
-        from: "Yaarxiv Password Reset <password@yaarxiv.com>",
+        from: `Yaarxiv Password Reset <${config.mail.auth?.user}>`,
         to: email,
         subject: "Yaarxiv Password Reset",
         text: `

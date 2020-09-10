@@ -5,10 +5,8 @@ import * as api from "yaarxiv-api/auth/resetPassword";
 import { config } from "@/utils/config";
 import { getRepository } from "typeorm";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
-import { genId } from "@/utils/genId";
 import { insertUserInfo, normalUser1 } from "tests/article/utils/login";
 import { User } from "@/entities/User";
-import { compare } from "@/utils/bcrypt";
 
 let server: FastifyInstance;
 
