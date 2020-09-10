@@ -3,7 +3,6 @@ import { FastifyInstance } from "fastify/types/instance";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 import { signUser } from "@/plugins/auth";
-import { compare } from "@/utils/bcrypt";
 
 export async function loginRoute(fastify: FastifyInstance) {
   route<loginApi.LoginSchema>(fastify, loginApi.endpoint, "LoginSchema", { summary: loginApi.summary })(
@@ -12,7 +11,7 @@ export async function loginRoute(fastify: FastifyInstance) {
       const userRepo = fastify.orm.getRepository(User);
 
       const user = await userRepo.findOne({ email: id });
-      if (!user || !await compare(password, user.password)) {
+      if (!user || !await user.passwordMatch(password)) {
         return { 401: {} };
       }
 

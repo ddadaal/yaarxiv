@@ -16,8 +16,8 @@ export async function registerRoute(fastify: FastifyInstance) {
       user.id = genId();
       user.email = req.body.email;
       user.name = user.email.split("@")[0];
-      user.password = await encrypt(req.body.password);
       user.role = "user";
+      await user.setPassword(req.body.password);
 
       try {
         await userRepo.save(user);

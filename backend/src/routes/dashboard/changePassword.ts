@@ -3,7 +3,6 @@ import { FastifyInstance } from "fastify";
 import * as api from "yaarxiv-api/dashboard/changePassword";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
-import { compare, encrypt } from "@/utils/bcrypt";
 
 export async function changePasswordRoute(fastify: FastifyInstance) {
   route<api.ChangePasswordSchema>(fastify, api.endpoint, "ChangePasswordSchema", {
@@ -15,11 +14,11 @@ export async function changePasswordRoute(fastify: FastifyInstance) {
 
       const { changed, current } = req.body;
 
-      if (!await compare(current, user.password)) {
+      if (!await user.passwordMatch(current)) {
         return { 403: {} };
       }
 
-      user.password = await encrypt(changed);
+      await user.setPassword(changed);
 
       await fastify.orm.getRepository(User).save(user);
 

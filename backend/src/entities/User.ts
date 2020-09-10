@@ -1,6 +1,7 @@
 import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
 import { Article } from "./Article";
 import { PdfUpload } from "./PdfUpload";
+import { encrypt, compare } from "@/utils/bcrypt";
 
 export type UserRole = "user" | "admin";
 
@@ -30,4 +31,12 @@ export class User {
 
   @OneToMany(() => Article, (a) => a.owner, { cascade: true, onDelete: "CASCADE" })
   articles: Article[];
+
+  async setPassword(newPassword: string) {
+    this.password = await encrypt(newPassword);
+  }
+
+  async passwordMatch(password: string) {
+    return await compare(password, this.password);
+  }
 }

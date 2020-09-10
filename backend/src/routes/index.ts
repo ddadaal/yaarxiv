@@ -11,10 +11,16 @@ import { uploadPdfRoute } from "./article/uploadPdf";
 import { changePasswordRoute } from "./dashboard/changePassword";
 import { changeProfileRoute } from "./dashboard/changeProfile";
 import { getProfileRoute } from "./dashboard/getProfile";
+import { requestPasswordResetRoute } from "./auth/requestPasswordReset";
+import { validatePasswordResetTokenRoute } from "./auth/validatePasswordResetToken";
+import { resetPasswordRoute } from "./auth/resetPassword";
 
 export const routes = [
   loginRoute,
   registerRoute,
+  requestPasswordResetRoute,
+  validatePasswordResetTokenRoute,
+  resetPasswordRoute,
   searchArticleRoute,
   getArticleRoute,
   deleteArticleRoute,

@@ -1,5 +1,5 @@
 import "reflect-metadata";
-import fastify from "fastify";
+import fastify, { FastifyPlugin } from "fastify";
 import { jwtAuthPlugin } from "./plugins/auth";
 import { routes }  from "./routes";
 import { models } from "./utils/schemas";
@@ -9,8 +9,10 @@ import { config } from "./utils/config";
 import { staticPlugin } from "./plugins/static";
 import { ormPlugin } from "./plugins/orm";
 import { swaggerPlugin } from "./plugins/swagger";
+import { mailPlugin } from "./plugins/mail";
 
-export async function startApp(start = true) {
+
+export async function startApp() {
 
   const server = fastify({ logger: config.logger });
 
@@ -24,17 +26,16 @@ export async function startApp(start = true) {
   server.register(staticPlugin);
   server.register(uploadPlugin);
   server.register(ormPlugin);
+  server.register(mailPlugin);
   server.register(jwtAuthPlugin);
 
   routes.forEach((r) => server.register(r));
 
-  if (start) {
-    try {
-      await server.listen(config.port, "0.0.0.0");
-    } catch (err) {
-      server.log.error(err);
-      throw err;
-    }
+  try {
+    await server.listen(config.port, "0.0.0.0");
+  } catch (err) {
+    server.log.error(err);
+    throw err;
   }
 
   return server;

@@ -17,5 +17,13 @@
     "maxFileSize": 5242880
   },
   "staticPrefix": "static",
-  "bcryptSaltLength": 10
+  "bcryptSaltLength": 10,
+  "mail": {
+    "pool": true,
+    "secure": true
+  },
+  "resetPassword": {
+    "resetPageUrlTemplate": "http://localhost:5000/forget/reset?token={}",
+    "tokenValidTimeSeconds": 1800
+  }
 }
