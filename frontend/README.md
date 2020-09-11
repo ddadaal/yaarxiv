@@ -37,13 +37,14 @@ npm start -- --port 3000
 
 # Configuration
 
-We utilize [next.js's environment variables feature](https://nextjs.org/docs/basic-features/environment-variables) to handle configs. Available configurations are as follows:
+We utilize [next.js's environment variables feature](https://nextjs.org/docs/basic-features/environment-variables) and [runtime configuration feature](https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration) to handle configs. Available configurations are as follows:
 
-| env                       | Description                             | Possible Values |
-| ------------------------- | --------------------------------------- | --------------- |
-| `NEXT_PUBLIC_API_ROOT`    | The root of backend API                 | string          |
-| `NEXT_PUBLIC_STATIC_ROOT` | The root of static files                | string          |
-| `NEXT_PUBLIC_USE_MOCK`    | Whether to use mock API for development | 1/0             |
+
+| config                 | type        | Description                             | Possible Values |
+| ---------------------- | ----------- | --------------------------------------- | --------------- |
+| `API_ROOT`             | runtime arg | The root of backend API                 | string          |
+| `STATIC_ROOT`          | runtime arg | The root of static files                | string          |
+| `NEXT_PUBLIC_USE_MOCK` | build arg   | Whether to use mock API for development | 1/0             |
 
 
 This git repo contains a `.env` as default config. You can create a `.env.production` for production configration and this `.env.production` should be git ignored.

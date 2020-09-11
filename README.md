@@ -41,16 +41,18 @@ Default configs are provided in `docker-compose.yml`. The following can be chang
 # CWD is ., not inside frontend or backend
 
 # Build frontend image 
-# STATIC_ROOT is optional
-# The args must be provided during build
+# The USE_MOCK must be provided during build
 docker build . -f frontend/Dockerfile \
     --build-arg USE_MOCK=0 \
-    --build-arg API_ROOT=$API_ROOT \
-    --build-arg STATIC_ROOT=$STATIC_ROOT \
     --tag frontend
 
 # Run frontend container at port 3000
-docker run -p 3000:3000 frontend
+# As well as setting env config
+docker run -p 3000:3000 -it \
+    -e API_ROOT=http://localhost:5000 \
+    -e STATIC_ROOT=http://localhost:5000 \
+    frontend
+
 
 # Build backend image. 
 # The configuration can be mapped when run

@@ -7,9 +7,11 @@ services:
       dockerfile: frontend/Dockerfile
       args:
         USE_MOCK: "0"
-        API_ROOT: "http://localhost:5000"
     ports:
       - "80:3000"
+    environment:
+      - API_ROOT=http://localhost:5000
+      - STATIC_ROOT=http://localhost:5000
   backend:
     image: backend
     build:

@@ -9,4 +9,9 @@ const images = require('next-images')
 module.exports = withPlugins([
   [tm],
   [images, {}]
-]);
+], {
+  publicRuntimeConfig: {
+    apiRoot: process.env.API_ROOT,
+    staticRoot: process.env.STATIC_ROOT,
+  }
+});

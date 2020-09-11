@@ -17,16 +17,12 @@ RUN npm ci
 
 # Build args
 ARG USE_MOCK=0
-ARG API_ROOT
-ARG STATIC_ROOT=$API_ROOT
 
 # Build image
 ENV NEXT_PUBLIC_USE_MOCK=$USE_MOCK
-ENV NEXT_PUBLIC_API_ROOT=$API_ROOT
-ENV NEXT_PUBLIC_STATIC_ROOT=$STATIC_ROOT
 COPY frontend .
 RUN npm run build
 
-# Run
+# Run with env
 EXPOSE 3000
 CMD npm run start

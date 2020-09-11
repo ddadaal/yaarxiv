@@ -1,7 +1,6 @@
 import React from "react";
-import type { AppProps, AppContext } from "next/app";
+import type { AppContext, AppProps } from "next/app";
 import "normalize.css";
-import useConstant from "src/utils/useConstant";
 import { createI18nStore } from "simstate-i18n";
 import { i18nContext } from "src/i18n";
 import { StoreProvider, createStore } from "simstate";
@@ -10,6 +9,7 @@ import { UserStore } from "src/stores/UserStore";
 import "nprogress/nprogress.css";
 import dynamic from "next/dynamic";
 import { ThemeStore } from "src/stores/ThemeStore";
+import { GetServerSideProps } from "next";
 
 const TopProgressBar = dynamic(
   () => {
@@ -33,5 +33,9 @@ function MyApp({ Component, pageProps }: AppProps) {
     </StoreProvider>
   );
 }
+
+MyApp.getInitialProps = async (appContext: AppContext) => {
+  return { props: {} };
+};
 
 export default MyApp;

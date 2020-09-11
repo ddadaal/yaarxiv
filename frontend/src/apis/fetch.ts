@@ -2,8 +2,9 @@ import { Endpoint, replacePathArgs, Schema } from "yaarxiv-api";
 import { isFormData } from "src/utils/isServer";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { failEvent, finallyEvent, prefetchEvent, successEvent } from "./events";
+import { config } from "src/utils/config";
 
-const baseUrl = process.env.NEXT_PUBLIC_API_ROOT;
+const baseUrl = config.apiRoot;
 
 export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 
