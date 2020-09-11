@@ -3,8 +3,8 @@ import { Text, Footer as GrommotFooter, Anchor, Box, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { lang, useI18nStore, languageNames } from "src/i18n";
 import { useStore } from "simstate";
-import { ThemeStore } from "src/stores/ThemeStore";
 import { Sun, Moon } from "grommet-icons";
+import { ThemeStore } from "src/stores/ThemeStore";
 
 const root = lang.footer;
 
@@ -27,9 +27,19 @@ const LanguageSwitcher: React.FC = () => {
   );
 };
 
-export const Footer: React.FC = () => {
-
+const ThemeSwitcher: React.FC = () => {
   const { theme, changeTheme } = useStore(ThemeStore);
+
+  const switchTheme = () => changeTheme(theme === "light" ? "dark" : "light");
+
+  return (
+    <Button onClick={switchTheme}>
+      {theme === "dark" ? <Moon /> : <Sun />}
+    </Button>
+  );
+};
+
+export const Footer: React.FC = () => {
 
   return (
     <GrommotFooter
@@ -45,9 +55,7 @@ export const Footer: React.FC = () => {
         </Text>
       </Box>
       <Box alignSelf="end">
-        <Button onClick={changeTheme}>
-          {theme === "dark" ? <Moon /> : <Sun />}
-        </Button>
+        <ThemeSwitcher />
       </Box>
     </GrommotFooter>
 

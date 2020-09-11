@@ -14,6 +14,7 @@
     "grommet-icons": "https://github.com/grommet/grommet-icons/tarball/stable",
     "luxon": "^1.25.0",
     "next": "9.5.3",
+    "next-dark-mode": "^2.3.0",
     "next-images": "^1.4.1",
     "next-transpile-modules": "^4.1.0",
     "nookies": "^2.4.0",

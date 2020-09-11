@@ -8,8 +8,8 @@ import { MainLayout } from "src/layouts/MainLayout";
 import { UserStore } from "src/stores/UserStore";
 import "nprogress/nprogress.css";
 import dynamic from "next/dynamic";
+import withDarkMode from "next-dark-mode";
 import { ThemeStore } from "src/stores/ThemeStore";
-import { GetServerSideProps } from "next";
 
 const TopProgressBar = dynamic(
   () => {
@@ -38,4 +38,4 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
   return { props: {} };
 };
 
-export default MyApp;
+export default withDarkMode(MyApp);

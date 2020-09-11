@@ -1,13 +1,37 @@
-import { useState, useCallback } from "react";
+import { useDarkMode } from "next-dark-mode";
+import { useCallback } from "react";
 
 export type Theme = "dark" | "light";
 
-export function ThemeStore(defaultTheme: Theme = "dark") {
-  const [theme, setTheme] = useState(defaultTheme);
+export function ThemeStore() {
 
-  const changeTheme = useCallback(() => {
-    setTheme((t) => t === "dark" ? "light" : "dark");
+  const {
+    autoModeActive,
+    darkModeActive,
+    autoModeSupported,
+    switchToAutoMode,
+    switchToDarkMode,
+    switchToLightMode,
+  } = useDarkMode();
+
+  const theme: Theme = darkModeActive ? "dark": "light";
+
+  const changeTheme = useCallback((to: Theme) => {
+    switch (to) {
+    case "dark":
+      switchToDarkMode();
+      return;
+    case "light":
+      switchToLightMode();
+      return;
+    }
   }, []);
 
-  return { theme, setTheme, changeTheme };
+  return {
+    theme,
+    changeTheme,
+    autoModeSupported,
+    autoModeActive,
+    switchToAutoMode,
+  };
 }
