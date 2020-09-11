@@ -9,95 +9,94 @@ import { queryToString } from "src/utils/querystring";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
 import { Article } from "yaarxiv-api/article/models";
-import { GetServerSideProps } from "next";
+import { NextPage } from "next";
 import { getCurrentUserInCookie } from "src/stores/UserStore";
-import { changeToken, HttpError, makeHttpError } from "src/apis/fetch";
+import { HttpError, makeHttpError } from "src/apis/fetch";
 import { Forbidden } from "src/components/errors/Forbidden";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
+import { SSRPageProps } from "src/utils/ssr";
 
 const root = lang.pages.updateArticle;
 
 const api = getApi(articleApis);
 
-type Props = {
+type Props = SSRPageProps<{
   article: Article;
-} | {
-  error: HttpError;
-}
+}>;
 
+export const ArticleUpdatePage: NextPage<Props> =
+  requireAuth({ roles: ["user"]})<Props>((props) => {
+    const router = useRouter();
 
-export const ArticleUpdatePage = requireAuth({ roles: ["user"]})<Props>((props) => {
+    const articleId = queryToString(router.query.id);
 
-  const router = useRouter();
+    const [submitting, setSubmitting] = useState(false);
 
-  const articleId = queryToString(router.query.id);
+    const request = useHttpRequest(setSubmitting);
 
-  const [submitting, setSubmitting] = useState(false);
-
-  const request = useHttpRequest(setSubmitting);
-
-  const submit = useCallback((file: File | undefined, form: ArticleForm) => {
-    request(async ({ notification }) => {
-      let pdfToken: string | undefined = undefined;
-      if (file) {
-        // user wants to update the pdf. so upload it first.
-        const fileResp = await api.uploadPDF(file);
-        pdfToken = fileResp.token;
-      }
-      const resp = await api.updateArticle({
-        path: { articleId },
-        body: { pdfToken, ...form },
-      });
-      await router.push("/articles/[id]", `/articles/${articleId}`);
-      notification.addNotification({
-        level: "success",
-        message: (
-          <LocalizedString
-            id={root.success}
-            replacements={[resp.revisionNumber]}
-          />
-        ),
-      });
-    });
-  }, [articleId]);
-
-  if ("error" in props) {
-    return (
-      <UnifiedErrorPage
-        error={props.error}
-        customComponents={{
-          403:(
-            <Forbidden
-              description={(
-                <LocalizedString
-                  id={root.forbidden}
-                  replacements={[articleId]}
-                />
-              )}
+    const submit = useCallback((file: File | undefined, form: ArticleForm) => {
+      request(async ({ notification }) => {
+        let pdfToken: string | undefined = undefined;
+        if (file) {
+          // user wants to update the pdf. so upload it first.
+          const fileResp = await api.uploadPDF(file);
+          pdfToken = fileResp.token;
+        }
+        const resp = await api.updateArticle({
+          path: { articleId },
+          body: { pdfToken, ...form },
+        });
+        await router.push("/articles/[id]", `/articles/${articleId}`);
+        notification.addNotification({
+          level: "success",
+          message: (
+            <LocalizedString
+              id={root.success}
+              replacements={[resp.revisionNumber]}
             />
           ),
-        }}
+        });
+      });
+    }, [articleId]);
+
+    if ("error" in props) {
+      return (
+        <UnifiedErrorPage
+          error={props.error}
+          customComponents={{
+            403:(
+              <Forbidden
+                description={(
+                  <LocalizedString
+                    id={root.forbidden}
+                    replacements={[articleId]}
+                  />
+                )}
+              />
+            ),
+          }}
+        />
+      );
+    }
+
+    const { pdfLink, ...rest } = props.article.currentRevision;
+
+    return (
+      <ArticleEditForm
+        disabled={submitting}
+        existingFileUrl={pdfLink}
+        initial={{ ...rest, authors: rest.authors.map((x) => x.name) }}
+        onSubmit={submit}
       />
     );
-  }
+  });
 
-  const { pdfLink, ...rest } = props.article.currentRevision;
-
-  return (
-    <ArticleEditForm
-      disabled={submitting}
-      existingFileUrl={pdfLink}
-      initial={{ ...rest, authors: rest.authors.map((x) => x.name) }}
-      onSubmit={submit}
-    />
-  );
-});
-
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+// Cannot use getServerSideProps
+// https://github.com/vercel/next.js/discussions/11183
+ArticleUpdatePage.getInitialProps = async (ctx) => {
   const user = getCurrentUserInCookie(ctx);
 
   if (user) {
-    changeToken(user.token);
     const data = await api.get({
       path: { articleId: queryToString(ctx.query.id) },
       query: {},
@@ -111,9 +110,9 @@ export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
       })
       .catch((x: HttpError) => ({ error: x }));
 
-    return { props: data };
+    return data;
   } else {
-    return { props: { error: { status: 401, data: {} } } };
+    return { error: { status: 401, data: {} } } ;
   }
 };
 

@@ -6,7 +6,7 @@ import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { SearchQuery } from "src/models/SearchQuery";
 import { ArticleSearchItem } from "src/pageComponents/article/ArticleSearchItem";
-import { GetServerSideProps } from "next";
+import { GetServerSideProps, NextPage } from "next";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { ArticleFilter } from "src/pageComponents/article/ArticleFilter";
 import { queryToIntOrDefault, queryToString, queryToArray } from "src/utils/querystring";
@@ -31,7 +31,7 @@ type Props = SSRPageProps<{
 const search = ([query]: any[]) => api.search({ query });
 
 
-export const Search: React.FC<Props> = (props) => {
+export const SearchPage: NextPage<Props> = (props) => {
 
   const router = useRouter();
 
@@ -133,13 +133,13 @@ export const Search: React.FC<Props> = (props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+SearchPage.getInitialProps = async (context) => {
   const query = context.query;
 
   const data = await api.search({ query })
     .catch((r: HttpError) => ({ error: r }));
 
-  return { props: data };
+  return data;
 };
 
-export default Search;
+export default SearchPage;

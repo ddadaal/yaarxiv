@@ -1,5 +1,5 @@
 import * as React from "react";
-import { GetServerSideProps } from "next";
+import { NextPage } from "next";
 import { lang } from "src/i18n";
 import Router from "next/router";
 import { getApi } from "src/apis";
@@ -112,7 +112,7 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
   );
 };
 
-export const PasswordResetPage: React.FC<Props> = (props) => {
+export const PasswordResetPage: NextPage<Props> = (props) => {
   if ("error" in props) {
     return <UnifiedErrorPage error={props.error} />;
   }
@@ -140,18 +140,18 @@ export const PasswordResetPage: React.FC<Props> = (props) => {
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (ctx) => {
+PasswordResetPage.getInitialProps = async (ctx) => {
   const token = queryToString(ctx.query.token);
 
   const resp = await api.validatePasswordResetToken({ query: { token } })
     .catch((e: HttpError) => ({ error: e }));
 
-  return {
-    props: "error" in resp ? resp : {
+  return "error" in resp
+    ? resp
+    : {
       valid: resp.valid,
       token,
-    },
-  };
+    };
 };
 
 export default PasswordResetPage;

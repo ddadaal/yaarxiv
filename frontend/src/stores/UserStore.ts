@@ -17,7 +17,7 @@ export function getCurrentUserInCookie(ctx?: Ctx): User | null {
   }
 }
 
-interface User {
+export interface User {
   id: string;
   email: string;
   name: string;
@@ -37,8 +37,8 @@ export function getUserInfoInStorage(): User | null {
   }
 }
 
-export function UserStore() {
-  const [user, setUser] = useState<User | null>(null);
+export function UserStore(initialUser: User | null = null) {
+  const [user, setUser] = useState<User | null>(initialUser);
 
   const loggedIn = !!user;
 
@@ -60,9 +60,8 @@ export function UserStore() {
   }, []);
 
   useEffect(() => {
-    const loggedInUser = getUserInfoInStorage();
-    if (loggedInUser) {
-      login(loggedInUser);
+    if (initialUser) {
+      login(initialUser);
     }
   }, []);
 

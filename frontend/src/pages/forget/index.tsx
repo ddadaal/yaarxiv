@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { Box, Heading, Form, FormField, TextInput, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
@@ -19,10 +19,6 @@ const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
   const [inProgress, setInProgress] = useState(false);
   const notification = useNotification();
   const request = useHttpRequest(setInProgress);
-
-  useEffect(() => {
-    setValue({ email });
-  }, [email]);
 
   const login = () => request(async () => {
     const { email } = value;

@@ -1,6 +1,6 @@
 import React from "react";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
-import { GetServerSideProps } from "next";
+import { NextPage } from "next";
 import { Article } from "yaarxiv-api/article/models";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
@@ -16,7 +16,7 @@ type Props = {
 
 const api = getApi(articleApis);
 
-export const ArticlePage: React.FC<Props> = (props) => {
+export const ArticlePage: NextPage<Props> = (props) => {
 
   if ("error" in props) {
     return <UnifiedErrorPage error={props.error} />;
@@ -25,7 +25,7 @@ export const ArticlePage: React.FC<Props> = (props) => {
 
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async (context) => {
+ArticlePage.getInitialProps = async (context) => {
   const articleId = queryToString(context.query.id);
   const revision = queryToIntOrDefault(context.query.revision, undefined);
 
@@ -33,7 +33,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async (context) => 
     .then((x) => ({ article: x.article }))
     .catch((e: HttpError) => ({ error: e }));
 
-  return { props: data };
+  return data;
 };
 
 export default ArticlePage;
