@@ -2,6 +2,7 @@
 import type { MockApi } from ".";
 import type { adminApis } from "./admin";
 import type { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
+import { makeHttpError } from "./fetch";
 
 const mockArticles: AdminGetArticlesResult[] = [
   {
@@ -20,9 +21,20 @@ const mockArticles: AdminGetArticlesResult[] = [
   },
 ];
 
+let count = 0;
+
 export const adminApisMock: MockApi<typeof adminApis> = () => ({
-  getArticles: async () => ({
-    articles: mockArticles,
-    totalCount: mockArticles.length,
-  }),
+  getArticles: async () => {
+
+    count++;
+    if (count === 3) {
+      throw makeHttpError({} ,401);
+    }
+
+
+    return {
+      articles: mockArticles,
+      totalCount: mockArticles.length,
+    };
+  },
 });

@@ -1,5 +1,5 @@
 import { Box, ColumnConfig, DataTable, Heading } from "grommet";
-import React, { useCallback } from "react";
+import React, { useCallback, useEffect } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { lang } from "src/i18n";
@@ -67,9 +67,13 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
   const router = useRouter();
 
   const page = queryToIntOrDefault(router.query.page, undefined);
+  const errorHandler = useHttpErrorHandler();
   const searchWord = queryToString(router.query.searchWord);
 
-  const { data, isLoading, error } = useAsync({ deferFn: getArticles });
+  const { data, isLoading, run } = useAsync({
+    deferFn: getArticles,
+    onReject: errorHandler,
+  });
 
   const updateQuery = useCallback((newQuery: SearchQuery) => {
     const combinedQuery = removeNullOrUndefinedKey({
@@ -83,11 +87,9 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
     });
   }, [searchWord]);
 
-  const handler = useHttpErrorHandler();
-
-  if (error) {
-    handler(error);
-  }
+  useEffect(() => {
+    run({ page, searchWord });
+  }, [page, searchWord]);
 
   return (
     <Box gap="medium">

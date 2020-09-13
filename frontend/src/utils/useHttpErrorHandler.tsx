@@ -10,18 +10,16 @@ import { NotificationActions, useNotification } from "./useNotification";
 const root = lang.components.httpHandler;
 
 
-export function handleTokenInvalid(
+export async function handleTokenInvalid(
   userStore: ReturnType<typeof UserStore>,
   notification: NotificationActions
 ) {
-  return () => {
-    Router.push("/login");
-    userStore.logout();
-    notification.addNotification({
-      level: "error",
-      message: <LocalizedString id={root.tokenInvalid} />,
-    });
-  };
+  notification.addNotification({
+    level: "error",
+    message: <LocalizedString id={root.tokenInvalid} />,
+  });
+  await Router.push("/login");
+  userStore.logout();
 }
 
 export function useInvalidTokenHandler() {
