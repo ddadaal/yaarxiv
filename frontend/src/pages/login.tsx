@@ -36,11 +36,6 @@ const LoginForm: React.FC = () => {
         level: "success",
         message: <LocalizedString id={root.success} />,
       });
-      if (res.role === "admin"){
-        await Router.push("/admin/articles");
-      } else {
-        await Router.push("/");
-      }
       userStore.login({
         email: id,
         name: res.name,
@@ -49,6 +44,11 @@ const LoginForm: React.FC = () => {
         role: res.role,
         id: res.userId,
       });
+      if (res.role === "admin"){
+        await Router.push("/admin/articles");
+      } else {
+        await Router.push("/");
+      }
     } catch (e) {
       console.log(e);
       if (e.status === 401) {
