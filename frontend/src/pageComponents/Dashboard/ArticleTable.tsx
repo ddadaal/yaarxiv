@@ -112,9 +112,12 @@ export const ArticleTable: React.FC = ({}) => {
 
   const [page, setPage] = useState(1);
 
+  const errorHandler = useHttpErrorHandler();
+
   const { data, isPending, run, error } = useAsync({
     promiseFn: getDashboardDataFirstPage,
     deferFn: getDashboardData,
+    onReject: errorHandler,
   });
 
   const onPageClicked = useCallback((page: number) => {

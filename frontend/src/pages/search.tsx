@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect } from "react";
 import { Box } from "grommet";
 import { useRouter } from "next/router";
 import { useAsync } from "react-async";
@@ -6,7 +6,7 @@ import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { SearchQuery } from "src/models/SearchQuery";
 import { ArticleSearchItem } from "src/pageComponents/article/ArticleSearchItem";
-import { GetServerSideProps, NextPage } from "next";
+import { NextPage } from "next";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { ArticleFilter } from "src/pageComponents/article/ArticleFilter";
 import { queryToIntOrDefault, queryToString, queryToArray } from "src/utils/querystring";
@@ -20,6 +20,7 @@ import { useFirstMount } from "src/utils/useFirstMount";
 import { HttpError } from "src/apis/fetch";
 import { SSRPageProps } from "src/utils/ssr";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
+import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 
 const api = getApi(articleApis);
 
@@ -41,9 +42,12 @@ export const SearchPage: NextPage<Props> = (props) => {
     return <UnifiedErrorPage error={props.error} />;
   }
 
+  const errorHandler = useHttpErrorHandler();
+
   const { data, isPending, run } = useAsync({
     deferFn: search,
     initialValue: { results: props.results ?? [], totalCount: props.totalCount ?? 0 },
+    onReject: errorHandler,
   });
 
   const firstMount = useFirstMount();

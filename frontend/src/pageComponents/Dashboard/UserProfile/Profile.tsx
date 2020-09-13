@@ -6,7 +6,7 @@ import { Form, FormField, Box, Button } from "grommet";
 import { useAsync } from "react-async";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { LocalizedString } from "simstate-i18n";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { emailValidation } from "src/utils/validations/emailValidation";
 
 const root = lang.pages.dashboard.profile;
@@ -27,10 +27,12 @@ export const Profile: React.FC = () => {
 
   const [loading, setLoading] = useState(false);
   const request = useHttpRequest(setLoading);
+  const errorHandler = useHttpErrorHandler();
 
   const { data, isPending } = useAsync({
     promiseFn: getProfile,
     onResolve: (profile) => setForm(profile),
+    onReject: errorHandler,
   });
 
   const submit = () => request(async ({ notification, userStore }) => {
