@@ -1,13 +1,14 @@
-const tm = require("next-transpile-modules")([
-  "yaarxiv-api",
-  "react-notification-system",
-  "react-async",
-]);
+/* eslint-disable @typescript-eslint/no-var-requires */
 const withPlugins = require("next-compose-plugins");
 const images = require("next-images");
+const tm = require("next-transpile-modules");
 
 module.exports = withPlugins([
-  [tm],
+  [tm([
+    "yaarxiv-api",
+    "react-notification-system",
+    "react-async",
+  ])],
   [images, {}],
 ], {
   publicRuntimeConfig: {
