@@ -48,11 +48,10 @@ docker build . -f frontend/Dockerfile \
 
 # Run frontend container at port 3000
 # As well as setting env config
+# Extra args can be found at ./frontend/README.md
 docker run -p 3000:3000 -it \
     -e API_ROOT=http://localhost:5000 \
-    -e STATIC_ROOT=http://localhost:5000 \
     frontend
-
 
 # Build backend image. 
 # The configuration can be mapped when run

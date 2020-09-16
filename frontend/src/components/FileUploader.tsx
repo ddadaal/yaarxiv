@@ -1,6 +1,6 @@
 /* eslint-disable max-len */
-import { Box, Button, List, Paragraph, Text, Anchor } from "grommet";
-import React, { useMemo } from "react";
+import { Box, Paragraph, Text, Anchor } from "grommet";
+import React from "react";
 import { DropzoneOptions, useDropzone } from "react-dropzone";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";

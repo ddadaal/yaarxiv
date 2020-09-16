@@ -7,6 +7,7 @@ import { LocalizedString } from "simstate-i18n";
 import { FileUploader } from "src/components/FileUploader";
 import { TagInput } from "src/components/TagInput";
 import { lang } from "src/i18n";
+import { config } from "src/utils/config";
 import { getStaticFileUrl } from "src/utils/staticFiles";
 
 const root = lang.pages.upload;
@@ -42,6 +43,8 @@ export const ArticleEditForm: React.FC<Props> = ({
     && info.keywords.length > 0
     && info.abstract !== "";
 
+  const pdfSizeLimit = config.pdfSizeLimit;
+
   return (
     <Box gap="large">
       <Box pad="small">
@@ -49,7 +52,10 @@ export const ArticleEditForm: React.FC<Props> = ({
           <LocalizedString id={root.pdf.title}/>
         </Heading>
         <Paragraph fill>
-          <LocalizedString id={root.pdf.description} />
+          <LocalizedString
+            id={root.pdf.description}
+            replacements={[pdfSizeLimit / 1024 / 1024]}
+          />
         </Paragraph>
         { existingFileUrl
           ? (
@@ -68,7 +74,7 @@ export const ArticleEditForm: React.FC<Props> = ({
           ) : undefined
         }
         <FileUploader
-          options={{ accept: ".pdf", multiple: false }}
+          options={{ accept: ".pdf", multiple: false, maxSize: pdfSizeLimit }}
           files={file ? [file] : []}
           onFileRemoved={() => setFile(undefined)}
           onFilesAccepted={(f) => setFile(f[0])}
