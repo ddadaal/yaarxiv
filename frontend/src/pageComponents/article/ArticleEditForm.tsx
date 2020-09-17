@@ -47,7 +47,7 @@ export const ArticleEditForm: React.FC<Props> = ({
 
   return (
     <Box gap="large">
-      <Box pad="small">
+      <Box>
         <Heading level="2" size="small" margin="none">
           <LocalizedString id={root.pdf.title}/>
         </Heading>
