@@ -102,7 +102,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               onChange={(e) => setInfo({ ...info, title: e.target.value })}
             />
             <FormField
-              label={<LocalizedString id={root.info.authors} replacements={[30]} />}
+              label={<LocalizedString id={root.info.authors} replacements={[50]} />}
               name="authors"
             >
               <TagInput
@@ -114,18 +114,18 @@ export const ArticleEditForm: React.FC<Props> = ({
                   ...info,
                   authors: info.authors.filter((x) => x !== val),
                 })}
-                maxLength={30}
+                maxLength={50}
               />
             </FormField>
             <FormField
-              label={<LocalizedString id={root.info.keywords} replacements={[30]} />}
+              label={<LocalizedString id={root.info.keywords} replacements={[50]} />}
               name="keywords"
             >
               <TagInput
                 disabled={disabled}
                 name="keywords"
                 value={info.keywords}
-                maxLength={30}
+                maxLength={50}
                 onAdd={(val) => setInfo({ ...info, keywords: [...info.keywords, val]})}
                 onRemove={(val) => setInfo({
                   ...info,
