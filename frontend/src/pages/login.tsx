@@ -78,9 +78,11 @@ const LoginForm: React.FC = () => {
       >
         <TextInput type="password" name="password"/>
       </FormField>
-      <FormField name="remember" disabled={inProgress}>
-        <CheckBox name="remember" label={<LocalizedString id={root.remember} />}/>
-      </FormField>
+      <Box margin={{ vertical: "small" }}>
+        <CheckBox
+          name="remember" label={<LocalizedString id={root.remember} />}
+        />
+      </Box>
       <Box>
         <Button
           type="submit"
@@ -89,7 +91,7 @@ const LoginForm: React.FC = () => {
           disabled={inProgress}
         />
       </Box>
-      <Box direction="row" justify="between" margin={{ top: "medium" }}>
+      <Box direction="row" justify="between" margin={{ top: "small" }}>
         <AnchorLink href={{ pathname: "/forget", query: { email: value.id } }}>
           <LocalizedString id={root.forget} />
         </AnchorLink>

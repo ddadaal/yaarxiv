@@ -70,9 +70,13 @@ const RegisterForm: React.FC = () => {
       >
         <TextInput type="password" name="password"/>
       </FormField>
-      <FormField name="remember" disabled={inProgress}>
-        <CheckBox name="remember" label={<LocalizedString id={root.remember} />}/>
-      </FormField>
+      <Box margin={{ vertical: "small" }}>
+        <CheckBox
+          disabled={inProgress}
+          name="remember"
+          label={<LocalizedString id={root.remember} />}
+        />
+      </Box>
       <Box>
         <Button
           type="submit"
@@ -81,7 +85,7 @@ const RegisterForm: React.FC = () => {
           disabled={inProgress}
         />
       </Box>
-      <Box direction="row" justify="center" margin={{ top: "medium" }}>
+      <Box direction="row" justify="center" margin={{ top: "small" }}>
         <AnchorLink href="/login">
           <LocalizedString id={root.login} />
         </AnchorLink>

@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import { ThemeType } from "grommet";
-import breakpoints from "./breakpoints";
 
 import { deepFreeze } from "grommet/utils";
 
@@ -111,7 +110,7 @@ export const customTheme: ThemeType = deepFreeze(
           },
         },
         "position": "inner",
-        "side": "bottom",
+        "side": "all",
       },
       "content": { "pad": "small" },
       "disabled": {
@@ -141,7 +140,7 @@ export const customTheme: ThemeType = deepFreeze(
       "label": {
         "margin": {
           "vertical": "xsmall",
-          "horizontal": "small",
+          "horizontal": "none",
         },
       },
       "margin": { "bottom": "small" },
