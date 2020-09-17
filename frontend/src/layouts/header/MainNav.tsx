@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React from "react";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import { Nav, Menu, Box, BoxProps } from "grommet";
@@ -110,9 +110,11 @@ const Folded: React.FC<{
               linksToMenuItem(router, [...commonLinks, ...authenticatedLinks, logoutLink])
             }
           >
-            <Box pad={{ horizontal: "medium", vertical: "small" }}>
-              <MenuIcon/>
-            </Box>
+            {() =>
+              <Box pad={{ horizontal: "medium", vertical: "small" }}>
+                <MenuIcon/>
+              </Box>
+            }
           </Menu>
         </>
       )
@@ -122,11 +124,14 @@ const Folded: React.FC<{
             {linksToAnchorLink(router, [loginLink])}
           </Box>
           <Menu
-            label={<Box justify="center" align="center" >
-              <MenuIcon />
-            </Box>}
             items={linksToMenuItem(router, commonLinks)}
-          />
+          >
+            {() => (
+              <Box justify="center" align="center" >
+                <MenuIcon />
+              </Box>
+            )}
+          </Menu>
         </>
       );
 
