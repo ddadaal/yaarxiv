@@ -1165,6 +1165,10 @@
         "ownerId": {
           "type": "string",
           "description": "Owner User Id"
+        },
+        "createTime": {
+          "type": "string",
+          "description": "The time when the article is first uploaded to the platform.\r\nMust be a valid datetime string."
         }
       },
       "required": [
@@ -1172,7 +1176,8 @@
         "revisionNumber",
         "currentRevision",
         "revisions",
-        "ownerId"
+        "ownerId",
+        "createTime"
       ],
       "additionalProperties": false,
       "description": "The full article info."

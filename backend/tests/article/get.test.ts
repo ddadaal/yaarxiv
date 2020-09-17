@@ -1,11 +1,6 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { range } from "../../src/utils/array";
-import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
 import * as getApi from "yaarxiv-api/article/get";
-import { generateArticle } from "./utils/generateArticles";
-import { insertUserInfo } from "./utils/login";
 import { insertData } from "./utils/data";
 
 const articleCount = 12;

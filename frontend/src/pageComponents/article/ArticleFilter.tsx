@@ -1,5 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
-import { Box, Heading, Text, TextInput } from "grommet";
+import { Box, Text, TextInput } from "grommet";
 import { debounce } from "src/utils/debounce";
 import { max, min } from "src/utils/math";
 import { MultipleInput } from "../../components/Article/MultipleInput";

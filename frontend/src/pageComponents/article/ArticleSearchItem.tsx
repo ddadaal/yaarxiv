@@ -1,9 +1,10 @@
 import React from "react";
 import { Box, Text, Heading } from "grommet";
 import { AnchorLink } from "../../components/AnchorLink";
-import { UrlObject } from "url";
 import { ArticleSearchResult } from "yaarxiv-api/article/search";
 import { Author } from "yaarxiv-api/article/models";
+import { ArticleMetadata } from "./ArticleMetadata";
+
 
 interface Props {
   article: ArticleSearchResult;
@@ -28,12 +29,17 @@ const Keyword: React.FC<{
   </Box>
 );
 
+
 export const ArticleSearchItem: React.FC<Props> = ({
   article,
   onAuthorClicked,
   onKeywordClicked,
 }) => {
-  const { title, authors,  keywords, abstract, articleId } = article;
+  const {
+    title,
+    authors,
+    keywords, abstract, articleId, lastUpdateTime, createTime,
+  } = article;
 
   return (
     <Box gap="small" >
@@ -61,9 +67,11 @@ export const ArticleSearchItem: React.FC<Props> = ({
           />
         ))}
       </Box>
-      <Box direction="row">
-        <Text>yaarxiv id: {articleId}</Text>
-      </Box>
+      <ArticleMetadata
+        articleId={articleId}
+        lastUpdateTime={lastUpdateTime}
+        createTime={createTime}
+      />
     </Box>
   );
 };

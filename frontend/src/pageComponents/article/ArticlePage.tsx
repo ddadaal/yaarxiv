@@ -8,6 +8,7 @@ import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { lang } from "src/i18n";
 import { getStaticFileUrl } from "src/utils/staticFiles";
+import { ArticleMetadata } from "./ArticleMetadata";
 
 const root = lang.pages.article;
 
@@ -49,6 +50,10 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
               </Box>
             ))}
           </Box>
+          <ArticleMetadata
+            articleId={article.id}
+            createTime={article.createTime}
+          />
         </Section>
       )}
       right={

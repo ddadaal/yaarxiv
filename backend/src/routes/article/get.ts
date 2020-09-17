@@ -56,6 +56,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
               number: x.revisionNumber,
             })),
             ownerId: article.ownerId,
+            createTime: article.createTime.toISOString(),
           },
         },
       };

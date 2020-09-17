@@ -154,6 +154,12 @@ export default {
         year: "发表年份",
         keywords: "包含关键词",
         authors: "包含作者",
+        item: {
+          id: "文章ID",
+          createTime: "提交时间",
+          lastUpdateTime: "最新一次更新时间",
+          revisionCount: "更新次数",
+        },
       },
       dashboard: {
         articles: {

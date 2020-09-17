@@ -158,6 +158,12 @@ export default {
         year: "Submit Year",
         keywords: "Includes Keywords",
         authors: "Includes Authors",
+        item: {
+          id: "Article ID",
+          createTime: "Create Time",
+          lastUpdateTime: "Last Update Time",
+          revisionCount: "Revision Count",
+        },
       },
       dashboard: {
         articles: {

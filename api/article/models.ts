@@ -47,6 +47,11 @@ export interface Article {
   revisions: ArticleRevision[];
   /** Owner User Id */
   ownerId: string;
+  /**
+   * The time when the article is first uploaded to the platform.
+   * Must be a valid datetime string.
+   */
+  createTime: string;
 }
 
 /** The comment to an article. */

@@ -60,6 +60,7 @@ const mockArticle = (id: string, revision: number | undefined): Article => ({
     pdfLink,
   },
   ownerId: "123",
+  createTime:"2011-10-05T14:48:00.000Z",
 });
 
 export const articleApisMock: MockApi<typeof articleApis> = ({ makeHttpError }) => ({
