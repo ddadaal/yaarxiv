@@ -1,4 +1,4 @@
-{
+export default {
   "port": 3000,
   "loadSwagger": true,
   "logger": true,
@@ -6,24 +6,22 @@
   "typeorm": {
     "logging": true,
     "migrations": [
-      "migrations/*.ts"
+      "migrations/*.ts",
     ],
-    "cli": {
-      "migrationsDir": "migrations"
-    }
+    "cli": { "migrationsDir": "migrations" },
   },
   "upload": {
     "path": "upload",
-    "maxFileSize": 5242880
+    "maxFileSize": 5242880,
   },
   "staticPrefix": "static",
   "bcryptSaltLength": 10,
   "mail": {
     "pool": true,
-    "secure": true
+    "secure": true,
   },
   "resetPassword": {
     "resetPageUrlTemplate": "http://localhost:5000/forget/reset?token={}",
-    "tokenValidTimeSeconds": 1800
-  }
-}
+    "tokenValidTimeSeconds": 1800,
+  },
+};

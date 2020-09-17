@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify";
 import * as search from "yaarxiv-api/article/search";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
-import { Brackets } from "typeorm";
 
 // Must add async
 export async function searchArticleRoute(fastify: FastifyInstance) {

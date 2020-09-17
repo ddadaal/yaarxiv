@@ -1,14 +1,16 @@
 import config from "config";
-import { ConnectionOptions } from "typeorm";
+import deepmerge from "deepmerge";
 import { FastifyServerOptions } from "fastify";
 import SMTPConnection from "nodemailer/lib/smtp-connection";
+import { DeepPartial } from "typeorm";
+import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 
 export interface Config {
   port: number;
   loadSwagger: boolean;
   logger: FastifyServerOptions["logger"];
   jwtSecret: string;
-  typeorm: ConnectionOptions;
+  typeorm: MysqlConnectionOptions;
   upload: {
     path: string;
     maxFileSize: number;

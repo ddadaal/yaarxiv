@@ -1,10 +1,10 @@
 import fp from "fastify-plugin";
-import typeormPlugin from "fastify-typeorm-plugin";
-import { createConnection } from "typeorm";
+import { Connection, createConnection } from "typeorm";
 import { entities } from "@/entities";
 import { Logger, QueryRunner } from "typeorm";
 import { FastifyLoggerInstance } from "fastify";
 import { config } from "@/utils/config";
+import mysql from "mysql2/promise";
 
 class TypeormPinoLogger implements Logger {
 
@@ -55,12 +55,36 @@ class TypeormPinoLogger implements Logger {
 
 }
 
+declare module "fastify" {
+  // @ts-ignore
+  interface FastifyInstance {
+    orm: Connection;
+ }
+}
+
 export const ormPlugin = fp(async (fastify) => {
+  // create the database if not exists.
+  const { host, port, username, password, database, dropSchema } = config.typeorm;
+  const connection = await mysql.createConnection({ host, port, user: username, password });
+  await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
+
+  // create the database connection with typeorm
   const dbConnection = await createConnection({
     ...config.typeorm,
     logger: new TypeormPinoLogger(fastify.log),
     entities,
   });
 
-  fastify.register(typeormPlugin, { connection: dbConnection });
+  fastify.decorate("orm", dbConnection);
+
+  fastify.addHook("onClose", async (instance) => {
+    // remove the schema before closing
+    if (dropSchema) {
+      await connection.query(`DROP SCHEMA \`${database}\`;`);
+    }
+    connection.destroy();
+    await instance.orm.close();
+  });
+
+
 });

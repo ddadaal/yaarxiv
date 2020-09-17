@@ -2,3 +2,4 @@ upload/
 testupload/
 config/production.json
 dist/
+db/

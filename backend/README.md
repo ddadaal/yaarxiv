@@ -19,6 +19,13 @@
 # Development
 
 ```bash
+# Run command under . context, not under the whole project's root
+
+# Start a local MySQL for dev and local test
+# Username: root, Password: dbfordev
+# The db files are stored under ./db which is gitignored.
+docker-compose -f docker-compose.dev.yml up
+
 # Install dependencies
 npm install
 
@@ -30,6 +37,7 @@ npm start
 
 # When executing typeorm:cli, pass argument using -- as follows
 npm run typeorm:cli migration:generate -- -n now
+
 ```
 
 # Configuration
