@@ -44,6 +44,10 @@ export const customTheme: ThemeType = deepFreeze(
           "dark": "#999999",
           "light": "#666666",
         },
+        "text-xxweak": {
+          "dark": "#555555",
+          "light": "#888888",
+        },
         "border": {
           "dark": "#444444",
           "light": "#CCCCCC",
@@ -157,12 +161,25 @@ export const customTheme: ThemeType = deepFreeze(
     "box": {
       "extend": (props) => ({
         opacity: (
-          // console.log(props.theme),
+          // console.log(props),
           props.theme.global.opacity[props.opacity]
         ),
       }),
     },
+    "textInput": {
+      "placeholder": {
+        "extend": (props) => ({
+          color: alignWithDark(
+            props,
+            props.theme.global.colors["text-xxweak"]),
+        }),
+      },
+    },
   }
 ) as any;
+
+function alignWithDark(props, value) {
+  return typeof value === "object" ? props.theme.dark ? value.dark : value.light : value;
+}
 
 export default customTheme;
