@@ -13,7 +13,10 @@ export default {
         "too-many-files": "文件数量过多",
         "file-invalid-type": "文件类型不正确",
       },
-      tagInput: { placeholder: "输入完成后按下回车以增加一项。" },
+      tagInput: {
+        placeholder: "按下回车以增加一项。",
+        commaToSplit: "逗号分割的每一项将会单独添加为一项。",
+      },
       httpHandler: {
         tokenInvalid: "您的登录已经过期。请重新登录后继续。",
         serverError: "抱歉，请求出错，请重试或者联系支持。",
@@ -133,7 +136,7 @@ export default {
           title: "2. 填写文章信息",
           articleTitle: "标题（字符数上限：{}）",
           authors: "作者（每项字符数上限：{}）",
-          keywords: "关键词（每项字符数上限：{}）",
+          keywords: "关键词（每项字符数上限：{}。多余字符将被截断。）",
           abstract: "摘要（字符数上限：{}）",
           reset: "重置",
           upload: "上传",

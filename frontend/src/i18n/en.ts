@@ -13,7 +13,10 @@ export default {
         "too-many-files": "Too many files.",
         "file-invalid-type": "Invalid file type.",
       },
-      tagInput: { placeholder: "Press Enter when completing input to add one item." },
+      tagInput: {
+        placeholder: "Press Enter to add one item." ,
+        commaToSplit: "Items splitted by comma will be added separately.",
+      },
       requireAuth: {
         title: "Not Authorized",
         description: "You are not authorized to access this page. Please login as required user and try again.",
@@ -137,7 +140,7 @@ export default {
           title: "2. Fill Article Information",
           articleTitle: "Title (max chars: {})",
           authors: "Authors (max chars per item: {})",
-          keywords: "Keywords (max chars per item: {})",
+          keywords: "Keywords (max chars per item: {}. Extra chars will be truncated.)",
           abstract: "Abstract (max chars: {})",
           reset: "Reset",
           upload: "Upload",

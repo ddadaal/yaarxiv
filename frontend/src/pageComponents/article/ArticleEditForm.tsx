@@ -109,7 +109,7 @@ export const ArticleEditForm: React.FC<Props> = ({
                 name="authors"
                 value={info.authors}
                 disabled={disabled}
-                onAdd={(val) => setInfo({ ...info, authors: [...info.authors, val]})}
+                onAdd={(val) => setInfo({ ...info, authors: info.authors.concat(val) })}
                 onRemove={(val) => setInfo({
                   ...info,
                   authors: info.authors.filter((x) => x !== val),
@@ -126,11 +126,12 @@ export const ArticleEditForm: React.FC<Props> = ({
                 name="keywords"
                 value={info.keywords}
                 maxLength={50}
-                onAdd={(val) => setInfo({ ...info, keywords: [...info.keywords, val]})}
+                onAdd={(val) => setInfo({ ...info, keywords: info.keywords.concat(val) })}
                 onRemove={(val) => setInfo({
                   ...info,
                   keywords: info.keywords.filter((x) => x !== val),
                 })}
+                commaToSplit={true}
               />
             </FormField>
             <FormField

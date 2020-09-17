@@ -1,7 +1,7 @@
 
 import React from "react";
 
-import { Box, Keyboard, TextInput } from "grommet";
+import { Box, Keyboard, TextInput, Text } from "grommet";
 import { Tag } from "./Tag";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
@@ -11,11 +11,12 @@ const root = lang.components.tagInput;
 interface Props {
   name: string;
   value: string[];
-  onAdd: (str: string) => void;
+  onAdd: (str: string | string[]) => void;
   onChange?: (currentInput: string) => void;
   onRemove: (str: string) => void;
   disabled?: boolean;
   maxLength?: number;
+  commaToSplit?: boolean;
 }
 
 
@@ -27,6 +28,7 @@ export const TagInput: React.FC<Props> = ({
   onRemove,
   disabled = false,
   maxLength = 30,
+  commaToSplit = false,
 }) => {
   const [currentTag, setCurrentTag] = React.useState("");
 
@@ -35,8 +37,10 @@ export const TagInput: React.FC<Props> = ({
     onChange?.(event);
   };
 
-  const onAddTag = (tag) => {
-    onAdd?.(tag);
+  const onAddTag = (tag: string) => {
+    onAdd?.(commaToSplit
+      ? tag.split(",").map((x) => x.trim().substr(0, maxLength)).filter((x) => !!x)
+      : tag.trim());
   };
 
   const onEnter = () => {
@@ -76,8 +80,13 @@ export const TagInput: React.FC<Props> = ({
             onChange={updateCurrentTag}
             disabled={disabled}
             value={currentTag}
-            maxLength={maxLength}
-            placeholder={<LocalizedString id={root.placeholder} />}
+            maxLength={commaToSplit ? undefined : maxLength}
+            placeholder={(
+              <Text>
+                <LocalizedString id={root.placeholder} />
+                { commaToSplit ? <LocalizedString id={root.commaToSplit} /> : undefined}
+              </Text>
+            )}
             onSelect={(event) => {
               // event.stopPropagation();
               onAddTag(event.suggestion);
