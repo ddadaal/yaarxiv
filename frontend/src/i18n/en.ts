@@ -6,7 +6,13 @@ export default {
   name: "English",
   definitions: {
     components: {
-      fileUploader: { zoneLabel: "Drag and drop your file(s) here, or click to select the file(s)." },
+      fileUploader: {
+        zoneLabel: "Drag and drop your file(s) here, or click to select the file(s).",
+        "file-too-large" : "File is too large.",
+        "file-too-small": "File is too small.",
+        "too-many-files": "Too many files.",
+        "file-invalid-type": "Invalid file type.",
+      },
       tagInput: { placeholder: "Press Enter when completing input to add one item." },
       requireAuth: {
         title: "Not Authorized",

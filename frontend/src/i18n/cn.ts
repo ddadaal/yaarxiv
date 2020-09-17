@@ -6,7 +6,13 @@ export default {
   name: "简体中文",
   definitions: {
     components: {
-      fileUploader: { zoneLabel: "把文件拖拽到这里，或者点击这里选择文件。" },
+      fileUploader: {
+        zoneLabel: "把文件拖拽到这里，或者点击这里选择文件。",
+        "file-too-large" : "文件过大。",
+        "file-too-small": "文件过小",
+        "too-many-files": "文件数量过多",
+        "file-invalid-type": "文件类型不正确",
+      },
       tagInput: { placeholder: "输入完成后按下回车以增加一项。" },
       httpHandler: {
         tokenInvalid: "您的登录已经过期。请重新登录后继续。",
