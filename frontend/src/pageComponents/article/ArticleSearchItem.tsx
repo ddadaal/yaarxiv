@@ -4,6 +4,7 @@ import { AnchorLink } from "../../components/AnchorLink";
 import { ArticleSearchResult } from "yaarxiv-api/article/search";
 import { Author } from "yaarxiv-api/article/models";
 import { ArticleMetadata } from "./ArticleMetadata";
+import { ArticleAuthors } from "./ArticleAuthors";
 
 
 interface Props {
@@ -48,15 +49,10 @@ export const ArticleSearchItem: React.FC<Props> = ({
           {title}
         </AnchorLink>
       </Heading>
-      <Box gap="small" direction="row">
-        {authors.map((author, i) => (
-          <Text key={i} size="medium">
-            <AnchorLink color="grey" onClick={() => onAuthorClicked(author)}>
-              {author.name}
-            </AnchorLink>
-          </Text>
-        ))}
-      </Box>
+      <ArticleAuthors
+        authors={authors}
+        onAuthorClicked={onAuthorClicked}
+      />
       <Box>
         <Text truncate>{abstract}</Text>
       </Box>

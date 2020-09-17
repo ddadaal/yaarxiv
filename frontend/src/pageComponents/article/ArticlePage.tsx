@@ -9,6 +9,7 @@ import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { lang } from "src/i18n";
 import { getStaticFileUrl } from "src/utils/staticFiles";
 import { ArticleMetadata } from "./ArticleMetadata";
+import { ArticleAuthors } from "./ArticleAuthors";
 
 const root = lang.pages.article;
 
@@ -27,15 +28,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
           <Heading margin="none" level="1" size="small">
             {currentRevision.title}
           </Heading>
-          <Box gap="small" direction="row">
-            {currentRevision.authors.map((author, i) => (
-              <Text key={i} size="medium">
-                <AnchorLink color="grey">
-                  {author.name}
-                </AnchorLink>
-              </Text>
-            ))}
-          </Box>
+          <ArticleAuthors authors={currentRevision.authors} />
           <Box>
             <Paragraph fill>
               {currentRevision.abstract}
