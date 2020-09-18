@@ -5,7 +5,7 @@ export default {
     "type": "mysql",
     "host": "localhost",
     "port": 3306,
-    "database": `yaarxiv_test_${Math.floor(Math.random() * 1000)}`,
+    "database": `yaarxiv_test_${Date.now()}`,
     "username": "root",
     "password": "dbfordev",
     "synchronize": true,

@@ -80,8 +80,10 @@ export const ormPlugin = fp(async (fastify) => {
   fastify.addHook("onClose", async (instance) => {
     // remove the schema before closing
     if (dropSchema) {
+      instance.log.info(`DROP SCHEMA \`${database}\`;`);
       await connection.query(`DROP SCHEMA \`${database}\`;`);
     }
+    instance.log.info("Closing db connection...");
     connection.destroy();
     await instance.orm.close();
   });
