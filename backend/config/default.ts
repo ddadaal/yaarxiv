@@ -9,6 +9,7 @@ export default {
       "migrations/*.ts",
     ],
     "cli": { "migrationsDir": "migrations" },
+    "connectionTimeout": 20000,
   },
   "upload": {
     "path": "upload",

@@ -64,8 +64,14 @@ declare module "fastify" {
 
 export const ormPlugin = fp(async (fastify) => {
   // create the database if not exists.
-  const { host, port, username, password, database, dropSchema } = config.typeorm;
-  const connection = await mysql.createConnection({ host, port, user: username, password });
+  const { host, port, username, password, database, dropSchema, connectTimeout } = config.typeorm;
+  const connection = await mysql.createConnection({
+    host,
+    port,
+    user: username,
+    password,
+    connectTimeout,
+  });
   await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
 
   // create the database connection with typeorm

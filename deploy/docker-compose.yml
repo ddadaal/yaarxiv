@@ -1,5 +1,14 @@
 version: "3"
 services:
+  db:
+    image: mysql:8
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: dbforproduction
+    volumes:
+      - "./db:/var/lib/mysql"
+    ports:
+      - 3306:3306
   frontend:
     image: yaarxiv/frontend
     restart: always

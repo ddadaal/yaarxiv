@@ -4,7 +4,7 @@ import { genId } from "../../../src/utils/genId";
 import { signUser } from "../../../src/plugins/auth";
 import { FastifyInstance } from "fastify";
 import http from "http";
-import { encrypt, encryptSync } from "@/utils/bcrypt";
+import { encryptSync } from "@/utils/bcrypt";
 
 export const normalUser1 = new User();
 export const normalUser1OriginalPassword = "normal1@user.com";

@@ -35,6 +35,8 @@ Default configs are provided in `docker-compose.yml`. The following can be chang
 | backend configuration file | ./backend/config/production.sample.env     |                                                             |
 | backend upload dir         | ./backend/upload                           |                                                             |
 
+Note: The default timeout for db connection is **20s**, which can be changed at the backend configuration file. Because of this connection timeout, there is no need to use `wait-for-it.sh` to wait for db connection.
+
 ## Build
 
 ```bash
