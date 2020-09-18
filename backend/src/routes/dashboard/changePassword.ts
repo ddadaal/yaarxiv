@@ -2,7 +2,6 @@ import { FastifyInstance } from "fastify";
 
 import * as api from "yaarxiv-api/dashboard/changePassword";
 import { route } from "@/utils/route";
-import { User } from "@/entities/User";
 
 export async function changePasswordRoute(fastify: FastifyInstance) {
   route<api.ChangePasswordSchema>(fastify, api.endpoint, "ChangePasswordSchema", {
@@ -20,7 +19,7 @@ export async function changePasswordRoute(fastify: FastifyInstance) {
 
       await user.setPassword(changed);
 
-      await fastify.orm.getRepository(User).save(user);
+      await req.em.persistAndFlush(user);
 
       return { 200: {} };
     },

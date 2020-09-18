@@ -5,6 +5,8 @@ import { Author } from "yaarxiv-api/article/models";
 import { normalUser1, normalUser2 } from "./login";
 import { PdfUpload } from "../../../src/entities/PdfUpload";
 import { generatePdf } from "./data";
+import { EntityManager } from "@mikro-orm/core";
+import { User } from "@/entities/User";
 
 const articleTime = new Date();
 
@@ -15,11 +17,11 @@ const authors: Author[][] = [
 
 export const commonKeyword = "commonKeyword";
 
-const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
+const genRevision = (article: Article, revisionNumber: number, pdf: PdfUpload) => {
   const rev = new ArticleRevision();
-  rev.title = `Article ${article.id} Revision ${revisionId}`;
-  rev.revisionNumber = revisionId + 1;
-  rev.authors = authors[revisionId % 2];
+  rev.title = `Article ${article.id} Revision ${revisionNumber}`;
+  rev.revisionNumber = revisionNumber;
+  rev.authors = authors[revisionNumber % 2];
   rev.abstract = rev.title + " Abstract";
   rev.time = articleTime;
   rev.pdf = pdf;
@@ -28,14 +30,15 @@ const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
   return rev;
 };
 
-export const generateArticle = (id: number) => {
+// id start with 1
+export const generateArticle = (em: EntityManager, id: number) => {
   const article = new Article();
   article.id = id;
-  article.revisions = range(0,id+1).map((i) => genRevision(article, i, generatePdf()));
+  article.revisions.add(...range(1,id+1).map((i) => genRevision(article, i, generatePdf(em))));
   article.createTime = new Date(articleTime);
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
-  article.latestRevisionNumber = id+1;
-  article.owner = id % 2 == 1 ? normalUser1 : normalUser2;
+  article.latestRevisionNumber = id;
+  article.owner = em.getReference(User, (id % 2 == 1 ? normalUser1 : normalUser2).id);
   return article;
 };

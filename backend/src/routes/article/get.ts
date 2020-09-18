@@ -3,6 +3,7 @@ import * as get from "yaarxiv-api/article/get";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
+import { QueryOrder } from "@mikro-orm/core";
 
 export async function getArticleRoute(fastify: FastifyInstance) {
   route<get.GetArticleSchema>(fastify, get.endpoint, "GetArticleSchema", {})(
@@ -10,29 +11,31 @@ export async function getArticleRoute(fastify: FastifyInstance) {
       const { articleId } = req.params;
       const { revision } = req.query;
 
-      const repo = fastify.orm.getRepository(Article);
-      const revisionRepo = fastify.orm.getRepository(ArticleRevision);
+      const numId = Number(articleId);
 
-      const article = await repo.findOne(articleId);
+      const repo = req.em.getRepository(Article);
 
-      const articlesRevisionInfo = await revisionRepo
-        .createQueryBuilder("r")
-        .where("r.articleId = :aid", { aid: articleId })
-        .orderBy("r.revisionNumber")
-        .getMany();
+      const article = await repo.findOne({ id: numId });
 
       if (!article) {
         return { 404: { notFound: "article" } };
       }
 
-      const targetRevisionNumber =revision ?? article.latestRevisionNumber;
+      const revisionRepo = req.em.getRepository(ArticleRevision);
+      const articlesRevisionInfo = await revisionRepo.find({
+        article: { id: numId },
+      }, {
+        orderBy: { time: QueryOrder.DESC },
+      });
 
-      const targetRevision = await revisionRepo
-        .createQueryBuilder("r")
-        .where("r.articleId = :aid", { aid: articleId })
-        .andWhere("r.revisionNumber = :rn", { rn: targetRevisionNumber })
-        .leftJoinAndSelect("r.pdf", "a")
-        .getOne();
+      const targetRevisionNumber = revision ?? article.latestRevisionNumber;
+
+      const targetRevision = await revisionRepo.findOne({
+        $and: [
+          { article: { id: numId } },
+          { revisionNumber: targetRevisionNumber },
+        ],
+      }, ["pdf"]);
 
       if (!targetRevision) {
         return { 404: { notFound: "revision" } };
@@ -55,7 +58,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
               time: x.time.toISOString(),
               number: x.revisionNumber,
             })),
-            ownerId: article.ownerId,
+            ownerId: article.owner.id,
             createTime: article.createTime.toISOString(),
           },
         },

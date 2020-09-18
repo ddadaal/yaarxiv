@@ -12,7 +12,7 @@ export async function requestPasswordResetRoute(fastify: FastifyInstance) {
     async (req) => {
       const { email } = req.body;
 
-      const userRepo = fastify.orm.getRepository(User);
+      const userRepo = req.em.getRepository(User);
 
       if (!await userRepo.findOne({ email })) {
         return { 404: { } };
@@ -23,7 +23,7 @@ export async function requestPasswordResetRoute(fastify: FastifyInstance) {
       token.id = genId();
       token.time = new Date();
       token.userEmail = email;
-      await fastify.orm.getRepository(ResetPasswordToken).save(token);
+      await req.em.persistAndFlush(token);
 
       // parse the template
       const template = config.resetPassword.resetPageUrlTemplate;

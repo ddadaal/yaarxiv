@@ -1,21 +1,21 @@
-import { getRepository } from "typeorm";
-import { Article } from "../../../src/entities/Article";
+import { User } from "@/entities/User";
+import { EntityManager } from "@mikro-orm/core";
 import { PdfUpload } from "../../../src/entities/PdfUpload";
 import { range } from "../../../src/utils/array";
 import { generateArticle } from "./generateArticles";
 import { insertUserInfo, normalUser1 } from "./login";
 
-export function generatePdf() {
+export function generatePdf(em: EntityManager) {
 
   const pdf = new PdfUpload();
-  pdf.userId = normalUser1.id;
+  pdf.user = em.getReference(User, normalUser1.id);
   pdf.link = "test";
   return pdf;
 }
 
-export async function insertData(articleCount: number) {
+export async function insertData(em: EntityManager, articleCount: number) {
   // insert p
-  await insertUserInfo();
+  await insertUserInfo(em);
 
   // insert pdf
   // const pdfRepo = getRepository(PdfUpload);
@@ -23,8 +23,6 @@ export async function insertData(articleCount: number) {
   // await pdfRepo.save(pdf);
 
   // insert articles
-  const articles = range(0, articleCount).map((i) => generateArticle(i));
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
-
+  const articles = range(1, articleCount+1).map((i) => generateArticle(em, i));
+  await em.persistAndFlush(articles);
 }

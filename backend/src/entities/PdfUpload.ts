@@ -1,25 +1,23 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, OneToOne } from "typeorm";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 import urlJoin from "url-join";
 import { config } from "@/utils/config";
+import { Cascade, Collection, Entity, ManyToOne, OneToMany, PrimaryKey, Property } from "@mikro-orm/core";
+import { genId } from "@/utils/genId";
 
 @Entity()
 export class PdfUpload {
-  @PrimaryGeneratedColumn("uuid")
-  id: string;
+  @PrimaryKey()
+  id: string = genId();
 
-  @ManyToOne(() => User, (u) => u.uploads, { onDelete: "CASCADE" })
+  @ManyToOne(() => User)
   user: User;
 
-  @Column()
-  userId: string;
-
-  @Column()
+  @Property()
   link: string;
 
-  @OneToMany(() => ArticleRevision, (r) => r.pdf, { onDelete: "CASCADE" })
-  articleRevisions: ArticleRevision[];
+  @OneToMany(() => ArticleRevision, (r) => r.pdf)
+  articleRevisions = new Collection<ArticleRevision>(this);
 
   get pdfUrl(): string {
     return urlJoin(

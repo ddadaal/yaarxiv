@@ -3,12 +3,15 @@ export default {
   "loadSwagger": true,
   "logger": true,
   "jwtSecret": "testsecret",
-  "typeorm": {
-    "logging": true,
+  "orm": {
+    "type": "mysql",
+    "debug": true,
     "migrations": [
       "migrations/*.ts",
     ],
-    "cli": { "migrationsDir": "migrations" },
+    "cli": {
+      "migrationsDir": "migrations",
+    },
   },
   "upload": {
     "path": "upload",

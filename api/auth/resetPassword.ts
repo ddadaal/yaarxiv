@@ -14,7 +14,12 @@ export interface ResetPasswordSchema {
   /**  */
   responses: {
     /** The reset password token is invalid. */
-    403: {};
+    403: {
+      /**
+       * The reason why the token is not valid.
+       */
+      reason: "token-timeout" | "user-not-exists" | "token-not-exists";
+    };
     /** Password is reset. */
     201: {};
   }

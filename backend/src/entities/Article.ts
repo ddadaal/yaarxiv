@@ -1,29 +1,26 @@
-import { PrimaryGeneratedColumn, Entity, Column, OneToMany, ManyToOne } from "typeorm";
+import { Entity, OneToMany, ManyToOne, PrimaryKey, Cascade, Property, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 
 @Entity()
 export class Article {
   // increment is enough, since arxiv uses increment as well
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryKey()
   id: number;
 
-  @OneToMany(() => ArticleRevision, (r) => r.article, { cascade: true, onDelete: "CASCADE" })
-  revisions: ArticleRevision[];
+  @OneToMany(() => ArticleRevision, (r) => r.article, { cascade: [Cascade.ALL]})
+  revisions = new Collection<ArticleRevision>(this);
 
-  @Column("datetime")
+  @Property()
   createTime: Date;
 
-  @Column("datetime")
+  @Property()
   lastUpdateTime: Date;
 
-  @Column()
+  @Property()
   latestRevisionNumber: number;
 
-  @ManyToOne(() => User, (u) => u.articles)
+  @ManyToOne(() => User)
   owner: User;
-
-  @Column()
-  ownerId: string;
 
 }

@@ -1,13 +1,10 @@
 export default {
   "loadSwagger": true,
-  "typeorm": {
-    "type": "mysql",
-    "host": "localhost",
-    "port": 3306,
-    "username": "root",
+  "orm": {
+    "clientUrl": "mysql://localhost:3306",
+    "user": "root",
     "password": "dbfordev",
-    "database": "yaarxiv_dev",
-    "logging": true,
+    "dbName": "yaarxiv_dev",
   },
   "logger": {
     "level": "info",

@@ -1,90 +1,52 @@
 import fp from "fastify-plugin";
-import { Connection, createConnection } from "typeorm";
 import { entities } from "@/entities";
-import { Logger, QueryRunner } from "typeorm";
-import { FastifyLoggerInstance } from "fastify";
 import { config } from "@/utils/config";
 import mysql from "mysql2/promise";
-
-class TypeormPinoLogger implements Logger {
-
-  constructor(private logger: FastifyLoggerInstance) { }
-
-  logQuery(query: string, parameters?: any[], queryRunner?: QueryRunner) {
-    const sql = query + (parameters && parameters.length ? " -- PARAMETERS: " + this.stringifyParams(parameters) : "");
-    this.logger.debug(sql);
-  }
-
-  logQueryError(error: string, query: string, parameters?: any[], queryRunner?: QueryRunner) {
-    const sql = query + (parameters && parameters.length ? " -- PARAMETERS: " + this.stringifyParams(parameters) : "");
-    this.logger.error(sql);
-  }
-
-  logQuerySlow(time: number, query: string, parameters?: any[], queryRunner?: QueryRunner) {
-    const sql = query + (parameters && parameters.length ? " -- PARAMETERS: " + this.stringifyParams(parameters) : "");
-    this.logger.info(sql);
-  }
-
-  logSchemaBuild(message: string, queryRunner?: QueryRunner) {
-    this.logger.debug(message);
-  }
-
-  logMigration(message: string, queryRunner?: QueryRunner) {
-    this.logger.debug(message);
-  }
-
-  log(level: "log"|"info"|"warn", message: any, queryRunner?: QueryRunner) {
-    switch (level) {
-    case "log":
-    case "info":
-      this.logger.info(message);
-      break;
-    case "warn":
-      this.logger.warn(message);
-      break;
-    }
-  }
-
-  protected stringifyParams(parameters: any[]) {
-    try {
-      return JSON.stringify(parameters);
-    } catch (error) { // most probably circular objects in parameters
-      return parameters;
-    }
-  }
-
-}
+import { EntityManager } from "@mikro-orm/mysql";
+import { MikroORM } from "@mikro-orm/core";
 
 declare module "fastify" {
-  // @ts-ignore
+
   interface FastifyInstance {
-    orm: Connection;
+    orm: MikroORM;
+  }
+
+  interface FastifyRequest {
+    em: EntityManager;
  }
 }
 
 export const ormPlugin = fp(async (fastify) => {
   // create the database if not exists.
-  const { host, port, username, password, database, dropSchema } = config.typeorm;
-  const connection = await mysql.createConnection({ host, port, user: username, password });
-  await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
+  const { host, port, user, password, dbName, dropSchema } = config.orm;
+  const connection = await mysql.createConnection({ host, port, user, password });
+  await connection.query(`CREATE SCHEMA IF NOT EXISTS \`${dbName}\`;`);
 
   // create the database connection with typeorm
-  const dbConnection = await createConnection({
-    ...config.typeorm,
-    logger: new TypeormPinoLogger(fastify.log),
+  const dbConnection = await MikroORM.init({
+    ...config.orm,
+    logger: (msg) => fastify.log.info(msg),
     entities,
+  });
+
+  const schemaGenerator= dbConnection.getSchemaGenerator();
+  await schemaGenerator.createSchema();
+
+  fastify.addHook("onRequest", async function (req) {
+    req.em = dbConnection.em.fork() as EntityManager;
   });
 
   fastify.decorate("orm", dbConnection);
 
-  fastify.addHook("onClose", async (instance) => {
+  fastify.addHook("onClose", async () => {
     // remove the schema before closing
     if (dropSchema) {
-      await connection.query(`DROP SCHEMA \`${database}\`;`);
+      fastify.log.info(`Drop schema ${dbName}`);
+      await connection.query(`DROP SCHEMA \`${dbName}\`;`);
     }
     connection.destroy();
-    await instance.orm.close();
+    fastify.log.info("Closing db connection.");
+    await dbConnection.close();
   });
-
 
 });

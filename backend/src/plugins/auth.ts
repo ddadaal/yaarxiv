@@ -47,7 +47,7 @@ export const jwtAuthPlugin = fp(async (fastify) => {
   });
 
   fastify.decorateRequest("dbUser", async function () {
-    return await fastify.orm.getRepository(User).findOne(this.userId());
+    return await (this as FastifyRequest).em.getRepository(User).findOne(this.userId());
   });
 });
 

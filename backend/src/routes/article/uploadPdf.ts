@@ -5,6 +5,7 @@ import * as api from "yaarxiv-api/article/uploadPDF";
 import { PdfUpload } from "@/entities/PdfUpload";
 import { UploadedFile } from "@/plugins/upload";
 import { config } from "@/utils/config";
+import { User } from "@/entities/User";
 
 // Save uploaded pdf to /{uploadPath}/{userId}/{current date}_{filename}
 export async function uploadPdfRoute(fastify: FastifyInstance) {
@@ -29,14 +30,14 @@ export async function uploadPdfRoute(fastify: FastifyInstance) {
 
       req.log.info(`${filePath} saved successfully.`);
 
-      const repo = fastify.orm.getRepository(PdfUpload);
+      const repo = req.em.getRepository(PdfUpload);
 
       const pdf = new PdfUpload();
       // the link must be joined by /
       pdf.link = [userId, filename].join("/");
-      pdf.userId = userId;
+      pdf.user = req.em.getReference(User, userId);
 
-      await repo.save(pdf);
+      await repo.persistAndFlush(pdf);
 
       req.log.info(`${fileRelativePath} persisted into database as ${pdf.id}.`);
 

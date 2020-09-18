@@ -724,6 +724,20 @@
             },
             "403": {
               "type": "object",
+              "properties": {
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "token-timeout",
+                    "user-not-exists",
+                    "token-not-exists"
+                  ],
+                  "description": "The reason why the token is not valid."
+                }
+              },
+              "required": [
+                "reason"
+              ],
               "additionalProperties": false,
               "description": "The reset password token is invalid."
             }

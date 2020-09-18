@@ -10,7 +10,6 @@ import { staticPlugin } from "./plugins/static";
 import { ormPlugin } from "./plugins/orm";
 import { swaggerPlugin } from "./plugins/swagger";
 import { mailPlugin } from "./plugins/mail";
-import fastifyGracefulShutdownPlugin from "fastify-graceful-shutdown";
 
 export async function startApp() {
 
@@ -28,7 +27,6 @@ export async function startApp() {
   server.register(ormPlugin);
   server.register(mailPlugin);
   server.register(jwtAuthPlugin);
-  server.register(fastifyGracefulShutdownPlugin);
 
   routes.forEach((r) => server.register(r));
 

@@ -6,41 +6,38 @@ import { User } from "@/entities/User";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 
 export async function resetPasswordRoute(fastify: FastifyInstance) {
-
   route<api.ResetPasswordSchema>(fastify, api.endpoint, "ResetPasswordSchema", {})(
     async (req) => {
       const { token, newPassword } = req.body;
 
-      return await fastify.orm.transaction(async (em) => {
+      const tokenRepo = req.em.getRepository(ResetPasswordToken);
 
+      const tokenEntity = await tokenRepo.findOne(token);
 
-        const tokenRepo = em.getRepository(ResetPasswordToken);
+      // delete the entity
+      if (tokenEntity) {
+        await tokenRepo.removeAndFlush(tokenEntity);
+      } else {
+        return { 403: { reason: "token-not-exists" } };
+      }
 
-        const tokenEntity = await tokenRepo.findOne(token);
+      if (tokenEntity.timeout) {
+        return { 403 : { reason: "token-timeout" } };
+      }
 
-        // delete the entity
-        if (tokenEntity) {
-          await tokenRepo.remove(tokenEntity);
-        }
+      const userRepo = req.em.getRepository(User);
 
-        if (tokenEntity === undefined || tokenEntity.timeout) {
-          return { 403 : {} };
-        }
+      const user = await userRepo.findOne({ email: tokenEntity.userEmail });
 
-        const userRepo = em.getRepository(User);
+      if (!user) {
+        return { 403: { reason: "user-not-exists" } };
+      }
 
-        const user = await userRepo.findOne({ email: tokenEntity.userEmail });
+      await user.setPassword(newPassword);
+      userRepo.persist(user);
 
-        if (!user) {
-          return { 403: {} };
-        }
+      await req.em.flush();
 
-        await user.setPassword(newPassword);
-        await userRepo.save(user);
-        return { 201: { } };
-      });
-
-
-    },
-  );
+      return { 201: { } };
+    });
 }

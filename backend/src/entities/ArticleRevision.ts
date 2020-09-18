@@ -1,41 +1,37 @@
-import { Entity } from "typeorm/decorator/entity/Entity";
-import { Column, JoinColumn, ManyToOne, OneToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Cascade, Entity, JsonType, ManyToOne, PrimaryKey, Property } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
 import { PdfUpload } from "./PdfUpload";
 
 @Entity()
 export class ArticleRevision {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryKey()
   id: number;
 
-  @Column()
+  @Property()
   revisionNumber: number;
 
-  @Column("datetime")
+  @Property()
   time: Date;
 
-  @Column()
+  @Property()
   title: string;
 
-  @Column("simple-json")
+  @Property({ type: JsonType })
   authors: Author[];
 
-  @Column("simple-array")
+  @Property()
   keywords: string[];
 
-  @Column("varchar", { length: 500 })
+  @Property()
   abstract: string
 
-  @Column()
+  @Property()
   category: string;
 
-  @ManyToOne(() => PdfUpload, (p) => p.articleRevisions, { cascade: true })
+  @ManyToOne(() => PdfUpload, { cascade: [Cascade.ALL]})
   pdf: PdfUpload;
 
-  @ManyToOne(() => Article, (a) => a.revisions, { onDelete:"CASCADE" })
+  @ManyToOne(() => Article)
   article: Article;
-
-  @Column()
-  articleId: number;
 }

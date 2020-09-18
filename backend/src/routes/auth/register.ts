@@ -4,13 +4,12 @@ import * as registerApi from "yaarxiv-api/auth/register";
 import { User } from "@/entities/User";
 import { genId } from "@/utils/genId";
 import { signUser } from "@/plugins/auth";
-import { encrypt } from "@/utils/bcrypt";
 
 export async function registerRoute(fastify: FastifyInstance) {
 
   route<registerApi.RegisterSchema>(fastify, registerApi.endpoint, "RegisterSchema", { summary: registerApi.summary })(
     async (req) => {
-      const userRepo = fastify.orm.getRepository(User);
+      const userRepo = req.em.getRepository(User);
 
       const user = new User();
       user.id = genId();
@@ -20,7 +19,7 @@ export async function registerRoute(fastify: FastifyInstance) {
       await user.setPassword(req.body.password);
 
       try {
-        await userRepo.save(user);
+        await userRepo.persistAndFlush(user);
         return {
           201: {
             token: signUser(fastify, user),

@@ -12,21 +12,21 @@ export async function adminGetArticlesRoute(fastify: FastifyInstance) {
 
       const { page, searchWord } = req.query;
 
-      const repo = fastify.orm.getRepository(Article);
+      const repo = req.em.getRepository(Article);
 
       const builder = repo.createQueryBuilder("a")
-        .leftJoinAndSelect("a.revisions", "r")
+        .leftJoin("a.revisions", "r")
         .where("r.revisionNumber = a.latestRevisionNumber");
 
       if (searchWord) {
-        builder.andWhere("r.title LIKE :text", { text: `%${searchWord}%` });
+        builder.andWhere("r.title LIKE ?", [`%${searchWord}%`]);
       }
 
-      const [articles, count] = await builder
-        .orderBy("a.createTime", "DESC")
-        .skip(((page ?? 1) - 1) * 10)
-        .take(10)
-        .getManyAndCount();
+      const articles = await builder
+        .orderBy("a.createTime")
+        .offset(((page ?? 1) - 1) * 10)
+        .limit(10)
+        .getResult();
 
       return {
         200: {
@@ -37,7 +37,7 @@ export async function adminGetArticlesRoute(fastify: FastifyInstance) {
             revisionCount: x.latestRevisionNumber,
             title: x.revisions[0].title,
           })),
-          totalCount: count,
+          totalCount: 0,
         },
       };
     });

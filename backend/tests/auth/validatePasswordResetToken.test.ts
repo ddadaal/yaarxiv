@@ -2,7 +2,6 @@ import { startApp } from "../../src/app";
 import { FastifyInstance } from "fastify/types/instance";
 import * as api from "yaarxiv-api/auth/validatePasswordResetToken";
 import { config } from "@/utils/config";
-import { getRepository } from "typeorm";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { genId } from "@/utils/genId";
 
@@ -17,12 +16,13 @@ afterEach(async () => {
 });
 
 async function insert(id: string, time: Date) {
-  const repo = getRepository(ResetPasswordToken);
+  const em =server.orm.em.fork();
+  const repo = em.getRepository(ResetPasswordToken);
   const token = new ResetPasswordToken();
   token.id = id;
   token.time = time;
   token.userEmail = "test@test.com";
-  await repo.save(token);
+  await repo.persistAndFlush(token);
 }
 
 it("returns invalid if token does not exist", async () => {

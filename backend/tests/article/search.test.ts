@@ -1,6 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { Article } from "../../src/entities/Article";
 import * as searchApi from "yaarxiv-api/article/search";
 import { insertData } from "./utils/data";
 import { commonKeyword } from "./utils/generateArticles";
@@ -14,7 +13,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertData(articleCount);
+  await insertData(server.orm.em, articleCount);
 });
 
 afterEach(async () => {

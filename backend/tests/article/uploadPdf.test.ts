@@ -1,6 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/article/uploadPDF";
 import { insertUserInfo, login, normalUser1 } from "./utils/login";
 import { PdfUpload } from "../../src/entities/PdfUpload";
@@ -13,7 +12,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
+  await insertUserInfo(server.orm.em);
 });
 
 afterEach(async () => {
@@ -34,14 +33,14 @@ it("upload an PDF to the system.", async () => {
   });
 
   expect(resp.statusCode).toBe(201);
-  const repo =  getRepository(PdfUpload);
+  const repo =  server.orm.em.getRepository(PdfUpload);
   expect(await repo.count()).toBe(1);
 
   const token = resp.json().token;
 
   const upload = await repo.findOne(token);
   expect(upload).not.toBeUndefined();
-  expect(upload!.userId).toBe(normalUser1.id);
+  expect(upload!.user.id).toBe(normalUser1.id);
 
 });
 

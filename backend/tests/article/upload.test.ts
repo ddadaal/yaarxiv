@@ -1,7 +1,6 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
 import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/article/upload";
 import { login, normalUser1 } from "./utils/login";
 import { PdfUpload } from "../../src/entities/PdfUpload";
@@ -14,7 +13,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertData(articleCount);
+  await insertData(server.orm.em, articleCount);
 });
 
 afterEach(async () => {
@@ -25,9 +24,10 @@ afterEach(async () => {
 it("upload an article.", async () => {
 
   // upload a pdf and get token
-  const pdfRepo = getRepository(PdfUpload);
-  const pdf = generatePdf();
-  await pdfRepo.save(pdf);
+  const em = server.orm.em.fork();
+  const pdfRepo = em.getRepository(PdfUpload);
+  const pdf = generatePdf(em);
+  await pdfRepo.persistAndFlush(pdf);
 
   const payload: api.UploadArticleSchema["body"] = {
     abstract: "123",
@@ -44,10 +44,10 @@ it("upload an article.", async () => {
   });
 
   expect(resp.statusCode).toBe(201);
-  const repo =  getRepository(Article);
+  const repo = em.getRepository(Article);
   expect(await repo.count()).toBe(articleCount+1);
 
-  const article = await repo.findOne(resp.json().id, { relations: [ "revisions" ]});
+  const article = await repo.findOne({ id: resp.json().id });
   expect(article).not.toBeUndefined();
   expect(article!.latestRevisionNumber).toBe(1);
   expect(article!.revisions[0].abstract).toBe(payload.abstract);
@@ -75,9 +75,10 @@ it("fails if pdf token is invalid.", async () => {
 
 it("fails if the title is too long", async () => {
   // upload a pdf and get token
-  const pdfRepo = getRepository(PdfUpload);
-  const pdf = generatePdf();
-  await pdfRepo.save(pdf);
+  const em = server.orm.em.fork();
+  const pdfRepo = em.getRepository(PdfUpload);
+  const pdf = generatePdf(em);
+  await pdfRepo.persistAndFlush(pdf);
 
   const payload: api.UploadArticleSchema["body"] = {
     abstract: "123",

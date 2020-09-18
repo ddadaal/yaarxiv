@@ -10,34 +10,35 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
   route<api.UpdateArticleSchema>(fastify, api.endpoint, "UpdateArticleSchema", { authOption: true })(
     async (req) => {
       // validate the pdfToken first.
-      let pdf: PdfUpload | undefined = undefined;
+      let pdf: PdfUpload | null = null;
       if (req.body.pdfToken) {
-        const pdfRepo = fastify.orm.getRepository(PdfUpload);
+        const pdfRepo = req.em.getRepository(PdfUpload);
         pdf = await pdfRepo.findOne(req.body.pdfToken);
         if (!pdf) {
           throw createError(400, "PDF token is invalid.");
         }
       }
 
-      const articleRepo = fastify.orm.getRepository(Article);
+      const articleRepo = req.em.getRepository(Article);
 
-      const article = await articleRepo.findOne(req.params.articleId);
-
+      const article = await articleRepo.findOne({ id: Number(req.params.articleId) });
 
       if (!article) {
         return { 404: { } };
       }
 
-      if (article.ownerId !== req.userId()) {
+      if (article.owner.id !== req.userId()) {
         return { 403: { } };
       }
 
-      const revRepo = fastify.orm.getRepository(ArticleRevision);
+      const revRepo = req.em.getRepository(ArticleRevision);
 
       const latestRev = await revRepo.findOne({
-        articleId: article.id,
-        revisionNumber: article.latestRevisionNumber,
-      }, { relations: ["pdf"]});
+        $and: [
+          { article: { id: article.id } } ,
+          { revisionNumber: article.latestRevisionNumber },
+        ],
+      }, ["pdf"]);
 
       if (!latestRev) {
         throw createError(500, "Latest revision does not exists.");
@@ -59,10 +60,9 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
 
       article.latestRevisionNumber = revNumber;
 
-      await fastify.orm.transaction(async (em) => {
-        await em.save(article);
-        await em.save(rev);
-      });
+      req.em.persist(article);
+      req.em.persist(rev);
+      await req.em.flush();
 
       return { 201: { revisionNumber: revNumber } };
 

@@ -11,21 +11,21 @@ export async function dashboardGetArticlesRoute(fastify: FastifyInstance) {
     async (req) => {
 
       const { page }  = req.query;
-      const repo = fastify.orm.getRepository(Article);
+      const repo = req.em.getRepository(Article);
 
       const user =await req.dbUser();
 
       const [articles, count] = await repo.createQueryBuilder("a")
-        .leftJoinAndSelect("a.revisions", "r")
+        .leftJoin("a.revisions", "r")
         .where("r.revisionNumber = a.latestRevisionNumber")
-        .andWhere("a.ownerId = :userId", { userId: user.id })
-        .skip(((page ?? 1) - 1) * 10)
-        .take(10)
-        .getManyAndCount();
+        .andWhere("a.ownerId = ?",  [ user.id ])
+        .offset(((page ?? 1) - 1) * 10)
+        .limit(10)
+        .getResultList();
 
       const articlesRevisionCount = await repo.createQueryBuilder("a")
         .leftJoin("a.revisions", "r")
-        .where("a.ownerId = :userId", { userId: user.id })
+        .where("a.ownerId = ?",  [user.id])
         .andWhere("a.id in (:...ids)", { ids: articles.map((x) => x.id) })
         .groupBy("a.id")
         .select("a.id", "aid")

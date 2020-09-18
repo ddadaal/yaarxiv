@@ -9,11 +9,11 @@ export async function validatePasswordResetTokenRoute(fastify: FastifyInstance) 
     async (req) => {
       const { token } = req.query;
 
-      const repo = fastify.orm.getRepository(ResetPasswordToken);
+      const repo = req.em.getRepository(ResetPasswordToken);
 
       const entity = await repo.findOne(token);
 
-      return { 200: { valid: entity !== undefined && !entity.timeout } };
+      return { 200: { valid: entity !== null && !entity.timeout } };
     },
   );
 }

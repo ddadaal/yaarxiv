@@ -10,21 +10,22 @@ export async function deleteArticleRoute(fastify: FastifyInstance) {
   })(
     async (req) => {
       const { articleId } = req.params;
+      const numId = Number(articleId);
 
       const user = await req.dbUser();
 
-      const repo = fastify.orm.getRepository(Article);
-      const article = await repo.findOne(articleId);
+      const repo = req.em.getRepository(Article);
+      const article = await repo.findOne({ id: numId });
 
       if (!article) {
         return { 404: {} };
       }
 
-      if (article.ownerId !== user.id && user.role !== "admin") {
+      if (article.owner !== user && user.role !== "admin") {
         return { 403: {} };
       }
 
-      await repo.remove(article);
+      await repo.removeAndFlush(article);
 
       return { 200: {} };
     },
