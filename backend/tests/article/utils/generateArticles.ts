@@ -18,7 +18,7 @@ export const commonKeyword = "commonKeyword";
 const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
   const rev = new ArticleRevision();
   rev.title = `Article ${article.id} Revision ${revisionId}`;
-  rev.revisionNumber = revisionId + 1;
+  rev.revisionNumber = revisionId;
   rev.authors = authors[revisionId % 2];
   rev.abstract = rev.title + " Abstract";
   rev.time = articleTime;
@@ -31,11 +31,11 @@ const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
 export const generateArticle = (id: number) => {
   const article = new Article();
   article.id = id;
-  article.revisions = range(0,id+1).map((i) => genRevision(article, i, generatePdf()));
+  article.revisions = range(1, id+1).map((i) => genRevision(article, i, generatePdf()));
   article.createTime = new Date(articleTime);
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
-  article.latestRevisionNumber = id+1;
+  article.latestRevisionNumber = id;
   article.owner = id % 2 == 1 ? normalUser1 : normalUser2;
   return article;
 };

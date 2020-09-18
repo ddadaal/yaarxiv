@@ -1,27 +1,17 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
-import { range } from "../../src/utils/array";
-import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/admin/getArticles";
-import { adminUser, insertUserInfo, login, normalUser1 } from "../article/utils/login";
-import { generateArticle } from "../article/utils/generateArticles";
+import { adminUser, login, normalUser1 } from "../article/utils/login";
+import { insertData } from "tests/article/utils/data";
 
 const articleCount = 12;
-
-let articles: Article[];
 
 let server: FastifyInstance;
 
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
-  articles = range(0, articleCount).map(generateArticle);
-
-  // append items
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
+  await insertData(articleCount);
 });
 
 afterEach(async () => {
@@ -76,6 +66,6 @@ it("return filtered articles with searchWord query.", async () => {
 
   expect(resp.statusCode).toBe(200);
   const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
-  // 1 10 11
-  expect(payload.articles).toHaveLength(3);
+  // 1 10 11 12
+  expect(payload.articles).toHaveLength(4);
 });

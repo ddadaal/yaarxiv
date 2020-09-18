@@ -59,4 +59,4 @@ it("sent an email containing a reset link", async () => {
   expect(all.length).toBe(1);
   expect(all[0].userEmail).toBe(email);
   // TODO find a way to test whether email is sent. maybe a POP3 client
-});
+}, 20000);

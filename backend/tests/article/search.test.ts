@@ -8,7 +8,6 @@ import { range } from "@/utils/array";
 
 const articleCount = 12;
 
-
 let server: FastifyInstance;
 
 beforeEach(async () => {
@@ -25,7 +24,6 @@ afterEach(async () => {
 it("should return the first page (10) of articles when no query is input.", async () => {
   const resp = await server.inject({ ...searchApi.endpoint });
 
-  const payload = resp.json();
   expect(resp.statusCode).toBe(200);
   const json = resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
 
@@ -77,8 +75,8 @@ it("should filter according to start and end", async () => {
     expect(resp.json().totalCount).toBe(expected);
   };
 
-  await t(2, 2010);
-  await t(6, undefined, 2005);
+  await t(3, 2010);
+  await t(5, undefined, 2005);
   await t(4, 2004, 2007);
 
 
@@ -94,8 +92,8 @@ it("should return the articles with ALL of specified keyword", async () => {
 
   const data = resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
 
-  expect(data.totalCount).toBe(3);
-  expect(data.results.map((x) => x.articleId)).toEqual(["1","10","11"]);
+  expect(data.totalCount).toBe(4);
+  expect(data.results.map((x) => x.articleId)).toEqual(["1","10","11","12"]);
 });
 
 it("should return the articles with specified single keyword", async () => {
@@ -120,5 +118,5 @@ it("should return articls with ALL of specified authors", async () => {
   const data = resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
 
   expect(data.totalCount).toBe(6);
-  expect(data.results.map((x) => x.articleId)).toEqual(range(0, 12, 2).map((x) => x + ""));
+  expect(data.results.map((x) => x.articleId)).toEqual(range(2, 14, 2).map((x) => x + ""));
 });

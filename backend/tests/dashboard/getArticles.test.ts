@@ -6,22 +6,16 @@ import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/dashboard/getArticles";
 import { insertUserInfo, login, normalUser1 } from "../article/utils/login";
 import { generateArticle } from "../article/utils/generateArticles";
+import { insertData } from "tests/article/utils/data";
 
 const articleCount = 24;
-
-let articles: Article[];
 
 let server: FastifyInstance;
 
 beforeEach(async () => {
   server = await startApp();
 
-  await insertUserInfo();
-  articles = range(0, articleCount).map(generateArticle);
-
-  // append items
-  const articleRepo = getRepository(Article);
-  await articleRepo.save(articles);
+  await insertData(articleCount);
 });
 
 afterEach(async () => {

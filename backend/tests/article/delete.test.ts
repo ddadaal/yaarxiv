@@ -24,13 +24,13 @@ afterEach(async () => {
 it("delete the article and all revisions as admin", async () => {
   const resp = await server.inject({
     method: deleteApi.endpoint.method,
-    url: "/articles/0",
+    url: "/articles/2",
     ...login(server, adminUser),
   });
 
   expect(resp.statusCode).toBe(200);
   expect(await getRepository(Article).count()).toBe(1);
-  expect(await getRepository(ArticleRevision).count()).toBe(2);
+  expect(await getRepository(ArticleRevision).count()).toBe(1);
 });
 
 it("delete the article and all revisions as owner", async () => {
@@ -42,13 +42,13 @@ it("delete the article and all revisions as owner", async () => {
 
   expect(resp.statusCode).toBe(200);
   expect(await getRepository(Article).count()).toBe(1);
-  expect(await getRepository(ArticleRevision).count()).toBe(1);
+  expect(await getRepository(ArticleRevision).count()).toBe(2);
 });
 
 it("cannot delete the article and all revisions as neither owner nor admin",  async () => {
   const resp = await server.inject({
     method: deleteApi.endpoint.method,
-    url: "/articles/0",
+    url: "/articles/2",
     ...login(server, normalUser1),
   });
 

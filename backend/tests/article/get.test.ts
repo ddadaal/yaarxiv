@@ -38,7 +38,7 @@ it("should return the latest revision of article if revision is not specified", 
   const { article } = resp.json() as getApi.GetArticleSchema["responses"]["200"];
 
   expect(article.id).toBe("2");
-  expect(article.revisionNumber).toBe(3);
+  expect(article.revisionNumber).toBe(2);
 });
 
 it("should return the specified revision of article if specified", async () => {

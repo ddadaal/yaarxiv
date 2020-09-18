@@ -23,7 +23,7 @@ export async function insertData(articleCount: number) {
   // await pdfRepo.save(pdf);
 
   // insert articles
-  const articles = range(0, articleCount).map((i) => generateArticle(i));
+  const articles = range(1, articleCount + 1).map((i) => generateArticle(i));
   const articleRepo = getRepository(Article);
   await articleRepo.save(articles);
 

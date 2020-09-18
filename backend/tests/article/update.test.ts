@@ -30,7 +30,7 @@ it("return 403 if not the owner.", async () => {
 
   const resp = await server.inject({
     ...api.endpoint,
-    url: "/articles/0",
+    url: "/articles/2",
     payload,
     ...login(server, normalUser1),
   });
@@ -42,21 +42,20 @@ it("update an article.", async () => {
 
   const resp = await server.inject({
     ...api.endpoint,
-    url: "/articles/0",
+    url: "/articles/2",
     payload,
     ...login(server, normalUser2),
   });
 
-  const info = resp.json();
   expect(resp.statusCode).toBe(201);
   const repo =  getRepository(Article);
   expect(await repo.count()).toBe(articleCount);
   expect(await getRepository(ArticleRevision).count()).toBe(1+2+1);
-  expect(resp.json().revisionNumber).toBe(2);
+  expect(resp.json().revisionNumber).toBe(3);
 
-  const article = await repo.findOne(0, { relations: [ "revisions" ]});
+  const article = await repo.findOne(2, { relations: [ "revisions" ]});
   expect(article).not.toBeUndefined();
-  expect(article!.latestRevisionNumber).toBe(2);
-  expect(article!.revisions[1].abstract).toBe(payload.abstract);
+  expect(article!.latestRevisionNumber).toBe(3);
+  expect(article!.revisions[2].abstract).toBe(payload.abstract);
 
 });
