@@ -30,14 +30,12 @@ jobs:
         working-directory: backend
 
       - name: Publish tests coverage result to coveralls
-        uses: coverallsapp/github-action@v1.1.1
+        uses: coverallsapp/github-action@v1.1.2
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           path-to-lcov: backend/coverage/lcov.info
           base-path: backend
-        # https://github.com/coverallsapp/github-action/issues/50
-        env:
-          COVERALLS_FLAG_NAME: Backend Integration
+          flag-name: Backend Integration
 
   publish-to-registry:
     runs-on: ubuntu-latest
