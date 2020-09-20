@@ -12,12 +12,18 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
-    container: node:lts-alpine
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
         run: npm ci
         working-directory: backend
+      
+      - name: Start docker container for db testing
+        run: docker-compose -f docker-compose.dev.yml up -d
+        working-directory: backend
+
+      - name: Check running containers
+        run: docker ps
 
       - name: Run tests with coverage
         run: npm run test:coverage
