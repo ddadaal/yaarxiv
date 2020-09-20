@@ -4,3 +4,5 @@ testupload/
 config/production.json
 out/
 dist/
+db/
+node_modules/
