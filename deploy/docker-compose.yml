@@ -18,7 +18,7 @@ services:
     image: yaarxiv/backend
     restart: always
     volumes:
-      - "./production.json:/dist/config/production.json"
+      - "./production.ts:/dist/config/production.ts"
       - "./prod.db:/dist/db.db"
       - "./upload:/dist/upload"
     ports:
