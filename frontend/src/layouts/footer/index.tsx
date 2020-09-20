@@ -3,8 +3,9 @@ import { Text, Footer as GrommotFooter, Anchor, Box, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { lang, useI18nStore, languageNames } from "src/i18n";
 import { useStore } from "simstate";
-import { Sun, Moon } from "grommet-icons";
 import { ThemeStore } from "src/stores/ThemeStore";
+import { Moon } from "src/components/icons/Moon";
+import { Sun } from "src/components/icons/Sun";
 
 const root = lang.footer;
 
