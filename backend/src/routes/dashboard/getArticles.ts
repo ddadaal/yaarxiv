@@ -23,14 +23,17 @@ export async function dashboardGetArticlesRoute(fastify: FastifyInstance) {
         .take(10)
         .getManyAndCount();
 
-      const articlesRevisionCount = await repo.createQueryBuilder("a")
-        .leftJoin("a.revisions", "r")
-        .where("a.ownerId = :userId", { userId: user.id })
-        .andWhere("a.id in (:...ids)", { ids: articles.map((x) => x.id) })
-        .groupBy("a.id")
-        .select("a.id", "aid")
-        .addSelect("COUNT(r.id)", "rcount")
-        .getRawMany() as { aid: number; rcount: number }[];
+      const articlesRevisionCount =
+        count === 0
+          ? []
+          : await repo.createQueryBuilder("a")
+            .leftJoin("a.revisions", "r")
+            .where("a.ownerId = :userId", { userId: user.id })
+            .andWhere("a.id in (:...ids)", { ids: articles.map((x) => x.id) })
+            .groupBy("a.id")
+            .select("a.id", "aid")
+            .addSelect("COUNT(r.id)", "rcount")
+            .getRawMany() as { aid: number; rcount: number }[];
 
       const countMap = articlesRevisionCount.reduce((prev, curr) => {
         prev[curr.aid] = curr.rcount;

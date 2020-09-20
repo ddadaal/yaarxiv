@@ -1,11 +1,8 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
 import { range } from "../../src/utils/array";
-import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/dashboard/getArticles";
-import { insertUserInfo, login, normalUser1 } from "../article/utils/login";
-import { generateArticle } from "../article/utils/generateArticles";
+import { adminUser, login, normalUser1 } from "../article/utils/login";
 import { insertData } from "tests/article/utils/data";
 
 const articleCount = 24;
@@ -52,4 +49,18 @@ it("return the second page of articles with query.", async () => {
   const payload = resp.json() as api.UserGetArticleInfoSchema["responses"]["200"];
   expect(payload.articles).toHaveLength(2);
   expect(payload.totalCount).toBe(12);
+});
+
+it("return empty if a user has no article", async () => {
+  const resp = await server.inject({
+    ...api.endpoint,
+    ...login(server, adminUser),
+  });
+
+  expect(resp.statusCode).toBe(200);
+  const payload = resp.json() as api.UserGetArticleInfoSchema["responses"]["200"];
+  expect(payload.articles).toHaveLength(0);
+  expect(payload.totalCount).toBe(0);
+
+
 });
