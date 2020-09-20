@@ -8,4 +8,7 @@ module.exports = {
   rootDir: ".",
   preset: "ts-jest",
   moduleNameMapper: pathsToModuleNameMapper(compilerOptions.paths , { prefix: '<rootDir>/' }  ),
+  testMatch: [
+    "<rootDir>/tests/**/*.test.ts?(x)",
+  ],
 };
