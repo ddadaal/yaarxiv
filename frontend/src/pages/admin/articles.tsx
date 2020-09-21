@@ -1,7 +1,6 @@
-import { Box, ColumnConfig, DataTable, Heading, Text } from "grommet";
+import { Box, ColumnConfig, Heading, Text } from "grommet";
 import React, { useCallback, useEffect } from "react";
 import { LocalizedString } from "simstate-i18n";
-import { OverlayLoading } from "src/components/OverlayLoading";
 import { lang } from "src/i18n";
 import { formatDateTime } from "src/utils/datetime";
 import { AnchorLink } from "src/components/AnchorLink";
@@ -16,17 +15,22 @@ import { useAsync } from "react-async";
 import { useRouter } from "next/router";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { SearchBar } from "src/components/SearchBar";
-import { Pagination } from "src/components/Pagination";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { AdminArticleTable } from "src/pageComponents/admin/ArticleTable";
+import { articleApis } from "src/apis/article";
 
 const root = lang.pages.admin.articles;
 
 const api = getApi(adminApis);
+const articlesApi = getApi(articleApis);
 
 type SearchQuery =Partial<AdminGetArticlesSchema["querystring"]>;
 
 const getArticles = ([query]: [SearchQuery]) => api.getArticles({ query });
+const deleteArticle = async (articleId: string) => {
+  await articlesApi.deleteArticle({ path: { articleId } });
+};
 
 export const columns: ColumnConfig<AdminGetArticlesResult>[] = [
   {
@@ -111,25 +115,18 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
           onConfirm={(k) => updateQuery({ searchWord: k })}
         />
       </Box>
-      <OverlayLoading loading={isLoading}>
-        <Box>
-          <DataTable
-            columns={columns}
-            data={data?.articles ?? []}
-          />
-        </Box>
-        <Box align="center">
-          <Pagination
-            currentPage={page ?? 1}
-            itemsPerPage={10}
-            totalItemsCount={data?.totalCount ?? 0}
-            getUrl={(i) => ({
-              pathname: "/admin/articles",
-              query: { searchWord, page: i },
-            })}
-          />
-        </Box>
-      </OverlayLoading>
+      <AdminArticleTable
+        articles={data?.articles ?? []}
+        totalCount={data?.totalCount ?? 0}
+        getPageUrl={(i) => ({
+          pathname: "/admin/articles",
+          query: { searchWord, page: i },
+        })}
+        isLoading={isLoading}
+        reload={() => run([page])}
+        page={page ?? 1}
+        deleteArticle={deleteArticle}
+      />
     </Box>
   );
 });

@@ -1,5 +1,5 @@
-import { Box, Button, ColumnConfig, DataTable } from "grommet";
-import { Edit, Trash } from "grommet-icons";
+import { Box, ColumnConfig, DataTable } from "grommet";
+import { Edit } from "grommet-icons";
 import React, { useCallback, useMemo, useState } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { OverlayLoading } from "src/components/OverlayLoading";
@@ -7,64 +7,15 @@ import { lang } from "src/i18n";
 import { formatDateTime } from "src/utils/datetime";
 import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
-import { Modal } from "src/components/modals/Modal";
-import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { Pagination } from "src/components/Pagination";
 import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { dashboardApis } from "src/apis/dashboard";
+import { DeleteLink } from "./DeleteLink";
 
 const root = lang.pages.dashboard.articles;
-
-const DeleteLink: React.FC<{
-  articleId: string;
-  deleteArticle: (articleId: string) => Promise<any>;
-  reload: () => void;
-}> = ({ articleId, deleteArticle, reload }) => {
-  const [open, setOpen] = useState(false);
-  const [confirming, setConfirming] = useState(false);
-  const handler = useHttpRequest(setConfirming);
-
-  const onDelete = async () => {
-    handler(async () => {
-      await deleteArticle(articleId);
-      setOpen(false);
-      reload();
-    });
-  };
-
-  return (
-    <>
-      <AnchorLink
-        icon={<Trash />}
-        label={<LocalizedString id={root.delete.button} />}
-        onClick={() => setOpen(true)}
-      />
-      <Modal
-        open={open}
-        title={<LocalizedString id={root.delete.title} />}
-        content={<LocalizedString id={root.delete.content} replacements={[articleId]}/>}
-        footer={[
-          <Button
-            key="confirm"
-            primary
-            disabled={confirming}
-            label={<LocalizedString id={root.delete.confirm} />}
-            onClick={onDelete}
-          />,
-          <Button
-            key="cancel"
-            disabled={confirming}
-            label={<LocalizedString id={root.delete.cancel} />}
-            onClick={() => setOpen(false)}
-          />,
-        ]}
-        onClose={() => setOpen(false)}
-      />
-    </>
-  );
-};
 
 export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   {

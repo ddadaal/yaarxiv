@@ -32,7 +32,7 @@ const mockArticles: AdminGetArticlesResult[] = [
 
 export const adminApisMock: MockApi<typeof adminApis> = () => ({
   getArticles: async () => {
-    throw makeHttpError({} ,401);
+    // throw makeHttpError({} ,401);
 
     return {
       articles: mockArticles,
