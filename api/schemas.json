@@ -67,6 +67,147 @@
       ],
       "additionalProperties": false
     },
+    "LoginSchema": {
+      "type": "object",
+      "properties": {
+        "querystring": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "string",
+              "description": "The login id, for example email"
+            },
+            "password": {
+              "type": "string",
+              "description": "The password"
+            }
+          },
+          "required": [
+            "id",
+            "password"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "description": "The generated token"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user"
+                },
+                "role": {
+                  "$ref": "#/definitions/UserRole",
+                  "description": "The role of the user."
+                },
+                "userId": {
+                  "type": "string",
+                  "description": "User id"
+                }
+              },
+              "required": [
+                "token",
+                "name",
+                "role",
+                "userId"
+              ],
+              "additionalProperties": false,
+              "description": "Logged in successfully. Returns user info."
+            },
+            "401": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Login failed. The username and password are not valid."
+            }
+          },
+          "required": [
+            "200",
+            "401"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "querystring",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Login"
+    },
+    "AdminGetUsersSchema": {
+      "type": "object",
+      "properties": {
+        "querystring": {
+          "type": "object",
+          "properties": {
+            "searchWord": {
+              "type": "string",
+              "description": "Search word."
+            },
+            "page": {
+              "type": "number",
+              "description": "The page number of returned users.",
+              "default": 1
+            }
+          },
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "users": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/definitions/AdminGetUsersResult"
+                  },
+                  "description": "Paginated users."
+                },
+                "totalCount": {
+                  "type": "number",
+                  "description": "Total count of users."
+                }
+              },
+              "required": [
+                "users",
+                "totalCount"
+              ],
+              "additionalProperties": false
+            },
+            "401": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Not login"
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Not admin."
+            }
+          },
+          "required": [
+            "200",
+            "403",
+            "401"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "querystring",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Get all users on the system."
+    },
     "DeleteArticleSchema": {
       "type": "object",
       "properties": {
@@ -506,79 +647,6 @@
       ],
       "additionalProperties": false,
       "description": "Upload a PDF into the platform.\r Expect Content-Type to be multipart/form-data."
-    },
-    "LoginSchema": {
-      "type": "object",
-      "properties": {
-        "querystring": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "The login id, for example email"
-            },
-            "password": {
-              "type": "string",
-              "description": "The password"
-            }
-          },
-          "required": [
-            "id",
-            "password"
-          ],
-          "additionalProperties": false
-        },
-        "responses": {
-          "type": "object",
-          "properties": {
-            "200": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "description": "The generated token"
-                },
-                "name": {
-                  "type": "string",
-                  "description": "The name of the user"
-                },
-                "role": {
-                  "$ref": "#/definitions/UserRole",
-                  "description": "The role of the user."
-                },
-                "userId": {
-                  "type": "string",
-                  "description": "User id"
-                }
-              },
-              "required": [
-                "token",
-                "name",
-                "role",
-                "userId"
-              ],
-              "additionalProperties": false,
-              "description": "Logged in successfully. Returns user info."
-            },
-            "401": {
-              "type": "object",
-              "additionalProperties": false,
-              "description": "Login failed. The username and password are not valid."
-            }
-          },
-          "required": [
-            "200",
-            "401"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "querystring",
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Login"
     },
     "RegisterSchema": {
       "type": "object",
@@ -1079,6 +1147,46 @@
       ],
       "additionalProperties": false
     },
+    "UserRole": {
+      "type": "string",
+      "enum": [
+        "user",
+        "admin"
+      ]
+    },
+    "AdminGetUsersResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "description": "The user id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user."
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole",
+          "description": "User role."
+        },
+        "articleCount": {
+          "type": "number",
+          "description": "How many articles this user has uploaded."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "role",
+        "articleCount"
+      ],
+      "additionalProperties": false
+    },
     "Author": {
       "type": "object",
       "properties": {
@@ -1346,13 +1454,6 @@
         "category"
       ],
       "additionalProperties": false
-    },
-    "UserRole": {
-      "type": "string",
-      "enum": [
-        "user",
-        "admin"
-      ]
     },
     "DashboardArticleInfo": {
       "type": "object",

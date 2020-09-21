@@ -14,6 +14,7 @@ import { getProfileRoute } from "./dashboard/getProfile";
 import { requestPasswordResetRoute } from "./auth/requestPasswordReset";
 import { validatePasswordResetTokenRoute } from "./auth/validatePasswordResetToken";
 import { resetPasswordRoute } from "./auth/resetPassword";
+import { adminGetUsersRoute } from "./admin/getUsers";
 
 export const routes = [
   loginRoute,
@@ -26,6 +27,7 @@ export const routes = [
   deleteArticleRoute,
   dashboardGetArticlesRoute,
   adminGetArticlesRoute,
+  adminGetUsersRoute,
   uploadArticleRoute,
   updateArticleRoute,
   uploadPdfRoute,

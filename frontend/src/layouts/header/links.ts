@@ -22,4 +22,5 @@ export const userLinks = [
 
 export const adminLinks = [
   { href: "/admin/articles", textId: root.admin.articles, mode: "startsWith" },
+  { href: "/admin/users", textId: root.admin.users, mode: "startsWith" },
 ] as TLink[];

@@ -2,7 +2,7 @@ import { Box, Heading } from "grommet";
 import React, { useCallback, useEffect } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
-import { AdminGetArticlesSchema } from "yaarxiv-api/admin/getArticles";
+import { AdminGetUsersSchema } from "yaarxiv-api/admin/getUsers";
 import { requireAuth } from "src/utils/requireAuth";
 import { getApi } from "src/apis";
 import { adminApis } from "src/apis/admin";
@@ -12,22 +12,22 @@ import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { SearchBar } from "src/components/SearchBar";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
-import { AdminArticleTable } from "src/pageComponents/admin/articles/AdminArticlesTable";
-import { articleApis } from "src/apis/article";
+import { AdminUsersTable } from "src/pageComponents/admin/users/AdminUsersTable";
 
-const root = lang.pages.admin.articles;
+const root = lang.pages.admin.users;
 
 const api = getApi(adminApis);
-const articlesApi = getApi(articleApis);
 
-type SearchQuery =Partial<AdminGetArticlesSchema["querystring"]>;
+type SearchQuery =Partial<AdminGetUsersSchema["querystring"]>;
 
-const getArticles = ([query]: [SearchQuery]) => api.getArticles({ query });
-const deleteArticle = async (articleId: string) => {
-  await articlesApi.deleteArticle({ path: { articleId } });
+const getUsers = ([query]: [SearchQuery]) => api.getUsers({ query });
+const deleteUser = async (userId: string) => {
+  await api.deleteUser({ path: { userId } });
 };
 
-export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
+
+
+export const AdminUsersPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
 
   const router = useRouter();
 
@@ -36,7 +36,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
   const searchWord = queryToString(router.query.searchWord);
 
   const { data, isLoading, run } = useAsync({
-    deferFn: getArticles,
+    deferFn: getUsers,
     onReject: errorHandler,
   });
 
@@ -47,7 +47,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
       ...page ? { page } : undefined,
     });
     router.push({
-      pathname: "/admin/articles",
+      pathname: "/admin/users",
       query: combinedQuery,
     });
   }, [searchWord]);
@@ -67,20 +67,20 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
           onConfirm={(k) => updateQuery({ searchWord: k })}
         />
       </Box>
-      <AdminArticleTable
-        articles={data?.articles ?? []}
+      <AdminUsersTable
+        users={data?.users ?? []}
         totalCount={data?.totalCount ?? 0}
         getPageUrl={(i) => ({
-          pathname: "/admin/articles",
+          pathname: "/admin/users",
           query: { searchWord, page: i },
         })}
         isLoading={isLoading}
         reload={() => run([page])}
         page={page ?? 1}
-        deleteArticle={deleteArticle}
+        deleteUser={deleteUser}
       />
     </Box>
   );
 });
 
-export default AdminArticlesPage;
+export default AdminUsersPage;

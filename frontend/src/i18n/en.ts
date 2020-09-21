@@ -59,7 +59,10 @@ export default {
       welcome: "Welcome, {}",
       logout: "Logout",
       dashboard: "Dashboard",
-      admin: { articles: "Manage Articles" },
+      admin: {
+        articles: "Manage Articles",
+        users: "Manage Users",
+      },
     },
     login: {
       id: "Email",
@@ -224,6 +227,26 @@ export default {
             button: "Withdraw",
             title: "Confirm to withdraw the article?",
             content: "Are you sure to withdraw the article {}? All your revisions will be removed from our platform.",
+            confirm: "Confirm",
+            cancel: "Cancel",
+          },
+        },
+        users: {
+          title: "Users on the system",
+          userId: "User ID",
+          name: "Name",
+          email: "Email",
+          role: {
+            title: "Role",
+            admin: "Admin",
+            user: "User",
+          },
+          articleCount: "Article Count",
+          actions: "Actions",
+          delete: {
+            button: "Delete",
+            title: "Confirm to delete user?",
+            content: "Are you sure to delete the user {} (ID: {}) ? All related articles will be removed from system",
             confirm: "Confirm",
             cancel: "Cancel",
           },

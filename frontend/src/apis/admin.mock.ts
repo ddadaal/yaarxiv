@@ -39,4 +39,17 @@ export const adminApisMock: MockApi<typeof adminApis> = () => ({
       totalCount: mockArticles.length,
     };
   },
+
+  getUsers: async () => {
+    return {
+      users: [
+        { id: "1", name: "an admin", email: "123@123.com", articleCount: 0, role: "admin" },
+        { id: "2", name: "a user", email: "admin@123.com", articleCount: 2, role: "user" },
+      ],
+      totalCount: 2,
+    };
+  },
+  deleteUser: async () => {
+    return {};
+  },
 });

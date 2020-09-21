@@ -55,7 +55,10 @@ export default {
       logout: "登出",
       dashboard: "个人中心",
       upload: "论文上传",
-      admin: { articles: "文章管理" },
+      admin: {
+        articles: "文章管理",
+        users: "用户管理",
+      },
     },
     login: {
       id: "Email",
@@ -220,6 +223,26 @@ export default {
             button: "撤回",
             title: "撤回文章确认",
             content: "确定要从系统上撤回文章{}？所有版本将会被从系统上删除。",
+            confirm: "确认",
+            cancel: "取消",
+          },
+        },
+        users: {
+          title: "系统上的所有用户",
+          userId: "用户ID",
+          name: "名字",
+          email: "电子邮箱",
+          role: {
+            title: "角色",
+            admin: "管理员",
+            user: "普通用户",
+          },
+          articleCount: "文章数",
+          actions: "操作",
+          delete: {
+            button: "删除",
+            title: "删除用户确认",
+            content: "确定要从系统上删除用户 {}（ID：{}）？用户的所有文章将会被从系统上删除。",
             confirm: "确认",
             cancel: "取消",
           },

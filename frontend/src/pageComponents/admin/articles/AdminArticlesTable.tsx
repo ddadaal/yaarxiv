@@ -9,9 +9,9 @@ import { formatDateTime } from "src/utils/datetime";
 import { UrlObject } from "url";
 import { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
 import { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
-import { DeleteLink } from "../Dashboard/DeleteLink";
+import { DeleteLink } from "../../Dashboard/DeleteLink";
 
-const root = lang.pages.dashboard.articles;
+const root = lang.pages.admin.articles;
 
 export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   {
