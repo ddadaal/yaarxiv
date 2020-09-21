@@ -1,5 +1,61 @@
 {
   "routes": {
+    "AdminDeleteArticleSchema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "object",
+          "properties": {
+            "userId": {
+              "type": "string",
+              "description": "The ID of the user to be deleted."
+            }
+          },
+          "required": [
+            "userId"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The user and all related is deleted."
+            },
+            "401": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Not login"
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The user cannot delete the article."
+            },
+            "404": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The article is not found."
+            }
+          },
+          "required": [
+            "200",
+            "404",
+            "403",
+            "401"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Delete a user and all of related articles.\r Only admin can do it."
+    },
     "AdminGetArticlesSchema": {
       "type": "object",
       "properties": {

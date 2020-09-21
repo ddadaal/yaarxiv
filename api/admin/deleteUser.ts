@@ -9,7 +9,7 @@ export const summary = "Delete an user from the platform.";
  * Delete a user and all of related articles.
  * Only admin can do it.
  */
-export interface DeleteArticleSchema {
+export interface AdminDeleteArticleSchema {
   path: {
     /** The ID of the user to be deleted. */
     userId: string;
