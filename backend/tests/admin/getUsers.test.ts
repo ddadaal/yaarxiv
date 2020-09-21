@@ -30,18 +30,18 @@ it("should return all users", async () => {
 
   expect(data.totalCount).toBe(3);
   expect(data.users).toHaveLength(3);
-  expect(data.users).toEqual([
+  expect(data.users).toEqual(expect.arrayContaining([
     { id: adminUser.id, name: adminUser.name, role: adminUser.role, email: adminUser.email, articleCount: 0 },
     { id: normalUser1.id, name: normalUser1.name, role: normalUser1.role, email: normalUser1.email, articleCount: 2 },
     { id: normalUser2.id, name: normalUser2.name, role: normalUser2.role, email: normalUser2.email, articleCount: 1 },
-  ] as api.AdminGetUsersResult[]);
+  ] as api.AdminGetUsersResult[]));
 });
 
 it("should filter users by name", async () => {
   const resp = await server.inject({
     ...api.endpoint,
     ...login(server, adminUser),
-    query: { searchWord: "normal" },
+    query: { searchWord: normalUser1.name.substr(1, normalUser1.name.length - 2) },
   });
 
   expect(resp.statusCode).toBe(200);
@@ -49,10 +49,10 @@ it("should filter users by name", async () => {
 
   expect(data.totalCount).toBe(2);
   expect(data.users).toHaveLength(2);
-  expect(data.users).toEqual([
+  expect(data.users).toEqual(expect.arrayContaining([
     { id: normalUser1.id, name: normalUser1.name, role: normalUser1.role, email: normalUser1.email, articleCount: 2 },
     { id: normalUser2.id, name: normalUser2.name, role: normalUser2.role, email: normalUser2.email, articleCount: 1 },
-  ] as api.AdminGetUsersResult[]);
+  ] as api.AdminGetUsersResult[]));
 });
 
 it("should filter users by incomplete email", async () => {
