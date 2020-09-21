@@ -3,7 +3,7 @@ import { config } from "@/utils/config";
 import fastifySwagger from "fastify-swagger";
 
 export const swaggerPlugin = fp(async (fastify) => {
-   if (config.loadSwagger) {
+  if (config.loadSwagger) {
     fastify.register(fastifySwagger, {
       routePrefix: "/swagger",
       exposeRoute: true,
@@ -25,4 +25,4 @@ export const swaggerPlugin = fp(async (fastify) => {
       },
     });
   }
-})
+});

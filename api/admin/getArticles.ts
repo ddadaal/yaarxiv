@@ -8,6 +8,13 @@ export const summary = "Get all articles on the platform as an admin.";
 export interface AdminGetArticlesResult {
   /** The article id. */
   id: string;
+  /** Thw article owner. */
+  owner: {
+    /** The owner id. */
+    id: string;
+    /** The owner name. */
+    name: string;
+  }
   /** The article title of the latest revision. */
   title: string;
   /** The time the article is first created. */

@@ -214,6 +214,7 @@ export default {
         articles: {
           title: "Articles on the system",
           articleId: "Article ID",
+          owner: "Owner",
           articleTitle: "Article Title",
           createTime: "Create Time",
           lastUpdatedTime: "Last Updated Time",

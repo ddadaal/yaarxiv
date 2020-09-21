@@ -16,6 +16,7 @@ export async function adminGetArticlesRoute(fastify: FastifyInstance) {
 
       const builder = repo.createQueryBuilder("a")
         .leftJoinAndSelect("a.revisions", "r")
+        .leftJoinAndSelect("a.owner","o")
         .where("r.revisionNumber = a.latestRevisionNumber");
 
       if (searchWord) {
@@ -36,6 +37,10 @@ export async function adminGetArticlesRoute(fastify: FastifyInstance) {
             lastUpdatedTime: x.lastUpdateTime.toISOString(),
             revisionCount: x.latestRevisionNumber,
             title: x.revisions[0].title,
+            owner: {
+              id: x.owner.id,
+              name: x.owner.name,
+            },
           })),
           totalCount: count,
         },

@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
 import * as api from "yaarxiv-api/admin/getArticles";
-import { adminUser, login, normalUser1 } from "../article/utils/login";
+import { adminUser, login, normalUser1, normalUser2 } from "../article/utils/login";
 import { insertData } from "tests/article/utils/data";
 
 const articleCount = 12;
@@ -68,4 +68,20 @@ it("return filtered articles with searchWord query.", async () => {
   const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
   // 1 10 11 12
   expect(payload.articles).toHaveLength(4);
+});
+
+it("return articles with their owner", async () => {
+  const resp = await server.inject({
+    ...api.endpoint,
+    ...login(server, adminUser),
+    query: { searchWord: "12" },
+  });
+
+  expect(resp.statusCode).toBe(200);
+  const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
+  // 1 10 11 12
+  expect(payload.articles).toHaveLength(1);
+  const article = payload.articles[0];
+  expect(article.owner).toEqual({ id: normalUser2.id, name: normalUser2.name });
+
 });

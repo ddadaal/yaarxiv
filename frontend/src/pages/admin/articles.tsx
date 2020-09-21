@@ -1,4 +1,4 @@
-import { Box, ColumnConfig, DataTable, Heading } from "grommet";
+import { Box, ColumnConfig, DataTable, Heading, Text } from "grommet";
 import React, { useCallback, useEffect } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { OverlayLoading } from "src/components/OverlayLoading";
@@ -41,6 +41,15 @@ export const columns: ColumnConfig<AdminGetArticlesResult>[] = [
       </AnchorLink>
     ),
     primary: true,
+  },
+  {
+    property: "ownerId",
+    header: <LocalizedString id={root.owner} />,
+    render: (d) => (
+      <Text title={`ID: ${d.owner.id}`}>
+        {d.owner.name}
+      </Text>
+    ),
   },
   {
     property: "title",

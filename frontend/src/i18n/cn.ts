@@ -210,6 +210,7 @@ export default {
         articles: {
           title: "系统上的所有文章",
           articleId: "文章ID",
+          owner: "拥有者",
           articleTitle: "文章标题",
           createTime: "发布时间",
           lastUpdatedTime: "最后更新时间",
