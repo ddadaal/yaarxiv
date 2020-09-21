@@ -6,6 +6,7 @@ import { Form, FormField, Box, Text, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { HttpError } from "src/apis/fetch";
+import { toast } from "react-toastify";
 
 const root = lang.pages.dashboard.profile.changePassword;
 
@@ -30,7 +31,7 @@ export const ChangePassword: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const request = useHttpRequest(setLoading);
 
-  const submit = () => request(async ({ notification }) => {
+  const submit = () => request(async () => {
     if (error) { return; }
     await api.changePassword({
       body: {
@@ -39,18 +40,16 @@ export const ChangePassword: React.FC = () => {
       },
     })
       .then(() => {
-        notification.addNotification({
-          level: "success",
-          message: <LocalizedString id={root.complete} />,
-        });
+        toast.success(
+          <LocalizedString id={root.complete} />,
+        );
         setForm(initial);
       })
       .catch((e: HttpError) => {
         if (e.status === 403) {
-          notification.addNotification({
-            level: "error",
-            message: <LocalizedString id={root.wrongPassword} />,
-          });
+          toast.error(
+            <LocalizedString id={root.wrongPassword} />,
+          );
         } else {
           throw e;
         }

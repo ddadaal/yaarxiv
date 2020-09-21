@@ -13,6 +13,7 @@ import withDarkMode from "next-dark-mode";
 import { ThemeStore } from "src/stores/ThemeStore";
 import useConstant from "src/utils/useConstant";
 import { changeToken } from "src/apis/fetch";
+import "react-toastify/dist/ReactToastify.css";
 
 const TopProgressBar = dynamic(
   () => {

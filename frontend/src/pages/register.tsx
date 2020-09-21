@@ -10,10 +10,10 @@ import { authApis } from "src/apis/auth";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import Router from "next/router";
-import { useNotification } from "src/utils/useNotification";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { AnchorLink } from "src/components/AnchorLink";
+import { toast } from "react-toastify";
 
 const root = lang.register;
 
@@ -25,17 +25,15 @@ const RegisterForm: React.FC = () => {
   const userStore = useStore(UserStore);
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
-  const notification = useNotification();
   const request = useHttpRequest(setInProgress);
 
   const register = () => request(async () => {
     const { email, password, remember } = value;
     try {
       const res = await api.register({ body: { email, password } });
-      notification.addNotification({
-        level: "success",
-        message: <LocalizedString id={root.success} />,
-      });
+      toast.success(
+        <LocalizedString id={root.success} />
+      );
       await Router.push("/");
       userStore.login({
         email: email,
@@ -47,10 +45,9 @@ const RegisterForm: React.FC = () => {
       });
     } catch (e) {
       if (e.status === 405) {
-        notification.addNotification({
-          message: <LocalizedString id={root.conflict} />,
-          level: "error",
-        });
+        toast.error(
+          <LocalizedString id={root.conflict} />
+        );
       } else {
         throw e;
       }

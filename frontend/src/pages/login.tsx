@@ -10,10 +10,10 @@ import { authApis } from "src/apis/auth";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import Router from "next/router";
-import { useNotification } from "src/utils/useNotification";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { AnchorLink } from "src/components/AnchorLink";
+import { toast } from "react-toastify";
 
 const root = lang.login;
 
@@ -25,17 +25,16 @@ const LoginForm: React.FC = () => {
   const userStore = useStore(UserStore);
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
-  const notification = useNotification();
   const request = useHttpRequest(setInProgress);
 
   const login = () => request(async () => {
     const { id, password, remember } = value;
     try {
       const res = await api.login({ query: { id, password } });
-      notification.addNotification({
-        level: "success",
-        message: <LocalizedString id={root.success} />,
-      });
+      toast.success(
+        <LocalizedString id={root.success} />
+      );
+
       userStore.login({
         email: id,
         name: res.name,
@@ -52,10 +51,9 @@ const LoginForm: React.FC = () => {
     } catch (e) {
       console.log(e);
       if (e.status === 401) {
-        notification.addNotification({
-          message: <LocalizedString id={root.invalid} />,
-          level: "error",
-        });
+        toast.success(
+          <LocalizedString id={root.invalid} />
+        );
       } else {
         throw e;
       }

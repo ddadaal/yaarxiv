@@ -8,6 +8,7 @@ import { OverlayLoading } from "src/components/OverlayLoading";
 import { LocalizedString } from "simstate-i18n";
 import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { emailValidation } from "src/utils/validations/emailValidation";
+import { toast } from "react-toastify";
 
 const root = lang.pages.dashboard.profile;
 
@@ -35,7 +36,7 @@ export const Profile: React.FC = () => {
     onReject: errorHandler,
   });
 
-  const submit = () => request(async ({ notification, userStore }) => {
+  const submit = () => request(async ({ userStore }) => {
     await api.changeProfile({
       body: {
         email: form.email,
@@ -43,10 +44,9 @@ export const Profile: React.FC = () => {
       },
     })
       .then(() => {
-        notification.addNotification({
-          level: "success",
-          message: <LocalizedString id={root.success} />,
-        });
+        toast.success(
+          <LocalizedString id={root.success} />
+        );
         // change user store information
         userStore.login({
           ...userStore.user!,

@@ -15,6 +15,7 @@ import { HttpError, makeHttpError } from "src/apis/fetch";
 import { Forbidden } from "src/components/errors/Forbidden";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 import { SSRPageProps } from "src/utils/ssr";
+import { toast } from "react-toastify";
 
 const root = lang.pages.updateArticle;
 
@@ -35,7 +36,7 @@ export const ArticleUpdatePage: NextPage<Props> =
     const request = useHttpRequest(setSubmitting);
 
     const submit = useCallback((file: File | undefined, form: ArticleForm) => {
-      request(async ({ notification }) => {
+      request(async () => {
         let pdfToken: string | undefined = undefined;
         if (file) {
           // user wants to update the pdf. so upload it first.
@@ -47,15 +48,12 @@ export const ArticleUpdatePage: NextPage<Props> =
           body: { pdfToken, ...form },
         });
         await router.push("/articles/[id]", `/articles/${articleId}`);
-        notification.addNotification({
-          level: "success",
-          message: (
-            <LocalizedString
-              id={root.success}
-              replacements={[resp.revisionNumber]}
-            />
-          ),
-        });
+        toast.success(
+          <LocalizedString
+            id={root.success}
+            replacements={[resp.revisionNumber]}
+          />
+        );
       });
     }, [articleId]);
 

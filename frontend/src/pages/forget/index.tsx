@@ -4,11 +4,11 @@ import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { getApi } from "src/apis";
 import { authApis } from "src/apis/auth";
-import { useNotification } from "src/utils/useNotification";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import Router, { useRouter } from "next/router";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { queryToString } from "src/utils/querystring";
+import { toast } from "react-toastify";
 
 const root = lang.forgetPassword;
 
@@ -17,7 +17,6 @@ const api = getApi(authApis);
 const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
   const [value, setValue] = useState({ email });
   const [inProgress, setInProgress] = useState(false);
-  const notification = useNotification();
   const request = useHttpRequest(setInProgress);
 
   const login = () => request(async () => {
@@ -27,10 +26,9 @@ const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
       Router.push("/forget/sent");
     } catch (e) {
       if (e.status === 404) {
-        notification.addNotification({
-          message: <LocalizedString id={root.accountNotExist} />,
-          level: "error",
-        });
+        toast.error(
+          <LocalizedString id={root.accountNotExist} />
+        );
       } else {
         throw e;
       }

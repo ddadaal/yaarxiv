@@ -29,16 +29,10 @@ const mockArticles: AdminGetArticlesResult[] = [
   },
 ];
 
-let count = 0;
 
 export const adminApisMock: MockApi<typeof adminApis> = () => ({
   getArticles: async () => {
-
-    count++;
-    if (count === 3) {
-      throw makeHttpError({} ,401);
-    }
-
+    throw makeHttpError({} ,401);
 
     return {
       articles: mockArticles,

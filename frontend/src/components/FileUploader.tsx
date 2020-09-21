@@ -5,8 +5,7 @@ import { DropzoneOptions, FileRejection, useDropzone } from "react-dropzone";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { Clear } from "grommet-icons";
-import { useNotification } from "src/utils/useNotification";
-
+import { toast } from "react-toastify";
 const root = lang.components.fileUploader;
 
 interface Props {
@@ -18,23 +17,18 @@ interface Props {
 
 export const FileUploader: React.FC<Props> = ({ options, files, onFileRemoved, onFilesAccepted }) => {
 
-  const notification = useNotification();
-
   const onRejected = useCallback((rej: FileRejection[]) => {
     rej.forEach(({ errors, file }) => {
       errors.forEach((e) => {
-        notification.addNotification({
-          level: "error",
-          message: (
-            <Text>
-              {file.name}: {" "}
-              <LocalizedString id={root[e.code]} />
-            </Text>
-          ),
-        });
+        toast.error(
+          <Text>
+            {file.name}: {" "}
+            <LocalizedString id={root[e.code]} />
+          </Text>
+        );
       });
     });
-  }, [notification]);
+  }, []);
 
   const { getRootProps, getInputProps } = useDropzone({
     ...options,

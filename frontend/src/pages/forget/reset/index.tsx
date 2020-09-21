@@ -13,6 +13,7 @@ import { HttpError } from "src/apis/fetch";
 import { Form, FormField, Box, Button, Text, Heading } from "grommet";
 import { queryToString } from "src/utils/querystring";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
+import { toast } from "react-toastify";
 
 type Props = SSRPageProps<{
   token: string;
@@ -41,7 +42,7 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
   const [loading, setLoading] = React.useState(false);
   const request = useHttpRequest(setLoading);
 
-  const submit = () => request(async ({ notification }) => {
+  const submit = () => request(async () => {
     if (error) { return; }
     await api.resetPassword({
       body: {
@@ -54,11 +55,12 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
       })
       .catch((e: HttpError) => {
         if (e.status === 403) {
-          notification.addNotification({
-            level: "error",
-            title: <LocalizedString id={root.error.title} />,
-            message: <LocalizedString id={root.error.description} />,
-          });
+          toast.error(
+            <Text>
+              <LocalizedString id={root.error.title} />{". "}
+              <LocalizedString id={root.error.description} />
+            </Text>
+          );
         } else {
           throw e;
         }
