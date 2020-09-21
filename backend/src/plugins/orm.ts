@@ -62,9 +62,8 @@ declare module "fastify" {
  }
 }
 
-export const ormPlugin = fp(async (fastify) => {
-  // create the database if not exists.
-  const { host, port, username, password, database, dropSchema, connectTimeout } = config.typeorm;
+export async function useRawDbConnection<T>(callback: (conn: mysql.Connection) => Promise<T> ) {
+  const { host, port, username, password, connectTimeout } = config.typeorm;
   // @ts-ignore
   const connection = await mysql.createConnection({
     host,
@@ -73,7 +72,17 @@ export const ormPlugin = fp(async (fastify) => {
     password,
     connectTimeout,
   });
-  await connection.query(`CREATE DATABASE IF NOT EXISTS \`${database}\`;`);
+  return callback(connection).finally(() => {
+    connection.destroy();
+  });
+}
+
+export const ormPlugin = fp(async (fastify) => {
+  // create the database if not exists.
+  const { database, dropSchema } = config.typeorm;
+  await useRawDbConnection(async (conn) => {
+    await conn.query(`CREATE SCHEMA IF NOT EXISTS \`${database}\`;`);
+  });
 
   // create the database connection with typeorm
   const dbConnection = await createConnection({
@@ -82,16 +91,18 @@ export const ormPlugin = fp(async (fastify) => {
     entities,
   });
 
+
   fastify.decorate("orm", dbConnection);
 
   fastify.addHook("onClose", async (instance) => {
     // remove the schema before closing
     if (dropSchema) {
-      instance.log.info(`DROP SCHEMA \`${database}\`;`);
-      await connection.query(`DROP SCHEMA \`${database}\`;`);
+      instance.log.info(`Drop schema \`${database}\`;`);
+      await useRawDbConnection(async (connection) => {
+        await connection.query(`DROP SCHEMA \`${database}\`;`);
+      });
     }
     instance.log.info("Closing db connection...");
-    connection.destroy();
     await instance.orm.close();
   });
 
