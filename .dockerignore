@@ -1,7 +1,6 @@
 **/node_modules/
-**/.vscode
+**/.vscode/
 **/.next/
-**/db/
-**/testupload
-**/upload
-
+backend/db/
+backend/testupload/
+backend/upload/
