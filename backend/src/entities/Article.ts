@@ -20,7 +20,7 @@ export class Article {
   @Column()
   latestRevisionNumber: number;
 
-  @ManyToOne(() => User, (u) => u.articles)
+  @ManyToOne(() => User, (u) => u.articles, { onDelete: "CASCADE" })
   owner: User;
 
   @Column()
