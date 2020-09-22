@@ -1,6 +1,7 @@
 import { Button } from "grommet";
 import { Trash } from "grommet-icons";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { LocalizedString } from "simstate-i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
@@ -9,7 +10,7 @@ import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 
 const root = lang.pages.dashboard.articles;
 
-export const DeleteLink: React.FC<{
+export const DeleteArticleLink: React.FC<{
   articleId: string;
   deleteArticle: (articleId: string) => Promise<any>;
   reload: () => void;
@@ -22,6 +23,9 @@ export const DeleteLink: React.FC<{
     request(async () => {
       await deleteArticle(articleId);
       setOpen(false);
+      toast.success(
+        <LocalizedString id={root.delete.success} replacements={[articleId]} />
+      );
       reload();
     });
   };

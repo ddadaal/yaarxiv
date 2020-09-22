@@ -9,7 +9,7 @@ import { formatDateTime } from "src/utils/datetime";
 import { UrlObject } from "url";
 import { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
 import { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
-import { DeleteLink } from "../../Dashboard/DeleteLink";
+import { DeleteArticleLink } from "../../Dashboard/DeleteArticleLink";
 
 const root = lang.pages.admin.articles;
 
@@ -73,7 +73,7 @@ export const AdminArticleTable: React.FC<Props> = ({
       header: <LocalizedString id={root.actions} />,
       render: (d) => (
         <Box direction="row" gap="medium">
-          <DeleteLink
+          <DeleteArticleLink
             articleId={d.id}
             deleteArticle={deleteArticle}
             reload={() => reload(page)}

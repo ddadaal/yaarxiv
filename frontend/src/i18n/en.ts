@@ -184,6 +184,7 @@ export default {
             content: "Are you sure to withdraw the article {}? All your revisions will be removed from our platform.",
             confirm: "Confirm",
             cancel: "Cancel",
+            success: "Article {} has been removed successfully!",
           },
         },
         profile: {
@@ -229,6 +230,7 @@ export default {
             content: "Are you sure to withdraw the article {}? All your revisions will be removed from our platform.",
             confirm: "Confirm",
             cancel: "Cancel",
+            success: "Article {} has been removed successfully!",
           },
         },
         users: {
@@ -249,6 +251,7 @@ export default {
             content: "Are you sure to delete the user {} (ID: {}) ? All related articles will be removed from system",
             confirm: "Confirm",
             cancel: "Cancel",
+            success: "User {} (ID: {}) has been deleted successfully!",
           },
         },
       },

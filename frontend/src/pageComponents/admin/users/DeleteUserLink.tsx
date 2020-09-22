@@ -1,6 +1,7 @@
 import { Button } from "grommet";
 import { Trash } from "grommet-icons";
 import React, { useState } from "react";
+import { toast } from "react-toastify";
 import { LocalizedString } from "simstate-i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
@@ -24,6 +25,9 @@ export const DeleteUserLink: React.FC<{
     request(async () => {
       await deleteUser(userId);
       setOpen(false);
+      toast.success(
+        <LocalizedString id={root.success} replacements={[username, userId]} />
+      );
       reload();
     });
   };

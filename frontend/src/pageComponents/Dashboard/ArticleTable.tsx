@@ -13,7 +13,7 @@ import { useAsync } from "react-async";
 import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { dashboardApis } from "src/apis/dashboard";
-import { DeleteLink } from "./DeleteLink";
+import { DeleteArticleLink } from "./DeleteArticleLink";
 
 const root = lang.pages.dashboard.articles;
 
@@ -88,7 +88,7 @@ export const ArticleTable: React.FC = ({}) => {
             label={<LocalizedString id={root.update} />}
             href="/articles/[id]/update" as={`/articles/${d.id}/update`}
           />
-          <DeleteLink
+          <DeleteArticleLink
             articleId={d.id}
             deleteArticle={deleteArticle}
             reload={() => run(page)}
