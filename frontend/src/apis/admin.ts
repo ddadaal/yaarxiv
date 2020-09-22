@@ -6,5 +6,5 @@ import { fromApi } from "./fetch";
 export const adminApis = () => ({
   getArticles: fromApi<getArticles.AdminGetArticlesSchema>(getArticles.endpoint),
   getUsers: fromApi<getUsers.AdminGetUsersSchema>(getUsers.endpoint),
-  deleteUser: fromApi<deleteUser.DeleteArticleSchema>(deleteUser.endpoint),
+  deleteUser: fromApi<deleteUser.AdminDeleteArticleSchema>(deleteUser.endpoint),
 });

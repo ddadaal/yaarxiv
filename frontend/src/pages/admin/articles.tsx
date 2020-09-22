@@ -32,8 +32,9 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
   const router = useRouter();
 
   const page = queryToIntOrDefault(router.query.page, undefined);
-  const errorHandler = useHttpErrorHandler();
   const searchWord = queryToString(router.query.searchWord);
+
+  const errorHandler = useHttpErrorHandler();
 
   const { data, isLoading, run } = useAsync({
     deferFn: getArticles,
@@ -52,9 +53,11 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
     });
   }, [searchWord]);
 
-  useEffect(() => {
+  const searchWithArgs = useCallback(() => {
     run({ page, searchWord });
   }, [page, searchWord]);
+
+  useEffect(searchWithArgs, [searchWithArgs]);
 
   return (
     <Box gap="medium">
@@ -75,7 +78,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
           query: { searchWord, page: i },
         })}
         isLoading={isLoading}
-        reload={() => run([page])}
+        reload={searchWithArgs}
         page={page ?? 1}
         deleteArticle={deleteArticle}
       />

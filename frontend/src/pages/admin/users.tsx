@@ -52,9 +52,11 @@ export const AdminUsersPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
     });
   }, [searchWord]);
 
-  useEffect(() => {
+  const searchWithArgs = useCallback(() => {
     run({ page, searchWord });
   }, [page, searchWord]);
+
+  useEffect(searchWithArgs, [searchWithArgs]);
 
   return (
     <Box gap="medium">
@@ -75,7 +77,7 @@ export const AdminUsersPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
           query: { searchWord, page: i },
         })}
         isLoading={isLoading}
-        reload={() => run([page])}
+        reload={searchWithArgs}
         page={page ?? 1}
         deleteUser={deleteUser}
       />
