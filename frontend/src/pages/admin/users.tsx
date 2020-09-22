@@ -50,7 +50,7 @@ export const AdminUsersPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
       pathname: "/admin/users",
       query: combinedQuery,
     });
-  }, [searchWord]);
+  }, [router, page, searchWord]);
 
   const searchWithArgs = useCallback(() => {
     run({ page, searchWord });
