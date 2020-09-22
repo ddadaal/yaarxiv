@@ -1,14 +1,15 @@
+import { User } from "@/entities/User";
 import { getRepository } from "typeorm";
 import { Article } from "../../../src/entities/Article";
 import { PdfUpload } from "../../../src/entities/PdfUpload";
 import { range } from "../../../src/utils/array";
 import { generateArticle } from "./generateArticles";
-import { insertUserInfo, normalUser1 } from "./login";
+import { insertUserInfo } from "./login";
 
-export function generatePdf() {
+export function generatePdf(owner: User) {
 
   const pdf = new PdfUpload();
-  pdf.userId = normalUser1.id;
+  pdf.userId = owner.id;
   pdf.link = "test";
   return pdf;
 }

@@ -16,7 +16,7 @@ export async function adminDeleteUserRoute(fastify: FastifyInstance) {
 
       const r = await repo.delete(userId);
 
-      if (!r) {
+      if (!r.affected) {
         return { 404: {} };
       } else {
         return { 200 :{} };

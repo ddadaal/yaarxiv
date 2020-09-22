@@ -48,8 +48,6 @@ async function countEntities(entity) {
 
 it("delete user and all related articles", async () => {
 
-  const prevRevs = await getRepository(ArticleRevision).createQueryBuilder("a").getManyAndCount();
-
   const resp = await server.inject({
     ...replacePathInEndpoint(api.endpoint, { userId: normalUser1.id }),
     ...login(server, adminUser),
@@ -59,7 +57,15 @@ it("delete user and all related articles", async () => {
 
   expect(await countEntities(User)).toBe(2);
   expect(await countEntities(Article)).toBe(1);
-  const articles = await getRepository(Article).createQueryBuilder("a").getManyAndCount();
-  const revs = await getRepository(ArticleRevision).createQueryBuilder("a").getManyAndCount();
+  expect(await countEntities(ArticleRevision)).toBe(2);
+  expect(await countEntities(PdfUpload)).toBe(2);
 
+});
+
+it("return 404 if user does not exist", async () => {
+  const resp = await server.inject({
+    ...replacePathInEndpoint(api.endpoint, { userId: "notexists" }),
+    ...login(server, adminUser),
+  });
+  expect(resp.statusCode).toBe(404);
 });

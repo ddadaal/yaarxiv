@@ -31,11 +31,11 @@ const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
 export const generateArticle = (id: number) => {
   const article = new Article();
   article.id = id;
-  article.revisions = range(1, id+1).map((i) => genRevision(article, i, generatePdf()));
   article.createTime = new Date(articleTime);
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
   article.latestRevisionNumber = id;
   article.owner = id % 2 == 1 ? normalUser1 : normalUser2;
+  article.revisions = range(1, id+1).map((i) => genRevision(article, i, generatePdf(article.owner)));
   return article;
 };

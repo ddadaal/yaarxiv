@@ -26,7 +26,7 @@ it("upload an article.", async () => {
 
   // upload a pdf and get token
   const pdfRepo = getRepository(PdfUpload);
-  const pdf = generatePdf();
+  const pdf = generatePdf(normalUser1);
   await pdfRepo.save(pdf);
 
   const payload: api.UploadArticleSchema["body"] = {
@@ -69,14 +69,13 @@ it("fails if pdf token is invalid.", async () => {
     ...login(server, normalUser1),
   });
 
-  const info = resp.json();
   expect(resp.statusCode).toBe(400);
 });
 
 it("fails if the title is too long", async () => {
   // upload a pdf and get token
   const pdfRepo = getRepository(PdfUpload);
-  const pdf = generatePdf();
+  const pdf = generatePdf(normalUser1);
   await pdfRepo.save(pdf);
 
   const payload: api.UploadArticleSchema["body"] = {
