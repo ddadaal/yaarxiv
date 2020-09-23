@@ -21,10 +21,10 @@ export class Article {
   latestRevisionNumber: number;
 
   @Column()
-  ownerSetVisibility: boolean = true;
+  ownerSetPublicity: boolean = true;
 
   @Column()
-  adminSetVisibility: boolean = true;
+  adminSetPublicity: boolean = true;
 
   @ManyToOne(() => User, (u) => u.articles, { onDelete: "CASCADE" })
   owner: User;
