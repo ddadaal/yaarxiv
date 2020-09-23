@@ -11,4 +11,5 @@ module.exports = {
   testMatch: [
     "<rootDir>/tests/**/*.test.ts?(x)",
   ],
+  testTimeout: 15000,
 };
