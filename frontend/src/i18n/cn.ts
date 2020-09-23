@@ -45,6 +45,11 @@ export default {
         },
       },
       form: { validationError: { email: "请输入有效的电子邮箱" } },
+      publicitySelect: {
+        title: "公开",
+        public: "公开",
+        private: "不公开",
+      },
     },
     header: {
       home: "主页",
@@ -171,6 +176,9 @@ export default {
           articleTitle: "文章标题",
           createTime: "发布时间",
           lastUpdatedTime: "最后更新时间",
+          ownerSetPublicity: "拥有者是否公开",
+          adminSetPublicity: "管理员是否公开",
+          publicity: "作者设置的公开",
           revisionCount: "更新次数",
           actions: "操作",
           update: "更新",
@@ -219,6 +227,8 @@ export default {
           createTime: "发布时间",
           lastUpdatedTime: "最后更新时间",
           revisionCount: "更新次数",
+          ownerSetPublicity: "拥有者是否公开",
+          adminSetPublicity: "管理员是否公开",
           actions: "操作",
           delete: {
             button: "撤回",

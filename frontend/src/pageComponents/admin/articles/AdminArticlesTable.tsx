@@ -5,6 +5,7 @@ import { AnchorLink } from "src/components/AnchorLink";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { Pagination } from "src/components/Pagination";
 import { lang } from "src/i18n";
+import { PublicitySelect } from "src/pageComponents/PublicitySelect";
 import { formatDateTime } from "src/utils/datetime";
 import { UrlObject } from "url";
 import { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
@@ -68,6 +69,15 @@ export const AdminArticleTable: React.FC<Props> = ({
 }) => {
   const fullColumns = useMemo(() => [
     ...columns,
+    {
+      property: "publicity",
+      header: <LocalizedString id={root.ownerSetPublicity} />,
+      render: (d) => (
+        <PublicitySelect
+          initialValue={}
+
+      )
+    },
     {
       property: "actions",
       header: <LocalizedString id={root.actions} />,

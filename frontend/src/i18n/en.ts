@@ -49,6 +49,11 @@ export default {
         },
       },
       form: { validationError: { email: "Please input a valid email." } },
+      publicitySelect: {
+        title: "Public",
+        public: "Public",
+        private: "Private",
+      },
     },
     header: {
       home: "Home",
@@ -177,6 +182,8 @@ export default {
           lastUpdatedTime: "Last Updated Time",
           revisionCount: "Revision Count",
           actions: "Actions",
+          ownerSetPublicity: "Publicity by Owner",
+          adminSetPublicity: "Publicity by Admin",
           update: "Update",
           delete: {
             button: "Withdraw",
@@ -223,6 +230,8 @@ export default {
           createTime: "Create Time",
           lastUpdatedTime: "Last Updated Time",
           revisionCount: "Revision Count",
+          ownerSetPublicity: "Publicity by Owner",
+          adminSetPublicity: "Publicity by Admin",
           actions: "Actions",
           delete: {
             button: "Withdraw",
