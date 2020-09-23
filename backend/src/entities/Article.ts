@@ -20,6 +20,12 @@ export class Article {
   @Column()
   latestRevisionNumber: number;
 
+  @Column()
+  ownerSetVisibility: boolean = true;
+
+  @Column()
+  adminSetVisibility: boolean = true;
+
   @ManyToOne(() => User, (u) => u.articles, { onDelete: "CASCADE" })
   owner: User;
 
