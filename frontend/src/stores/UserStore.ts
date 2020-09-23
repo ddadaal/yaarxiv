@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect } from "react";
+import { useState, useCallback, useLayoutEffect } from "react";
 import { changeToken } from "src/apis/fetch";
 import { UserRole } from "src/models/User";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
@@ -59,7 +59,7 @@ export function UserStore(initialUser: User | null = null) {
     }
   }, []);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (initialUser) {
       login(initialUser);
     }
