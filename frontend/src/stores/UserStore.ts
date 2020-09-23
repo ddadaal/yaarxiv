@@ -59,11 +59,5 @@ export function UserStore(initialUser: User | null = null) {
     }
   }, []);
 
-  useLayoutEffect(() => {
-    if (initialUser) {
-      login(initialUser);
-    }
-  }, []);
-
   return { loggedIn, user, logout, login };
 }

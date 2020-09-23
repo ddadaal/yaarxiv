@@ -27,7 +27,13 @@ const themeStore = createStore(ThemeStore);
 
 function MyApp({ Component, pageProps, user }: AppProps & { user: User | null }) {
 
-  const userStore = useConstant(() => createStore(UserStore, user));
+  const userStore = useConstant(() => {
+    const store = createStore(UserStore, user);
+    if (user) {
+      changeToken(user?.token);
+    }
+    return store;
+  });
 
   return (
     <StoreProvider stores={[i18nStore, userStore, themeStore]}>
