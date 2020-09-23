@@ -47,11 +47,20 @@ export const jwtAuthPlugin = fp(async (fastify) => {
   });
 
   fastify.decorateRequest("dbUser", async function () {
-    return await fastify.orm.getRepository(User).findOne(this.userId());
+    const user = await fastify.orm.getRepository(User).findOne(this.userId());
+    if (!user) {
+      throw createError(401, "User specified by token doesn't exist.");
+    }
+    return user;
   });
 });
 
-export function signUser(fastify: FastifyInstance, user: User) {
+export interface TokenPayload {
+  id: string;
+  role: UserRole;
+}
+
+export function signUser(fastify: FastifyInstance, user: TokenPayload) {
   return fastify.jwt.sign({ id: user.id, role: user.role });
 }
 
