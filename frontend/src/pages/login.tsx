@@ -51,7 +51,7 @@ const LoginForm: React.FC = () => {
     } catch (e) {
       console.log(e);
       if (e.status === 401) {
-        toast.success(
+        toast.error(
           <LocalizedString id={root.invalid} />
         );
       } else {
