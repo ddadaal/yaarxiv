@@ -47,6 +47,8 @@ export async function dashboardGetArticlesRoute(fastify: FastifyInstance) {
             createTime: x.createTime.toISOString(),
             lastUpdatedTime: x.lastUpdateTime.toISOString(),
             revisionCount: countMap[x.id],
+            ownerSetPublicity: x.ownerSetPublicity,
+            adminSetPublicity: x.adminSetPublicity,
             title: x.revisions[0].title,
           })),
           totalCount: count,

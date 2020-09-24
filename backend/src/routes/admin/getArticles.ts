@@ -37,6 +37,8 @@ export async function adminGetArticlesRoute(fastify: FastifyInstance) {
             lastUpdatedTime: x.lastUpdateTime.toISOString(),
             revisionCount: x.latestRevisionNumber,
             title: x.revisions[0].title,
+            ownerSetPublicity: x.ownerSetPublicity,
+            adminSetPublicity: x.adminSetPublicity,
             owner: {
               id: x.owner.id,
               name: x.owner.name,
