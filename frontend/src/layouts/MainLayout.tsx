@@ -12,6 +12,7 @@ import { ToastContainer } from "react-toastify";
 interface Props {
 }
 
+const maxWidth = "xxlarge";
 
 export const MainLayout: React.FC<Props> = ({ children }) => {
   const { theme } = useStore(ThemeStore);
@@ -23,9 +24,9 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
       <MediaContextProvider>
         <Grommet theme={siteTheme} full={true} themeMode={theme}>
           <Box direction="column" height="100vh">
-            <Header />
+            <Header width={maxWidth} />
             <Box as="main" flex="grow" pad="small" align="center" >
-              <Box width="xlarge" flex="grow">
+              <Box width={maxWidth} flex="grow">
                 {children}
               </Box>
             </Box>
