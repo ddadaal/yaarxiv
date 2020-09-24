@@ -28,16 +28,14 @@ export const PublicitySelect: React.FC<Props> = ({ initialValue, onChange }) => 
     return await onChange(changed);
   }, [onChange]);
 
-  const { data, isLoading, run, setData } = useAsync({
+  const { data, isLoading, run } = useAsync({
     initialValue,
     deferFn,
     onReject: errorHandler,
   });
 
   const handleChange = (e) => {
-    // optimistic update
     const newValue = e.value.value === "public";
-    setData(newValue);
     run(newValue);
   };
 
