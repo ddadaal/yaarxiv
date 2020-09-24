@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Box, Heading, Form, FormField, TextInput, Button } from "grommet";
+import { Box, Heading, FormField, TextInput, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { getApi } from "src/apis";
@@ -9,6 +9,7 @@ import Router, { useRouter } from "next/router";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { queryToString } from "src/utils/querystring";
 import { toast } from "react-toastify";
+import { Form } from "src/components/form/Form";
 
 const root = lang.forgetPassword;
 

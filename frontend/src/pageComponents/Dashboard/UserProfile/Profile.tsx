@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import { lang } from "src/i18n";
 import { getApi } from "src/apis";
 import { dashboardApis } from "src/apis/dashboard";
-import { Form, FormField, Box, Button } from "grommet";
+import { FormField, Box, Button } from "grommet";
 import { useAsync } from "react-async";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { LocalizedString } from "simstate-i18n";
 import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { toast } from "react-toastify";
+import { Form } from "src/components/form/Form";
 
 const root = lang.pages.dashboard.profile;
 

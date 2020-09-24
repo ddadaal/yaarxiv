@@ -48,7 +48,13 @@ export default {
           description: "Please check your local network, or our network is down.",
         },
       },
-      form: { validationError: { email: "Please input a valid email." } },
+      form: {
+        validationError: {
+          email: "Please input a valid email.",
+          invalid: "Invalid",
+          required: "Required",
+        },
+      },
       publicitySelect: {
         title: "Public",
         public: "Public",

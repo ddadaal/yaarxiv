@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import {
-  Box, Form, FormField,
+  Box, FormField,
   TextInput, Button, CheckBox, Heading,
 } from "grommet";
 import { lang } from "src/i18n";
@@ -14,6 +14,7 @@ import { emailValidation } from "src/utils/validations/emailValidation";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
+import { Form } from "src/components/form/Form";
 
 const root = lang.register;
 

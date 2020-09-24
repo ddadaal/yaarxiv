@@ -44,7 +44,13 @@ export default {
           description: "本地网络出错，请检查本地网络是否已经连通，或者服务器暂时开了小差……",
         },
       },
-      form: { validationError: { email: "请输入有效的电子邮箱" } },
+      form: {
+        validationError: {
+          email: "请输入有效的电子邮箱",
+          invalid: "输入无效",
+          required: "必填项",
+        },
+      },
       publicitySelect: {
         title: "公开",
         public: "公开",

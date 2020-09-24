@@ -2,11 +2,12 @@ import React, { useState } from "react";
 import { lang } from "src/i18n";
 import { getApi } from "src/apis";
 import { dashboardApis } from "src/apis/dashboard";
-import { Form, FormField, Box, Text, Button } from "grommet";
+import { FormField, Box, Text, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { HttpError } from "src/apis/fetch";
 import { toast } from "react-toastify";
+import { Form } from "src/components/form/Form";
 
 const root = lang.pages.dashboard.profile.changePassword;
 

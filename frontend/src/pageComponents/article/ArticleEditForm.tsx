@@ -1,10 +1,11 @@
 import {
-  Anchor, Box, Button, Form, FormField,
+  Anchor, Box, Button, FormField,
   Heading, Paragraph, TextArea,
 } from "grommet";
 import React, { useState } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { FileUploader } from "src/components/FileUploader";
+import { Form } from "src/components/form/Form";
 import { TagInput } from "src/components/TagInput";
 import { lang } from "src/i18n";
 import { config } from "src/utils/config";

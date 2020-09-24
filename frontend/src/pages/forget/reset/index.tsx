@@ -10,10 +10,11 @@ import { ErrorPage } from "src/components/errors/ErrorPage";
 import { LocalizedString } from "simstate-i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { HttpError } from "src/apis/fetch";
-import { Form, FormField, Box, Button, Text, Heading } from "grommet";
+import { FormField, Box, Button, Text, Heading } from "grommet";
 import { queryToString } from "src/utils/querystring";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 import { toast } from "react-toastify";
+import { Form } from "src/components/form/Form";
 
 type Props = SSRPageProps<{
   token: string;
