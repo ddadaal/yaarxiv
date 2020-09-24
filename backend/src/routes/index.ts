@@ -16,6 +16,7 @@ import { validatePasswordResetTokenRoute } from "./auth/validatePasswordResetTok
 import { resetPasswordRoute } from "./auth/resetPassword";
 import { adminGetUsersRoute } from "./admin/getUsers";
 import { adminDeleteUserRoute } from "./admin/deleteUser";
+import { changeArticleAdminSetPublicityRoute } from "./admin/changeArticlePublicity";
 
 export const routes = [
   loginRoute,
@@ -36,5 +37,6 @@ export const routes = [
   changePasswordRoute,
   changeProfileRoute,
   getProfileRoute,
+  changeArticleAdminSetPublicityRoute,
 ];
 
