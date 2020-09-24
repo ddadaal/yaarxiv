@@ -12,6 +12,7 @@ declare module "fastify" {
   }
 
   interface FastifyRequest {
+    tryGetToken(): Promise<JwtTokenPayload | undefined>;
     userId(): string;
     dbUser(): Promise<User>;
   }
@@ -40,6 +41,11 @@ export const jwtAuthPlugin = fp(async (fastify) => {
     } catch (err) {
       reply.send(err);
     }
+  });
+
+  fastify.decorateRequest("tryGetToken", async function() {
+    return await (this as FastifyRequest).jwtVerify<JwtTokenPayload>()
+      .catch(() => undefined);
   });
 
   fastify.decorateRequest("userId", function () {

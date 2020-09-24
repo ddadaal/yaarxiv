@@ -15,15 +15,27 @@ export async function getArticleRoute(fastify: FastifyInstance) {
 
       const article = await repo.findOne(articleId);
 
+      if (!article) {
+        return { 404: { notFound: "article" } };
+      }
+
+      // if the logged in user is the owner or an admin,
+      // then it can get the article if the article is not public,
+      // else, return 404 as if the article does not exist.
+      if (!article.adminSetPublicity || !article.ownerSetPublicity) {
+        const token = await req.tryGetToken();
+        if (!(token && (token.role === "admin" || article.ownerId === token.id))) {
+          return { 404: { notFound: "article" } };
+        }
+      }
+
+
       const articlesRevisionInfo = await revisionRepo
         .createQueryBuilder("r")
         .where("r.articleId = :aid", { aid: articleId })
         .orderBy("r.revisionNumber")
         .getMany();
 
-      if (!article) {
-        return { 404: { notFound: "article" } };
-      }
 
       const targetRevisionNumber =revision ?? article.latestRevisionNumber;
 

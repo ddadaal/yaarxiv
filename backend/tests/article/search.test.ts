@@ -4,6 +4,8 @@ import * as searchApi from "yaarxiv-api/article/search";
 import { insertData } from "./utils/data";
 import { commonKeyword } from "./utils/generateArticles";
 import { range } from "@/utils/array";
+import { Article } from "@/entities/Article";
+import { getRepository } from "typeorm";
 
 const articleCount = 12;
 
@@ -118,4 +120,42 @@ it("should return articls with ALL of specified authors", async () => {
 
   expect(data.totalCount).toBe(6);
   expect(data.results.map((x) => x.articleId)).toEqual(range(2, 14, 2).map((x) => x + ""));
+});
+
+it("should not return admin set private articles", async () => {
+  // set article 1 into admin private
+  const id = 1;
+  const repo = getRepository(Article);
+  const article = await repo.findOne(id);
+  if (!article) {
+    fail(`Article ${id} does not exist`);
+  }
+  article.adminSetPublicity = false;
+  await repo.save(article);
+
+  const resp = await server.inject({
+    ...searchApi.endpoint,
+  });
+
+  const data= resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
+  expect(data.totalCount).toBe(articleCount - 1);
+});
+
+it("should not return owner set private articles", async () => {
+  // set article 1 into admin private
+  const id = 1;
+  const repo = getRepository(Article);
+  const article = await repo.findOne(id);
+  if (!article) {
+    fail(`Article ${id} does not exist`);
+  }
+  article.ownerSetPublicity = false;
+  await repo.save(article);
+
+  const resp = await server.inject({
+    ...searchApi.endpoint,
+  });
+
+  const data= resp.json() as searchApi.SearchArticleSchema["responses"]["200"];
+  expect(data.totalCount).toBe(articleCount - 1);
 });

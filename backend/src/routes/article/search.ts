@@ -14,8 +14,9 @@ export async function searchArticleRoute(fastify: FastifyInstance) {
 
       const builder = repo.createQueryBuilder("a")
         .leftJoinAndSelect("a.revisions", "r")
-        .where("r.revisionNumber = a.latestRevisionNumber");
-
+        .where("r.revisionNumber = a.latestRevisionNumber")
+        .andWhere("a.ownerSetPublicity = 1")
+        .andWhere("a.adminSetPublicity = 1");
 
       if (startYear) {
         builder.andWhere("a.createTime >= :start", { start: `${startYear}-01-01` });
