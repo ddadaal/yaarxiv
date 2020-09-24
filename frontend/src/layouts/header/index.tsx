@@ -18,7 +18,6 @@ export const Header: React.FC<Props> = ({ width }) => {
     <GrommetHeader
       background="background"
       pad="small"
-      elevation="small"
       border={{ side: "bottom" }}
       align="center"
       justify="center"
