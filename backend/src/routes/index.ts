@@ -17,6 +17,7 @@ import { resetPasswordRoute } from "./auth/resetPassword";
 import { adminGetUsersRoute } from "./admin/getUsers";
 import { adminDeleteUserRoute } from "./admin/deleteUser";
 import { changeArticleAdminSetPublicityRoute } from "./admin/changeArticlePublicity";
+import { changeArticleOwnerSetPublicityRoute } from "./dashboard/changeArticlePublicity";
 
 export const routes = [
   loginRoute,
@@ -38,5 +39,6 @@ export const routes = [
   changeProfileRoute,
   getProfileRoute,
   changeArticleAdminSetPublicityRoute,
+  changeArticleOwnerSetPublicityRoute,
 ];
 
