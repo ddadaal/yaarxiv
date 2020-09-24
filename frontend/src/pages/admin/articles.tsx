@@ -29,8 +29,8 @@ const deleteArticle = async (articleId: string) => {
 const changeArticleAdminSetPublicity = async (articleId: string, publicity: boolean) => {
   return await api.changeArticlePublicity({
     path: { articleId },
-    body: { public: publicity },
-  }).then((x) => x.public);
+    body: { publicity },
+  }).then((x) => x.publicity);
 };
 
 export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() => {

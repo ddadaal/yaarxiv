@@ -19,13 +19,13 @@
         "body": {
           "type": "object",
           "properties": {
-            "public": {
+            "publicity": {
               "type": "boolean",
               "description": "Whether the article is public."
             }
           },
           "required": [
-            "public"
+            "publicity"
           ],
           "additionalProperties": false
         },
@@ -35,13 +35,13 @@
             "200": {
               "type": "object",
               "properties": {
-                "public": {
+                "publicity": {
                   "type": "boolean",
                   "description": "The new publicity."
                 }
               },
               "required": [
-                "public"
+                "publicity"
               ],
               "additionalProperties": false,
               "description": "The publicity has been successfully changed.\r Returns the new publicity."
@@ -1004,13 +1004,13 @@
         "body": {
           "type": "object",
           "properties": {
-            "public": {
+            "publicity": {
               "type": "boolean",
               "description": "Whether the article is public."
             }
           },
           "required": [
-            "public"
+            "publicity"
           ],
           "additionalProperties": false
         },
@@ -1020,13 +1020,13 @@
             "200": {
               "type": "object",
               "properties": {
-                "public": {
+                "publicity": {
                   "type": "boolean",
                   "description": "The new publicity."
                 }
               },
               "required": [
-                "public"
+                "publicity"
               ],
               "additionalProperties": false,
               "description": "The publicity has been successfully changed.\r Returns the new publicity."

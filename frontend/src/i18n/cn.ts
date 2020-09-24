@@ -178,7 +178,6 @@ export default {
           lastUpdatedTime: "最后更新时间",
           ownerSetPublicity: "拥有者是否公开",
           adminSetPublicity: "管理员是否公开",
-          publicity: "作者设置的公开",
           revisionCount: "更新次数",
           actions: "操作",
           update: "更新",

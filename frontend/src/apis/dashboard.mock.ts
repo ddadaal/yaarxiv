@@ -48,5 +48,5 @@ export const dashboardApisMock: MockApi<typeof dashboardApis> = () => ({
     return {};
   },
   changeProfile: async () => ({}),
-  changeArticlePublicity: async ({ body }) => ({ public: body.public }),
+  changeArticlePublicity: async ({ body }) => ({ publicity: body.publicity }),
 });

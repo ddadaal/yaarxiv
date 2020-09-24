@@ -11,7 +11,7 @@ export interface ChangeArticleOwnerSetPublicitySchema {
   };
   body: {
     /** Whether the article is public. */
-    public: boolean;
+    publicity: boolean;
   }
   responses: {
     /**
@@ -20,7 +20,7 @@ export interface ChangeArticleOwnerSetPublicitySchema {
      */
     200: {
       /** The new publicity. */
-      public: boolean;
+      publicity: boolean;
     };
     /** The article is not found. */
     404: {};

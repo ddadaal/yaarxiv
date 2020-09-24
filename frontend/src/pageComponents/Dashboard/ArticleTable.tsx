@@ -60,13 +60,14 @@ const getDashboardData = ([page]) => dashboardApi.getArticles({ query: { page } 
 const getDashboardDataFirstPage = () => getDashboardData([1]);
 const deleteArticle = (articleId: string) =>
   articleApi.deleteArticle({ path: { articleId } });
+
 const changeOwnerSetArticlePublicity = async (articleId: string, publicity: boolean) => {
   const resp = await dashboardApi.changeArticlePublicity({
     path: { articleId },
-    body: { public: publicity },
+    body: { publicity },
   });
 
-  return resp.public;
+  return resp.publicity;
 };
 
 export const ArticleTable: React.FC = ({}) => {

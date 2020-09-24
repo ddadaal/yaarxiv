@@ -55,5 +55,5 @@ export const adminApisMock: MockApi<typeof adminApis> = () => ({
   deleteUser: async () => {
     return {};
   },
-  changeArticlePublicity: async ({ body }) => ({ public: body.public }),
+  changeArticlePublicity: async ({ body }) => ({ publicity: body.publicity }),
 });
