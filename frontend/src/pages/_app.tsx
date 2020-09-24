@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect } from "react";
 import type { AppContext, AppProps } from "next/app";
 import App from "next/app";
 import "normalize.css";
-import { createI18nStore } from "simstate-i18n";
-import { i18nContext } from "src/i18n";
+import { createI18nStore, loadLanguage } from "simstate-i18n";
+import { cn, getCookieLanguage, i18nContext, Language, useI18nStore } from "src/i18n";
 import { StoreProvider, createStore } from "simstate";
 import { MainLayout } from "src/layouts/MainLayout";
 import { getCurrentUserInCookie, User, UserStore } from "src/stores/UserStore";
@@ -22,10 +22,15 @@ const TopProgressBar = dynamic(
   { ssr: false },
 );
 
-const i18nStore  = createI18nStore(i18nContext);
 const themeStore = createStore(ThemeStore);
 
-function MyApp({ Component, pageProps, user }: AppProps & { user: User | null }) {
+type Props = AppProps & {
+  user: User | null;
+} & {
+  firstLanguage: Language;
+}
+
+function MyApp({ Component, pageProps, user, firstLanguage }: Props) {
 
   const userStore = useConstant(() => {
     const store = createStore(UserStore, user);
@@ -34,6 +39,8 @@ function MyApp({ Component, pageProps, user }: AppProps & { user: User | null })
     }
     return store;
   });
+
+  const i18nStore = useConstant(() => createI18nStore(i18nContext, firstLanguage));
 
   return (
     <StoreProvider stores={[i18nStore, userStore, themeStore]}>
@@ -53,8 +60,13 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
     changeToken(user.token);
   }
 
+  const langId = getCookieLanguage(appContext.ctx);
+
+  const language = i18nContext.getLanguage(langId);
+  const firstLanguage = language ? await loadLanguage(language) : cn;
+
   const appProps = await App.getInitialProps(appContext);
-  return { ...appProps, user };
+  return { ...appProps, user, firstLanguage };
 };
 
 export default withDarkMode(MyApp);

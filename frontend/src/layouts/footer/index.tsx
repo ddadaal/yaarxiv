@@ -1,7 +1,7 @@
 import React from "react";
 import { Text, Footer as GrommotFooter, Anchor, Box, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
-import { lang, useI18nStore, languageNames } from "src/i18n";
+import { lang, useI18nStore, languageNames, saveLanguageToCookie } from "src/i18n";
 import { useStore } from "simstate";
 import { ThemeStore } from "src/stores/ThemeStore";
 import { Moon } from "src/components/icons/Moon";
@@ -12,12 +12,17 @@ const root = lang.footer;
 const LanguageSwitcher: React.FC = () => {
   const i18nStore = useI18nStore();
 
+  const onClick = (id: string) => () =>  {
+    saveLanguageToCookie(id);
+    i18nStore.changeLanguage(id);
+  };
+
   return (
     <Text textAlign="center" size="small">
       {Object.keys(languageNames).map((id) => (
         <Anchor
           margin={"small"}
-          onClick={() => i18nStore.changeLanguage(id)}
+          onClick={onClick(id)}
           key={id}
           disabled={i18nStore.currentLanguage.id === id}
         >
