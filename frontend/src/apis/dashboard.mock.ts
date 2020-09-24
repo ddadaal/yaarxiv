@@ -11,6 +11,8 @@ const base: DashboardArticleInfo[] = [
     lastUpdatedTime: "2020-08-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
     revisionCount: 3,
+    adminSetPublicity: true,
+    ownerSetPublicity: false,
   },
   {
     id: "dashboard123123123",
@@ -18,6 +20,8 @@ const base: DashboardArticleInfo[] = [
     lastUpdatedTime: "2020-07-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
     revisionCount: 3,
+    adminSetPublicity: false,
+    ownerSetPublicity: true,
   },
 ];
 
@@ -44,4 +48,5 @@ export const dashboardApisMock: MockApi<typeof dashboardApis> = () => ({
     return {};
   },
   changeProfile: async () => ({}),
+  changeArticlePublicity: async ({ body }) => ({ public: body.public }),
 });

@@ -2,7 +2,6 @@
 import type { MockApi } from ".";
 import type { adminApis } from "./admin";
 import type { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
-import { makeHttpError } from "./fetch";
 
 const mockArticles: AdminGetArticlesResult[] = [
   {
@@ -15,6 +14,8 @@ const mockArticles: AdminGetArticlesResult[] = [
     lastUpdatedTime: "2020-08-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
     revisionCount: 3,
+    ownerSetPublicity: true,
+    adminSetPublicity: true,
   },
   {
     id: "sdad12312412",
@@ -26,6 +27,8 @@ const mockArticles: AdminGetArticlesResult[] = [
     lastUpdatedTime: "2020-07-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
     revisionCount: 3,
+    ownerSetPublicity: false,
+    adminSetPublicity: false,
   },
 ];
 
@@ -52,4 +55,5 @@ export const adminApisMock: MockApi<typeof adminApis> = () => ({
   deleteUser: async () => {
     return {};
   },
+  changeArticlePublicity: async ({ body }) => ({ public: body.public }),
 });

@@ -26,6 +26,14 @@ export interface AdminGetArticlesResult {
    * @type {integer}
    */
   revisionCount: number;
+  /**
+   * Whether the article is public set by the author.
+   */
+  ownerSetPublicity: boolean;
+  /**
+   * Whether the article is public set by admin.
+   */
+  adminSetPublicity: boolean;
 }
 
 export interface AdminGetArticlesSchema {

@@ -1,14 +1,15 @@
 import { Select } from "grommet";
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
+import { useAsync } from "react-async";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { PublicityText } from "./PublicityText";
 
-export type Publicity = "public" | "private";
 
 export interface Props {
-  initialValue: Publicity;
-  onChange: (changed: Publicity) => Promise<void>;
+  initialValue: boolean;
+  onChange: (changed: boolean) => Promise<boolean>;
 }
 
 const root = lang.components.publicitySelect;
@@ -19,23 +20,38 @@ const options = [
 ];
 
 
-export const PublicitySelect: React.FC<Props> = ({ initialValue: value, onChange }) => {
+export const PublicitySelect: React.FC<Props> = ({ initialValue, onChange }) => {
 
-  const [loading, setLoading] = useState(false);
-  const request = useHttpRequest(setLoading);
+  const errorHandler = useHttpErrorHandler();
 
-  const handleChange = useCallback(async () => {
-    await request(async () => {
-      await onChange(value === "public" ? "private" : "public");
-    });
-  }, [onChange, value]);
+  const deferFn = useCallback(async ([changed]) => {
+    return await onChange(changed);
+  }, [onChange]);
+
+  const { data, isLoading, run, setData } = useAsync({
+    initialValue,
+    deferFn,
+    onReject: errorHandler,
+  });
+
+  const handleChange = (e) => {
+    // optimistic update
+    const newValue = e.value.value === "public";
+    setData(newValue);
+    run(newValue);
+  };
 
   return (
     <Select
       options={options}
-      value={value}
+      value={data ? "public" : "private"}
+      labelKey="label"
+      valueKey="value"
+      valueLabel={
+        <PublicityText publicity={data!} />
+      }
       onChange={handleChange}
-      disabled={loading}
+      disabled={isLoading}
     />
   );
 };

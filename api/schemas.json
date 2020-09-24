@@ -1,5 +1,78 @@
 {
   "routes": {
+    "ChangeArticleAdminSetPublicitySchema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "object",
+          "properties": {
+            "articleId": {
+              "type": "string",
+              "description": "The id of the article."
+            }
+          },
+          "required": [
+            "articleId"
+          ],
+          "additionalProperties": false
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "public": {
+              "type": "boolean",
+              "description": "Whether the article is public."
+            }
+          },
+          "required": [
+            "public"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "public": {
+                  "type": "boolean",
+                  "description": "The new publicity."
+                }
+              },
+              "required": [
+                "public"
+              ],
+              "additionalProperties": false,
+              "description": "The publicity has been successfully changed.\r Returns the new publicity."
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Only admin can change the admin set publicity of an article."
+            },
+            "404": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The article is not found."
+            }
+          },
+          "required": [
+            "200",
+            "404",
+            "403"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Change the owner set publicity of an article."
+    },
     "AdminDeleteArticleSchema": {
       "type": "object",
       "properties": {
@@ -912,6 +985,79 @@
       "additionalProperties": false,
       "description": "Validate a token (a link) for password reset."
     },
+    "ChangeArticleOwnerSetPublicitySchema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "object",
+          "properties": {
+            "articleId": {
+              "type": "string",
+              "description": "The id of the article."
+            }
+          },
+          "required": [
+            "articleId"
+          ],
+          "additionalProperties": false
+        },
+        "body": {
+          "type": "object",
+          "properties": {
+            "public": {
+              "type": "boolean",
+              "description": "Whether the article is public."
+            }
+          },
+          "required": [
+            "public"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "public": {
+                  "type": "boolean",
+                  "description": "The new publicity."
+                }
+              },
+              "required": [
+                "public"
+              ],
+              "additionalProperties": false,
+              "description": "The publicity has been successfully changed.\r Returns the new publicity."
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Only the owner can change the owner set publicity of an article."
+            },
+            "404": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "The article is not found."
+            }
+          },
+          "required": [
+            "200",
+            "404",
+            "403"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Change the owner set publicity of an article."
+    },
     "ChangePasswordSchema": {
       "type": "object",
       "properties": {
@@ -1191,6 +1337,14 @@
         "revisionCount": {
           "type": "number",
           "description": "The number of revisions this article has."
+        },
+        "ownerSetPublicity": {
+          "type": "boolean",
+          "description": "Whether the article is public set by the author."
+        },
+        "adminSetPublicity": {
+          "type": "boolean",
+          "description": "Whether the article is public set by admin."
         }
       },
       "required": [
@@ -1199,7 +1353,9 @@
         "title",
         "createTime",
         "lastUpdatedTime",
-        "revisionCount"
+        "revisionCount",
+        "ownerSetPublicity",
+        "adminSetPublicity"
       ],
       "additionalProperties": false
     },
@@ -1533,6 +1689,14 @@
         "revisionCount": {
           "type": "number",
           "description": "The number of revisions this article has."
+        },
+        "ownerSetPublicity": {
+          "type": "boolean",
+          "description": "Whether the article is public set by the author."
+        },
+        "adminSetPublicity": {
+          "type": "boolean",
+          "description": "Whether the article is public set by admin."
         }
       },
       "required": [
@@ -1540,7 +1704,9 @@
         "title",
         "createTime",
         "lastUpdatedTime",
-        "revisionCount"
+        "revisionCount",
+        "ownerSetPublicity",
+        "adminSetPublicity"
       ],
       "additionalProperties": false,
       "description": "Get the articles this user is the owner of."

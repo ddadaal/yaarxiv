@@ -26,6 +26,12 @@ const getArticles = ([query]: [SearchQuery]) => api.getArticles({ query });
 const deleteArticle = async (articleId: string) => {
   await articlesApi.deleteArticle({ path: { articleId } });
 };
+const changeArticleAdminSetPublicity = async (articleId: string, publicity: boolean) => {
+  return await api.changeArticlePublicity({
+    path: { articleId },
+    body: { public: publicity },
+  }).then((x) => x.public);
+};
 
 export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
 
@@ -81,6 +87,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() =
         reload={searchWithArgs}
         page={page ?? 1}
         deleteArticle={deleteArticle}
+        changeArticleAdminSetPublicity={changeArticleAdminSetPublicity}
       />
     </Box>
   );

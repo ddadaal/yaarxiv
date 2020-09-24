@@ -6,6 +6,7 @@ import { OverlayLoading } from "src/components/OverlayLoading";
 import { Pagination } from "src/components/Pagination";
 import { lang } from "src/i18n";
 import { PublicitySelect } from "src/pageComponents/PublicitySelect";
+import { PublicityText } from "src/pageComponents/PublicityText";
 import { formatDateTime } from "src/utils/datetime";
 import { UrlObject } from "url";
 import { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
@@ -46,6 +47,13 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
     property: "revisionCount",
     header: <LocalizedString id={root.revisionCount} />,
   },
+  {
+    property: "ownerSetPublicity",
+    header: <LocalizedString id={root.ownerSetPublicity} />,
+    render: (d) => (
+      <PublicityText publicity={d.ownerSetPublicity} />
+    ),
+  },
 ];
 
 interface Props {
@@ -56,6 +64,10 @@ interface Props {
   page: number;
   totalCount: number;
   getPageUrl: (page: number) => string | UrlObject;
+  changeArticleAdminSetPublicity: (
+    articleId: string,
+    publicity: boolean,
+  ) => Promise<boolean>;
 }
 
 export const AdminArticleTable: React.FC<Props> = ({
@@ -66,17 +78,19 @@ export const AdminArticleTable: React.FC<Props> = ({
   page,
   totalCount,
   getPageUrl,
+  changeArticleAdminSetPublicity,
 }) => {
   const fullColumns = useMemo(() => [
     ...columns,
     {
-      property: "publicity",
-      header: <LocalizedString id={root.ownerSetPublicity} />,
+      property: "adminSetPublicity",
+      header: <LocalizedString id={root.adminSetPublicity} />,
       render: (d) => (
         <PublicitySelect
-          initialValue={}
-
-      )
+          initialValue={d.adminSetPublicity}
+          onChange={(changed) => changeArticleAdminSetPublicity(d.id, changed)}
+        />
+      ),
     },
     {
       property: "actions",

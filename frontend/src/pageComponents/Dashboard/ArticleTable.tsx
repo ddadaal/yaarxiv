@@ -14,6 +14,8 @@ import { getApi } from "src/apis";
 import { articleApis } from "src/apis/article";
 import { dashboardApis } from "src/apis/dashboard";
 import { DeleteArticleLink } from "./DeleteArticleLink";
+import { PublicityText } from "../PublicityText";
+import { PublicitySelect } from "../PublicitySelect";
 
 const root = lang.pages.dashboard.articles;
 
@@ -58,6 +60,14 @@ const getDashboardData = ([page]) => dashboardApi.getArticles({ query: { page } 
 const getDashboardDataFirstPage = () => getDashboardData([1]);
 const deleteArticle = (articleId: string) =>
   articleApi.deleteArticle({ path: { articleId } });
+const changeOwnerSetArticlePublicity = async (articleId: string, publicity: boolean) => {
+  const resp = await dashboardApi.changeArticlePublicity({
+    path: { articleId },
+    body: { public: publicity },
+  });
+
+  return resp.public;
+};
 
 export const ArticleTable: React.FC = ({}) => {
 
@@ -78,6 +88,23 @@ export const ArticleTable: React.FC = ({}) => {
 
   const fullColumns = useMemo(() => [
     ...columns,
+    {
+      property: "ownerSetPublicity",
+      header: <LocalizedString id={root.ownerSetPublicity} />,
+      render: (d) => (
+        <PublicitySelect
+          initialValue={d.ownerSetPublicity}
+          onChange={(changed) => changeOwnerSetArticlePublicity(d.id, changed)}
+        />
+      ),
+    },
+    {
+      property: "adminSetPublicity",
+      header: <LocalizedString id={root.adminSetPublicity} />,
+      render: (d) => (
+        <PublicityText publicity={d.adminSetPublicity} />
+      ),
+    },
     {
       property: "actions",
       header: <LocalizedString id={root.actions} />,
