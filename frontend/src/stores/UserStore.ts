@@ -1,4 +1,4 @@
-import { useState, useCallback, useLayoutEffect } from "react";
+import { useState, useCallback } from "react";
 import { changeToken } from "src/apis/fetch";
 import { UserRole } from "src/models/User";
 import { setCookie, parseCookies, destroyCookie } from "nookies";
