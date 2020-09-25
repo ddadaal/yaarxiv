@@ -1,9 +1,10 @@
 import { lang } from "src/i18n";
+import { UrlObject } from "url";
 
 export type TLink = {
   mode?: "startsWith" | "exact";
   textId: string;
-  href?: string;
+  href?: string | UrlObject;
   onClick?: () => void;
 };
 

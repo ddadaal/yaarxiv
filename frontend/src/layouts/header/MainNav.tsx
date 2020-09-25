@@ -10,16 +10,26 @@ import { Menu as MenuIcon } from "grommet-icons";
 import Link from "next/link";
 import { Media } from "src/styles/media";
 import { TLink, commonLinks, adminLinks, userLinks } from "./links";
+import { UrlObject } from "url";
 
 const root = lang.header;
 
 
-const matchRoute = (mode: TLink["mode"], href: string | undefined, curr: string) => {
+const matchRoute = (
+  mode: TLink["mode"],
+  href: string | UrlObject | undefined,
+  curr: string
+) => {
   if (!href || !mode) return false;
-  if (mode === "exact") { return href === curr; } else { return curr.startsWith(href); }
+
+  const pathname = typeof href === "string" ? href : href.pathname ?? "";
+  if (mode === "exact") {
+    return pathname === curr;
+  } else {
+    return curr.startsWith(pathname);
+  }
 };
 
-const loginLink: TLink ={ textId: root.login, href: "/login" };
 
 const Greeting = ({ name, ...rest }: { name: string } & BoxProps) => (
   <Box justify="center" {...rest}>
@@ -45,8 +55,9 @@ const Unfolded: React.FC<{
    user: ReturnType<typeof UserStore>["user"],
    router: NextRouter,
    authenticatedLinks: TLink[],
+   loginLink: TLink,
    logoutLink: TLink;
-}> = ({ user, router, logoutLink, authenticatedLinks }) => {
+}> = ({ user, router, logoutLink, authenticatedLinks, loginLink }) => {
 
   const children =
     user
@@ -96,8 +107,9 @@ const Folded: React.FC<{
    user: ReturnType<typeof UserStore>["user"],
    router: NextRouter,
    authenticatedLinks: TLink[],
+   loginLink: TLink,
    logoutLink: TLink,
-}> = ({ user, router, logoutLink, authenticatedLinks }) => {
+}> = ({ user, router, logoutLink, authenticatedLinks, loginLink }) => {
 
   const items =
     user
@@ -155,6 +167,17 @@ export const MainNav: React.FC = () => {
 
   const logoutLink = { textId: root.logout, onClick: userStore.logout };
 
+  const loginLink = {
+    textId: root.login,
+    href: {
+      pathname: "/login",
+      query: {
+        pathname: router.pathname,
+        asPath: router.asPath,
+      },
+    },
+  };
+
   return (
     <>
       <Media lessThan="sm">
@@ -163,6 +186,7 @@ export const MainNav: React.FC = () => {
           user={userStore.user}
           authenticatedLinks={authenticatedLinks}
           logoutLink={logoutLink}
+          loginLink={loginLink}
         />
       </Media>
       <Media greaterThanOrEqual="sm">
@@ -171,6 +195,7 @@ export const MainNav: React.FC = () => {
           user={userStore.user}
           authenticatedLinks={authenticatedLinks}
           logoutLink={logoutLink}
+          loginLink={loginLink}
         />
       </Media>
     </>

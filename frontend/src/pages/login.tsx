@@ -9,12 +9,13 @@ import { getApi } from "src/apis";
 import { authApis } from "src/apis/auth";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
-import Router from "next/router";
+import { useRouter } from "next/router";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
+import { queryToString } from "src/utils/querystring";
 
 const root = lang.login;
 
@@ -23,10 +24,23 @@ const defaultValue = { id: "", password: "", remember: true };
 const api = getApi(authApis);
 
 const LoginForm: React.FC = () => {
+  const router = useRouter();
+
+  const pathname = queryToString(router.query.pathname);
+  const asPath = queryToString(router.query.asPath);
+
   const userStore = useStore(UserStore);
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
   const request = useHttpRequest(setInProgress);
+
+  const jumpBackOrDefault = async (defaultPath: string) => {
+    if (pathname) {
+      await router.push(pathname, asPath);
+    } else {
+      await router.push(defaultPath);
+    }
+  };
 
   const login = () => request(async () => {
     const { id, password, remember } = value;
@@ -45,9 +59,9 @@ const LoginForm: React.FC = () => {
         id: res.userId,
       });
       if (res.role === "admin"){
-        await Router.push("/admin/articles");
+        await jumpBackOrDefault("/admin/articles");
       } else {
-        await Router.push("/");
+        await jumpBackOrDefault("/");
       }
     } catch (e) {
       console.log(e);
