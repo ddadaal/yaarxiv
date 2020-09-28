@@ -4,8 +4,7 @@ import { LocalizedString } from "simstate-i18n";
 import { lang, useI18nStore, languageNames, saveLanguageToCookie } from "src/i18n";
 import { useStore } from "simstate";
 import { ThemeStore } from "src/stores/ThemeStore";
-import { Moon } from "src/components/icons/Moon";
-import { Sun } from "src/components/icons/Sun";
+import { Moon, Sun } from "grommet-icons";
 
 const root = lang.footer;
 
