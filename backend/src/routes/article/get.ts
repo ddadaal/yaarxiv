@@ -34,6 +34,10 @@ export async function getArticleRoute(fastify: FastifyInstance) {
         .createQueryBuilder("r")
         .where("r.articleId = :aid", { aid: articleId })
         .orderBy("r.revisionNumber")
+        .select([
+          "r.time",
+          "r.revisionNumber",
+        ])
         .getMany();
 
 
