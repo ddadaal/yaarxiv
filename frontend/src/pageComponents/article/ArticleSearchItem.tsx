@@ -5,9 +5,13 @@ import { ArticleSearchResult } from "yaarxiv-api/article/search";
 import { Author } from "yaarxiv-api/article/models";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
+import { HighlightedText, Mark } from "src/components/HighlightedText";
 
 
 interface Props {
+  searchText: string;
+  searchKeywords: string[];
+  searchAuthors: string[];
   article: ArticleSearchResult;
   onAuthorClicked: (author: Author) => void;
   onKeywordClicked: (keywords: string) => void;
@@ -15,10 +19,12 @@ interface Props {
 
 const Keyword: React.FC<{
   name: string;
-  onKeywordClicked: Props["onKeywordClicked"]
+  onKeywordClicked: Props["onKeywordClicked"];
+  highlight: boolean;
 }> = ({
   name,
   onKeywordClicked,
+  highlight,
 }) => (
   <Box
     margin="xsmall"
@@ -26,12 +32,15 @@ const Keyword: React.FC<{
     border={{ color: undefined, side: "all", size: "small" }}
     onClick={() => onKeywordClicked(name)}
   >
-    {name}
+    {highlight ? <Mark>{name}</Mark> : name}
   </Box>
 );
 
 
 export const ArticleSearchItem: React.FC<Props> = ({
+  searchText,
+  searchKeywords,
+  searchAuthors,
   article,
   onAuthorClicked,
   onKeywordClicked,
@@ -46,19 +55,23 @@ export const ArticleSearchItem: React.FC<Props> = ({
     <Box gap="small" >
       <Heading level={2} size="small" margin="0">
         <AnchorLink href={"/articles/[id]"} as={`/articles/${article.articleId}`}>
-          {title}
+          <HighlightedText text={title} highlights={[searchText]} />
         </AnchorLink>
       </Heading>
       <ArticleAuthors
         authors={authors}
+        highlightNames={searchAuthors}
         onAuthorClicked={onAuthorClicked}
       />
       <Box>
-        <Text truncate>{abstract}</Text>
+        <Text>
+          <HighlightedText text={abstract} highlights={[searchText]} truncate />
+        </Text>
       </Box>
       <Box direction="row" wrap>
         {keywords.map((k) => (
           <Keyword
+            highlight={searchKeywords.some((x) => k.includes(x))}
             key={k} name={k} onKeywordClicked={onKeywordClicked}
           />
         ))}

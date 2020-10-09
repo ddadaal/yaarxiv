@@ -38,6 +38,21 @@ const mockResult = [
     createTime: "2020-08-06T01:16:41+00:00",
     lastUpdateTime: "2020-08-06T01:16:41+00:00",
   },
+  {
+    articleId: "3",
+    title:"首都博物馆建筑空气动力学计算" ,
+    commentCount: 2,
+    authors: [
+      { "name":"樊春","affiliation":"Oxford Brookes University" },
+      { "name":"安亦然","affiliation":"Bournemouth University" },
+      { "name":"林官明","affiliation":"Alcatel-Lucent" },
+    ],
+    abstract: "大型建筑的设计必须考虑风载荷,计算机和计算技术的发展已使形状复杂的建筑外空气流动载荷由计算来求得。本文介绍应用商品软件计算一个新型建筑外部流动的方法和结果。所得与风洞试验相比的一致性表明,这类风工程所需的气动参数可单靠数值计算来得到。",
+    keywords: ["风荷载", "高层建筑", "数值模拟"],
+    category: "Computer science",
+    createTime: "2020-08-06T01:16:41+00:00",
+    lastUpdateTime: "2020-08-06T01:16:41+00:00",
+  },
 ] as ArticleSearchResult[];
 
 const mockArticle = (id: string, revision: number | undefined): Article => ({

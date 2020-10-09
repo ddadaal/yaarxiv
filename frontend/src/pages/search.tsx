@@ -82,12 +82,15 @@ export const SearchPage: NextPage<Props> = (props) => {
   };
 
   const currentPage = queryToIntOrDefault(query.page, 1);
+  const searchText = queryToString(query?.searchText ?? "");
+  const authorNames = queryToArray(query.authorNames);
+  const keywords = queryToArray(query.keywords);
 
   return (
     <Box flex="grow" direction="column">
       <Box justify="center" align="center" margin="small">
         <SearchBar
-          initialText={queryToString(query?.searchText ?? "")}
+          initialText={searchText}
           onConfirm={(k) => updateQuery({ searchText: k })}
         />
       </Box>
@@ -99,6 +102,9 @@ export const SearchPage: NextPage<Props> = (props) => {
                 <Box gap="large">
                   {results.map((r) => (
                     <ArticleSearchItem
+                      searchText={searchText}
+                      searchAuthors={authorNames}
+                      searchKeywords={keywords}
                       key={r.articleId}
                       article={r}
                       onAuthorClicked={onAuthorClicked}
@@ -124,8 +130,8 @@ export const SearchPage: NextPage<Props> = (props) => {
             <ArticleFilter
               startYear={queryToIntOrDefault(query.startYear)}
               endYear={queryToIntOrDefault(query.endYear)}
-              authorNames={queryToArray(query.authorNames)}
-              keywords={queryToArray(query.keywords)}
+              authorNames={authorNames}
+              keywords={keywords}
               onAuthorsChange={updateQuery}
               onYearChange={updateQuery}
               onKeywordsChange={updateQuery}
