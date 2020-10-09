@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Box, Text, Heading } from "grommet";
 import { AnchorLink } from "../../components/AnchorLink";
 import { ArticleSearchResult } from "yaarxiv-api/article/search";
@@ -36,6 +36,20 @@ const Keyword: React.FC<{
   </Box>
 );
 
+const AbstractBox: React.FC<{
+  abstract: string;
+  searchText: string;
+}> = ({ abstract, searchText }) => {
+
+  const [expanded, setExpanded] = useState(false);
+  return (
+    <Box hoverIndicator onClick={() => setExpanded(!expanded)}>
+      <Text>
+        <HighlightedText text={abstract} highlights={[searchText]} truncate={!expanded} />
+      </Text>
+    </Box>
+  );
+};
 
 export const ArticleSearchItem: React.FC<Props> = ({
   searchText,
@@ -63,11 +77,10 @@ export const ArticleSearchItem: React.FC<Props> = ({
         highlightNames={searchAuthors}
         onAuthorClicked={onAuthorClicked}
       />
-      <Box>
-        <Text>
-          <HighlightedText text={abstract} highlights={[searchText]} truncate />
-        </Text>
-      </Box>
+      <AbstractBox
+        searchText={searchText}
+        abstract={abstract}
+      />
       <Box direction="row" wrap>
         {keywords.map((k) => (
           <Keyword
