@@ -2,9 +2,9 @@ import React, { useMemo } from "react";
 import { range } from "src/utils/array";
 
 // How many words should be saved at the context
-const CONTEXT_WORD_LENGTH = 20;
+const CONTEXT_WORD_LENGTH = 40;
 // If there is no highlight, how many words should be shown at maximum?
-const WHOLE_CONTENT_LIMIT = 120;
+const WHOLE_CONTENT_LIMIT = 60;
 
 interface Props {
   text: string;
@@ -21,8 +21,22 @@ function escapeRegExp(regex: string) {
   return regex.replace(/[.*+\-?^${}()|[\]\\]/g, "\\$&");
 }
 
+/**
+ * Split the input with space or Chinese charater
+ * Also removes empty string ""
+ * @param str the string to split
+ */
 function splitWithSpaceAndChineseChar(str: string): string[] {
-  return str.split(/(\s|[\u4E00-\uFA29])/);
+  return str.split(/(\s|[\u4E00-\uFA29])/).filter((x) => x !== "");
+}
+
+function truncateSentence(content: string) {
+  const words = splitWithSpaceAndChineseChar(content);
+  if (words.length > WHOLE_CONTENT_LIMIT) {
+    return words.slice(0, WHOLE_CONTENT_LIMIT).join("") + " ...";
+  } else {
+    return words;
+  }
 }
 
 export const HighlightedText: React.FC<Props> = ({
@@ -30,9 +44,16 @@ export const HighlightedText: React.FC<Props> = ({
   highlights,
   truncate = false,
 }) => {
+
   const element = useMemo(() => {
 
-    const regex = new RegExp(`(${highlights.map(escapeRegExp).join("|")})`, "gi");
+    const nonEmptyHighlights = highlights.filter((x) => x.length > 0);
+    if (nonEmptyHighlights.length === 0) {
+      // nothing to highlight
+      // just truncate and return
+      return truncateSentence(text);
+    }
+    const regex = new RegExp(`(${nonEmptyHighlights.map(escapeRegExp).join("|")})`, "gi");
     const splitted = text.split(regex) as (string | React.ReactNode)[];
 
     const matched = splitted.length > 1;
@@ -64,10 +85,7 @@ export const HighlightedText: React.FC<Props> = ({
         });
       } else {
         // just truncate the whole text
-        const words = splitWithSpaceAndChineseChar(splitted[0] as string);
-        if (words.length > WHOLE_CONTENT_LIMIT) {
-          splitted[0] = words.slice(0, WHOLE_CONTENT_LIMIT).join("") + " ...";
-        }
+        splitted[0] = truncateSentence(splitted[0] as string);
       }
     }
 
