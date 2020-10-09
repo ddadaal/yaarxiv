@@ -6,7 +6,7 @@ import { Author } from "yaarxiv-api/article/models";
 
 interface Props {
   authors: Author[];
-  highlightNames: string[];
+  highlightNames?: string[];
   onAuthorClicked?: (author: Author) => void;
 }
 
@@ -21,7 +21,7 @@ export const ArticleAuthors: React.FC<Props> = ({
         <Text key={i} size="medium">
           <AnchorLink color="grey" onClick={() => onAuthorClicked?.(author)}>
             {
-              highlightNames.includes(author.name)
+              (highlightNames && highlightNames.includes(author.name))
                 ? <Mark>{author.name}</Mark>
                 : author.name
             }
