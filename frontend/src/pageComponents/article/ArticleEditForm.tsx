@@ -170,7 +170,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             <FormField
               label={
                 <LocalizedString
-                  id={root.info.codelink}
+                  id={root.info.codeLink}
                   replacements={[Object.values(ACCEPTABLE_CODE_SITES).join(", ")]}
                 />
               }
