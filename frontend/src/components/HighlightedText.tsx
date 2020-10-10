@@ -51,7 +51,7 @@ export const HighlightedText: React.FC<Props> = ({
     if (nonEmptyHighlights.length === 0) {
       // nothing to highlight
       // just truncate and return
-      return truncateSentence(text);
+      return truncate ? truncateSentence(text) : text;
     }
     const regex = new RegExp(`(${nonEmptyHighlights.map(escapeRegExp).join("|")})`, "gi");
     const splitted = text.split(regex) as (string | React.ReactNode)[];
