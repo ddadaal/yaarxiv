@@ -8,7 +8,11 @@ import { FileUploader } from "src/components/FileUploader";
 import { Form } from "src/components/form/Form";
 import { TagInput } from "src/components/TagInput";
 import { lang } from "src/i18n";
-import { codeLinkValidation, DOMAINS, getCodeLinkInfo } from "src/utils/codeLink";
+import {
+  codeLinkValidation,
+  ACCEPTABLE_CODE_SITES,
+  getCodeLinkInfo,
+} from "src/utils/validations/codeLink";
 import { config } from "src/utils/config";
 import { getStaticFileUrl } from "src/utils/staticFiles";
 
@@ -167,7 +171,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               label={
                 <LocalizedString
                   id={root.info.codelink}
-                  replacements={[Object.values(DOMAINS).join(", ")]}
+                  replacements={[Object.values(ACCEPTABLE_CODE_SITES).join(", ")]}
                 />
               }
               validate={(value) => !value || codeLinkValidation(value)}

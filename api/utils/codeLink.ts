@@ -1,10 +1,4 @@
-import React from "react";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
-import { Text } from "grommet";
-
-const root = lang.components.form.validationError;
-export const DOMAINS = {
+export const ACCEPTABLE_CODE_SITES = {
   "github.com": "GitHub",
   "gitlab.com": "GitLab",
   "gitee.com": "Gitee",
@@ -12,7 +6,7 @@ export const DOMAINS = {
 
 interface CodeLink {
   hostname: string;
-  siteName: typeof DOMAINS[keyof typeof DOMAINS];
+  siteName: typeof ACCEPTABLE_CODE_SITES[keyof typeof ACCEPTABLE_CODE_SITES];
   repo: string;
   url: string;
 }
@@ -26,7 +20,7 @@ export function getCodeLinkInfo(link: string): CodeLink | undefined {
   try {
     const url = new URL(link);
     // validate whether the siteName is accepted.
-    const siteName = DOMAINS[url.hostname];
+    const siteName = ACCEPTABLE_CODE_SITES[url.hostname];
     if (!siteName) { return undefined; }
 
     // validate whether the pathname is to a repo
@@ -48,24 +42,3 @@ export function getCodeLinkInfo(link: string): CodeLink | undefined {
     return undefined;
   }
 }
-
-export const codeLinkValidation = (value: string) => {
-
-  const info = getCodeLinkInfo(value);
-
-  if (!info) {
-    return {
-      message: (
-        <Text color="status-error">
-          <LocalizedString
-            id={root.codeLink}
-            replacements={[Object.values(DOMAINS).join(", ")]}
-          />
-        </Text>
-      ),
-      status: "error",
-    } as const;
-  }
-};
-
-

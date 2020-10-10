@@ -5,6 +5,7 @@ import { route } from "@/utils/route";
 import { FastifyInstance } from "fastify";
 import * as api from "yaarxiv-api/article/update";
 import createError from "http-errors";
+import { validateCodeLink } from "@/utils/codeLink";
 
 export async function updateArticleRoute(fastify: FastifyInstance) {
   route<api.UpdateArticleSchema>(fastify, api.endpoint, "UpdateArticleSchema", { authOption: true })(
@@ -17,6 +18,10 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
         if (!pdf) {
           throw createError(400, "PDF token is invalid.");
         }
+      }
+
+      if (req.body.codeLink) {
+        validateCodeLink(req.body.codeLink);
       }
 
       const articleRepo = fastify.orm.getRepository(Article);

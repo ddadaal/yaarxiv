@@ -27,6 +27,22 @@ const payload: api.UpdateArticleSchema["body"] = {
   codeLink: "https://github.com/test/test",
 };
 
+it("should reject bad code link", async () => {
+  // bad code link
+  const badPayload = {
+    ...payload,
+    codeLink: "https://github.com/test",
+  };
+  const resp = await server.inject({
+    ...api.endpoint,
+    url: "/articles/2",
+    payload: badPayload,
+    ...login(server, normalUser1),
+  });
+
+  expect(resp.statusCode).toBe(400);
+});
+
 it("return 403 if not the owner.", async () => {
 
   const resp = await server.inject({

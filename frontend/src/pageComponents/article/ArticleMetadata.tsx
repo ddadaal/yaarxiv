@@ -5,7 +5,7 @@ import { useLocalized } from "simstate-i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { IdIcon } from "src/components/icons/Id";
 import { lang } from "src/i18n";
-import { getCodeLinkInfo } from "src/utils/codeLink";
+import { getCodeLinkInfo } from "src/utils/validations/codeLink";
 import { formatDateTime } from "src/utils/datetime";
 
 const root = lang.pages.search.item;

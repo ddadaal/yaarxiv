@@ -21,7 +21,8 @@ export interface ArticleInfo {
   /** The download link of the pdf */
   pdfLink: string;
   /**
-   * Link to code
+   * Link to code.
+   * Should pass validation from utils/codeLink.ts
    * @format uri
    */
   codeLink?: string;

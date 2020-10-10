@@ -96,3 +96,27 @@ it("fails if the title is too long", async () => {
 
   expect(resp.statusCode).toBe(400);
 });
+
+it("fails if code link is bad", async () => {
+  // upload a pdf and get token
+  const pdfRepo = getRepository(PdfUpload);
+  const pdf = generatePdf(normalUser1);
+  await pdfRepo.save(pdf);
+
+  const payload: api.UploadArticleSchema["body"] = {
+    abstract: "123",
+    authors: ["author"],
+    keywords: ["k1", "k2"],
+    pdfToken: pdf.id,
+    title: "a".repeat(120), // the limit is 100
+    codeLink: "https://github.com/ddadaal",
+  };
+
+  const resp = await server.inject({
+    ...api.endpoint,
+    payload,
+    ...login(server, normalUser1),
+  });
+
+  expect(resp.statusCode).toBe(400);
+});
