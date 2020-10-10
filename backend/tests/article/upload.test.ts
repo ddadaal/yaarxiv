@@ -35,6 +35,7 @@ it("upload an article.", async () => {
     keywords: ["k1", "k2"],
     pdfToken: pdf.id,
     title: "123",
+    codeLink: "https://github.com/test/test",
   };
 
   const resp = await server.inject({
@@ -48,10 +49,11 @@ it("upload an article.", async () => {
   expect(await repo.count()).toBe(articleCount+1);
 
   const article = await repo.findOne(resp.json().id, { relations: [ "revisions" ]});
-  expect(article).not.toBeUndefined();
-  expect(article!.latestRevisionNumber).toBe(1);
-  expect(article!.revisions[0].abstract).toBe(payload.abstract);
-  expect(article!.revisions[0].title).toBe(payload.title);
+  if (!article) { fail("Article is undefined."); }
+  expect(article.latestRevisionNumber).toBe(1);
+  expect(article.revisions[0].abstract).toBe(payload.abstract);
+  expect(article.revisions[0].title).toBe(payload.title);
+  expect(article.revisions[0].codeLink).toBe(payload.codeLink);
 });
 
 it("fails if pdf token is invalid.", async () => {

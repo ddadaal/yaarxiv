@@ -1,21 +1,24 @@
 import { Box, Text } from "grommet";
-import { IconProps, Bookmark, Upload, Edit } from "grommet-icons";
+import { IconProps, Upload, Edit, Code } from "grommet-icons";
 import React from "react";
 import { useLocalized } from "simstate-i18n";
+import { AnchorLink } from "src/components/AnchorLink";
 import { IdIcon } from "src/components/icons/Id";
 import { lang } from "src/i18n";
+import { getCodeLinkInfo } from "src/utils/codeLink";
 import { formatDateTime } from "src/utils/datetime";
 
 const root = lang.pages.search.item;
 
 export const MetadataItem: React.FC<{
   textId: string;
+  replacements?: React.ReactNode[];
   Icon: React.ComponentType<{ size?: IconProps["size"] }>;
-  data: string;
-}> = ({ textId, Icon, data }) => (
+  data: string | React.ReactNode;
+}> = ({ textId, replacements, Icon, data }) => (
   <Box
     margin="xsmall"
-    title={useLocalized(textId) as string}
+    title={useLocalized(textId, replacements) as string}
     direction="row" align="center" gap="xsmall"
   >
     <Icon size={"medium"} />
@@ -35,11 +38,16 @@ export const ArticleMetadata: React.FC<{
   articleId: string;
   createTime: string;
   lastUpdateTime?: string;
+  codeLink?: string;
 }> = ({
   articleId,
   lastUpdateTime,
   createTime,
+  codeLink,
 }) => {
+
+  const codeLinkObj = codeLink ? getCodeLinkInfo(codeLink) : undefined;
+
   return (
     <MetadataContainer>
       <MetadataItem
@@ -60,6 +68,20 @@ export const ArticleMetadata: React.FC<{
             data={formatDateTime(lastUpdateTime)}
           />
         ): undefined
+      }
+      { codeLinkObj
+        ? (
+          <MetadataItem
+            textId={root.codeLink}
+            replacements={[codeLinkObj.url]}
+            Icon={Code}
+            data={(
+              <AnchorLink target="blank" href={codeLinkObj.url}>
+                {codeLinkObj.siteName}
+              </AnchorLink>
+            )}
+          />
+        ) : undefined
       }
     </MetadataContainer>
   );

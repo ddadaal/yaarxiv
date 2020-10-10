@@ -53,6 +53,7 @@ export default {
           email: "Please input a valid email.",
           invalid: "Invalid",
           required: "Required",
+          codeLink: "Please input repo link from {}",
         },
       },
       publicitySelect: {
@@ -156,6 +157,7 @@ export default {
           authors: "Authors (max chars per item: {})",
           keywords: "Keywords (max chars per item: {}. Extra chars will be truncated.)",
           abstract: "Abstract (max chars: {})",
+          codeLink: "Link to Code (Optional. Link to repos from {} are accepted.)",
           reset: "Reset",
           upload: "Upload",
         },
@@ -177,6 +179,7 @@ export default {
           createTime: "Create Time",
           lastUpdateTime: "Last Update Time",
           revisionCount: "Revision Count",
+          codeLink: "Link to Code",
         },
       },
       dashboard: {

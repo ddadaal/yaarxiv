@@ -66,6 +66,7 @@ export async function getArticleRoute(fastify: FastifyInstance) {
               keywords: targetRevision.keywords,
               pdfLink: targetRevision.pdf.pdfUrl,
               title: targetRevision.title,
+              codeLink: targetRevision.codeLink,
             },
             revisions: articlesRevisionInfo.map((x) => ({
               time: x.time.toISOString(),

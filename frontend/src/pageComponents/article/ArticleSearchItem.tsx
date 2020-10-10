@@ -63,6 +63,7 @@ export const ArticleSearchItem: React.FC<Props> = ({
     title,
     authors,
     keywords, abstract, articleId, lastUpdateTime, createTime,
+    codeLink,
   } = article;
 
   return (
@@ -93,6 +94,7 @@ export const ArticleSearchItem: React.FC<Props> = ({
         articleId={articleId}
         lastUpdateTime={lastUpdateTime}
         createTime={createTime}
+        codeLink={codeLink}
       />
     </Box>
   );

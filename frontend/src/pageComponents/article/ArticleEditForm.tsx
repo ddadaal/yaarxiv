@@ -8,6 +8,7 @@ import { FileUploader } from "src/components/FileUploader";
 import { Form } from "src/components/form/Form";
 import { TagInput } from "src/components/TagInput";
 import { lang } from "src/i18n";
+import { codeLinkValidation, DOMAINS, getCodeLinkInfo } from "src/utils/codeLink";
 import { config } from "src/utils/config";
 import { getStaticFileUrl } from "src/utils/staticFiles";
 
@@ -18,6 +19,7 @@ export interface ArticleForm {
   authors: string[];
   keywords: string[];
   abstract: string;
+  codeLink?: string;
 }
 
 interface Props {
@@ -42,6 +44,7 @@ export const ArticleEditForm: React.FC<Props> = ({
     && info.title !== ""
     && info.authors.length > 0
     && info.keywords.length > 0
+    && (!info.codeLink || getCodeLinkInfo(info.codeLink) !== undefined)
     && info.abstract !== "";
 
   const pdfSizeLimit = config.pdfSizeLimit;
@@ -92,7 +95,14 @@ export const ArticleEditForm: React.FC<Props> = ({
             }}
             onReset={() => setInfo(initial)}
             value={info}
-            onSubmit={() => onSubmit(file, info)}
+            onSubmit={() => {
+              // if code link is "", make it undefined.
+              if (!info.codeLink) {
+                info.codeLink = undefined;
+              }
+              onSubmit(file, info);
+            }}
+            validate="blur"
           >
             <FormField
               label={<LocalizedString id={root.info.articleTitle} replacements={[100]} />}
@@ -101,10 +111,13 @@ export const ArticleEditForm: React.FC<Props> = ({
               disabled={disabled}
               maxLength={100}
               onChange={(e) => setInfo({ ...info, title: e.target.value })}
+              required
             />
+
             <FormField
               label={<LocalizedString id={root.info.authors} replacements={[50]} />}
               name="authors"
+              required
             >
               <TagInput
                 name="authors"
@@ -121,6 +134,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             <FormField
               label={<LocalizedString id={root.info.keywords} replacements={[50]} />}
               name="keywords"
+              required
             >
               <TagInput
                 disabled={disabled}
@@ -138,6 +152,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             <FormField
               label={<LocalizedString id={root.info.abstract} replacements={[2000]} />}
               name="abstract"
+              required
             >
               <TextArea
                 disabled={disabled}
@@ -148,6 +163,20 @@ export const ArticleEditForm: React.FC<Props> = ({
                 rows={15}
               />
             </FormField>
+            <FormField
+              label={
+                <LocalizedString
+                  id={root.info.codelink}
+                  replacements={[Object.values(DOMAINS).join(", ")]}
+                />
+              }
+              validate={(value) => !value || codeLinkValidation(value)}
+              name="codeLink"
+              value={info.codeLink}
+              disabled={disabled}
+              maxLength={100}
+              onChange={(e) => setInfo({ ...info, codeLink: e.target.value })}
+            />
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
               <Button
                 type="reset"

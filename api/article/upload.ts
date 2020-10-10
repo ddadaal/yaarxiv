@@ -22,6 +22,11 @@ export interface UploadArticleSchema {
      * @maxLength 2000
      */
     abstract: string;
+    /**
+     * Link to code
+     * @format uri
+     */
+    codeLink?: string;
   };
   responses: {
     /** The upload is successful. */

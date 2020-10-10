@@ -38,4 +38,7 @@ export class ArticleRevision {
 
   @Column()
   articleId: number;
+
+  @Column({ nullable: true })
+  codeLink?: string = undefined;
 }

@@ -24,6 +24,7 @@ afterEach(async () => {
 const payload: api.UpdateArticleSchema["body"] = {
   abstract: "123",
   keywords: ["k1", "k2"],
+  codeLink: "https://github.com/test/test",
 };
 
 it("return 403 if not the owner.", async () => {
@@ -54,8 +55,11 @@ it("update an article.", async () => {
   expect(resp.json().revisionNumber).toBe(3);
 
   const article = await repo.findOne(2, { relations: [ "revisions" ]});
-  expect(article).not.toBeUndefined();
-  expect(article!.latestRevisionNumber).toBe(3);
-  expect(article!.revisions[2].abstract).toBe(payload.abstract);
+  if (!article ) {
+    fail("Article is undefined.");
+  }
+  expect(article.latestRevisionNumber).toBe(3);
+  expect(article.revisions[2].abstract).toBe(payload.abstract);
+  expect(article.revisions[2].codeLink).toBe(payload.codeLink);
 
 });

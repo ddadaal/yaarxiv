@@ -25,6 +25,11 @@ export interface UpdateArticleSchema {
      * @maxLength 2000
      */
     abstract?: string;
+    /**
+     * Link to code
+     * @format uri
+     */
+    codeLink?: string;
   };
   responses: {
     /** The update is successful. */

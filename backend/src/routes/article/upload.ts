@@ -36,6 +36,7 @@ export async function uploadArticleRoute(fastify: FastifyInstance) {
       rev.revisionNumber = 1;
       rev.title = req.body.title;
       rev.time = createTime;
+      rev.codeLink = req.body.codeLink;
 
       article.revisions = [rev];
 

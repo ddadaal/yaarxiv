@@ -52,6 +52,7 @@ const mockResult = [
     category: "Computer science",
     createTime: "2020-08-06T01:16:41+00:00",
     lastUpdateTime: "2020-08-06T01:16:41+00:00",
+    codeLink: "https://github.com/ddadaal/yaarxiv",
   },
 ] as ArticleSearchResult[];
 
@@ -73,6 +74,7 @@ const mockArticle = (id: string, revision: number | undefined): Article => ({
     keywords: ["Manual testing", "Upload", "Client-side", "Cloud testing", "Cloud computing", "Computer science", "Server-side", "Debugging", "Software", "Operating system"],
     category: "Computer Science",
     pdfLink,
+    codeLink: Math.random() < 0.5 ? "https://github.com/ddadaal/yaarxiv" : undefined,
   },
   ownerId: "123",
   createTime:"2011-10-05T14:48:00.000Z",

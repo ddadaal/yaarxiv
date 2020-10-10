@@ -46,6 +46,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
           <ArticleMetadata
             articleId={article.id}
             createTime={article.createTime}
+            codeLink={article.currentRevision.codeLink}
           />
         </Section>
       )}

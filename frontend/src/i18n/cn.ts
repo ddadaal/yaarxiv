@@ -49,6 +49,7 @@ export default {
           email: "请输入有效的电子邮箱",
           invalid: "输入无效",
           required: "必填项",
+          codeLink: "请输入以下网站的仓库的链接：{}",
         },
       },
       publicitySelect: {
@@ -152,6 +153,7 @@ export default {
           authors: "作者（每项字符数上限：{}）",
           keywords: "关键词（每项字符数上限：{}。多余字符将被截断。）",
           abstract: "摘要（字符数上限：{}）",
+          codelink: "代码链接（可选，接受以下网站的仓库的链接：{}）",
           reset: "重置",
           upload: "上传",
         },
@@ -173,6 +175,7 @@ export default {
           createTime: "提交时间",
           lastUpdateTime: "最新一次更新时间",
           revisionCount: "更新次数",
+          codeLink: "代码链接：{}",
         },
       },
       dashboard: {

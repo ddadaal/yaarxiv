@@ -56,6 +56,7 @@ export async function updateArticleRoute(fastify: FastifyInstance) {
       rev.revisionNumber = revNumber;
       rev.title = req.body.title ?? latestRev.title;
       rev.time = time;
+      rev.codeLink = req.body.codeLink ?? latestRev.codeLink;
 
       article.latestRevisionNumber = revNumber;
 

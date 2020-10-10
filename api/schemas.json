@@ -44,7 +44,7 @@
                 "publicity"
               ],
               "additionalProperties": false,
-              "description": "The publicity has been successfully changed.\r Returns the new publicity."
+              "description": "The publicity has been successfully changed.\r\nReturns the new publicity."
             },
             "403": {
               "type": "object",
@@ -127,7 +127,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Delete a user and all of related articles.\r Only admin can do it."
+      "description": "Delete a user and all of related articles.\r\nOnly admin can do it."
     },
     "AdminGetArticlesSchema": {
       "type": "object",
@@ -385,7 +385,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Delete an article and all of its revisions.\r Only the owner and admin can do it."
+      "description": "Delete an article and all of its revisions.\r\nOnly the owner and admin can do it."
     },
     "GetArticleSchema": {
       "type": "object",
@@ -408,7 +408,7 @@
           "properties": {
             "revision": {
               "type": "number",
-              "description": "Revision nunber.\r If not set, the latest revision will be returned."
+              "description": "Revision nunber.\r\nIf not set, the latest revision will be returned."
             }
           },
           "additionalProperties": false
@@ -493,7 +493,7 @@
                   }
                 }
               ],
-              "description": "The name of authors\r Search articles with ALL of specified authors.\r Keyword can NOT be incomplete.\r For example, for keywords [\"Author1\", \"Author2\"]:\r     [\"Author1\", \"Author2\", \"Author3\"] Yes\r     [\"Author1\"] No\r     [\"Author\", \"Author2\"] No"
+              "description": "The name of authors\r\nSearch articles with ALL of specified authors.\r\nKeyword can NOT be incomplete.\r\nFor example, for keywords [\"Author1\", \"Author2\"]:\r\n    [\"Author1\", \"Author2\", \"Author3\"] Yes\r\n    [\"Author1\"] No\r\n    [\"Author\", \"Author2\"] No"
             },
             "keywords": {
               "anyOf": [
@@ -507,7 +507,7 @@
                   }
                 }
               ],
-              "description": "Keywords.\r Search articles with ALL of specified keywords.\r Keyword can be incomplete.\r For example, for keywords [\"Computer\", \"Biology\"]:\r     [\"Computer\", \"Biology\", \"Chemistry\"] Yes\r     [\"Computer Science\", \"Biology\", \"Cheistry\"] Yes\r     [\"Computer Science\", \"Physics\"] No\r     [\"Computer\", \"Physics\"] No"
+              "description": "Keywords.\r\nSearch articles with ALL of specified keywords.\r\nKeyword can be incomplete.\r\nFor example, for keywords [\"Computer\", \"Biology\"]:\r\n    [\"Computer\", \"Biology\", \"Chemistry\"] Yes\r\n    [\"Computer Science\", \"Biology\", \"Cheistry\"] Yes\r\n    [\"Computer Science\", \"Physics\"] No\r\n    [\"Computer\", \"Physics\"] No"
             },
             "page": {
               "type": "number",
@@ -602,6 +602,11 @@
               "type": "string",
               "description": "The abstract of the article.",
               "maxLength": 2000
+            },
+            "codeLink": {
+              "type": "string",
+              "description": "Link to code",
+              "format": "uri"
             }
           },
           "additionalProperties": false
@@ -688,6 +693,11 @@
               "type": "string",
               "description": "The abstract of the article.",
               "maxLength": 2000
+            },
+            "codeLink": {
+              "type": "string",
+              "description": "Link to code",
+              "format": "uri"
             }
           },
           "required": [
@@ -738,7 +748,7 @@
           "properties": {
             "file": {
               "type": "object",
-              "description": "The file object.\r 1 PDF per request."
+              "description": "The file object.\r\n1 PDF per request."
             }
           },
           "required": [
@@ -754,7 +764,7 @@
               "properties": {
                 "token": {
                   "type": "string",
-                  "description": "The token for the upload.\r It is used to upload the following content of the article."
+                  "description": "The token for the upload.\r\nIt is used to upload the following content of the article."
                 }
               },
               "required": [
@@ -775,7 +785,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Upload a PDF into the platform.\r Expect Content-Type to be multipart/form-data."
+      "description": "Upload a PDF into the platform.\r\nExpect Content-Type to be multipart/form-data."
     },
     "RegisterSchema": {
       "type": "object",
@@ -785,7 +795,7 @@
           "properties": {
             "email": {
               "type": "string",
-              "description": "The email.\r Requires to be an edu email.",
+              "description": "The email.\r\nRequires to be an edu email.",
               "format": "email"
             },
             "password": {
@@ -1029,7 +1039,7 @@
                 "publicity"
               ],
               "additionalProperties": false,
-              "description": "The publicity has been successfully changed.\r Returns the new publicity."
+              "description": "The publicity has been successfully changed.\r\nReturns the new publicity."
             },
             "403": {
               "type": "object",
@@ -1449,6 +1459,11 @@
         "pdfLink": {
           "type": "string",
           "description": "The download link of the pdf"
+        },
+        "codeLink": {
+          "type": "string",
+          "description": "Link to code",
+          "format": "uri"
         }
       },
       "required": [
@@ -1471,7 +1486,7 @@
         },
         "time": {
           "type": "string",
-          "description": "Upload time.\r Must be a valid ISO string with timezone."
+          "description": "Upload time.\r\nMust be a valid ISO string with timezone."
         }
       },
       "required": [
@@ -1489,7 +1504,7 @@
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Current revision number.\r Must be a integer."
+          "description": "Current revision number.\r\nMust be a integer."
         },
         "currentRevision": {
           "$ref": "#/definitions/ArticleInfo",
@@ -1508,7 +1523,7 @@
         },
         "createTime": {
           "type": "string",
-          "description": "The time when the article is first uploaded to the platform.\r Must be a valid datetime string."
+          "description": "The time when the article is first uploaded to the platform.\r\nMust be a valid datetime string."
         }
       },
       "required": [
@@ -1535,7 +1550,7 @@
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Revision the comment is targeting.\r If undefined, the comment is targeting the article itself."
+          "description": "Revision the comment is targeting.\r\nIf undefined, the comment is targeting the article itself."
         },
         "userId": {
           "type": "string",
@@ -1594,6 +1609,11 @@
           "type": "string",
           "description": "The category of the article."
         },
+        "codeLink": {
+          "type": "string",
+          "description": "Link to code",
+          "format": "uri"
+        },
         "articleId": {
           "type": "string",
           "description": "The id of the article."
@@ -1604,11 +1624,11 @@
         },
         "createTime": {
           "type": "string",
-          "description": "The time when the article is first uploaded to the platform.\r Must be a valid datetime string."
+          "description": "The time when the article is first uploaded to the platform.\r\nMust be a valid datetime string."
         },
         "lastUpdateTime": {
           "type": "string",
-          "description": "The time when the article is last updated.\r Must be a valid datetime string."
+          "description": "The time when the article is last updated.\r\nMust be a valid datetime string."
         }
       },
       "required": [
@@ -1626,9 +1646,9 @@
       "description": "A preview information of the article."
     },
     "Omit<ArticleInfo,\"pdfLink\">": {
-      "$ref": "#/definitions/Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22pdfLink%22)%2C%22pdfLink%22%3E%3E"
+      "$ref": "#/definitions/Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22pdfLink%22%7C%22codeLink%22)%2C%22pdfLink%22%3E%3E"
     },
-    "Pick<ArticleInfo,Exclude<(\"title\"|\"authors\"|\"abstract\"|\"keywords\"|\"category\"|\"pdfLink\"),\"pdfLink\">>": {
+    "Pick<ArticleInfo,Exclude<(\"title\"|\"authors\"|\"abstract\"|\"keywords\"|\"category\"|\"pdfLink\"|\"codeLink\"),\"pdfLink\">>": {
       "type": "object",
       "properties": {
         "title": {
@@ -1656,6 +1676,11 @@
         "category": {
           "type": "string",
           "description": "The category of the article."
+        },
+        "codeLink": {
+          "type": "string",
+          "description": "Link to code",
+          "format": "uri"
         }
       },
       "required": [

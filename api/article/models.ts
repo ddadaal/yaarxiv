@@ -20,6 +20,11 @@ export interface ArticleInfo {
   category: string;
   /** The download link of the pdf */
   pdfLink: string;
+  /**
+   * Link to code
+   * @format uri
+   */
+  codeLink?: string;
 }
 
 export interface ArticleRevision {

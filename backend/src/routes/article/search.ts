@@ -69,6 +69,7 @@ export async function searchArticleRoute(fastify: FastifyInstance) {
               authors: rev.authors,
               keywords: rev.keywords,
               category: rev.category,
+              codeLink: rev.codeLink,
               commentCount: 0,
             };
           }),
