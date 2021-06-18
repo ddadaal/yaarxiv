@@ -1,15 +1,15 @@
-import { PrimaryColumn, Column, Entity } from "typeorm";
+import { PrimaryKey, Property, Entity } from "@mikro-orm/core";
 import { config } from "@/utils/config";
 
 @Entity()
 export class ResetPasswordToken {
-  @PrimaryColumn()
+  @PrimaryKey()
   id: string;
 
-  @Column()
+  @Property()
   userEmail: string;
 
-  @Column("datetime")
+  @Property("datetime")
   time: Date;
 
   get timeout() {

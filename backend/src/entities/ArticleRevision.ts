@@ -1,44 +1,43 @@
-import { Entity } from "typeorm/decorator/entity/Entity";
-import { Column, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Property, ManyToOne, PrimaryKey, Entity, ArrayType } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
 import { PdfUpload } from "./PdfUpload";
 
 @Entity()
 export class ArticleRevision {
-  @PrimaryGeneratedColumn("increment")
+  @PrimaryKey()
   id: number;
 
-  @Column()
+  @Property()
   revisionNumber: number;
 
-  @Column("datetime")
+  @Property()
   time: Date;
 
-  @Column()
+  @Property()
   title: string;
 
-  @Column("simple-json")
+  @Property({ type: ArrayType })
   authors: Author[];
 
-  @Column("simple-array")
+  @Property({ type: ArrayType })
   keywords: string[];
 
-  @Column("varchar", { length: 500 })
+  @Property({ length: 500 })
   abstract: string
 
-  @Column()
+  @Property()
   category: string;
 
-  @ManyToOne(() => PdfUpload, (p) => p.articleRevisions, { cascade: true, onDelete: "CASCADE" })
+  @ManyToOne(() => PdfUpload, (p) => p.articleRevisions, {})
   pdf: PdfUpload;
 
-  @ManyToOne(() => Article, (a) => a.revisions, { onDelete:"CASCADE" })
+  @ManyToOne(() => Article, (a) => a.revisions)
   article: Article;
 
-  @Column()
+  @Property()
   articleId: number;
 
-  @Column({ nullable: true })
+  @Property({ nullable: true })
   codeLink?: string = undefined;
 }

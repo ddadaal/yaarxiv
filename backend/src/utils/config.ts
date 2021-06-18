@@ -1,16 +1,20 @@
+import { Options } from "@mikro-orm/core";
+import { MySqlDriver } from "@mikro-orm/mysql";
 import config from "config";
-import deepmerge from "deepmerge";
 import { FastifyServerOptions } from "fastify";
 import SMTPConnection from "nodemailer/lib/smtp-connection";
-import { DeepPartial } from "typeorm";
-import { MysqlConnectionOptions } from "typeorm/driver/mysql/MysqlConnectionOptions";
 
 export interface Config {
   port: number;
   loadSwagger: boolean;
   logger: FastifyServerOptions["logger"];
   jwtSecret: string;
-  typeorm: MysqlConnectionOptions;
+  orm: Options<MySqlDriver> & {
+    runMigrations?: boolean;
+    dropSchema?: boolean;
+    highlight?: boolean;
+    connectTimeout?: number;
+  };
   upload: {
     path: string;
     maxFileSize: number;

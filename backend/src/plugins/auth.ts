@@ -1,9 +1,11 @@
 import fp from "fastify-plugin";
 import FastifyJwt from "fastify-jwt";
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
-import { User, UserRole } from "@/entities/User";
+import { User } from "@/entities/User";
 import createError from "http-errors";
 import { config } from "@/utils/config";
+import { UserRole } from "yaarxiv-api/auth/login";
+import { IdentifiedReference } from "@mikro-orm/core";
 
 declare module "fastify" {
   // @ts-ignore
@@ -12,17 +14,16 @@ declare module "fastify" {
   }
 
   interface FastifyRequest {
-    tryGetToken(): Promise<JwtTokenPayload | undefined>;
-    userId(): string;
+    userId(): number;
     dbUser(): Promise<User>;
+    dbUserRef(): IdentifiedReference<User>;
   }
 }
 
-export type AuthOption = undefined | boolean | UserRole[];
+export type AuthOption = false | UserRole[];
 
 export interface JwtTokenPayload {
-  id: string;
-  role: UserRole;
+  id: number;
 }
 
 // define options
@@ -34,39 +35,43 @@ export const jwtAuthPlugin = fp(async (fastify) => {
   fastify.decorate("jwtAuth", (opts: AuthOption) => async (req: FastifyRequest, reply: FastifyReply) => {
     if (!opts) { return; }
     try {
-      const { role } = await req.jwtVerify<JwtTokenPayload>();
-      if (Array.isArray(opts) && !opts.includes(role)) {
-        throw createError(403, "Role doesn't satisfy.");
+      await req.jwtVerify<JwtTokenPayload>();
+
+      const user = await req.dbUser();
+
+      if (!opts.includes(user.role)) {
+        throw createError(403, "Role doesn't match requirements.");
       }
+
     } catch (err) {
       reply.send(err);
     }
   });
 
-  fastify.decorateRequest("tryGetToken", async function() {
-    return await (this as FastifyRequest).jwtVerify<JwtTokenPayload>()
-      .catch(() => undefined);
+  fastify.decorateRequest("userId", function () {
+    const id = (this.user as JwtTokenPayload).id;
+    if (isNaN(id)) {
+      throw createError(403, "User ID specified by token is not valid.");
+    }
+    return id;
   });
 
-  fastify.decorateRequest("userId", function () {
-    return (this.user as JwtTokenPayload).id;
+
+  fastify.decorateRequest("dbUserRef", function () {
+    const self = this as FastifyRequest;
+    return self.em.getRepository(User).getReference(self.userId(), true);
   });
 
   fastify.decorateRequest("dbUser", async function () {
-    const user = await fastify.orm.getRepository(User).findOne(this.userId());
-    if (!user) {
-      throw createError(401, "User specified by token doesn't exist.");
-    }
+    const self = this as FastifyRequest;
+    const userRef = self.dbUserRef();
+    // TODO handle user not found
+    const user = await userRef.load();
     return user;
   });
 });
 
-export interface TokenPayload {
-  id: string;
-  role: UserRole;
-}
-
-export function signUser(fastify: FastifyInstance, user: TokenPayload) {
-  return fastify.jwt.sign({ id: user.id, role: user.role });
+export function signUser(fastify: FastifyInstance, { id }: JwtTokenPayload) {
+  return fastify.jwt.sign({ id });
 }
 

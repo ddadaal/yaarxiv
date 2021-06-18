@@ -1,7 +1,4 @@
-export const endpoint = {
-  url: "/user",
-  method: "POST" ,
-} as const;
+import { Endpoint } from "../utils/schema";
 
 export const summary = "Register.";
 
@@ -34,3 +31,7 @@ export interface RegisterSchema {
   }
 }
 
+export const endpoint = {
+  url: "/user",
+  method: "POST" ,
+} as Endpoint<RegisterSchema>;

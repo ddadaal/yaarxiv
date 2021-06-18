@@ -1,9 +1,6 @@
-export const endpoint = {
-  url: "/admin/articles",
-  method: "GET",
-} as const;
+import { ApiProps } from "../utils/apiProps";
+import { Endpoint } from "../utils/schema";
 
-export const summary = "Get all articles on the platform as an admin.";
 
 export interface AdminGetArticlesResult {
   /** The article id. */
@@ -67,3 +64,12 @@ export interface AdminGetArticlesSchema {
     }
   }
 }
+
+export const props: ApiProps = {
+  summary: "Get all articles on the platform as an admin.",
+};
+
+export const endpoint = {
+  url: "/admin/articles",
+  method: "GET",
+} as Endpoint<AdminGetArticlesSchema>;

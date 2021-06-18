@@ -1,11 +1,11 @@
-export const endpoint = {
-  url: "/user/auth",
-  method: "GET" ,
-} as const;
+import { Endpoint } from "../utils/schema";
 
 export const summary = "Login using id and password";
 
-export type UserRole = "user" | "admin";
+export enum UserRole {
+  User = "User",
+  Admin = "Admin",
+}
 
 /** Login */
 export interface LoginSchema {
@@ -33,3 +33,7 @@ export interface LoginSchema {
   }
 }
 
+export const endpoint = {
+  url: "/user/auth",
+  method: "GET" ,
+} as Endpoint<LoginSchema>;

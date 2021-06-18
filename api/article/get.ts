@@ -1,9 +1,6 @@
+import { Endpoint } from "../utils/schema";
 import { Article } from "./models";
 
-export const endpoint = {
-  url: "/articles/:articleId",
-  method: "GET" ,
-} as const;
 
 /** Get the full information of an article. */
 export interface GetArticleSchema {
@@ -32,3 +29,7 @@ export interface GetArticleSchema {
 }
 
 
+export const endpoint = {
+  url: "/articles/:articleId",
+  method: "GET" ,
+} as Endpoint<GetArticleSchema>;

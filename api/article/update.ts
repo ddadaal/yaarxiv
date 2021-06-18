@@ -1,7 +1,4 @@
-export const endpoint = {
-  url: "/articles/:articleId",
-  method: "PUT",
-} as const;
+import { Endpoint } from "../utils/schema";
 
 export interface UpdateArticleSchema {
   path: {
@@ -54,3 +51,8 @@ export interface UpdateArticleSchema {
     }
   }
 }
+
+export const endpoint = {
+  url: "/articles/:articleId",
+  method: "PUT",
+} as Endpoint<UpdateArticleSchema>;

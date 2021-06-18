@@ -1,35 +1,30 @@
-import { Entity, Column, PrimaryColumn, OneToMany } from "typeorm";
+import { Entity, Property, OneToMany, PrimaryKey, Enum, Cascade } from "@mikro-orm/core";
 import { Article } from "./Article";
 import { PdfUpload } from "./PdfUpload";
 import { encrypt, compare } from "@/utils/bcrypt";
-
-export type UserRole = "user" | "admin";
+import { UserRole } from "yaarxiv-api/auth/login";
 
 @Entity()
 export class User {
-  @PrimaryColumn()
+  @PrimaryKey()
   id: string;
 
-  @Column()
+  @Property()
   name: string;
 
-  @Column()
+  @Property()
   password: string;
 
-  @Column({ unique: true })
+  @Property({ unique: true })
   email: string;
 
-  @Column({
-    type: "simple-enum",
-    enum: ["user", "admin"],
-    default: "user",
-  })
+  @Enum(() => UserRole)
   role: UserRole;
 
-  @OneToMany(() => PdfUpload, (p) => p.user, { cascade: true, onDelete: "CASCADE" })
+  @OneToMany(() => PdfUpload, (p) => p.user, { cascade: [Cascade.ALL]})
   uploads: PdfUpload[];
 
-  @OneToMany(() => Article, (a) => a.owner, { cascade: true, onDelete: "CASCADE" })
+  @OneToMany(() => Article, (a) => a.owner, { cascade: [Cascade.ALL]})
   articles: Article[];
 
   async setPassword(newPassword: string) {

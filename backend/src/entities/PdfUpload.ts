@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany, ManyToOne, OneToOne } from "typeorm";
+import { Entity, Property, OneToMany, ManyToOne, PrimaryKey, Cascade } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 import urlJoin from "url-join";
@@ -6,19 +6,19 @@ import { config } from "@/utils/config";
 
 @Entity()
 export class PdfUpload {
-  @PrimaryGeneratedColumn("uuid")
+  @PrimaryKey()
   id: string;
 
   @ManyToOne(() => User, (u) => u.uploads, { onDelete: "CASCADE" })
   user: User;
 
-  @Column()
+  @Property()
   userId: string;
 
-  @Column()
+  @Property()
   link: string;
 
-  @OneToMany(() => ArticleRevision, (r) => r.pdf, { onDelete: "CASCADE" })
+  @OneToMany(() => ArticleRevision, (r) => r.pdf, { cascade: [Cascade.ALL]})
   articleRevisions: ArticleRevision[];
 
   get pdfUrl(): string {

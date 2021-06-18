@@ -1,7 +1,4 @@
-export const endpoint = {
-  url: "/auth/forget/reset",
-  method: "POST",
-} as const;
+import { Endpoint } from "../utils/schema";
 
 /** Reset password with a password reset token. */
 export interface ResetPasswordSchema {
@@ -19,3 +16,8 @@ export interface ResetPasswordSchema {
     201: {};
   }
 }
+
+export const endpoint = {
+  url: "/auth/forget/reset",
+  method: "POST",
+} as Endpoint<ResetPasswordSchema>;

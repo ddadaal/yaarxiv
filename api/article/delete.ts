@@ -1,9 +1,5 @@
-export const endpoint = {
-  url: "/articles/:articleId",
-  method: "DELETE",
-} as const;
-
-export const summary = "Delete an article from the platform.";
+import { ApiProps } from "../utils/apiProps";
+import { Endpoint } from "../utils/schema";
 
 /**
  * Delete an article and all of its revisions.
@@ -29,3 +25,12 @@ export interface DeleteArticleSchema {
     }
   }
 }
+
+export const props: ApiProps = {
+  summary: "Delete an article from the platform.",
+};
+
+export const endpoint = {
+  url: "/articles/:articleId",
+  method: "DELETE",
+} as Endpoint<DeleteArticleSchema>;

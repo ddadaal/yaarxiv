@@ -1,9 +1,6 @@
 import { UserRole } from "../auth/login";
+import { Endpoint } from "../utils/schema";
 
-export const endpoint = {
-  url: "/admin/users",
-  method: "GET",
-} as const;
 
 export interface AdminGetUsersResult {
   /** The user id. */
@@ -49,3 +46,7 @@ export interface AdminGetUsersSchema {
     }
   }
 }
+export const endpoint = {
+  url: "/admin/users",
+  method: "GET",
+} as Endpoint<AdminGetUsersSchema>;

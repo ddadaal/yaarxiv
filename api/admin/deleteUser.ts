@@ -1,7 +1,4 @@
-export const endpoint = {
-  url: "/admin/users/:userId",
-  method: "DELETE",
-} as const;
+import { Endpoint } from "../utils/schema";
 
 export const summary = "Delete an user from the platform.";
 
@@ -33,3 +30,8 @@ export interface AdminDeleteArticleSchema {
     }
   }
 }
+
+export const endpoint = {
+  url: "/admin/users/:userId",
+  method: "DELETE",
+} as Endpoint<AdminDeleteArticleSchema>;

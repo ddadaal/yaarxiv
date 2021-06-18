@@ -1,7 +1,4 @@
-export const endpoint = {
-  url: "/articles/pdf",
-  method: "POST",
-} as const;
+import { Endpoint } from "../utils/schema";
 
 /**
  * Upload a PDF into the platform.
@@ -26,3 +23,8 @@ export interface UploadPDFSchema {
     }
   }
 }
+
+export const endpoint = {
+  url: "/articles/pdf",
+  method: "POST",
+} as Endpoint<UploadPDFSchema>;

@@ -1,9 +1,5 @@
+import { Endpoint } from "../utils/schema";
 import { ArticleInfo } from "./models";
-
-export const endpoint = {
-  url: "/articles",
-  method: "GET" ,
-} as const;
 
 /** A preview information of the article. */
 export interface ArticleSearchResult extends Omit<ArticleInfo, "pdfLink"> {
@@ -82,3 +78,8 @@ export interface SearchArticleSchema {
     },
   }
 }
+
+export const endpoint = {
+  url: "/articles",
+  method: "GET" ,
+} as Endpoint<SearchArticleSchema>;

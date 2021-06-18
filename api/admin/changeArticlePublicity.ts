@@ -1,15 +1,10 @@
-export const endpoint = {
-  method: "PATCH",
-  url: "/admin/articles/:articleId/publicity",
-} as const;
+import { Endpoint } from "../utils/schema";
 
 /** Change the owner set publicity of an article. */
 export interface ChangeArticleAdminSetPublicitySchema {
-  path: {
+  body: {
     /** The id of the article. */
     articleId: string;
-  };
-  body: {
     /** Whether the article is public. */
     publicity: boolean;
   }
@@ -28,3 +23,8 @@ export interface ChangeArticleAdminSetPublicitySchema {
     403: {};
   }
 }
+
+export const endpoint = {
+  method: "PATCH",
+  url: "/admin/articles/publicity",
+} as Endpoint<ChangeArticleAdminSetPublicitySchema>;

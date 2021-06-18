@@ -1,7 +1,4 @@
-export const endpoint = {
-  url: "/articles",
-  method: "POST",
-} as const;
+import { Endpoint } from "../utils/schema";
 
 /** Upload an new article into the platform. */
 export interface UploadArticleSchema {
@@ -37,3 +34,8 @@ export interface UploadArticleSchema {
     },
   }
 }
+
+export const endpoint = {
+  url: "/articles",
+  method: "POST",
+} as Endpoint<UploadArticleSchema>;

@@ -1,7 +1,4 @@
-export const endpoint = {
-  url: "/auth/forget/validate",
-  method: "GET",
-} as const;
+import { Endpoint } from "../utils/schema";
 
 /** Validate a token (a link) for password reset. */
 export interface ValidatePasswordResetTokenSchema {
@@ -16,3 +13,8 @@ export interface ValidatePasswordResetTokenSchema {
     };
   }
 }
+
+export const endpoint = {
+  url: "/auth/forget/validate",
+  method: "GET",
+} as Endpoint<ValidatePasswordResetTokenSchema>;
