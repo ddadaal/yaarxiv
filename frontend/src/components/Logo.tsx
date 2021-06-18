@@ -1,5 +1,4 @@
 import React, { CSSProperties } from "react";
-import SvgLogo from "public/logo.svg";
 import { Image } from "grommet";
 
 interface Props {
@@ -9,7 +8,7 @@ interface Props {
 export const Logo: React.FC<Props> = (props)=> (
   <Image
     fit="contain"
-    src={SvgLogo}
+    src="logo.svg"
     title="logo"
   />
 );

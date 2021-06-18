@@ -6,7 +6,6 @@ const tm = require("next-transpile-modules");
 module.exports = withPlugins([
   [tm([
     "yaarxiv-api",
-    "react-notification-system",
     "react-async",
   ])],
   [images, {}],

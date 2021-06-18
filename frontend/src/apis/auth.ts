@@ -13,3 +13,5 @@ export const authApis = () => ({
   validatePasswordResetToken: fromApi<validateResetPasswordTokenApi.ValidatePasswordResetTokenSchema>(validateResetPasswordTokenApi.endpoint),
   resetPassword: fromApi<resetPasswordApi.ResetPasswordSchema>(resetPasswordApi.endpoint),
 });
+
+
