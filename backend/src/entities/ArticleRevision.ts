@@ -29,10 +29,10 @@ export class ArticleRevision {
   @Property()
   category: string;
 
-  @ManyToOne(() => PdfUpload, (p) => p.articleRevisions, {})
+  @ManyToOne(() => PdfUpload)
   pdf: PdfUpload;
 
-  @ManyToOne(() => Article, (a) => a.revisions)
+  @ManyToOne(() => Article)
   article: Article;
 
   @Property()

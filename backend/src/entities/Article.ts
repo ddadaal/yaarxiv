@@ -26,7 +26,7 @@ export class Article {
   @Property()
   adminSetPublicity: boolean = true;
 
-  @ManyToOne(() => User, (u) => u.articles)
+  @ManyToOne(() => User)
   owner: User;
 
   @Property()

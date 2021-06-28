@@ -9,7 +9,7 @@ export class PdfUpload {
   @PrimaryKey()
   id: string;
 
-  @ManyToOne(() => User, (u) => u.uploads, { onDelete: "CASCADE" })
+  @ManyToOne(() => User)
   user: User;
 
   @Property()

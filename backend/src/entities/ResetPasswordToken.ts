@@ -12,7 +12,7 @@ export class ResetPasswordToken {
   @Property("datetime")
   time: Date;
 
-  get timeout() {
+  get isTimeout() {
     return (new Date().getTime() - this.time.getTime()) > config.resetPassword.tokenValidTimeSeconds * 1000;
   }
 }
