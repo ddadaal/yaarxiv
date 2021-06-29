@@ -1,26 +1,22 @@
 import * as api from "yaarxiv-api/admin/deleteUser";
-import { FastifyInstance } from "fastify/types/instance";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 
-export async function adminDeleteUserRoute(fastify: FastifyInstance) {
-  route<api.AdminDeleteArticleSchema>(fastify, api.endpoint, "AdminDeleteArticleSchema", {
-    authOption: ["admin"],
-    summary: api.summary,
-  })(
-    async (req) => {
+export const adminDeleteUserRoute = route(
+  api, "AdminDeleteArticleSchema",
+  async (req) => {
 
-      const { userId } = req.params;
+    const { userId } = req.params;
 
-      const repo = fastify.orm.getRepository(User);
+    const repo = req.em.getRepository(User);
 
-      const r = await repo.delete(userId);
+    const user = await repo.findOne({ id: userId });
 
-      if (!r.affected) {
-        return { 404: {} };
-      } else {
-        return { 200 :{} };
-      }
-    });
+    if (!user) {
+      return { 404:{} };
+    }
 
-}
+    await repo.removeAndFlush(user);
+
+    return { 204 : undefined };
+  });

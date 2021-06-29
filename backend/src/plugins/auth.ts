@@ -2,7 +2,7 @@ import fp from "fastify-plugin";
 import FastifyJwt from "fastify-jwt";
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User } from "@/entities/User";
-import createError from "http-errors";
+import createError from "fastify-error";
 import { config } from "@/utils/config";
 import { UserRole } from "yaarxiv-api/auth/login";
 import { IdentifiedReference } from "@mikro-orm/core";
@@ -17,8 +17,15 @@ declare module "fastify" {
     userId(): number;
     dbUser(): Promise<User>;
     dbUserRef(): IdentifiedReference<User>;
+    tryGetUser(): Promise<User | undefined>;
   }
 }
+
+export const AuthErrors = {
+  TokenError: createError("YAARXIV_TOKEN_INVALID", "The token provided is not valid.", 401),
+  RoleError: createError("YAARXIV_BAD_ROLE", "Logged-in user does not have required role.", 403),
+  UserError: createError("YAARXIV_USER_NOT_EXIST", "Logged-in user does not have required role.", 403),
+};
 
 export type AuthOption = false | UserRole[];
 
@@ -40,7 +47,7 @@ export const jwtAuthPlugin = fp(async (fastify) => {
       const user = await req.dbUser();
 
       if (!opts.includes(user.role)) {
-        throw createError(403, "Role doesn't match requirements.");
+        throw new AuthErrors.RoleError();
       }
 
     } catch (err) {
@@ -48,10 +55,22 @@ export const jwtAuthPlugin = fp(async (fastify) => {
     }
   });
 
-  fastify.decorateRequest("userId", function () {
-    const id = (this.user as JwtTokenPayload).id;
+  fastify.decorateRequest("tryGetUser", async function () {
+    const self = this as FastifyRequest;
+    const id = +(self.user as JwtTokenPayload).id;
     if (isNaN(id)) {
-      throw createError(403, "User ID specified by token is not valid.");
+      return undefined;
+    }
+
+    const user = await self.em.findOne(User, { id });
+    return user;
+  });
+
+
+  fastify.decorateRequest("userId", function () {
+    const id = +(this.user as JwtTokenPayload).id;
+    if (isNaN(id)) {
+      throw new AuthErrors.TokenError();
     }
     return id;
   });

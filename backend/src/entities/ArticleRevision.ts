@@ -1,4 +1,6 @@
-import { Property, ManyToOne, PrimaryKey, Entity, ArrayType } from "@mikro-orm/core";
+import {
+  Property, ManyToOne, PrimaryKey,
+  Entity, ArrayType, IdentifiedReference, OneToOne } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
 import { PdfUpload } from "./PdfUpload";
@@ -32,8 +34,11 @@ export class ArticleRevision {
   @ManyToOne(() => PdfUpload)
   pdf: PdfUpload;
 
-  @ManyToOne(() => Article)
-  article: Article;
+  @ManyToOne(() => Article, { wrappedReference: true })
+  article: IdentifiedReference<Article>;
+
+  @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true, wrappedReference: true })
+  latestRevisionOf?: IdentifiedReference<Article>;
 
   @Property()
   articleId: number;

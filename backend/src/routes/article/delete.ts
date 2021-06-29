@@ -1,32 +1,27 @@
 import { route } from "@/utils/route";
-import * as deleteArticle from "yaarxiv-api/article/delete";
-import { FastifyInstance } from "fastify";
+import * as api from "yaarxiv-api/article/delete";
 import { Article } from "@/entities/Article";
+import { UserRole } from "@/entities/User";
 
-export async function deleteArticleRoute(fastify: FastifyInstance) {
-  route<deleteArticle.DeleteArticleSchema>(fastify, deleteArticle.endpoint, "DeleteArticleSchema", {
-    summary: deleteArticle.summary,
-    authOption: true,
-  })(
-    async (req) => {
-      const { articleId } = req.params;
+export const deleteArticleRoute = route(
+  api, "DeleteArticleSchema",
+  async (req) => {
+    const { articleId } = req.params;
 
-      const user = await req.dbUser();
+    const user = await req.dbUser();
 
-      const repo = req.orm.getRepository(Article);
-      const article = await repo.findOne(articleId);
+    const article = await req.em.findOne(Article, { id: articleId });
 
-      if (!article) {
-        return { 404: {} };
-      }
+    if (!article) {
+      return { 404: {} };
+    }
 
-      if (article.ownerId !== user.id && user.role !== "admin") {
-        return { 403: {} };
-      }
+    if (article.owner.id !== user.id && user.role !== UserRole.Admin) {
+      return { 403: {} };
+    }
 
-      await repo.remove(article);
+    await req.em.removeAndFlush(article);
 
-      return { 200: {} };
-    },
-  );
-}
+    return { 200: {} };
+  },
+);

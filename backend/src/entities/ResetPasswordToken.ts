@@ -4,12 +4,12 @@ import { config } from "@/utils/config";
 @Entity()
 export class ResetPasswordToken {
   @PrimaryKey()
-  id: string;
+  id: number;
 
   @Property()
   userEmail: string;
 
-  @Property("datetime")
+  @Property()
   time: Date;
 
   get isTimeout() {

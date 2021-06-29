@@ -1,10 +1,11 @@
 import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
 
 export interface AdminGetUsersResult {
   /** The user id. */
-  id: string;
+  id: number;
   /** The name of the user. */
   name: string;
   /** The email of the user. */
@@ -46,6 +47,11 @@ export interface AdminGetUsersSchema {
     }
   }
 }
+
+export const props: ApiProps = {
+  requiredRoles: [UserRole.Admin],
+};
+
 export const endpoint = {
   url: "/admin/users",
   method: "GET",

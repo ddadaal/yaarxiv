@@ -5,10 +5,13 @@ import { FastifyServerOptions } from "fastify";
 import SMTPConnection from "nodemailer/lib/smtp-connection";
 
 export interface Config {
+  address: string;
   port: number;
   loadSwagger: boolean;
   logger: FastifyServerOptions["logger"];
   jwtSecret: string;
+  pluginTimeout: number;
+  defaultPageSize: number;
   orm: Options<MySqlDriver> & {
     runMigrations?: boolean;
     dropSchema?: boolean;
@@ -21,7 +24,14 @@ export interface Config {
   };
   staticPrefix: string;
   bcryptSaltLength: number;
-  mail: SMTPConnection.Options;
+  mail: false | (SMTPConnection.Options & {
+    from: string;
+    ignoreError: boolean;
+    groupDeliveryIntervalMs: number;
+  });
+  redis: {
+    host: string;
+  };
   resetPassword: {
     /**
      * The url template to reset password page.

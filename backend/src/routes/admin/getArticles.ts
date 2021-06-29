@@ -1,52 +1,41 @@
 import * as api from "yaarxiv-api/admin/getArticles";
-import { FastifyInstance } from "fastify/types/instance";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
+import { QueryOrder } from "@mikro-orm/core";
+import { paginationProps } from "@/utils/pagination";
 
-export async function adminGetArticlesRoute(fastify: FastifyInstance) {
-  route<api.AdminGetArticlesSchema>(fastify, api.endpoint, "AdminGetArticlesSchema", {
-    authOption: ["admin"],
-    summary: api.summary,
-  })(
-    async (req) => {
+export const adminGetArticlesRoute = route(
+  api, "AdminGetArticlesSchema",
+  async (req) => {
 
-      const { page, searchWord } = req.query;
+    const { page, searchWord } = req.query;
 
-      const repo = fastify.orm.getRepository(Article);
+    const [articles, count] = await req.em.findAndCount(Article,
+      searchWord
+        ? { latestRevision: { title: { $like: `%${searchWord}%` } } }
+        : {},
+      {
+        populate: ["revisions", "latestRevision", "owner"],
+        orderBy: { createTime: QueryOrder.DESC },
+        ...paginationProps(page),
+      });
 
-      const builder = repo.createQueryBuilder("a")
-        .leftJoinAndSelect("a.revisions", "r")
-        .leftJoinAndSelect("a.owner","o")
-        .where("r.revisionNumber = a.latestRevisionNumber");
-
-      if (searchWord) {
-        builder.andWhere("r.title LIKE :text", { text: `%${searchWord}%` });
-      }
-
-      const [articles, count] = await builder
-        .orderBy("a.createTime", "DESC")
-        .skip(((page ?? 1) - 1) * 10)
-        .take(10)
-        .getManyAndCount();
-
-      return {
-        200: {
-          articles: articles.map((x) => ({
-            id: x.id + "",
-            createTime: x.createTime.toISOString(),
-            lastUpdatedTime: x.lastUpdateTime.toISOString(),
-            revisionCount: x.latestRevisionNumber,
-            title: x.revisions[0].title,
-            ownerSetPublicity: x.ownerSetPublicity,
-            adminSetPublicity: x.adminSetPublicity,
-            owner: {
-              id: x.owner.id,
-              name: x.owner.name,
-            },
-          })),
-          totalCount: count,
-        },
-      };
-    });
-
-}
+    return {
+      200: {
+        articles: articles.map((x) => ({
+          id: x.id,
+          createTime: x.createTime.toISOString(),
+          lastUpdatedTime: x.lastUpdateTime.toISOString(),
+          revisionCount: x.revisions.length,
+          title: x.latestRevision.getEntity().title,
+          ownerSetPublicity: x.ownerSetPublicity,
+          adminSetPublicity: x.adminSetPublicity,
+          owner: {
+            id: x.owner.getEntity().id,
+            name: x.owner.getEntity().name,
+          },
+        })),
+        totalCount: count,
+      },
+    };
+  });

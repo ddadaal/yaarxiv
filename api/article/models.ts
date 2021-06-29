@@ -41,7 +41,7 @@ export interface ArticleRevision {
 /** The full article info. */
 export interface Article {
   /** The id of the article. */
-  id: string;
+  id: number;
   /**
    * Current revision number.
    * Must be a integer.
@@ -52,7 +52,7 @@ export interface Article {
   /** All revisions */
   revisions: ArticleRevision[];
   /** Owner User Id */
-  ownerId: string;
+  ownerId: number;
   /**
    * The time when the article is first uploaded to the platform.
    * Must be a valid datetime string.

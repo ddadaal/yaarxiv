@@ -1,5 +1,7 @@
 export default {
+  "address": "0.0.0.0",
   "port": 3000,
+  "defaultPageSize": 10,
   "loadSwagger": true,
   "logger": true,
   "jwtSecret": "testsecret",

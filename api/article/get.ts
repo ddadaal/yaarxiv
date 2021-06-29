@@ -6,11 +6,11 @@ import { Article } from "./models";
 export interface GetArticleSchema {
   path: {
     /** Article ID. */
-    articleId: string;
+    articleId: number;
   },
   querystring: {
     /**
-     * Revision nunber.
+     * Revision number.
      * If not set, the latest revision will be returned.
      */
     revision?: number;

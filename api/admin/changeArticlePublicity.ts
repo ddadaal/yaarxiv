@@ -1,10 +1,12 @@
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
 /** Change the owner set publicity of an article. */
 export interface ChangeArticleAdminSetPublicitySchema {
   body: {
     /** The id of the article. */
-    articleId: string;
+    articleId: number;
     /** Whether the article is public. */
     publicity: boolean;
   }
@@ -18,11 +20,15 @@ export interface ChangeArticleAdminSetPublicitySchema {
       publicity: boolean;
     };
     /** The article is not found. */
-    404: {};
+    404: undefined;
     /** Only admin can change the admin set publicity of an article. */
     403: {};
   }
 }
+
+export const props: ApiProps = {
+  requiredRoles: [UserRole.Admin],
+};
 
 export const endpoint = {
   method: "PATCH",

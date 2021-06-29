@@ -1,33 +1,27 @@
 import * as api from "yaarxiv-api/admin/changeArticlePublicity";
-import { FastifyInstance } from "fastify/types/instance";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
 
-export async function changeArticleAdminSetPublicityRoute(fastify: FastifyInstance) {
-  route<api.ChangeArticleAdminSetPublicitySchema>(fastify, api.endpoint, "ChangeArticleAdminSetPublicitySchema", {
-    authOption: ["admin"],
-  })(
-    async (req) => {
+export const changeArticleAdminSetPublicityRoute = route(
+  api, "ChangeArticleAdminSetPublicitySchema",
+  async (req) => {
 
-      const { articleId } = req.params;
-      const { publicity } = req.body;
+    const { publicity, articleId } = req.body;
 
-      const numId = Number(articleId);
+    const numId = Number(articleId);
 
-      const repo = fastify.orm.getRepository(Article);
+    const repo = req.em.getRepository(Article);
 
-      const article = await repo.findOne(numId);
+    const article = await repo.findOne(numId);
 
-      if (!article) {
-        return { 404: { } };
-      }
+    if (!article) {
+      return { 404: undefined };
+    }
 
-      article.adminSetPublicity = publicity;
+    article.adminSetPublicity = publicity;
 
-      await repo.save(article);
+    await repo.persistAndFlush(article);
 
-      return { 200: { publicity: article.adminSetPublicity } };
+    return { 200: { publicity: article.adminSetPublicity } };
 
-    });
-
-}
+  });

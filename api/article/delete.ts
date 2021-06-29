@@ -8,7 +8,7 @@ import { Endpoint } from "../utils/schema";
 export interface DeleteArticleSchema {
   path: {
     /** The ID of the article to be deleted. */
-    articleId: string;
+    articleId: number;
   },
   responses: {
     /** The article and all is deleted. */

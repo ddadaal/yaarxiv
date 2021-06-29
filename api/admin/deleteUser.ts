@@ -1,6 +1,6 @@
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
-
-export const summary = "Delete an user from the platform.";
 
 /**
  * Delete a user and all of related articles.
@@ -9,27 +9,23 @@ export const summary = "Delete an user from the platform.";
 export interface AdminDeleteArticleSchema {
   path: {
     /** The ID of the user to be deleted. */
-    userId: string;
+    userId: number;
   },
   responses: {
     /** The user and all related is deleted. */
-    200: {
+    204: undefined;
 
-    },
-    /** The article is not found. */
+    /** The user is not found. */
     404: {
 
     },
-    /** The user cannot delete the article. */
-    403: {
-
-    };
-    /** Not login */
-    401: {
-
-    }
   }
 }
+
+export const props: ApiProps = {
+  summary: "Delete an user from the platform.",
+  requiredRoles: [UserRole.Admin],
+};
 
 export const endpoint = {
   url: "/admin/users/:userId",

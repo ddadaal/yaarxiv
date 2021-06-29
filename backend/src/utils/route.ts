@@ -1,53 +1,73 @@
-import { FastifyInstance, FastifyRequest, FastifyReply, FastifySchema } from "fastify";
-import { Endpoint, Schema, SchemaObject } from "yaarxiv-api";
-import { AuthOption } from "../plugins/auth";
+import { FastifyInstance, FastifyRequest, FastifyReply, preValidationHookHandler } from "fastify";
+import { ApiProps } from "yaarxiv-api/utils/apiProps";
+import { Endpoint, GeneralSchema, SchemaObject } from "yaarxiv-api/utils/schema";
 import { routes } from "./schemas";
 
-interface RouteExtraInfo extends FastifySchema {
-  authOption?: AuthOption;
-}
-
-type Res<T> = Partial<T>;
-
-export const route = <TSchema extends Schema>(
-  fastify: FastifyInstance,
-  endpoint: Endpoint,
-  schemaName: keyof typeof routes,
-  { authOption = undefined, ...rest }: RouteExtraInfo,
-) => (handler: (
+export interface Route<TSchema extends GeneralSchema> {
+  api: {
+    endpoint: Endpoint<TSchema>;
+    props?: ApiProps;
+  };
+  schemaName: keyof typeof routes | undefined;
+  handler: (
     req: FastifyRequest<{
       Body: TSchema["body"];
       Querystring: TSchema["querystring"];
       Params: TSchema["path"];
     }>,
+    fastify: FastifyInstance,
     reply: FastifyReply
-  ) => Promise<Res<TSchema["responses"]>>) => {
+  ) => Promise<Partial<TSchema["responses"]>>;
+}
 
-    const schema = routes[schemaName] as SchemaObject;
+function preValidations(f: FastifyInstance, props?: ApiProps): preValidationHookHandler[] | undefined {
+  if (!props) { return undefined;}
 
-    fastify.route<{
-      Body: TSchema["body"],
-      Querystring: TSchema["querystring"],
-      Params: TSchema["path"];
-    }>({
-      method: endpoint.method,
-      url: endpoint.url,
-      schema: {
+  const validators: preValidationHookHandler[] = [];
+
+  if (props.requiredRoles) {
+    validators.push(f.jwtAuth(props.requiredRoles));
+  }
+
+
+  return validators.length === 0 ? undefined : validators;
+}
+
+export const route = <TSchema extends GeneralSchema>(
+  api: Route<TSchema>["api"],
+  schemaName: Route<TSchema>["schemaName"],
+  handler: Route<TSchema>["handler"],
+) => ({ api, schemaName, handler });
+
+export const registerRoute = (
+  fastify: FastifyInstance,
+  route: Route<any>,
+) => {
+  const schema = route.schemaName ? routes[route.schemaName] as SchemaObject : undefined;
+
+  fastify.register((f, _, done) => {
+    f.route({
+      method: route.api.endpoint.method,
+      url: route.api.endpoint.url,
+      schema: schema ? {
         description: schema.description,
         querystring: schema.properties.querystring,
         params: schema.properties.path,
         body: schema.properties.body,
         response: schema.properties.responses.properties,
-        consumes: ["application/json"],
-        ...rest,
-      },
-      preValidation: authOption ? [fastify.jwtAuth(authOption)] : undefined,
-      handler: async (req, rep) => {
-        const resp = await handler(req, rep);
+        consumes: route.api.props?.consumes,
+        summary: route.api.props?.summary,
+      } : undefined,
+      preValidation: preValidations(f, route.api.props),
+      handler: async (req: any, reply) => {
+        const resp = await route.handler(req, f, reply);
         const code = Object.keys(resp)[0];
-        rep.code(Number(code));
+        reply.code(Number(code));
         return resp[code];
       },
     });
+    f.log.trace(`Registering route for ${route.api.endpoint.method} ${route.api.endpoint.url}`);
+    done();
+  });
+};
 
-  };

@@ -1,14 +1,15 @@
+import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
 
 export interface AdminGetArticlesResult {
   /** The article id. */
-  id: string;
+  id: number;
   /** Thw article owner. */
   owner: {
     /** The owner id. */
-    id: string;
+    id: number;
     /** The owner name. */
     name: string;
   }
@@ -67,6 +68,7 @@ export interface AdminGetArticlesSchema {
 
 export const props: ApiProps = {
   summary: "Get all articles on the platform as an admin.",
+  requiredRoles: [UserRole.Admin],
 };
 
 export const endpoint = {

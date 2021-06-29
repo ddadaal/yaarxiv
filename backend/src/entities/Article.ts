@@ -1,4 +1,6 @@
-import { Entity, Property, OneToMany, ManyToOne, PrimaryKey, Cascade } from "@mikro-orm/core";
+import {
+  Entity, Property, OneToMany, ManyToOne,
+  PrimaryKey, Cascade, OneToOne, IdentifiedReference, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 
@@ -9,16 +11,16 @@ export class Article {
   id: number;
 
   @OneToMany(() => ArticleRevision, (r) => r.article, { cascade: [Cascade.ALL]})
-  revisions: ArticleRevision[];
-
-  @Property("datetime")
-  createTime: Date;
-
-  @Property("datetime")
-  lastUpdateTime: Date;
+  revisions = new Collection<ArticleRevision>(this);
 
   @Property()
-  latestRevisionNumber: number;
+  createTime: Date;
+
+  @Property()
+  lastUpdateTime: Date;
+
+  @OneToOne(() => ArticleRevision, (r) => r.latestRevisionOf, { cascade: [Cascade.ALL]})
+  latestRevision: IdentifiedReference<ArticleRevision>;
 
   @Property()
   ownerSetPublicity: boolean = true;
@@ -27,9 +29,5 @@ export class Article {
   adminSetPublicity: boolean = true;
 
   @ManyToOne(() => User)
-  owner: User;
-
-  @Property()
-  ownerId: string;
-
+  owner: IdentifiedReference<User>;
 }
