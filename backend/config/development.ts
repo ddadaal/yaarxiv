@@ -1,16 +1,18 @@
+import type { ConfigOverride } from "@/utils/config";
+
 export default {
   "loadSwagger": true,
-  "typeorm": {
+  "orm": {
     "type": "mysql",
     "host": "localhost",
     "port": 3306,
     "username": "root",
     "password": "dbfordev",
-    "database": "yaarxiv_dev",
+    "dbName": "yaarxiv_dev",
     "logging": true,
   },
   "logger": {
-    "level": "info",
+    "level": "trace",
     "prettyPrint": true,
   },
-};
+} as ConfigOverride;

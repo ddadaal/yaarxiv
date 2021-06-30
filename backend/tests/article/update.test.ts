@@ -5,7 +5,7 @@ import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/article/update";
 import { login, normalUser1, normalUser2 } from "./utils/login";
 import { ArticleRevision } from "../../src/entities/ArticleRevision";
-import { insertData } from "./utils/data";
+import { createMockArticles } from "./utils/data";
 
 const articleCount = 2;
 
@@ -14,7 +14,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertData(articleCount);
+  await createMockArticles(articleCount);
 });
 
 afterEach(async () => {

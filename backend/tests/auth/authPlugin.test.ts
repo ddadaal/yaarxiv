@@ -2,7 +2,7 @@ import { startApp, startServer } from "../../src/app";
 import { FastifyInstance } from "fastify";
 import { signUser } from "@/plugins/auth";
 import { adminUser, login, normalUser1 } from "tests/article/utils/login";
-import { insertData } from "tests/article/utils/data";
+import { createMockArticles } from "tests/article/utils/data";
 
 let server: FastifyInstance;
 
@@ -21,7 +21,7 @@ beforeEach(async () => {
   });
 
   await startServer(server);
-  await insertData(0);
+  await createMockArticles(0);
 });
 
 afterEach(async () => {

@@ -5,14 +5,14 @@ import { getRepository } from "typeorm";
 import * as deleteApi from "yaarxiv-api/article/delete";
 import { login, adminUser, normalUser1 } from "./utils/login";
 import { ArticleRevision } from "../../src/entities/ArticleRevision";
-import { insertData } from "./utils/data";
+import { createMockArticles } from "./utils/data";
 
 let server: FastifyInstance;
 
 beforeEach(async () => {
   server = await startApp();
 
-  await insertData(2);
+  await createMockArticles(2);
 
 });
 

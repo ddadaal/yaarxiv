@@ -1,5 +1,5 @@
 export default {
-  "typeorm": {
+  "orm": {
     "type": "sqlite",
     "database": "./db.db",
   },

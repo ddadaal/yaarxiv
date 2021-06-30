@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
 import * as api from "yaarxiv-api/admin/getUsers";
 import { adminUser, login, normalUser1, normalUser2 } from "../article/utils/login";
-import { insertData } from "tests/article/utils/data";
+import { createMockArticles } from "tests/article/utils/data";
 
 const articleCount = 3;
 
@@ -11,7 +11,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertData(articleCount);
+  await createMockArticles(articleCount);
 
 });
 

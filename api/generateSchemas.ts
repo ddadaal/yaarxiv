@@ -12,7 +12,7 @@ function stringify(obj: object): string {
 async function start() {
   // generate all definitions
   const allDefinitions = tsj
-    .createGenerator({ path: "!(node_modules|out)/**/*.ts", jsDoc: "extended", expose: "all" })
+    .createGenerator({ path: "!(node_modules|utils)/**/*.ts", jsDoc: "extended", expose: "all" })
     .createSchema()
     .definitions;
 
@@ -20,10 +20,11 @@ async function start() {
   const models: typeof allDefinitions = {};
   for (const key in allDefinitions) {
     if (key === "File" || key === "Blob") { continue; }
+    const safeKey = encodeURIComponent(key);
     if (key.endsWith("Schema")) {
-      routeSchemas[key] = allDefinitions[key];
+      routeSchemas[safeKey] = allDefinitions[key];
     } else {
-      models[key] = allDefinitions[key];
+      models[safeKey] = allDefinitions[key];
     }
   }
 

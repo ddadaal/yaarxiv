@@ -1,30 +1,93 @@
 {
   "routes": {
-    "ChangeArticleAdminSetPublicitySchema": {
+    "LoginSchema": {
       "type": "object",
       "properties": {
-        "path": {
+        "querystring": {
           "type": "object",
           "properties": {
-            "articleId": {
+            "id": {
               "type": "string",
-              "description": "The id of the article."
+              "description": "The login id, for example email"
+            },
+            "password": {
+              "type": "string",
+              "description": "The password"
             }
           },
           "required": [
-            "articleId"
+            "id",
+            "password"
           ],
           "additionalProperties": false
         },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string",
+                  "description": "The generated token"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user"
+                },
+                "role": {
+                  "$ref": "#/definitions/UserRole",
+                  "description": "The role of the user."
+                },
+                "userId": {
+                  "type": "number",
+                  "description": "User id"
+                }
+              },
+              "required": [
+                "token",
+                "name",
+                "role",
+                "userId"
+              ],
+              "additionalProperties": false,
+              "description": "Logged in successfully. Returns user info."
+            },
+            "401": {
+              "not": {},
+              "description": "Login failed. The username and password are not valid."
+            }
+          },
+          "required": [
+            "200"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "querystring",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Login"
+    },
+    "ChangeArticleAdminSetPublicitySchema": {
+      "type": "object",
+      "properties": {
         "body": {
           "type": "object",
           "properties": {
+            "articleId": {
+              "type": "number",
+              "description": "The id of the article."
+            },
             "publicity": {
               "type": "boolean",
               "description": "Whether the article is public."
             }
           },
           "required": [
+            "articleId",
             "publicity"
           ],
           "additionalProperties": false
@@ -44,7 +107,7 @@
                 "publicity"
               ],
               "additionalProperties": false,
-              "description": "The publicity has been successfully changed.\r\nReturns the new publicity."
+              "description": "The publicity has been successfully changed. Returns the new publicity."
             },
             "403": {
               "type": "object",
@@ -52,21 +115,18 @@
               "description": "Only admin can change the admin set publicity of an article."
             },
             "404": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "The article is not found."
             }
           },
           "required": [
             "200",
-            "404",
             "403"
           ],
           "additionalProperties": false
         }
       },
       "required": [
-        "path",
         "body",
         "responses"
       ],
@@ -80,7 +140,7 @@
           "type": "object",
           "properties": {
             "userId": {
-              "type": "string",
+              "type": "number",
               "description": "The ID of the user to be deleted."
             }
           },
@@ -92,32 +152,18 @@
         "responses": {
           "type": "object",
           "properties": {
-            "200": {
-              "type": "object",
-              "additionalProperties": false,
+            "204": {
+              "not": {},
               "description": "The user and all related is deleted."
-            },
-            "401": {
-              "type": "object",
-              "additionalProperties": false,
-              "description": "Not login"
-            },
-            "403": {
-              "type": "object",
-              "additionalProperties": false,
-              "description": "The user cannot delete the article."
             },
             "404": {
               "type": "object",
               "additionalProperties": false,
-              "description": "The article is not found."
+              "description": "The user is not found."
             }
           },
           "required": [
-            "200",
-            "404",
-            "403",
-            "401"
+            "404"
           ],
           "additionalProperties": false
         }
@@ -127,7 +173,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Delete a user and all of related articles.\r\nOnly admin can do it."
+      "description": "Delete a user and all of related articles. Only admin can do it."
     },
     "AdminGetArticlesSchema": {
       "type": "object",
@@ -195,79 +241,6 @@
         "responses"
       ],
       "additionalProperties": false
-    },
-    "LoginSchema": {
-      "type": "object",
-      "properties": {
-        "querystring": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "string",
-              "description": "The login id, for example email"
-            },
-            "password": {
-              "type": "string",
-              "description": "The password"
-            }
-          },
-          "required": [
-            "id",
-            "password"
-          ],
-          "additionalProperties": false
-        },
-        "responses": {
-          "type": "object",
-          "properties": {
-            "200": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "description": "The generated token"
-                },
-                "name": {
-                  "type": "string",
-                  "description": "The name of the user"
-                },
-                "role": {
-                  "$ref": "#/definitions/UserRole",
-                  "description": "The role of the user."
-                },
-                "userId": {
-                  "type": "string",
-                  "description": "User id"
-                }
-              },
-              "required": [
-                "token",
-                "name",
-                "role",
-                "userId"
-              ],
-              "additionalProperties": false,
-              "description": "Logged in successfully. Returns user info."
-            },
-            "401": {
-              "type": "object",
-              "additionalProperties": false,
-              "description": "Login failed. The username and password are not valid."
-            }
-          },
-          "required": [
-            "200",
-            "401"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "querystring",
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Login"
     },
     "AdminGetUsersSchema": {
       "type": "object",
@@ -344,7 +317,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "string",
+              "type": "number",
               "description": "The ID of the article to be deleted."
             }
           },
@@ -385,7 +358,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Delete an article and all of its revisions.\r\nOnly the owner and admin can do it."
+      "description": "Delete an article and all of its revisions. Only the owner and admin can do it."
     },
     "GetArticleSchema": {
       "type": "object",
@@ -394,7 +367,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "string",
+              "type": "number",
               "description": "Article ID."
             }
           },
@@ -408,7 +381,7 @@
           "properties": {
             "revision": {
               "type": "number",
-              "description": "Revision nunber.\r\nIf not set, the latest revision will be returned."
+              "description": "Revision number. If not set, the latest revision will be returned."
             }
           },
           "additionalProperties": false
@@ -482,32 +455,18 @@
               "description": "The end year limit."
             },
             "authorNames": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ],
-              "description": "The name of authors\r\nSearch articles with ALL of specified authors.\r\nKeyword can NOT be incomplete.\r\nFor example, for keywords [\"Author1\", \"Author2\"]:\r\n    [\"Author1\", \"Author2\", \"Author3\"] Yes\r\n    [\"Author1\"] No\r\n    [\"Author\", \"Author2\"] No"
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "The name of authors Search articles with ALL of specified authors. Keyword can NOT be incomplete. For example, for keywords [\"Author1\", \"Author2\"]:    [\"Author1\", \"Author2\", \"Author3\"] Yes    [\"Author1\"] No    [\"Author\", \"Author2\"] No"
             },
             "keywords": {
-              "anyOf": [
-                {
-                  "type": "string"
-                },
-                {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              ],
-              "description": "Keywords.\r\nSearch articles with ALL of specified keywords.\r\nKeyword can be incomplete.\r\nFor example, for keywords [\"Computer\", \"Biology\"]:\r\n    [\"Computer\", \"Biology\", \"Chemistry\"] Yes\r\n    [\"Computer Science\", \"Biology\", \"Cheistry\"] Yes\r\n    [\"Computer Science\", \"Physics\"] No\r\n    [\"Computer\", \"Physics\"] No"
+              "type": "array",
+              "items": {
+                "type": "string"
+              },
+              "description": "Keywords. Search articles with ALL of specified keywords. Keyword can be incomplete. For example, for keywords [\"Computer\", \"Biology\"]:    [\"Computer\", \"Biology\", \"Chemistry\"] Yes    [\"Computer Science\", \"Biology\", \"Cheistry\"] Yes    [\"Computer Science\", \"Physics\"] No    [\"Computer\", \"Physics\"] No"
             },
             "page": {
               "type": "number",
@@ -563,7 +522,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "string",
+              "type": "number",
               "description": "The original articleId."
             }
           },
@@ -576,7 +535,7 @@
           "type": "object",
           "properties": {
             "pdfToken": {
-              "type": "string",
+              "type": "number",
               "description": "The file token generated by uploading the PDF file."
             },
             "title": {
@@ -605,7 +564,7 @@
             },
             "codeLink": {
               "type": "string",
-              "description": "Link to code",
+              "description": "Link to code. Should pass validation from utils/codeLink.ts",
               "format": "uri"
             }
           },
@@ -629,26 +588,20 @@
               "description": "The update is successful."
             },
             "401": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "Not logged in."
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "The user is not the owner."
             },
             "404": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "The article is not found."
             }
           },
           "required": [
-            "201",
-            "401",
-            "403",
-            "404"
+            "201"
           ],
           "additionalProperties": false
         }
@@ -667,7 +620,7 @@
           "type": "object",
           "properties": {
             "pdfToken": {
-              "type": "string",
+              "type": "number",
               "description": "The file token generated by uploading the PDF file."
             },
             "title": {
@@ -696,7 +649,7 @@
             },
             "codeLink": {
               "type": "string",
-              "description": "Link to code",
+              "description": "Link to code. Should pass validation from utils/codeLink.ts",
               "format": "uri"
             }
           },
@@ -716,7 +669,7 @@
               "type": "object",
               "properties": {
                 "id": {
-                  "type": "string",
+                  "type": "number",
                   "description": "The id of the new article."
                 }
               },
@@ -748,7 +701,7 @@
           "properties": {
             "file": {
               "type": "object",
-              "description": "The file object.\r\n1 PDF per request."
+              "description": "The file object. 1 PDF per request."
             }
           },
           "required": [
@@ -763,8 +716,8 @@
               "type": "object",
               "properties": {
                 "token": {
-                  "type": "string",
-                  "description": "The token for the upload.\r\nIt is used to upload the following content of the article."
+                  "type": "number",
+                  "description": "The token for the upload. It is used to upload the following content of the article."
                 }
               },
               "required": [
@@ -785,7 +738,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "Upload a PDF into the platform.\r\nExpect Content-Type to be multipart/form-data."
+      "description": "Upload a PDF into the platform. Expect Content-Type to be multipart/form-data."
     },
     "RegisterSchema": {
       "type": "object",
@@ -795,7 +748,7 @@
           "properties": {
             "email": {
               "type": "string",
-              "description": "The email.\r\nRequires to be an edu email.",
+              "description": "The email. Requires to be an edu email.",
               "format": "email"
             },
             "password": {
@@ -824,7 +777,7 @@
                   "description": "The initial name of the newly-created user."
                 },
                 "userId": {
-                  "type": "string",
+                  "type": "number",
                   "description": "User id"
                 }
               },
@@ -837,14 +790,12 @@
               "description": "Registered successfully."
             },
             "405": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "The email already exists."
             }
           },
           "required": [
-            "201",
-            "405"
+            "201"
           ],
           "additionalProperties": false
         }
@@ -876,20 +827,14 @@
           "type": "object",
           "properties": {
             "201": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "Email reset mail has been sent."
             },
             "404": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "Account does not exist."
             }
           },
-          "required": [
-            "201",
-            "404"
-          ],
           "additionalProperties": false
         }
       },
@@ -1002,7 +947,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "string",
+              "type": "number",
               "description": "The id of the article."
             }
           },
@@ -1039,7 +984,7 @@
                 "publicity"
               ],
               "additionalProperties": false,
-              "description": "The publicity has been successfully changed.\r\nReturns the new publicity."
+              "description": "The publicity has been successfully changed. Returns the new publicity."
             },
             "403": {
               "type": "object",
@@ -1092,21 +1037,15 @@
         "responses": {
           "type": "object",
           "properties": {
-            "200": {
-              "type": "object",
-              "additionalProperties": false,
+            "204": {
+              "not": {},
               "description": "The password has been changed."
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "The current password is not correct."
             }
           },
-          "required": [
-            "200",
-            "403"
-          ],
           "additionalProperties": false
         }
       },
@@ -1138,15 +1077,11 @@
         "responses": {
           "type": "object",
           "properties": {
-            "200": {
-              "type": "object",
-              "additionalProperties": false,
+            "204": {
+              "not": {},
               "description": "The profile has been updated."
             }
           },
-          "required": [
-            "200"
-          ],
           "additionalProperties": false
         }
       },
@@ -1196,14 +1131,12 @@
               "additionalProperties": false
             },
             "401": {
-              "type": "object",
-              "additionalProperties": false,
+              "not": {},
               "description": "The request is not authenticated."
             }
           },
           "required": [
-            "200",
-            "401"
+            "200"
           ],
           "additionalProperties": false
         }
@@ -1232,7 +1165,7 @@
                   "description": "The email of the user."
                 },
                 "userId": {
-                  "type": "string",
+                  "type": "number",
                   "description": "The id of the user."
                 }
               },
@@ -1306,18 +1239,25 @@
     }
   },
   "models": {
+    "UserRole": {
+      "type": "string",
+      "enum": [
+        "User",
+        "Admin"
+      ]
+    },
     "AdminGetArticlesResult": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
+          "type": "number",
           "description": "The article id."
         },
         "owner": {
           "type": "object",
           "properties": {
             "id": {
-              "type": "string",
+              "type": "number",
               "description": "The owner id."
             },
             "name": {
@@ -1369,18 +1309,11 @@
       ],
       "additionalProperties": false
     },
-    "UserRole": {
-      "type": "string",
-      "enum": [
-        "user",
-        "admin"
-      ]
-    },
     "AdminGetUsersResult": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
+          "type": "number",
           "description": "The user id."
         },
         "name": {
@@ -1462,7 +1395,7 @@
         },
         "codeLink": {
           "type": "string",
-          "description": "Link to code",
+          "description": "Link to code. Should pass validation from utils/codeLink.ts",
           "format": "uri"
         }
       },
@@ -1486,7 +1419,7 @@
         },
         "time": {
           "type": "string",
-          "description": "Upload time.\r\nMust be a valid ISO string with timezone."
+          "description": "Upload time. Must be a valid ISO string with timezone."
         }
       },
       "required": [
@@ -1499,12 +1432,12 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
+          "type": "number",
           "description": "The id of the article."
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Current revision number.\r\nMust be a integer."
+          "description": "Current revision number. Must be a integer."
         },
         "currentRevision": {
           "$ref": "#/definitions/ArticleInfo",
@@ -1518,12 +1451,12 @@
           "description": "All revisions"
         },
         "ownerId": {
-          "type": "string",
+          "type": "number",
           "description": "Owner User Id"
         },
         "createTime": {
           "type": "string",
-          "description": "The time when the article is first uploaded to the platform.\r\nMust be a valid datetime string."
+          "description": "The time when the article is first uploaded to the platform. Must be a valid datetime string."
         }
       },
       "required": [
@@ -1550,7 +1483,7 @@
         },
         "revisionNumber": {
           "type": "number",
-          "description": "Revision the comment is targeting.\r\nIf undefined, the comment is targeting the article itself."
+          "description": "Revision the comment is targeting. If undefined, the comment is targeting the article itself."
         },
         "userId": {
           "type": "string",
@@ -1611,7 +1544,7 @@
         },
         "codeLink": {
           "type": "string",
-          "description": "Link to code",
+          "description": "Link to code. Should pass validation from utils/codeLink.ts",
           "format": "uri"
         },
         "articleId": {
@@ -1624,11 +1557,11 @@
         },
         "createTime": {
           "type": "string",
-          "description": "The time when the article is first uploaded to the platform.\r\nMust be a valid datetime string."
+          "description": "The time when the article is first uploaded to the platform. Must be a valid datetime string."
         },
         "lastUpdateTime": {
           "type": "string",
-          "description": "The time when the article is last updated.\r\nMust be a valid datetime string."
+          "description": "The time when the article is last updated. Must be a valid datetime string."
         }
       },
       "required": [
@@ -1645,10 +1578,10 @@
       "additionalProperties": false,
       "description": "A preview information of the article."
     },
-    "Omit<ArticleInfo,\"pdfLink\">": {
+    "Omit%3CArticleInfo%2C%22pdfLink%22%3E": {
       "$ref": "#/definitions/Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22pdfLink%22%7C%22codeLink%22)%2C%22pdfLink%22%3E%3E"
     },
-    "Pick<ArticleInfo,Exclude<(\"title\"|\"authors\"|\"abstract\"|\"keywords\"|\"category\"|\"pdfLink\"|\"codeLink\"),\"pdfLink\">>": {
+    "Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22pdfLink%22%7C%22codeLink%22)%2C%22pdfLink%22%3E%3E": {
       "type": "object",
       "properties": {
         "title": {
@@ -1679,7 +1612,7 @@
         },
         "codeLink": {
           "type": "string",
-          "description": "Link to code",
+          "description": "Link to code. Should pass validation from utils/codeLink.ts",
           "format": "uri"
         }
       },

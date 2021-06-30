@@ -40,9 +40,6 @@ export class ArticleRevision {
   @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true, wrappedReference: true })
   latestRevisionOf?: IdentifiedReference<Article>;
 
-  @Property()
-  articleId: number;
-
   @Property({ nullable: true })
   codeLink?: string = undefined;
 }

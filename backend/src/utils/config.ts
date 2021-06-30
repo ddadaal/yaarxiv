@@ -2,7 +2,7 @@ import { Options } from "@mikro-orm/core";
 import { MySqlDriver } from "@mikro-orm/mysql";
 import config from "config";
 import { FastifyServerOptions } from "fastify";
-import SMTPConnection from "nodemailer/lib/smtp-connection";
+import type SMTPConnection from "nodemailer/lib/smtp-connection";
 
 export interface Config {
   address: string;
@@ -17,6 +17,7 @@ export interface Config {
     dropSchema?: boolean;
     highlight?: boolean;
     connectTimeout?: number;
+    synchronize?: boolean;
   };
   upload: {
     path: string;
@@ -27,11 +28,7 @@ export interface Config {
   mail: false | (SMTPConnection.Options & {
     from: string;
     ignoreError: boolean;
-    groupDeliveryIntervalMs: number;
   });
-  redis: {
-    host: string;
-  };
   resetPassword: {
     /**
      * The url template to reset password page.
@@ -49,3 +46,9 @@ export interface Config {
 const typedConfig: Config = config as any;
 
 export { typedConfig as config };
+
+type DeepPartial<T> = {
+  [P in keyof T]?: DeepPartial<T[P]>;
+};
+
+export type ConfigOverride = DeepPartial<Config>;

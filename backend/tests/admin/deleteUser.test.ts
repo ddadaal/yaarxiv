@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify/types/instance";
 import { startApp } from "../../src/app";
 import * as api from "yaarxiv-api/admin/deleteUser";
 import { adminUser, login, normalUser1 } from "../article/utils/login";
-import { insertData } from "tests/article/utils/data";
+import { createMockArticles } from "tests/article/utils/data";
 import { replacePathInEndpoint } from "tests/utils/replacePathInEndpoint";
 import { getRepository } from "typeorm";
 import { User } from "@/entities/User";
@@ -17,7 +17,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertData(articleCount);
+  await createMockArticles(articleCount);
 
 });
 

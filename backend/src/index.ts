@@ -1,3 +1,6 @@
-import { startApp } from "./app";
+import { buildApp, startServer } from "./app";
 
-startApp();
+const server = buildApp();
+
+startServer(server);
+

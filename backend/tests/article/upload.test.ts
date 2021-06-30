@@ -5,7 +5,7 @@ import { getRepository } from "typeorm";
 import * as api from "yaarxiv-api/article/upload";
 import { login, normalUser1 } from "./utils/login";
 import { PdfUpload } from "../../src/entities/PdfUpload";
-import { generatePdf, insertData } from "./utils/data";
+import { generatePdf, createMockArticles } from "./utils/data";
 
 const articleCount = 12;
 
@@ -14,7 +14,7 @@ let server: FastifyInstance;
 beforeEach(async () => {
   server = await startApp();
 
-  await insertData(articleCount);
+  await createMockArticles(articleCount);
 });
 
 afterEach(async () => {

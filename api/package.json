@@ -4,19 +4,19 @@
   "description": "",
   "sideEffects": false,
   "scripts": {
-    "compile": "ts-node -T ./generateSchemas.ts"
+    "api": "ts-node -T ./generateSchemas.ts"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {},
   "devDependencies": {
-    "@types/node": "^14.11.8",
-    "@typescript-eslint/eslint-plugin": "^4.4.0",
-    "@typescript-eslint/parser": "^4.4.0",
-    "cross-env": "^7.0.2",
-    "eslint": "^7.10.0",
-    "ts-json-schema-generator": "^0.75.0",
-    "ts-node": "^9.0.0",
-    "typescript": "^4.0.3"
+    "@types/node": "^15.12.5",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
+    "cross-env": "^7.0.3",
+    "eslint": "^7.29.0",
+    "ts-json-schema-generator": "^0.93.0",
+    "ts-node": "^10.0.0",
+    "typescript": "^4.3.4"
   }
 }

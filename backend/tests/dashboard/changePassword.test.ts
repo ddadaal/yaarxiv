@@ -1,17 +1,17 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { startApp } from "../../src/app";
 import * as api from "yaarxiv-api/dashboard/changePassword";
-import { insertUserInfo, login, normalUser1, normalUser1OriginalPassword } from "../article/utils/login";
-import { compare } from "@/utils/bcrypt";
-import { getRepository } from "typeorm";
-import { User } from "@/entities/User";
+import { createTestServer } from "tests/utils/createTestServer";
+import { createMockUsers, MockUsers, normalUser1OriginalPassword, reloadUsers } from "tests/utils/data";
+import { callRoute } from "@/utils/callRoute";
+import { changePasswordRoute } from "@/routes/dashboard/changePassword";
 
 let server: FastifyInstance;
+let users: MockUsers;
 
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
 
-  await insertUserInfo();
+  users = await createMockUsers(server);
 });
 
 afterEach(async () => {
@@ -28,34 +28,28 @@ it("change user password", async () => {
 
   const newPassword = "newPassword";
 
-  const resp = await server.inject({
-    ...api.endpoint,
-    payload: {
+  const resp = await callRoute(server, changePasswordRoute, {
+    body: {
       current: normalUser1OriginalPassword,
       changed: newPassword,
     },
-    ...login(server, normalUser1),
-  });
+  }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(200);
+  expect(resp.statusCode).toBe(204);
 
-  const userRepo = getRepository(User);
+  await reloadUsers(users);
 
-  const user = await userRepo.findOne(normalUser1.id);
-  expect(user).not.toBeUndefined();
-  expect(await compare(newPassword, user!.password)).toBe(true);
+  expect(await users.normalUser1.passwordMatch(newPassword)).toBe(true);
 
 });
 
 it("403 if the original password is not correct", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    payload: {
-      current: normalUser1.password,
-      changed: normalUser1.password + "123",
+  const resp = await callRoute(server, changePasswordRoute, {
+    body: {
+      current: normalUser1OriginalPassword + "123",
+      changed: normalUser1OriginalPassword + "1234",
     },
-    ...login(server, normalUser1),
-  });
+  }, users.normalUser1);
 
   expect(resp.statusCode).toBe(403);
 });
