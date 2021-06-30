@@ -19,7 +19,7 @@ beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  articles = await createMockArticles(server, articleCount);
+  articles = await createMockArticles(server, articleCount, users);
 });
 
 afterEach(async () => {

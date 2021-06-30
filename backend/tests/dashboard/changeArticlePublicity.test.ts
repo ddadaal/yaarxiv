@@ -16,7 +16,7 @@ beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  articles = await createMockArticles(server, articleCount);
+  articles = await createMockArticles(server, articleCount, users);
 
 });
 
@@ -77,7 +77,7 @@ it("return 404 if article does not exist", async () => {
   const resp = await callRoute(server, changeArticleOwnerSetPublicityRoute, {
     path: { articleId: 23295 },
     body: { publicity: false },
-  }, users.adminUser);
+  }, users.normalUser1);
 
   expect(resp.statusCode).toBe(404);
 });

@@ -10,7 +10,7 @@ export class PdfUpload {
   @PrimaryKey()
   id: number;
 
-  @ManyToOne(() => User)
+  @ManyToOne(() => User, { cascade: [Cascade.ALL]})
   user: IdentifiedReference<User>;
 
   @Property()
