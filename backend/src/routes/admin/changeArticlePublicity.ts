@@ -15,7 +15,7 @@ export const changeArticleAdminSetPublicityRoute = route(
     const article = await repo.findOne(numId);
 
     if (!article) {
-      return { 404: undefined };
+      return { 404: null };
     }
 
     article.adminSetPublicity = publicity;

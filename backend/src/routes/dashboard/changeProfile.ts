@@ -13,6 +13,6 @@ export const changeProfileRoute = route(
 
     await req.em.flush();
 
-    return { 204: undefined };
+    return { 204: null };
   },
 );

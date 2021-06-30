@@ -11,9 +11,9 @@ export interface ResetPasswordSchema {
   /**  */
   responses: {
     /** The reset password token is invalid. */
-    403: {};
+    403: null;
     /** Password is reset. */
-    201: {};
+    201: null;
   }
 }
 

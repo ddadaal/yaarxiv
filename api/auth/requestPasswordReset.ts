@@ -8,9 +8,9 @@ export interface RequestPasswordResetSchema {
   };
   responses: {
     /** Email reset mail has been sent. */
-    201: undefined;
+    201: null;
     /** Account does not exist. */
-    404: undefined;
+    404: null;
   }
 }
 

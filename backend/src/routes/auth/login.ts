@@ -11,7 +11,7 @@ export const loginRoute = route(
     const user = await req.em.findOne(User, { email: id });
 
     if (!user || !await user.passwordMatch(password)) {
-      return { 401: undefined };
+      return { 401: null };
     }
 
     return {

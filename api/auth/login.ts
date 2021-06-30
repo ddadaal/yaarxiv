@@ -28,7 +28,7 @@ export interface LoginSchema {
       userId: number;
     },
     /** Login failed. The username and password are not valid. */
-    401: undefined;
+    401: null;
   }
 }
 

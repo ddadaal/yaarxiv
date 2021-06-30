@@ -12,17 +12,11 @@ export interface DeleteArticleSchema {
   },
   responses: {
     /** The article and all is deleted. */
-    200: {
-
-    },
+    204: null;
     /** The article is not found. */
-    404: {
-
-    },
+    404: null;
     /** The user cannot delete the article. */
-    403: {
-
-    }
+    403: null;
   }
 }
 

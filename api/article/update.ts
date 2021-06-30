@@ -41,11 +41,11 @@ export interface UpdateArticleSchema {
       revisionNumber: number;
     },
     /** Not logged in. */
-    401: undefined;
+    401: null;
     /** The user is not the owner. */
-    403: undefined;
+    403: null;
     /** The article is not found. */
-    404: undefined;
+    404: null;
   }
 }
 

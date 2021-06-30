@@ -22,9 +22,9 @@ export interface ChangeArticleOwnerSetPublicitySchema {
       publicity: boolean;
     };
     /** The article is not found. */
-    404: {};
+    404: null;
     /** Only the owner can change the owner set publicity of an article. */
-    403: {};
+    403: null;
   }
 }
 

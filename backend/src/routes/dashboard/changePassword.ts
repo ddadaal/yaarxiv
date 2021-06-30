@@ -9,13 +9,13 @@ export const changePasswordRoute = route(
     const { changed, current } = req.body;
 
     if (!await user.passwordMatch(current)) {
-      return { 403: undefined };
+      return { 403: null };
     }
 
     await user.setPassword(changed);
 
     await req.em.flush();
 
-    return { 204: undefined };
+    return { 204: null };
   },
 );

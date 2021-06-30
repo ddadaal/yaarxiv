@@ -26,7 +26,7 @@ export const registerRoute = route(
     } catch (e) {
       if (e instanceof UniqueConstraintViolationException) {
         if (e.message.startsWith("insert into `user`")) {
-          return { 405: undefined };
+          return { 405: null };
         }
       }
       throw e;

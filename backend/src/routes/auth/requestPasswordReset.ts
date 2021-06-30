@@ -17,7 +17,7 @@ export const requestPasswordResetRoute = route(
     const user = await userRepo.findOne({ email });
 
     if (!user) {
-      return { 404: undefined };
+      return { 404: null };
     }
 
     // generate ResetPasswordToken
@@ -44,7 +44,7 @@ export const requestPasswordResetRoute = route(
         `,
     });
 
-    return { 201: undefined };
+    return { 201: null };
 
   },
 );

@@ -35,16 +35,11 @@ export interface AdminGetUsersSchema {
       users: AdminGetUsersResult[];
       /** Total count of users. */
       totalCount: number;
-    }
-
+    };
     /** Not admin. */
-    403: {
-
-    },
+    403: null;
     /** Not login */
-    401: {
-
-    }
+    401: null;
   }
 }
 

@@ -13,12 +13,10 @@ export interface AdminDeleteArticleSchema {
   },
   responses: {
     /** The user and all related is deleted. */
-    204: undefined;
+    204: null;
 
     /** The user is not found. */
-    404: {
-
-    },
+    404: null;
   }
 }
 

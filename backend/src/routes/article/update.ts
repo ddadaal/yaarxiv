@@ -33,11 +33,11 @@ export const updateArticleRoute = route(
     });
 
     if (!article) {
-      return { 404: undefined };
+      return { 404: null };
     }
 
     if (article.owner.id !== req.userId()) {
-      return { 403: undefined };
+      return { 403: null };
     }
 
     const time = new Date();

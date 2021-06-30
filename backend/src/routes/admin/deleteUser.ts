@@ -13,10 +13,10 @@ export const adminDeleteUserRoute = route(
     const user = await repo.findOne({ id: userId });
 
     if (!user) {
-      return { 404:{} };
+      return { 404: null };
     }
 
     await repo.removeAndFlush(user);
 
-    return { 204 : undefined };
+    return { 204 : null };
   });

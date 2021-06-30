@@ -14,9 +14,9 @@ export interface ChangePasswordSchema {
   };
   responses: {
     /** The password has been changed. */
-    204: undefined;
+    204: null;
     /** The current password is not correct. */
-    403: undefined
+    403: null
   }
 }
 

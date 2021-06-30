@@ -17,7 +17,7 @@ export interface ChangeProfileSchema {
   };
   responses: {
     /** The profile has been updated. */
-    204: undefined;
+    204: null;
   }
 }
 

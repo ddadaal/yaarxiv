@@ -20,9 +20,9 @@ export interface ChangeArticleAdminSetPublicitySchema {
       publicity: boolean;
     };
     /** The article is not found. */
-    404: undefined;
+    404: null;
     /** Only admin can change the admin set publicity of an article. */
-    403: {};
+    403: null;
   }
 }
 

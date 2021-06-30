@@ -54,12 +54,13 @@
               "description": "Logged in successfully. Returns user info."
             },
             "401": {
-              "not": {},
+              "type": "null",
               "description": "Login failed. The username and password are not valid."
             }
           },
           "required": [
-            "200"
+            "200",
+            "401"
           ],
           "additionalProperties": false
         }
@@ -110,17 +111,17 @@
               "description": "The publicity has been successfully changed. Returns the new publicity."
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "Only admin can change the admin set publicity of an article."
             },
             "404": {
-              "not": {},
+              "type": "null",
               "description": "The article is not found."
             }
           },
           "required": [
             "200",
+            "404",
             "403"
           ],
           "additionalProperties": false
@@ -153,16 +154,16 @@
           "type": "object",
           "properties": {
             "204": {
-              "not": {},
+              "type": "null",
               "description": "The user and all related is deleted."
             },
             "404": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "The user is not found."
             }
           },
           "required": [
+            "204",
             "404"
           ],
           "additionalProperties": false
@@ -218,13 +219,11 @@
               "additionalProperties": false
             },
             "401": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "Not login"
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "Not admin."
             }
           },
@@ -285,13 +284,11 @@
               "additionalProperties": false
             },
             "401": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "Not login"
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "Not admin."
             }
           },
@@ -329,24 +326,21 @@
         "responses": {
           "type": "object",
           "properties": {
-            "200": {
-              "type": "object",
-              "additionalProperties": false,
+            "204": {
+              "type": "null",
               "description": "The article and all is deleted."
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "The user cannot delete the article."
             },
             "404": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "The article is not found."
             }
           },
           "required": [
-            "200",
+            "204",
             "404",
             "403"
           ],
@@ -588,20 +582,23 @@
               "description": "The update is successful."
             },
             "401": {
-              "not": {},
+              "type": "null",
               "description": "Not logged in."
             },
             "403": {
-              "not": {},
+              "type": "null",
               "description": "The user is not the owner."
             },
             "404": {
-              "not": {},
+              "type": "null",
               "description": "The article is not found."
             }
           },
           "required": [
-            "201"
+            "201",
+            "401",
+            "403",
+            "404"
           ],
           "additionalProperties": false
         }
@@ -790,12 +787,13 @@
               "description": "Registered successfully."
             },
             "405": {
-              "not": {},
+              "type": "null",
               "description": "The email already exists."
             }
           },
           "required": [
-            "201"
+            "201",
+            "405"
           ],
           "additionalProperties": false
         }
@@ -827,14 +825,18 @@
           "type": "object",
           "properties": {
             "201": {
-              "not": {},
+              "type": "null",
               "description": "Email reset mail has been sent."
             },
             "404": {
-              "not": {},
+              "type": "null",
               "description": "Account does not exist."
             }
           },
+          "required": [
+            "201",
+            "404"
+          ],
           "additionalProperties": false
         }
       },
@@ -870,13 +872,11 @@
           "type": "object",
           "properties": {
             "201": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "Password is reset."
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "The reset password token is invalid."
             }
           },
@@ -987,13 +987,11 @@
               "description": "The publicity has been successfully changed. Returns the new publicity."
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "Only the owner can change the owner set publicity of an article."
             },
             "404": {
-              "type": "object",
-              "additionalProperties": false,
+              "type": "null",
               "description": "The article is not found."
             }
           },
@@ -1038,14 +1036,18 @@
           "type": "object",
           "properties": {
             "204": {
-              "not": {},
+              "type": "null",
               "description": "The password has been changed."
             },
             "403": {
-              "not": {},
+              "type": "null",
               "description": "The current password is not correct."
             }
           },
+          "required": [
+            "204",
+            "403"
+          ],
           "additionalProperties": false
         }
       },
@@ -1078,10 +1080,13 @@
           "type": "object",
           "properties": {
             "204": {
-              "not": {},
+              "type": "null",
               "description": "The profile has been updated."
             }
           },
+          "required": [
+            "204"
+          ],
           "additionalProperties": false
         }
       },
@@ -1131,12 +1136,13 @@
               "additionalProperties": false
             },
             "401": {
-              "not": {},
+              "type": "null",
               "description": "The request is not authenticated."
             }
           },
           "required": [
-            "200"
+            "200",
+            "401"
           ],
           "additionalProperties": false
         }

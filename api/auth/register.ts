@@ -24,7 +24,7 @@ export interface RegisterSchema {
       userId: number;
     },
     /** The email already exists. */
-    405: undefined;
+    405: null;
   }
 }
 

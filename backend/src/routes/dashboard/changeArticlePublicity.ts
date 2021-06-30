@@ -14,11 +14,11 @@ export const changeArticleOwnerSetPublicityRoute = route(
     const article = await repo.findOne({ id: articleId });
 
     if (!article) {
-      return { 404: { } };
+      return { 404: null };
     }
 
     if (article.owner.id !== req.userId()){
-      return { 403: { } };
+      return { 403: null };
     }
 
     article.ownerSetPublicity = publicity;
