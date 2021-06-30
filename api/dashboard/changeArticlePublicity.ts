@@ -1,13 +1,12 @@
-export const endpoint = {
-  method: "PATCH",
-  url: "/user/articles/:articleId/publicity",
-} as const;
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
+import { Endpoint } from "../utils/schema";
 
 /** Change the owner set publicity of an article. */
 export interface ChangeArticleOwnerSetPublicitySchema {
   path: {
     /** The id of the article. */
-    articleId: string;
+    articleId: number;
   };
   body: {
     /** Whether the article is public. */
@@ -28,3 +27,12 @@ export interface ChangeArticleOwnerSetPublicitySchema {
     403: {};
   }
 }
+
+export const props: ApiProps = {
+  requiredRoles: [UserRole.User],
+};
+
+export const endpoint = {
+  method: "PATCH",
+  url: "/user/articles/:articleId/publicity",
+} as Endpoint<ChangeArticleOwnerSetPublicitySchema>;

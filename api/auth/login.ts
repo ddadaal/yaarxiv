@@ -25,11 +25,10 @@ export interface LoginSchema {
       /** The role of the user. */
       role: UserRole;
       /** User id */
-      userId: string;
+      userId: number;
     },
     /** Login failed. The username and password are not valid. */
-    401: {
-    }
+    401: undefined;
   }
 }
 

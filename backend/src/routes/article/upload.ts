@@ -2,53 +2,49 @@ import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { PdfUpload } from "@/entities/PdfUpload";
 import { route } from "@/utils/route";
-import { FastifyInstance } from "fastify";
 import * as api from "yaarxiv-api/article/upload";
 import createError from "http-errors";
 import { validateCodeLink } from "@/utils/codeLink";
+import { Reference } from "@mikro-orm/core";
 
-export async function uploadArticleRoute(fastify: FastifyInstance) {
-  route<api.UploadArticleSchema>(fastify, api.endpoint, "UploadArticleSchema", { authOption: true })(
-    async (req) => {
-      // validate the pdfToken first.
+export const uploadArticleRoute = route(
+  api, "UploadArticleSchema",
+  async (req) => {
+    // validate the pdfToken first.
+    const pdfRepo = req.em.getRepository(PdfUpload);
+    const pdf = await pdfRepo.findOne(req.body.pdfToken);
+    if (!pdf) {
+      throw createError(400, "PDF token is invalid.");
+    }
 
-      const pdfRepo = fastify.orm.getRepository(PdfUpload);
-      const pdf = await pdfRepo.findOne(req.body.pdfToken);
-      if (!pdf) {
-        throw createError(400, "PDF token is invalid.");
-      }
+    // validate the repo link
+    if (req.body.codeLink) {
+      validateCodeLink(req.body.codeLink);
+    }
 
-      // validate the repo link
-      if (req.body.codeLink) {
-        validateCodeLink(req.body.codeLink);
-      }
+    const createTime = new Date();
 
-      const articleRepo = fastify.orm.getRepository(Article);
+    const rev = new ArticleRevision();
+    rev.abstract = req.body.abstract;
+    rev.authors = req.body.authors.map((x) => ({ name: x }));
+    rev.category = "";
+    rev.keywords = req.body.keywords;
+    rev.pdf = pdf;
+    rev.revisionNumber = 1;
+    rev.title = req.body.title;
+    rev.time = createTime;
+    rev.codeLink = req.body.codeLink;
 
-      const createTime = new Date();
-      const article = new Article();
-      article.createTime = createTime;
-      article.lastUpdateTime = createTime;
-      article.latestRevisionNumber = 1;
-      article.ownerId = req.userId();
+    const article = new Article();
+    article.createTime = createTime;
+    article.lastUpdateTime = createTime;
+    article.latestRevision = Reference.create(rev);
+    article.owner = req.dbUserRef();
 
-      const rev = new ArticleRevision();
-      rev.abstract = req.body.abstract;
-      rev.authors = req.body.authors.map((x) => ({ name: x }));
-      rev.article = article;
-      rev.category = "";
-      rev.keywords = req.body.keywords;
-      rev.pdf = pdf;
-      rev.revisionNumber = 1;
-      rev.title = req.body.title;
-      rev.time = createTime;
-      rev.codeLink = req.body.codeLink;
+    article.revisions.add(rev);
 
-      article.revisions = [rev];
+    await req.em.persistAndFlush(article);
 
-      await articleRepo.save(article);
+    return { 201: { id: article.id } };
 
-      return { 201: { id: article.id + "" } };
-
-    });
-}
+  });

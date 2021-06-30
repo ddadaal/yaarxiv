@@ -1,25 +1,18 @@
-import { FastifyInstance } from "fastify";
-
 import * as api from "yaarxiv-api/dashboard/changeProfile";
 import { route } from "@/utils/route";
-import { User } from "@/entities/User";
 
-export async function changeProfileRoute(fastify: FastifyInstance) {
-  route<api.ChangeProfileSchema>(fastify, api.endpoint, "ChangeProfileSchema", {
-    authOption: true,
-    summary: api.summary,
-  })(
-    async (req, rep) => {
-      const user = await req.dbUser();
+export const changeProfileRoute = route(
+  api, "ChangeProfileSchema",
+  async (req) => {
+    const user = await req.dbUser();
 
-      const { email, name } = req.body;
+    const { email, name } = req.body;
 
-      user.name = name ?? user.name;
-      user.email = email ?? user.email;
+    user.name = name ?? user.name;
+    user.email = email ?? user.email;
 
-      await fastify.orm.getRepository(User).save(user);
+    await req.em.flush();
 
-      return { 200: {} };
-    },
-  );
-}
+    return { 204: undefined };
+  },
+);

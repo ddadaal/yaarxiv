@@ -1,8 +1,10 @@
-import { Entity, Property, OneToMany, PrimaryKey, Enum, Cascade, Collection } from "@mikro-orm/core";
+import { Entity, Property, OneToMany, PrimaryKey, Enum, Cascade, Collection,
+  IdentifiedReference, OneToOne } from "@mikro-orm/core";
 import { Article } from "./Article";
 import { PdfUpload } from "./PdfUpload";
 import { encrypt, compare } from "@/utils/bcrypt";
 import { UserRole } from "yaarxiv-api/auth/login";
+import { ResetPasswordToken } from "./ResetPasswordToken";
 
 export { UserRole };
 
@@ -28,6 +30,9 @@ export class User {
 
   @OneToMany(() => Article, (a) => a.owner, { cascade: [Cascade.ALL]})
   articles = new Collection<Article>(this);
+
+  @OneToOne(() => ResetPasswordToken, (e) => e.user, { wrappedReference: true })
+  resetPasswordToken?: IdentifiedReference<ResetPasswordToken>;
 
   async setPassword(newPassword: string) {
     this.password = await encrypt(newPassword);

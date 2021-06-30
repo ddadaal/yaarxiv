@@ -1,28 +1,21 @@
-import { FastifyInstance } from "fastify";
-
 import * as api from "yaarxiv-api/dashboard/changePassword";
 import { route } from "@/utils/route";
-import { User } from "@/entities/User";
 
-export async function changePasswordRoute(fastify: FastifyInstance) {
-  route<api.ChangePasswordSchema>(fastify, api.endpoint, "ChangePasswordSchema", {
-    authOption: true,
-    summary: api.summary,
-  })(
-    async (req, rep) => {
-      const user = await req.dbUser();
+export const changePasswordRoute = route(
+  api, "ChangePasswordSchema",
+  async (req) => {
+    const user = await req.dbUser();
 
-      const { changed, current } = req.body;
+    const { changed, current } = req.body;
 
-      if (!await user.passwordMatch(current)) {
-        return { 403: {} };
-      }
+    if (!await user.passwordMatch(current)) {
+      return { 403: undefined };
+    }
 
-      await user.setPassword(changed);
+    await user.setPassword(changed);
 
-      await fastify.orm.getRepository(User).save(user);
+    await req.em.flush();
 
-      return { 200: {} };
-    },
-  );
-}
+    return { 204: undefined };
+  },
+);

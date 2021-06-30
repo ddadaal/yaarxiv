@@ -5,7 +5,7 @@ import { route } from "@/utils/route";
 import * as api from "yaarxiv-api/article/update";
 import createError from "http-errors";
 import { validateCodeLink } from "@/utils/codeLink";
-import { LoadedReference, Reference } from "@mikro-orm/core";
+import { Reference } from "@mikro-orm/core";
 
 export const updateArticleRoute = route(
   api, "UpdateArticleSchema",
@@ -57,7 +57,8 @@ export const updateArticleRoute = route(
     rev.time = time;
     rev.codeLink = req.body.codeLink ?? latestRev.codeLink;
 
-    article.latestRevision = Reference.create(rev);
+    // IdentifiedReference cannot be set to LoadedReference
+    article.latestRevision = Reference.create(rev) as any;
 
     await req.em.flush();
 

@@ -14,9 +14,6 @@ export class PdfUpload {
   user: IdentifiedReference<User>;
 
   @Property()
-  userId: string;
-
-  @Property()
   link: string;
 
   @OneToMany(() => ArticleRevision, (r) => r.pdf, { cascade: [Cascade.ALL]})

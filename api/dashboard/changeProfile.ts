@@ -1,9 +1,7 @@
-export const endpoint = {
-  url: "/dashboard/profile",
-  method: "PATCH",
-} as const;
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
+import { Endpoint } from "../utils/schema";
 
-export const summary = "Change user's profile.";
 
 /** Change the profile of the current logged in user. */
 export interface ChangeProfileSchema {
@@ -19,7 +17,16 @@ export interface ChangeProfileSchema {
   };
   responses: {
     /** The profile has been updated. */
-    200: {
-    };
+    204: undefined;
   }
 }
+
+export const props: ApiProps = {
+  requiredRoles: [UserRole.Admin, UserRole.User],
+  summary: "Change user's profile.",
+};
+
+export const endpoint = {
+  url: "/dashboard/profile",
+  method: "PATCH",
+} as Endpoint<ChangeProfileSchema>;

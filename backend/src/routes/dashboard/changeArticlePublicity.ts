@@ -1,37 +1,30 @@
 import * as api from "yaarxiv-api/dashboard/changeArticlePublicity";
-import { FastifyInstance } from "fastify/types/instance";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
 
-export async function changeArticleOwnerSetPublicityRoute(fastify: FastifyInstance) {
-  route<api.ChangeArticleOwnerSetPublicitySchema>(fastify, api.endpoint, "ChangeArticleOwnerSetPublicitySchema", {
-    authOption: ["user"],
-  })(
-    async (req) => {
+export const changeArticleOwnerSetPublicityRoute = route(
+  api, "ChangeArticleOwnerSetPublicitySchema",
+  async (req) => {
 
-      const { articleId } = req.params;
-      const { publicity } = req.body;
+    const { articleId } = req.params;
+    const { publicity } = req.body;
 
-      const numId = Number(articleId);
+    const repo = req.em.getRepository(Article);
 
-      const repo = fastify.orm.getRepository(Article);
+    const article = await repo.findOne({ id: articleId });
 
-      const article = await repo.findOne(numId);
+    if (!article) {
+      return { 404: { } };
+    }
 
-      if (!article) {
-        return { 404: { } };
-      }
+    if (article.owner.id !== req.userId()){
+      return { 403: { } };
+    }
 
-      if (article.ownerId !== req.userId()){
-        return { 403: { } };
-      }
+    article.ownerSetPublicity = publicity;
 
-      article.ownerSetPublicity = publicity;
+    await req.em.flush();
 
-      await repo.save(article);
+    return { 200: { publicity: article.ownerSetPublicity } };
 
-      return { 200: { publicity: article.ownerSetPublicity } };
-
-    });
-
-}
+  });

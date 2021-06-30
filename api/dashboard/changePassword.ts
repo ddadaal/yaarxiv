@@ -1,9 +1,7 @@
-export const endpoint = {
-  url: "/dashboard/profile/password",
-  method: "PATCH",
-} as const;
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
+import { Endpoint } from "../utils/schema";
 
-export const summary = "Change user's password.";
 
 /** Change the password of the current logged in user. */
 export interface ChangePasswordSchema {
@@ -16,11 +14,18 @@ export interface ChangePasswordSchema {
   };
   responses: {
     /** The password has been changed. */
-    200: {
-    };
+    204: undefined;
     /** The current password is not correct. */
-    403: {
-
-    }
+    403: undefined
   }
 }
+
+export const props: ApiProps = {
+  summary:  "Change user's password.",
+  requiredRoles: [UserRole.Admin, UserRole.User],
+};
+
+export const endpoint = {
+  url: "/dashboard/profile/password",
+  method: "PATCH",
+} as Endpoint<ChangePasswordSchema>;

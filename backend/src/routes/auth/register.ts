@@ -1,38 +1,35 @@
-import { FastifyInstance } from "fastify";
 import { route } from "@/utils/route";
-import * as registerApi from "yaarxiv-api/auth/register";
-import { User } from "@/entities/User";
-import { genId } from "@/utils/genId";
+import * as api from "yaarxiv-api/auth/register";
+import { User, UserRole } from "@/entities/User";
 import { signUser } from "@/plugins/auth";
-import { encrypt } from "@/utils/bcrypt";
+import { UniqueConstraintViolationException } from "@mikro-orm/core";
 
-export async function registerRoute(fastify: FastifyInstance) {
+export const registerRoute = route(
+  api, "RegisterSchema",
+  async (req, fastify) => {
+    const user = new User();
+    user.email = req.body.email;
+    user.name = user.email.split("@")[0];
+    user.role = UserRole.User;
 
-  route<registerApi.RegisterSchema>(fastify, registerApi.endpoint, "RegisterSchema", { summary: registerApi.summary })(
-    async (req) => {
-      const userRepo = fastify.orm.getRepository(User);
+    await user.setPassword(req.body.password);
 
-      const user = new User();
-      user.id = genId();
-      user.email = req.body.email;
-      user.name = user.email.split("@")[0];
-      user.role = "user";
-      await user.setPassword(req.body.password);
-
-      try {
-        await userRepo.save(user);
-        return {
-          201: {
-            token: signUser(fastify, user),
-            name: user.name,
-            userId: user.id,
-          },
-        };
-      } catch (e) {
-        // handle unique constraint violation
-        fastify.log.error(e);
-        return { 405: {} };
+    try {
+      await req.em.persistAndFlush(user);
+      return {
+        201: {
+          token: signUser(fastify, user),
+          name: user.name,
+          userId: user.id,
+        },
+      };
+    } catch (e) {
+      if (e instanceof UniqueConstraintViolationException) {
+        if (e.message.startsWith("insert into `user`")) {
+          return { 405: undefined };
+        }
       }
-    },
-  );
-}
+      throw e;
+    }
+  },
+);

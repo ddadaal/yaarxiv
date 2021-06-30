@@ -1,9 +1,7 @@
-export const endpoint = {
-  url: "/dashboard/profile",
-  method: "GET",
-} as const;
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
+import { Endpoint } from "../utils/schema";
 
-export const summary = "Change user profile.";
 
 /** Get the profile of current logged in user. */
 export interface DashboardGetProfileSchema {
@@ -15,7 +13,17 @@ export interface DashboardGetProfileSchema {
       /** The email of the user. */
       email: string;
       /** The id of the user. */
-      userId: string;
+      userId: number;
     }
   }
 }
+
+export const props: ApiProps = {
+  requiredRoles: [UserRole.Admin, UserRole.User],
+  summary: "Change user profile.",
+};
+
+export const endpoint = {
+  url: "/dashboard/profile",
+  method: "GET",
+} as Endpoint<DashboardGetProfileSchema>;

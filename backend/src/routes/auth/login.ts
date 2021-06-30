@@ -1,29 +1,27 @@
-import * as loginApi from "yaarxiv-api/auth/login";
-import { FastifyInstance } from "fastify/types/instance";
+import * as api from "yaarxiv-api/auth/login";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 import { signUser } from "@/plugins/auth";
 
-export async function loginRoute(fastify: FastifyInstance) {
-  route<loginApi.LoginSchema>(fastify, loginApi.endpoint, "LoginSchema", { summary: loginApi.summary })(
-    async (req) => {
-      const { id, password } = req.query;
-      const userRepo = fastify.orm.getRepository(User);
+export const loginRoute = route(
+  api, "LoginSchema",
+  async (req, fastify) => {
+    const { id, password } = req.query;
 
-      const user = await userRepo.findOne({ email: id });
-      if (!user || !await user.passwordMatch(password)) {
-        return { 401: {} };
-      }
+    const user = await req.em.findOne(User, { email: id });
 
-      return {
-        200: {
-          token: signUser(fastify, user),
-          name: user.name,
-          role: user.role,
-          userId: user.id,
-        },
-      };
+    if (!user || !await user.passwordMatch(password)) {
+      return { 401: undefined };
+    }
 
-    });
+    return {
+      200: {
+        token: signUser(fastify, user),
+        name: user.name,
+        role: user.role,
+        userId: user.id,
+      },
+    };
 
-}
+  });
+

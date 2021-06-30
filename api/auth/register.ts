@@ -1,6 +1,5 @@
+import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
-
-export const summary = "Register.";
 
 /** Register */
 export interface RegisterSchema {
@@ -22,14 +21,16 @@ export interface RegisterSchema {
       /** The initial name of the newly-created user. */
       name: string;
       /** User id */
-      userId: string;
+      userId: number;
     },
     /** The email already exists. */
-    405: {
-
-    }
+    405: undefined;
   }
 }
+
+export const props: ApiProps = {
+  summary: "Register.",
+};
 
 export const endpoint = {
   url: "/user",

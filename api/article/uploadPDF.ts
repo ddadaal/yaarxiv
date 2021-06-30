@@ -1,3 +1,5 @@
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
 /**
@@ -19,10 +21,15 @@ export interface UploadPDFSchema {
        * The token for the upload.
        * It is used to upload the following content of the article.
        */
-      token: string;
+      token: number;
     }
   }
 }
+
+export const apiProps: ApiProps = {
+  requiredRoles: [UserRole.Admin, UserRole.User],
+  consumes: ["multipart/form-data"],
+};
 
 export const endpoint = {
   url: "/articles/pdf",

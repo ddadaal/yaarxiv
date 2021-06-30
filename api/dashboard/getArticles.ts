@@ -1,9 +1,7 @@
-export const endpoint = {
-  url: "/user/articles",
-  method: "GET",
-} as const;
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
+import { Endpoint } from "../utils/schema";
 
-export const summary = "Get the articles this user is the owner of.";
 
 /** Get the articles this user is the owner of. */
 export interface DashboardArticleInfo {
@@ -50,8 +48,16 @@ export interface UserGetArticleInfoSchema {
       totalCount: number;
     },
     /** The request is not authenticated. */
-    401: {
-
-    }
+    401: undefined;
   }
 }
+
+export const props: ApiProps = {
+  requiredRoles: [UserRole.Admin, UserRole.User],
+  summary: "Get the articles this user is the owner of.",
+};
+
+export const endpoint = {
+  url: "/user/articles",
+  method: "GET",
+} as Endpoint<UserGetArticleInfoSchema>;

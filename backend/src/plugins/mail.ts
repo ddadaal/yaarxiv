@@ -24,7 +24,7 @@ export const mailPlugin = fp(async (fastify) => {
     ) => {
       return mail.sendMail({
         from: `${from} <${mailConfig.auth?.user}>`,
-        subject: `第三届全国高校数据驱动创新研究大赛 - ${subject}`,
+        subject: `${subject} - yaarxiv`,
         ...rest,
       }).catch((e) => {
         fastify.log.error(`Error sending email to $${rest.to}. Error is`);
