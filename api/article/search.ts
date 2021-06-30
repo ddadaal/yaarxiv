@@ -49,7 +49,7 @@ export interface SearchArticleSchema {
      *    ["Author1"] No
      *    ["Author", "Author2"] No
      */
-    authorNames?: string | string[];
+    authorNames?: string[];
     /**
      * Keywords.
      * Search articles with ALL of specified keywords.
@@ -60,7 +60,7 @@ export interface SearchArticleSchema {
      *    ["Computer Science", "Physics"] No
      *    ["Computer", "Physics"] No
      */
-    keywords?: string | string[];
+    keywords?: string[];
     /**
      * The page number. 10 results per page.
      * @default 1
