@@ -19,7 +19,7 @@ export class Article {
   @Property()
   lastUpdateTime: Date;
 
-  @OneToOne(() => ArticleRevision, (r) => r.latestRevisionOf, { cascade: [Cascade.ALL]})
+  @OneToOne(() => ArticleRevision, (r) => r.latestRevisionOf, { cascade: [Cascade.ALL], wrappedReference: true })
   latestRevision: IdentifiedReference<ArticleRevision>;
 
   @Property()
