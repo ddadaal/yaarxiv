@@ -1,89 +1,100 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { startApp } from "../../src/app";
 import * as api from "yaarxiv-api/admin/getUsers";
-import { adminUser, login, normalUser1, normalUser2 } from "../article/utils/login";
 import { createMockArticles } from "tests/article/utils/data";
+import { createMockUsers, MockUsers } from "tests/utils/data";
+import { Article } from "@/entities/Article";
+import { createTestServer } from "tests/utils/createTestServer";
+import { callRoute } from "@/utils/callRoute";
+import { adminGetUsersRoute } from "@/routes/admin/getUsers";
+import { User } from "@/entities/User";
 
 const articleCount = 3;
 
 let server: FastifyInstance;
 
+let users: MockUsers;
+let articles: Article[];
+
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
 
-  await createMockArticles(articleCount);
-
+  users = await createMockUsers(server);
+  articles = await createMockArticles(server, articleCount, users);
 });
+
 
 afterEach(async () => {
   await server.close();
 });
 
+function toInfo(user: User, articleCount: number) {
+  return {
+    id: user.id,
+    name: user.name,
+    role: user.role,
+    email: user.email,
+    articleCount,
+  };
+}
+
 it("should return all users", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    ...login(server, adminUser),
-  });
+  const resp = await callRoute(server, adminGetUsersRoute, { query: {} }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
-  const data = resp.json() as api.AdminGetUsersSchema["responses"]["200"];
+  const data = resp.json<200>();
 
   expect(data.totalCount).toBe(3);
   expect(data.users).toHaveLength(3);
+
+
   expect(data.users).toEqual(expect.arrayContaining([
-    { id: adminUser.id, name: adminUser.name, role: adminUser.role, email: adminUser.email, articleCount: 0 },
-    { id: normalUser1.id, name: normalUser1.name, role: normalUser1.role, email: normalUser1.email, articleCount: 2 },
-    { id: normalUser2.id, name: normalUser2.name, role: normalUser2.role, email: normalUser2.email, articleCount: 1 },
+    toInfo(users.adminUser, 0),
+    toInfo(users.normalUser1, 2),
+    toInfo(users.normalUser2, 1),
   ] as api.AdminGetUsersResult[]));
 });
 
 it("should filter users by name", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    ...login(server, adminUser),
-    query: { searchWord: normalUser1.name.substr(1, normalUser1.name.length - 2) },
-  });
+
+  const resp = await callRoute(server, adminGetUsersRoute, {
+    query: { searchWord: users.normalUser1.name.substr(1, users.normalUser1.name.length - 2) },
+  }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
-  const data = resp.json() as api.AdminGetUsersSchema["responses"]["200"];
+  const data = resp.json<200>();
 
   expect(data.totalCount).toBe(2);
   expect(data.users).toHaveLength(2);
   expect(data.users).toEqual(expect.arrayContaining([
-    { id: normalUser1.id, name: normalUser1.name, role: normalUser1.role, email: normalUser1.email, articleCount: 2 },
-    { id: normalUser2.id, name: normalUser2.name, role: normalUser2.role, email: normalUser2.email, articleCount: 1 },
+    toInfo(users.normalUser1, 2),
+    toInfo(users.normalUser2, 1),
   ] as api.AdminGetUsersResult[]));
 });
 
 it("should filter users by incomplete email", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    ...login(server, adminUser),
-    query: { searchWord: normalUser1.email.substr(1, normalUser1.email.length - 2) },
-  });
+  const resp = await callRoute(server, adminGetUsersRoute, {
+    query: { searchWord: users.normalUser1.email.substr(1, users.normalUser1.email.length - 2) },
+  }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
-  const data = resp.json() as api.AdminGetUsersSchema["responses"]["200"];
+  const data = resp.json<200>();
 
   expect(data.totalCount).toBe(1);
   expect(data.users).toHaveLength(1);
   expect(data.users).toEqual([
-    { id: normalUser1.id, name: normalUser1.name, role: normalUser1.role, email: normalUser1.email, articleCount: 2 },
+    toInfo(users.normalUser1, 2),
   ] as api.AdminGetUsersResult[]);
 });
 
 it("return 401 if not login.", async () => {
-  const resp = await server.inject({ ...api.endpoint });
+  const resp = await callRoute(server, adminGetUsersRoute, { query: {} });
 
   expect(resp.statusCode).toBe(401);
 
 });
 
 it("return 403 if not admin", async () => {
-  const resp = await server.inject({
-    ...api.endpoint ,
-    ...login(server, normalUser1),
-  });
+  const resp = await callRoute(server, adminGetUsersRoute, { query: {} }, users.normalUser1);
 
   expect(resp.statusCode).toBe(403);
 });

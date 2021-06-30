@@ -75,20 +75,28 @@
     "ChangeArticleAdminSetPublicitySchema": {
       "type": "object",
       "properties": {
-        "body": {
+        "path": {
           "type": "object",
           "properties": {
             "articleId": {
               "type": "number",
               "description": "The id of the article."
-            },
+            }
+          },
+          "required": [
+            "articleId"
+          ],
+          "additionalProperties": false
+        },
+        "body": {
+          "type": "object",
+          "properties": {
             "publicity": {
               "type": "boolean",
               "description": "Whether the article is public."
             }
           },
           "required": [
-            "articleId",
             "publicity"
           ],
           "additionalProperties": false
@@ -128,6 +136,7 @@
         }
       },
       "required": [
+        "path",
         "body",
         "responses"
       ],

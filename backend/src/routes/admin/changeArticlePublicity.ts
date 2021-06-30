@@ -6,7 +6,9 @@ export const changeArticleAdminSetPublicityRoute = route(
   api, "ChangeArticleAdminSetPublicitySchema",
   async (req) => {
 
-    const { publicity, articleId } = req.body;
+    const { articleId } = req.params;
+
+    const { publicity } = req.body;
 
     const numId = Number(articleId);
 

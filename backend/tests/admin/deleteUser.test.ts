@@ -1,25 +1,30 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { startApp } from "../../src/app";
-import * as api from "yaarxiv-api/admin/deleteUser";
-import { adminUser, login, normalUser1 } from "../article/utils/login";
 import { createMockArticles } from "tests/article/utils/data";
-import { replacePathInEndpoint } from "tests/utils/replacePathInEndpoint";
-import { getRepository } from "typeorm";
 import { User } from "@/entities/User";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { Article } from "@/entities/Article";
 import { PdfUpload } from "@/entities/PdfUpload";
+import { createMockUsers, MockUsers } from "tests/utils/data";
+import { createTestServer } from "tests/utils/createTestServer";
+import { callRoute } from "@/utils/callRoute";
+import { adminDeleteUserRoute } from "@/routes/admin/deleteUser";
 
 const articleCount = 3;
 
+
 let server: FastifyInstance;
 
+let users: MockUsers;
+let articles: Article[];
+
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
 
-  await createMockArticles(articleCount);
-
+  users = await createMockUsers(server);
+  articles = await createMockArticles(server, articleCount, users);
 });
+
+
 
 afterEach(async () => {
   await server.close();
@@ -27,31 +32,30 @@ afterEach(async () => {
 
 
 it("return 401 if not login.", async () => {
-  const resp = await server.inject({ ...api.endpoint });
+  const resp = await callRoute(server, adminDeleteUserRoute, {
+    path: { userId: 1 },
+  });
 
   expect(resp.statusCode).toBe(401);
-
 });
 
 it("return 403 if not admin", async () => {
-  const resp = await server.inject({
-    ...api.endpoint ,
-    ...login(server, normalUser1),
-  });
+  const resp = await callRoute(server, adminDeleteUserRoute, {
+    path: { userId: 1 },
+  }, users.normalUser1);
 
   expect(resp.statusCode).toBe(403);
 });
 
-async function countEntities(entity) {
-  return await getRepository(entity).count();
+async function countEntities(entity: any) {
+  return await server.orm.em.fork().getRepository(entity).count();
 }
 
 it("delete user and all related articles", async () => {
 
-  const resp = await server.inject({
-    ...replacePathInEndpoint(api.endpoint, { userId: normalUser1.id }),
-    ...login(server, adminUser),
-  });
+  const resp = await callRoute(server, adminDeleteUserRoute, {
+    path: { userId: users.normalUser1.id },
+  }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
 
@@ -63,9 +67,10 @@ it("delete user and all related articles", async () => {
 });
 
 it("return 404 if user does not exist", async () => {
-  const resp = await server.inject({
-    ...replacePathInEndpoint(api.endpoint, { userId: "notexists" }),
-    ...login(server, adminUser),
-  });
+  const resp = await callRoute(server, adminDeleteUserRoute, {
+    path: { userId: users.normalUser1.id + 123 },
+  }, users.adminUser);
+
   expect(resp.statusCode).toBe(404);
+
 });

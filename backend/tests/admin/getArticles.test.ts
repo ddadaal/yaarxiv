@@ -1,17 +1,25 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { startApp } from "../../src/app";
 import * as api from "yaarxiv-api/admin/getArticles";
-import { adminUser, login, normalUser1, normalUser2 } from "../article/utils/login";
 import { createMockArticles } from "tests/article/utils/data";
+import { createTestServer } from "tests/utils/createTestServer";
+import { callRoute } from "@/utils/callRoute";
+import { Article } from "@/entities/Article";
+import { MockUsers, createMockUsers } from "tests/utils/data";
+import { adminGetArticlesRoute } from "@/routes/admin/getArticles";
 
 const articleCount = 12;
 
+
 let server: FastifyInstance;
 
-beforeEach(async () => {
-  server = await startApp();
+let users: MockUsers;
+let articles: Article[];
 
-  await createMockArticles(articleCount);
+beforeEach(async () => {
+  server = await createTestServer();
+
+  users = await createMockUsers(server);
+  articles = await createMockArticles(server, articleCount, users);
 });
 
 afterEach(async () => {
@@ -19,50 +27,42 @@ afterEach(async () => {
 });
 
 it("return 401 if not login.", async () => {
-  const resp = await server.inject({ ...api.endpoint });
+  const resp = await callRoute(server, adminGetArticlesRoute, { query: {} });
 
   expect(resp.statusCode).toBe(401);
-
 });
 
 it("return 403 if not admin", async () => {
-  const resp = await server.inject({
-    ...api.endpoint ,
-    ...login(server, normalUser1),
-  });
+  const resp = await callRoute(server, adminGetArticlesRoute, { query: {} }, users.normalUser1);
 
   expect(resp.statusCode).toBe(403);
 });
 
 it("return first page articles with no query", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    ...login(server, adminUser),
-  });
+  const resp = await callRoute(server, adminGetArticlesRoute, { query: {} }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
-  const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
+  const payload = resp.json<200>();
   expect(payload.articles).toHaveLength(10);
+  expect(payload.totalCount).toBe(articleCount);
 });
 
 it("return second page articles with page=2 query.", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    ...login(server, adminUser),
-    query: { page: "2" },
-  });
+  const resp = await callRoute(server, adminGetArticlesRoute, { query: {
+    page: 2,
+  } }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
-  const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
+  const payload = resp.json<200>();
   expect(payload.articles).toHaveLength(2);
+  expect(payload.totalCount).toBe(articleCount);
 });
 
 it("return filtered articles with searchWord query.", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    ...login(server, adminUser),
-    query: { searchWord: "1" },
-  });
+  const resp = await callRoute(server, adminGetArticlesRoute, { query: {
+    page: 2,
+    searchWord: "1",
+  } }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
   const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
@@ -71,17 +71,15 @@ it("return filtered articles with searchWord query.", async () => {
 });
 
 it("return articles with their owner", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    ...login(server, adminUser),
-    query: { searchWord: "12" },
-  });
+  const resp = await callRoute(server, adminGetArticlesRoute, { query: {
+    searchWord: "12",
+  } }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
   const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
-  // 1 10 11 12
+  // 12
   expect(payload.articles).toHaveLength(1);
   const article = payload.articles[0];
-  expect(article.owner).toEqual({ id: normalUser2.id, name: normalUser2.name });
+  expect(article.owner).toEqual({ id: users.normalUser2.id, name: users.normalUser2.name });
 
 });

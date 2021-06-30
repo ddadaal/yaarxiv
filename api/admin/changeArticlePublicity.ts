@@ -4,12 +4,14 @@ import { Endpoint } from "../utils/schema";
 
 /** Change the owner set publicity of an article. */
 export interface ChangeArticleAdminSetPublicitySchema {
-  body: {
+  path: {
     /** The id of the article. */
     articleId: number;
+  };
+  body: {
     /** Whether the article is public. */
     publicity: boolean;
-  }
+  };
   responses: {
     /**
      * The publicity has been successfully changed.
