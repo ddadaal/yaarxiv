@@ -1,20 +1,22 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { startApp } from "../../src/app";
-import * as getApi from "yaarxiv-api/article/get";
 import { createMockArticles } from "./utils/data";
 import { Article } from "@/entities/Article";
-import { getRepository } from "typeorm";
-import { replacePathInEndpoint } from "tests/utils/replacePathInEndpoint";
-import { adminUser, login, normalUser1 } from "./utils/login";
+import { createTestServer } from "tests/utils/createTestServer";
+import { MockUsers, createMockUsers } from "tests/utils/data";
+import { callRoute } from "@/utils/callRoute";
+import { getArticleRoute } from "@/routes/article/get";
 
 const articleCount = 12;
 
 let server: FastifyInstance;
+let users: MockUsers;
+let articles: Article[];
 
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
 
-  await createMockArticles(articleCount);
+  users = await createMockUsers(server);
+  articles = await createMockArticles(server, articleCount, users);
 });
 
 afterEach(async () => {
@@ -22,117 +24,109 @@ afterEach(async () => {
 });
 
 it("should return 404 if article doesn't exist", async () => {
-  const resp = await server.inject({
-    method: getApi.endpoint.method,
-    url: "/articles/15",
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: 100 },
+    query: {},
   });
 
   expect(resp.statusCode).toBe(404);
-  expect(resp.json().notFound).toBe("article");
+  expect(resp.json<404>().notFound).toBe("article");
 });
 
 it("should return the latest revision of article if revision is not specified", async () => {
-  const resp = await server.inject({
-    method: getApi.endpoint.method,
-    url: "/articles/2",
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: 2 },
+    query: {},
   });
 
   expect(resp.statusCode).toBe(200);
 
-  const { article } = resp.json() as getApi.GetArticleSchema["responses"]["200"];
+  const { article } = resp.json<200>();
 
-  expect(article.id).toBe("2");
+  expect(article.id).toBe(2);
   expect(article.revisionNumber).toBe(2);
 });
 
 it("should return the specified revision of article if specified", async () => {
-  const resp = await server.inject({
-    method: getApi.endpoint.method,
-    url: "/articles/2",
-    query: { revision: "1" },
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: 2 },
+    query: { revision: 1 },
   });
 
   expect(resp.statusCode).toBe(200);
 
-  const { article } = resp.json() as getApi.GetArticleSchema["responses"]["200"];
+  const { article } = resp.json<200>();
 
-  expect(article.id).toBe("2");
+  expect(article.id).toBe(2);
   expect(article.revisionNumber).toBe(1);
 });
 
 
 it("shoud return 404 if revision is not found.", async () => {
-  const resp = await server.inject({
-    method: getApi.endpoint.method,
-    url: "/articles/2",
-    query: { revision: "5" },
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: 2 },
+    query: { revision: 5 },
   });
 
   expect(resp.statusCode).toBe(404);
-  expect(resp.json().notFound).toBe("revision");
+  expect(resp.json<404>().notFound).toBe("revision");
 });
 
-async function changeArticleToPrivate(articleId: number, property: "admin" | "owner") {
-  const id = 1;
-  const repo = getRepository(Article);
-  const article = await repo.findOne(id);
-  if (!article) {
-    fail(`Article ${id} does not exist`);
-  }
+async function changeArticleToPrivate(property: "admin" | "owner") {
+  const article = articles[0];
   if (property === "admin") {
     article.adminSetPublicity = false;
   } else {
     article.ownerSetPublicity = false;
   }
-  await repo.save(article);
+  await server.orm.em.flush();
+  return article;
 }
 
 it("should return 404 for admin set private articles", async () => {
-  const id = 1;
-  await changeArticleToPrivate(id, "admin");
+  const article = await changeArticleToPrivate("admin");
 
-  const resp = await server.inject({
-    ...replacePathInEndpoint(getApi.endpoint, { articleId: id }),
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: article.id },
+    query: {},
   });
 
   expect(resp.statusCode).toBe(404);
-  expect(resp.json().notFound).toBe("article");
+  expect(resp.json<404>().notFound).toBe("article");
 
 });
 
 it("should return 404 for owner set private articles", async () => {
-  const id = 1;
-  await changeArticleToPrivate(id, "owner");
+  const article = await changeArticleToPrivate("owner");
 
-  const resp = await server.inject({
-    ...replacePathInEndpoint(getApi.endpoint, { articleId: id }),
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: article.id },
+    query: {},
   });
 
   expect(resp.statusCode).toBe(404);
-  expect(resp.json().notFound).toBe("article");
+  expect(resp.json<404>().notFound).toBe("article");
 
 });
 
 it("return the private article if the logged in user is the owner", async () => {
-  const id = 1;
-  await changeArticleToPrivate(id, "owner");
+  const article = await changeArticleToPrivate("owner");
 
-  const resp = await server.inject({
-    ...replacePathInEndpoint(getApi.endpoint, { articleId: id }),
-    ...login(server, normalUser1),
-  });
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: article.id },
+    query: {},
+  }, users.normalUser1);
 
   expect(resp.statusCode).toBe(200);
 });
 
 it("return the private article if the logged in user is admin", async () => {
-  const id = 1;
-  await changeArticleToPrivate(id, "owner");
+  const article = await changeArticleToPrivate("owner");
 
-  const resp = await server.inject({
-    ...replacePathInEndpoint(getApi.endpoint, { articleId: id }),
-    ...login(server, adminUser),
-  });
+  const resp = await callRoute(server, getArticleRoute, {
+    path: { articleId: article.id },
+    query: {},
+  }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
 });

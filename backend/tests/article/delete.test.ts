@@ -1,19 +1,22 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { startApp } from "../../src/app";
 import { Article } from "../../src/entities/Article";
-import { getRepository } from "typeorm";
-import * as deleteApi from "yaarxiv-api/article/delete";
-import { login, adminUser, normalUser1 } from "./utils/login";
 import { ArticleRevision } from "../../src/entities/ArticleRevision";
 import { createMockArticles } from "./utils/data";
+import { createTestServer } from "tests/utils/createTestServer";
+import { createMockUsers, MockUsers } from "tests/utils/data";
+import { callRoute } from "@/utils/callRoute";
+import { deleteArticleRoute } from "@/routes/article/delete";
 
 let server: FastifyInstance;
 
+let users: MockUsers;
+let articles: Article[];
+
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
 
-  await createMockArticles(2);
-
+  users = await createMockUsers(server);
+  articles = await createMockArticles(server, 2, users);
 });
 
 afterEach(async () => {
@@ -22,47 +25,51 @@ afterEach(async () => {
 
 
 it("delete the article and all revisions as admin", async () => {
-  const resp = await server.inject({
-    method: deleteApi.endpoint.method,
-    url: "/articles/2",
-    ...login(server, adminUser),
-  });
 
-  expect(resp.statusCode).toBe(200);
-  expect(await getRepository(Article).count()).toBe(1);
-  expect(await getRepository(ArticleRevision).count()).toBe(1);
+  const article = articles[1];
+
+  const resp = await callRoute(server, deleteArticleRoute, {
+    path: { articleId: article.id },
+  }, users.adminUser);
+
+  expect(resp.statusCode).toBe(204);
+  const em = server.orm.em.fork();
+  expect(await em.getRepository(Article).count()).toBe(1);
+  expect(await em.getRepository(ArticleRevision).count()).toBe(1);
 });
 
 it("delete the article and all revisions as owner", async () => {
-  const resp = await server.inject({
-    method: deleteApi.endpoint.method,
-    url: "/articles/1",
-    ...login(server, normalUser1),
-  });
+  const article = articles[0];
 
-  expect(resp.statusCode).toBe(200);
-  expect(await getRepository(Article).count()).toBe(1);
-  expect(await getRepository(ArticleRevision).count()).toBe(2);
+  const resp = await callRoute(server, deleteArticleRoute, {
+    path: { articleId: article.id },
+  }, users.normalUser1);
+
+  expect(resp.statusCode).toBe(204);
+  const em = server.orm.em.fork();
+  expect(await em.getRepository(Article).count()).toBe(1);
+  expect(await em.getRepository(ArticleRevision).count()).toBe(2);
 });
 
 it("cannot delete the article and all revisions as neither owner nor admin",  async () => {
-  const resp = await server.inject({
-    method: deleteApi.endpoint.method,
-    url: "/articles/2",
-    ...login(server, normalUser1),
-  });
+  const article = articles[1];
+
+  const resp = await callRoute(server, deleteArticleRoute, {
+    path: { articleId: article.id },
+  }, users.normalUser1);
 
   expect(resp.statusCode).toBe(403);
-  expect(await getRepository(Article).count()).toBe(2);
-  expect(await getRepository(ArticleRevision).count()).toBe(3);
+
+  const em = server.orm.em.fork();
+  expect(await em.getRepository(Article).count()).toBe(2);
+  expect(await em.getRepository(ArticleRevision).count()).toBe(3);
 });
 
 it("cannot delete non-existent article",  async () => {
-  const resp = await server.inject({
-    method: deleteApi.endpoint.method,
-    url: "/articles/3",
-    ...login(server, normalUser1),
-  });
+  const resp = await callRoute(server, deleteArticleRoute, {
+    path: { articleId: 12124 },
+  }, users.normalUser1);
 
   expect(resp.statusCode).toBe(404);
+
 });
