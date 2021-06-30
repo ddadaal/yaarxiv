@@ -24,7 +24,7 @@ declare module "fastify" {
 export const AuthErrors = {
   TokenError: createError("YAARXIV_TOKEN_INVALID", "The token provided is not valid.", 401),
   RoleError: createError("YAARXIV_BAD_ROLE", "Logged-in user does not have required role.", 403),
-  UserError: createError("YAARXIV_USER_NOT_EXIST", "Logged-in user does not have required role.", 403),
+  UserNotExistError: createError("YAARXIV_USER_NOT_EXIST", "Specified User not exist.", 401),
 };
 
 export type AuthOption = false | UserRole[];
@@ -68,8 +68,8 @@ export const jwtAuthPlugin = fp(async (fastify) => {
 
 
   fastify.decorateRequest("userId", function () {
-    const id = +(this.user as JwtTokenPayload).id;
-    if (isNaN(id)) {
+    const id = (this.user as JwtTokenPayload).id;
+    if (typeof id !== "number") {
       throw new AuthErrors.TokenError();
     }
     return id;
