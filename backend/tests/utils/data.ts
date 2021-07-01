@@ -42,7 +42,7 @@ export async function reloadEntity(entity: any) {
 }
 
 export async function reloadEntities(entities: any[]) {
-  await Promise.all(entities.map(reloadEntity));
+  await Promise.all(entities.map((e) => reloadEntity(e)));
 }
 
 export async function reloadUsers(users: MockUsers) {

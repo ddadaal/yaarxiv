@@ -47,7 +47,7 @@ export const searchArticleRoute = route(
 
     builder.orderBy({ "a.lastUpdateTime": QueryOrder.DESC });
 
-    const { count } = await builder.count("id as count").execute("get") as { count: number };
+    const { count } = await builder.count("id").execute("get") as { count: number };
 
     builder.offset(((page ?? 1) - 1) * config.defaultPageSize)
       .limit(config.defaultPageSize);
@@ -60,7 +60,7 @@ export const searchArticleRoute = route(
         results: results.map((x) => {
           const rev = x.revisions[0];
           return {
-            articleId: x.id + "",
+            articleId: x.id,
             title: rev.title,
             createTime: x.createTime.toISOString(),
             lastUpdateTime: x.lastUpdateTime.toISOString(),

@@ -5,7 +5,7 @@ import { ArticleInfo } from "./models";
 export interface ArticleSearchResult extends Omit<ArticleInfo, "pdfLink"> {
 
   /** The id of the article. */
-  articleId: string;
+  articleId: number;
 
   /** The number of comments the article has. */
   commentCount: number;

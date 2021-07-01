@@ -1563,7 +1563,7 @@
           "format": "uri"
         },
         "articleId": {
-          "type": "string",
+          "type": "number",
           "description": "The id of the article."
         },
         "commentCount": {
