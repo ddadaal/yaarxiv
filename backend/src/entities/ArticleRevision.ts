@@ -34,7 +34,7 @@ export class ArticleRevision {
   @ManyToOne(() => PdfUpload)
   pdf: PdfUpload;
 
-  @ManyToOne(() => Article, { wrappedReference: true, cascade: [Cascade.ALL]})
+  @ManyToOne(() => Article, { nullable: false, wrappedReference: true, cascade: [Cascade.ALL]})
   article: IdentifiedReference<Article>;
 
   @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true, wrappedReference: true, cascade: [Cascade.ALL]})
