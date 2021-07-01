@@ -1,4 +1,4 @@
-import { PrimaryKey, Property, Entity, OneToOne, IdentifiedReference, Cascade } from "@mikro-orm/core";
+import { PrimaryKey, Property, Entity, OneToOne, IdentifiedReference } from "@mikro-orm/core";
 import { config } from "@/utils/config";
 import { User } from "./User";
 
@@ -7,7 +7,7 @@ export class ResetPasswordToken {
   @PrimaryKey()
   id: string;
 
-  @OneToOne(() => User, (u) => u.resetPasswordToken, { owner: true, wrappedReference: true, cascade: [Cascade.ALL]})
+  @OneToOne(() => User, (u) => u.resetPasswordToken, { owner: true, wrappedReference: true })
   user: IdentifiedReference<User>;
 
   @Property()

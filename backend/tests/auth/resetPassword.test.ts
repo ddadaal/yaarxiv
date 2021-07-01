@@ -6,6 +6,7 @@ import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { resetPasswordRoute } from "@/routes/auth/resetPassword";
 import { createTestServer } from "tests/utils/createTestServer";
+import { User } from "@/entities/User";
 
 let server: FastifyInstance;
 let users: MockUsers;
