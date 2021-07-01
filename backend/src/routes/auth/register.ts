@@ -4,7 +4,7 @@ import { User, UserRole } from "@/entities/User";
 import { signUser } from "@/plugins/auth";
 import { UniqueConstraintViolationException } from "@mikro-orm/core";
 
-export const registerRoute = route(
+export const registerUserRoute = route(
   api, "RegisterSchema",
   async (req, fastify) => {
     const user = new User();

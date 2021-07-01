@@ -1,6 +1,6 @@
 import { searchArticleRoute } from "./article/search";
 import { getArticleRoute } from "./article/get";
-import { registerRoute } from "./auth/register";
+import { registerUserRoute } from "./auth/register";
 import { loginRoute } from "./auth/login";
 import { deleteArticleRoute } from "./article/delete";
 import { dashboardGetArticlesRoute } from "./dashboard/getArticles";
@@ -21,7 +21,7 @@ import { changeArticleOwnerSetPublicityRoute } from "./dashboard/changeArticlePu
 
 export const routes = [
   loginRoute,
-  registerRoute,
+  registerUserRoute,
   requestPasswordResetRoute,
   validatePasswordResetTokenRoute,
   resetPasswordRoute,

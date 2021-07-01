@@ -1,15 +1,20 @@
-import { startApp } from "../../src/app";
 import { FastifyInstance } from "fastify/types/instance";
-import * as api from "yaarxiv-api/auth/validatePasswordResetToken";
 import { config } from "@/utils/config";
-import { getRepository } from "typeorm";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { genId } from "@/utils/genId";
+import { createTestServer } from "tests/utils/createTestServer";
+import { MockUsers, createMockUsers } from "tests/utils/data";
+import { Reference } from "@mikro-orm/core";
+import { callRoute } from "@/utils/callRoute";
+import { validatePasswordResetTokenRoute } from "@/routes/auth/validatePasswordResetToken";
 
 let server: FastifyInstance;
+let users: MockUsers;
 
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
+
+  users = await createMockUsers(server);
 });
 
 afterEach(async () => {
@@ -17,23 +22,21 @@ afterEach(async () => {
 });
 
 async function insert(id: string, time: Date) {
-  const repo = getRepository(ResetPasswordToken);
   const token = new ResetPasswordToken();
   token.id = id;
   token.time = time;
-  token.userEmail = "test@test.com";
-  await repo.save(token);
+  token.user = Reference.create(users.normalUser1);
+  await server.orm.em.persistAndFlush(token);
 }
 
 it("returns invalid if token does not exist", async () => {
   await insert(genId(), new Date());
 
-  const resp = await server.inject({
-    ...api.endpoint,
+  const resp = await callRoute(server, validatePasswordResetTokenRoute, {
     query: { token: "123" },
   });
 
-  expect(resp.json().valid).toBe(false);
+  expect(resp.json<200>().valid).toBe(false);
 
 });
 
@@ -44,12 +47,11 @@ it("returns invalid if token is timeout", async () => {
   time.setTime(time.getTime() - (config.resetPassword.tokenValidTimeSeconds + 1)* 1000);
   await insert(token, time);
 
-  const resp = await server.inject({
-    ...api.endpoint,
+  const resp = await callRoute(server, validatePasswordResetTokenRoute, {
     query: { token: token },
   });
 
-  expect(resp.json().valid).toBe(false);
+  expect(resp.json<200>().valid).toBe(false);
 });
 
 it("returns valid if token is not timeout", async () => {
@@ -58,10 +60,9 @@ it("returns valid if token is not timeout", async () => {
   time.setTime(time.getTime() - (config.resetPassword.tokenValidTimeSeconds - 100)* 1000 - 1000);
   await insert(token, time);
 
-  const resp = await server.inject({
-    ...api.endpoint,
+  const resp = await callRoute(server, validatePasswordResetTokenRoute, {
     query: { token: token },
   });
 
-  expect(resp.json().valid).toBe(true);
+  expect(resp.json<200>().valid).toBe(true);
 });

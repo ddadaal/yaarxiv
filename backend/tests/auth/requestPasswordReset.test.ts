@@ -1,11 +1,11 @@
-import { startApp } from "../../src/app";
 import { FastifyInstance } from "fastify/types/instance";
-import * as api from "yaarxiv-api/auth/requestPasswordReset";
 import { createTestAccount, TestAccount } from "nodemailer";
 import { config } from "@/utils/config";
-import { insertUserInfo, normalUser1 } from "tests/article/utils/login";
-import { getRepository } from "typeorm";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
+import { createMockUsers, MockUsers } from "tests/utils/data";
+import { createTestServer } from "tests/utils/createTestServer";
+import { callRoute } from "@/utils/callRoute";
+import { requestPasswordResetRoute } from "@/routes/auth/requestPasswordReset";
 
 let server: FastifyInstance;
 let account: TestAccount;
@@ -14,6 +14,7 @@ beforeAll(async () => {
   // create test mail account and change config
   account = await createTestAccount();
   console.log(`Created test ethereal email account: ${account.user} and ${account.pass}`);
+
   config.mail = {
     host: "smtp.ethereal.email",
     port: 587,
@@ -22,12 +23,17 @@ beforeAll(async () => {
       user: account.user,
       pass: account.pass,
     },
+    from: "yaarxiv",
+    ignoreError: false,
   };
 });
 
+let users: MockUsers;
+
 beforeEach(async () => {
-  server = await startApp();
-  await insertUserInfo();
+  server = await createTestServer();
+
+  users = await createMockUsers(server);
 });
 
 afterEach(async () => {
@@ -35,9 +41,8 @@ afterEach(async () => {
 });
 
 it("return 404 if account doesn't exist", async () => {
-  const resp = await server.inject({
-    ...api.endpoint,
-    payload: { email: "notexist@notexist.com" },
+  const resp = await callRoute(server, requestPasswordResetRoute, {
+    body: { email: "notexist@notexist.com" },
   });
 
   expect(resp.statusCode).toBe(404);
@@ -45,18 +50,20 @@ it("return 404 if account doesn't exist", async () => {
 });
 
 it("sent an email containing a reset link", async () => {
-  const email = normalUser1.email;
-  const resp = await server.inject({
-    ...api.endpoint,
-    payload: { email },
+  const email = users.normalUser1.email;
+
+  const resp = await callRoute(server, requestPasswordResetRoute, {
+    body: { email },
   });
 
   expect(resp.statusCode).toBe(201);
 
-  const repo = getRepository(ResetPasswordToken);
-  const all = await repo.createQueryBuilder("a").getMany();
+  const em = server.orm.em.fork();
+
+  const repo = em.getRepository(ResetPasswordToken);
+  const all = await repo.findAll();
 
   expect(all.length).toBe(1);
-  expect(all[0].userEmail).toBe(email);
+  expect(await all[0].user.load("email")).toBe(email);
   // TODO find a way to test whether email is sent. maybe a POP3 client
 }, 20000);

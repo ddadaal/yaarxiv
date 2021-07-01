@@ -1,47 +1,42 @@
-import { startApp } from "../../src/app";
 import { FastifyInstance } from "fastify/types/instance";
-import * as registerApi from "yaarxiv-api/auth/register";
-import * as loginApi from "yaarxiv-api/auth/login";
+import { createTestServer } from "tests/utils/createTestServer";
+import { createMockUsers, MockUsers, normalUser1OriginalPassword } from "tests/utils/data";
+import { callRoute } from "@/utils/callRoute";
+import { loginRoute } from "@/routes/auth/login";
 
 let server: FastifyInstance;
 
+let users: MockUsers;
+
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
+
+  users = await createMockUsers(server);
 });
 
 afterEach(async () => {
   await server.close();
 });
 
-const email = "test@test.com";
-const password = "testpassword";
+it("should login when the user exists", async () => {
 
-it("should login when the user registers", async () => {
-  await server.inject({
-    ...registerApi.endpoint,
-    payload: { email, password  },
-  });
+  const user = users.normalUser1;
 
-  const resp = await server.inject({
-    ...loginApi.endpoint,
-    query: { id: email, password },
+  const resp = await callRoute(server, loginRoute, {
+    query: { id: user.email, password: normalUser1OriginalPassword },
   });
 
   expect(resp.statusCode).toBe(200);
-  const json = resp.json();
-  expect(json.name).toBe("test");
-  expect(json.role).toBe("user");
+  const json = resp.json<200>();
+  expect(json.name).toBe(user.name);
+  expect(json.role).toBe(user.role);
 });
 
 it("should not login when the password is wrong", async () => {
-  await server.inject({
-    ...registerApi.endpoint,
-    payload: { email, password  },
-  });
+  const user = users.normalUser1;
 
-  const resp = await server.inject({
-    ...loginApi.endpoint,
-    query: { id: email, password: password + "bad" },
+  const resp = await callRoute(server, loginRoute, {
+    query: { id: user.id + "", password: normalUser1OriginalPassword + "bad" },
   });
 
   expect(resp.statusCode).toBe(401);

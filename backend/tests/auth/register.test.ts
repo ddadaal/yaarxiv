@@ -1,11 +1,16 @@
-import { startApp } from "../../src/app";
+import { registerUserRoute } from "@/routes/auth/register";
+import { callRoute } from "@/utils/callRoute";
 import { FastifyInstance } from "fastify/types/instance";
-import * as registerApi from "yaarxiv-api/auth/register";
+import { createTestServer } from "tests/utils/createTestServer";
+import { createMockUsers, MockUsers } from "tests/utils/data";
 
 let server: FastifyInstance;
+let users: MockUsers;
 
 beforeEach(async () => {
-  server = await startApp();
+  server = await createTestServer();
+
+  users = await createMockUsers(server);
 });
 
 afterEach(async () => {
@@ -17,35 +22,27 @@ const password = "testpassword";
 
 it("should register and return token and name", async () => {
 
-  const resp = await server.inject({
-    ...registerApi.endpoint,
-    payload: { email, password  },
+  const resp = await callRoute(server, registerUserRoute, {
+    body: { email, password  },
   });
 
-  const json = resp.json();
   expect(resp.statusCode).toBe(201);
+  const json = resp.json<201>();
   expect(json.name).toStrictEqual("test");
 });
 
 it("should error if one email registers twice", async () => {
 
-  await server.inject({
-    ...registerApi.endpoint,
-    payload: { email, password  },
-  });
-
-  const resp = await server.inject({
-    ...registerApi.endpoint,
-    payload: { email, password  },
+  const resp = await callRoute(server, registerUserRoute, {
+    body: { email: users.normalUser1.email, password  },
   });
 
   expect(resp.statusCode).toBe(405);
 });
 
 it("should fail if input email is not a valid email address", async () => {
-  const resp = await server.inject({
-    ...registerApi.endpoint,
-    payload: { email: "123", password: "123" },
+  const resp = await callRoute(server, registerUserRoute, {
+    body: { email: "123", password  },
   });
 
   expect(resp.statusCode).toBe(400);
