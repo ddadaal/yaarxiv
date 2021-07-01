@@ -31,7 +31,7 @@ export class User {
   @OneToMany(() => Article, (a) => a.owner, { cascade: [Cascade.ALL]})
   articles = new Collection<Article>(this);
 
-  @OneToOne(() => ResetPasswordToken, (e) => e.user, { wrappedReference: true })
+  @OneToOne(() => ResetPasswordToken, (e) => e.user, { wrappedReference: true, cascade: [Cascade.ALL]})
   resetPasswordToken?: IdentifiedReference<ResetPasswordToken>;
 
   async setPassword(newPassword: string) {

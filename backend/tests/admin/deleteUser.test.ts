@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { createMockArticles } from "tests/article/utils/data";
+import { createMockArticles } from "tests/article/utils/generateArticles";
 import { User } from "@/entities/User";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { Article } from "@/entities/Article";
@@ -9,7 +9,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { adminDeleteUserRoute } from "@/routes/admin/deleteUser";
 
-const articleCount = 3;
+const articleCount = 2;
 
 
 let server: FastifyInstance;
@@ -57,7 +57,7 @@ it("delete user and all related articles", async () => {
     path: { userId: users.normalUser1.id },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(200);
+  expect(resp.statusCode).toBe(204);
 
   expect(await countEntities(User)).toBe(2);
   expect(await countEntities(Article)).toBe(1);

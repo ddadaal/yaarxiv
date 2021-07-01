@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify/types/instance";
 import * as api from "yaarxiv-api/admin/getArticles";
-import { createMockArticles } from "tests/article/utils/data";
+import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { Article } from "@/entities/Article";
@@ -60,12 +60,12 @@ it("return second page articles with page=2 query.", async () => {
 
 it("return filtered articles with searchWord query.", async () => {
   const resp = await callRoute(server, adminGetArticlesRoute, { query: {
-    page: 2,
+    page: 1,
     searchWord: "1",
   } }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
-  const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
+  const payload = resp.json<200>();
   // 1 10 11 12
   expect(payload.articles).toHaveLength(4);
 });
@@ -76,7 +76,7 @@ it("return articles with their owner", async () => {
   } }, users.adminUser);
 
   expect(resp.statusCode).toBe(200);
-  const payload = resp.json() as api.AdminGetArticlesSchema["responses"]["200"];
+  const payload = resp.json<200>();
   // 12
   expect(payload.articles).toHaveLength(1);
   const article = payload.articles[0];

@@ -20,6 +20,8 @@ export const adminGetArticlesRoute = route(
         ...paginationProps(page),
       });
 
+    const users = articles.map((x) => x.owner);
+
     return {
       200: {
         articles: articles.map((x) => ({
@@ -31,8 +33,8 @@ export const adminGetArticlesRoute = route(
           ownerSetPublicity: x.ownerSetPublicity,
           adminSetPublicity: x.adminSetPublicity,
           owner: {
-            id: x.owner.getEntity().id,
-            name: x.owner.getEntity().name,
+            id: x.owner.get().id,
+            name: x.owner.get().name,
           },
         })),
         totalCount: count,

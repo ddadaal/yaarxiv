@@ -1,10 +1,10 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { createMockArticles } from "tests/article/utils/data";
 import { Article } from "@/entities/Article";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { changeArticleAdminSetPublicityRoute } from "@/routes/admin/changeArticlePublicity";
+import { createMockArticles } from "tests/article/utils/generateArticles";
 
 const articleCount = 3;
 
@@ -66,5 +66,5 @@ it("return 404 if article does not exist", async () => {
     body: { publicity: false },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(403);
+  expect(resp.statusCode).toBe(404);
 });

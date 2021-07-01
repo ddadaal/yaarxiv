@@ -34,5 +34,5 @@ export const props: ApiProps = {
 
 export const endpoint = {
   method: "PATCH",
-  url: "/admin/articles/publicity",
+  url: "/admin/articles/:articleId/publicity",
 } as Endpoint<ChangeArticleAdminSetPublicitySchema>;

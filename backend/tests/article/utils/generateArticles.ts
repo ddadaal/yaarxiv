@@ -3,9 +3,10 @@ import { Article } from "../../../src/entities/Article";
 import { range } from "../../../src/utils/array";
 import { Author } from "yaarxiv-api/article/models";
 import { PdfUpload } from "../../../src/entities/PdfUpload";
-import { generatePdf } from "./data";
 import { MockUsers } from "tests/utils/data";
-import { Reference } from "@mikro-orm/core";
+import { IdentifiedReference, Reference } from "@mikro-orm/core";
+import { User } from "@/entities/User";
+import { FastifyInstance } from "fastify";
 
 const articleTime = new Date();
 
@@ -40,3 +41,25 @@ export const generateArticle = (id: number, users: MockUsers) => {
   article.owner = Reference.create(id % 2 == 1 ? users.normalUser1 : users.normalUser2);
   return article;
 };
+
+export function generatePdf(owner: IdentifiedReference<User>) {
+
+  const pdf = new PdfUpload();
+  pdf.user = owner;
+  pdf.link = "test";
+  return pdf;
+}
+
+export async function createMockArticles(fastify: FastifyInstance, articleCount: number, users: MockUsers) {
+  // insert pdf
+  // const pdfRepo = getRepository(PdfUpload);
+  // const pdf = generatePdf();
+  // await pdfRepo.save(pdf);
+
+  // insert articles
+  const articles = range(1, articleCount + 1).map((i) => generateArticle(i, users));
+  await fastify.orm.em.persistAndFlush(articles);
+
+  return articles;
+
+}
