@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { createMockArticles } from "./utils/data";
+import { createMockArticles } from "tests/article/utils/generateArticles";
 import { Article } from "@/entities/Article";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";

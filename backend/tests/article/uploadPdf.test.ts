@@ -5,7 +5,7 @@ import { mockFileForm } from "./utils/mockFileForm";
 import { config } from "@/utils/config";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
-import { createMockArticles } from "./utils/data";
+import { createMockArticles } from "tests/article/utils/generateArticles";
 import { callRoute } from "@/utils/callRoute";
 import { uploadPdfRoute } from "@/routes/article/uploadPdf";
 

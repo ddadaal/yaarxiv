@@ -1,12 +1,12 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { Article } from "../../src/entities/Article";
 import * as api from "yaarxiv-api/article/upload";
-import { generatePdf, createMockArticles } from "./utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { uploadArticleRoute } from "@/routes/article/upload";
+import { createMockArticles, generatePdf } from "./utils/generateArticles";
 
 const articleCount = 12;
 

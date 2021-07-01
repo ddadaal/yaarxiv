@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { Article } from "../../src/entities/Article";
 import { ArticleRevision } from "../../src/entities/ArticleRevision";
-import { createMockArticles } from "./utils/data";
+import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";

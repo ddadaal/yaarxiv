@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { Article } from "../../src/entities/Article";
 import * as api from "yaarxiv-api/article/update";
-import { createMockArticles } from "./utils/data";
+import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute"; import { updateArticleRoute } from "@/routes/article/update";
