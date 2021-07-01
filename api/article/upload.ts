@@ -1,3 +1,5 @@
+import { UserRole } from "../auth/login";
+import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
 /** Upload an new article into the platform. */
@@ -34,6 +36,10 @@ export interface UploadArticleSchema {
     },
   }
 }
+
+export const props: ApiProps = {
+  requiredRoles: [UserRole.User],
+};
 
 export const endpoint = {
   url: "/articles",

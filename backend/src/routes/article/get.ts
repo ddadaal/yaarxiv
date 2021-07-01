@@ -45,7 +45,7 @@ export const getArticleRoute = route(
             authors: targetRevision.authors,
             category: targetRevision.category,
             keywords: targetRevision.keywords,
-            pdfLink: targetRevision.pdf.pdfUrl,
+            pdfLink: targetRevision.pdf.getPdfUrl(),
             title: targetRevision.title,
             codeLink: targetRevision.codeLink,
           },

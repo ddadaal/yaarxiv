@@ -1,3 +1,4 @@
+import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
@@ -22,6 +23,7 @@ export interface DeleteArticleSchema {
 
 export const props: ApiProps = {
   summary: "Delete an article from the platform.",
+  requiredRoles: [UserRole.Admin, UserRole.User],
 };
 
 export const endpoint = {

@@ -56,7 +56,15 @@ export const jwtAuthPlugin = fp(async (fastify) => {
   });
 
   fastify.decorateRequest("tryGetUser", async function () {
+
     const self = this as FastifyRequest;
+
+    try {
+      await self.jwtVerify();
+    } catch (err) {
+      return undefined;
+    }
+
     const id = +(self.user as JwtTokenPayload).id;
     if (isNaN(id)) {
       return undefined;

@@ -11,7 +11,8 @@ export async function createTestServer(build?: (server: FastifyInstance) => void
 
   // fails the process if there is error
   server.setErrorHandler((e, req, rep) => {
-    if (!e.validation) {
+    // pass if it's validation error
+    if (e.statusCode !== 400 && !e.validation) {
       throw e;
     } else {
       rep.send(e);

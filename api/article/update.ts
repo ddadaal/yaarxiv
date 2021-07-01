@@ -49,7 +49,7 @@ export interface UpdateArticleSchema {
   }
 }
 
-export const apiProps: ApiProps = {
+export const props: ApiProps = {
   requiredRoles: [UserRole.Admin, UserRole.User],
 };
 

@@ -19,7 +19,7 @@ export class PdfUpload {
   @OneToMany(() => ArticleRevision, (r) => r.pdf, { cascade: [Cascade.ALL]})
   articleRevisions = new Collection<ArticleRevision>(this);
 
-  get pdfUrl(): string {
+  getPdfUrl(): string {
     return urlJoin(
       config.staticPrefix,
       config.upload.path,
