@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Box, Text, Heading } from "grommet";
 import { AnchorLink } from "../../components/AnchorLink";
-import { ArticleSearchResult } from "yaarxiv-api/article/search";
-import { Author } from "yaarxiv-api/article/models";
+import { ArticleSearchResult } from "yaarxiv-api/api/article/search";
+import { Author } from "yaarxiv-api/api/article/models";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { HighlightedText, Mark } from "src/components/HighlightedText";

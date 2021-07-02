@@ -1,5 +1,6 @@
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
+import { UserId } from "./models";
 
 /** Register */
 export interface RegisterSchema {
@@ -21,7 +22,7 @@ export interface RegisterSchema {
       /** The initial name of the newly-created user. */
       name: string;
       /** User id */
-      userId: number;
+      userId: UserId;
     },
     /** The email already exists. */
     405: null;

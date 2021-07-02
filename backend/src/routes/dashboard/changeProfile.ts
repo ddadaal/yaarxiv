@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/dashboard/changeProfile";
+import * as api from "yaarxiv-api/api/dashboard/changeProfile";
 import { route } from "@/utils/route";
 
 export const changeProfileRoute = route(

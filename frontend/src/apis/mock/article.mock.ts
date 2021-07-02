@@ -1,14 +1,13 @@
 /* eslint-disable max-len */
-import type { Article } from "yaarxiv-api/article/models";
-import type { MockApi } from ".";
-import type { ArticleSearchResult } from "yaarxiv-api/article/search";
-import type { articleApis } from "./article";
+import type { Article, ArticleId } from "yaarxiv-api/api/article/models";
+import type { ArticleSearchResult } from "yaarxiv-api/api/article/search";
+import { realApi } from "../api";
 
 const pdfLink = "https://docs.microsoft.com/en-us/dotnet/opbuildpdf/core/toc.pdf?branch=live";
 
 const mockResult = [
   {
-    articleId: "29004382",
+    articleId: 29004382,
     title: "Understanding the interleaving-space overlap across inputs and software versions",
     commentCount: 2,
     authors: [
@@ -22,7 +21,7 @@ const mockResult = [
     lastUpdateTime: "2020-08-06T01:16:41+00:00",
   },
   {
-    articleId: "290043825",
+    articleId: 290043825,
     title:"Testing Software Requirements via Task Analysis" ,
     commentCount: 2,
     authors:
@@ -56,7 +55,7 @@ const mockResult = [
   },
 ] as ArticleSearchResult[];
 
-const mockArticle = (id: string, revision: number | undefined): Article => ({
+const mockArticle = (id: ArticleId, revision: number | undefined): Article => ({
   id,
   revisionNumber: revision ?? 3,
   revisions: [
@@ -76,16 +75,16 @@ const mockArticle = (id: string, revision: number | undefined): Article => ({
     pdfLink,
     codeLink: Math.random() < 0.5 ? "https://github.com/ddadaal/yaarxiv" : undefined,
   },
-  ownerId: "123",
+  ownerId: 123,
   createTime:"2011-10-05T14:48:00.000Z",
 });
 
-export const articleApisMock: MockApi<typeof articleApis> = ({ makeHttpError }) => ({
-  search: async () => { return { results: mockResult, totalCount: mockResult.length };},
-  get: async ({ path, query }) => ({ article: mockArticle(path.articleId, query.revision) }),
-  uploadArticle: async () => ({ id: "1231243124" }),
-  uploadPDF: async () => ({ token: "1231fn091mf02" }),
-  deleteArticle: async () => ({ }),
+export const articleApisMock: typeof realApi["article"] = ({
+  searchArticle: async () => { return { results: mockResult, totalCount: mockResult.length };},
+  getArticle: async ({ path, query }) => ({ article: mockArticle(path.articleId, query.revision) }),
+  uploadArticle: async () => ({ id: 1231243124 }),
+  uploadPDF: async () => ({ token: 123123 }),
+  deleteArticle: async () => null,
   updateArticle: async () => ({ revisionNumber: 3 }),
 });
 

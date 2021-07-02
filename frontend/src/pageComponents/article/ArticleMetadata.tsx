@@ -7,6 +7,7 @@ import { IdIcon } from "src/components/icons/Id";
 import { lang } from "src/i18n";
 import { getCodeLinkInfo } from "src/utils/validations/codeLink";
 import { formatDateTime } from "src/utils/datetime";
+import { ArticleId } from "yaarxiv-api/api/article/models";
 
 const root = lang.pages.search.item;
 
@@ -35,7 +36,7 @@ export const MetadataContainer: React.FC = ({ children }) => (
 );
 
 export const ArticleMetadata: React.FC<{
-  articleId: string;
+  articleId: ArticleId;
   createTime: string;
   lastUpdateTime?: string;
   codeLink?: string;

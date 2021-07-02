@@ -1,12 +1,13 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
+import { ArticleId } from "../article/models";
 
 
 /** Get the articles this user is the owner of. */
 export interface DashboardArticleInfo {
   /** The article id. */
-  id: string;
+  id: ArticleId;
   /** The article title of the latest revision. */
   title: string;
   /** The time the article is first created. */

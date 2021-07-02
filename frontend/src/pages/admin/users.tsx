@@ -2,10 +2,9 @@ import { Box, Heading } from "grommet";
 import React, { useCallback, useEffect } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
-import { AdminGetUsersSchema } from "yaarxiv-api/admin/getUsers";
+import { AdminGetUsersSchema } from "yaarxiv-api/api/admin/getUsers";
 import { requireAuth } from "src/utils/requireAuth";
-import { getApi } from "src/apis";
-import { adminApis } from "src/apis/admin";
+
 import { useAsync } from "react-async";
 import { useRouter } from "next/router";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
@@ -13,16 +12,16 @@ import { SearchBar } from "src/components/SearchBar";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { AdminUsersTable } from "src/pageComponents/admin/users/AdminUsersTable";
+import { api } from "src/apis";
+import { UserId } from "yaarxiv-api/api/auth/models";
 
 const root = lang.pages.admin.users;
 
-const api = getApi(adminApis);
-
 type SearchQuery =Partial<AdminGetUsersSchema["querystring"]>;
 
-const getUsers = ([query]: [SearchQuery]) => api.getUsers({ query });
-const deleteUser = async (userId: string) => {
-  await api.deleteUser({ path: { userId } });
+const getUsers = ([query]: [SearchQuery]) => api.admin.adminGetUsers({ query });
+const deleteUser = async (userId: UserId) => {
+  await api.admin.adminDeleteUser({ path: { userId } });
 };
 
 

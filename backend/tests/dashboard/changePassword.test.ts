@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import * as api from "yaarxiv-api/dashboard/changePassword";
+import * as api from "yaarxiv-api/api/dashboard/changePassword";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, normalUser1OriginalPassword, reloadUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";

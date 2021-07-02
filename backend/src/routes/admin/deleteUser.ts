@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/admin/deleteUser";
+import * as api from "yaarxiv-api/api/admin/deleteUser";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 

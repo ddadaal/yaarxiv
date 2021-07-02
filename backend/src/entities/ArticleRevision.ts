@@ -1,7 +1,7 @@
 import {
   Property, ManyToOne, PrimaryKey,
   Entity, ArrayType, IdentifiedReference, OneToOne, Cascade, JsonType } from "@mikro-orm/core";
-import { Author } from "yaarxiv-api/article/models";
+import { Author } from "yaarxiv-api/api/article/models";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
 

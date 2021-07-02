@@ -1,15 +1,16 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
+import { UserId } from "../auth/models";
 
 /**
  * Delete a user and all of related articles.
  * Only admin can do it.
  */
-export interface AdminDeleteArticleSchema {
+export interface AdminDeleteUserSchema {
   path: {
     /** The ID of the user to be deleted. */
-    userId: number;
+    userId: UserId;
   },
   responses: {
     /** The user and all related is deleted. */
@@ -28,4 +29,4 @@ export const props: ApiProps = {
 export const endpoint = {
   url: "/admin/users/:userId",
   method: "DELETE",
-} as Endpoint<AdminDeleteArticleSchema>;
+} as Endpoint<AdminDeleteUserSchema>;

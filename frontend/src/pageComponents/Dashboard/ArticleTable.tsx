@@ -5,17 +5,15 @@ import { LocalizedString } from "simstate-i18n";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { lang } from "src/i18n";
 import { formatDateTime } from "src/utils/datetime";
-import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
+import type { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { Pagination } from "src/components/Pagination";
 import { useAsync } from "react-async";
-import { getApi } from "src/apis";
-import { articleApis } from "src/apis/article";
-import { dashboardApis } from "src/apis/dashboard";
 import { DeleteArticleLink } from "./DeleteArticleLink";
 import { PublicityText } from "../PublicityText";
 import { PublicitySelect } from "../PublicitySelect";
+import { api } from "src/apis";
 
 const root = lang.pages.dashboard.articles;
 
@@ -53,16 +51,15 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   },
 ];
 
-const dashboardApi = getApi(dashboardApis);
-const articleApi = getApi(articleApis);
+const getDashboardData = ([page]) =>
+  api.dashboard.userGetArticleInfo({ query: { page } });
 
-const getDashboardData = ([page]) => dashboardApi.getArticles({ query: { page } });
 const getDashboardDataFirstPage = () => getDashboardData([1]);
-const deleteArticle = (articleId: string) =>
-  articleApi.deleteArticle({ path: { articleId } });
+const deleteArticle = (articleId: number) =>
+  api.article.deleteArticle({ path: { articleId } });
 
-const changeOwnerSetArticlePublicity = async (articleId: string, publicity: boolean) => {
-  const resp = await dashboardApi.changeArticlePublicity({
+const changeOwnerSetArticlePublicity = async (articleId: number, publicity: boolean) => {
+  const resp = await api.dashboard.changeArticleOwnerSetPublicity({
     path: { articleId },
     body: { publicity },
   });

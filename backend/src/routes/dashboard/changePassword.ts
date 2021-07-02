@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/dashboard/changePassword";
+import * as api from "yaarxiv-api/api/dashboard/changePassword";
 import { route } from "@/utils/route";
 
 export const changePasswordRoute = route(

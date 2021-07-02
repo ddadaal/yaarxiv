@@ -4,7 +4,7 @@ import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User } from "@/entities/User";
 import createError from "fastify-error";
 import { config } from "@/utils/config";
-import { UserRole } from "yaarxiv-api/auth/login";
+import { UserRole } from "yaarxiv-api/api/auth/login";
 import { IdentifiedReference } from "@mikro-orm/core";
 
 declare module "fastify" {

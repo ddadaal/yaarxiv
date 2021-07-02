@@ -1,5 +1,5 @@
 import { CallRouteResponse } from "@/utils/callRoute";
-import { GeneralSchema } from "../../../api/utils/schema";
+import { GeneralSchema } from "yaarxiv-api/api/utils/schema";
 
 export function expectCode<TSchema extends GeneralSchema, Code extends number & keyof TSchema["responses"]>
 (resp: CallRouteResponse<TSchema>, code: Code) {

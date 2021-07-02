@@ -1,13 +1,13 @@
 /* eslint-disable max-len */
-import type { MockApi } from ".";
-import type { adminApis } from "./admin";
-import type { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
+import type { AdminGetArticlesResult } from "yaarxiv-api/api/admin/getArticles";
+import { UserRole } from "yaarxiv-api/api/auth/login";
+import type { realApi } from "../api";
 
 const mockArticles: AdminGetArticlesResult[] = [
   {
-    id: "12312412",
+    id: 12312412,
     owner: {
-      id: "1",
+      id: 1,
       name: "name1",
     },
     title: "AcademyCloud: A education-oriented IaaS cloud built on OpenStack",
@@ -18,9 +18,9 @@ const mockArticles: AdminGetArticlesResult[] = [
     adminSetPublicity: true,
   },
   {
-    id: "sdad12312412",
+    id: 12312,
     owner: {
-      id: "1",
+      id: 1,
       name: "name1",
     },
     title: "Understanding the interleaving-space overlap across inputs and software versions",
@@ -33,8 +33,8 @@ const mockArticles: AdminGetArticlesResult[] = [
 ];
 
 
-export const adminApisMock: MockApi<typeof adminApis> = () => ({
-  getArticles: async () => {
+export const adminApisMock: typeof realApi["admin"] = ({
+  adminGetArticles: async () => {
     // throw makeHttpError({} ,401);
 
     return {
@@ -43,17 +43,18 @@ export const adminApisMock: MockApi<typeof adminApis> = () => ({
     };
   },
 
-  getUsers: async () => {
+  adminGetUsers: async () => {
     return {
       users: [
-        { id: "1", name: "an admin", email: "123@123.com", articleCount: 0, role: "admin" },
-        { id: "2", name: "a user", email: "admin@123.com", articleCount: 2, role: "user" },
+        { id: 1, name: "an admin", email: "123@123.com", articleCount: 0, role: UserRole.Admin },
+        { id: 2, name: "a user", email: "admin@123.com", articleCount: 2, role: UserRole.User },
       ],
       totalCount: 2,
     };
   },
-  deleteUser: async () => {
-    return {};
+
+  adminDeleteUser: async () => {
+    return null;
   },
-  changeArticlePublicity: async ({ body }) => ({ publicity: body.publicity }),
+  changeArticleAdminSetPublicity: async ({ body }) => ({ publicity: body.publicity }),
 });

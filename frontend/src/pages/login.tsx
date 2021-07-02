@@ -5,8 +5,8 @@ import {
 } from "grommet";
 import { lang } from "src/i18n";
 import { LocalizedString } from "simstate-i18n";
-import { getApi } from "src/apis";
-import { authApis } from "src/apis/auth";
+
+import { api } from "src/apis";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import { useRouter } from "next/router";
@@ -20,8 +20,6 @@ import { queryToString } from "src/utils/querystring";
 const root = lang.login;
 
 const defaultValue = { id: "", password: "", remember: true };
-
-const api = getApi(authApis);
 
 const LoginForm: React.FC = () => {
   const router = useRouter();
@@ -45,7 +43,7 @@ const LoginForm: React.FC = () => {
   const login = () => request(async () => {
     const { id, password, remember } = value;
     try {
-      const res = await api.login({ query: { id, password } });
+      const res = await api.auth.login({ query: { id, password } });
       toast.success(
         <LocalizedString id={root.success} />
       );

@@ -1,10 +1,16 @@
-import { Endpoint, replacePathArgs, Schema } from "yaarxiv-api";
-import { isFormData } from "src/utils/isServer";
+import { replacePathArgs } from "yaarxiv-api/api/utils/replacePathArgs";
+import { Endpoint, GeneralSchema, SuccessResponse } from "yaarxiv-api/api/utils/schema";
+import {
+  parseQueryToQuerystring,
+  Querystring, RequestArgs,
+} from "yaarxiv-api/api/utils/request";
+import { isFormData, isServer } from "src/utils/isServer";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { failEvent, finallyEvent, prefetchEvent, successEvent } from "./events";
-import { config } from "src/utils/config";
 
-const baseUrl = config.apiRoot;
+const baseUrl = isServer()
+  ? process.env.NEXT_PUBLIC_SERVER_API_ROOT
+  : process.env.NEXT_PUBLIC_CLIENT_API_ROOT;
 
 export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 
@@ -14,12 +20,11 @@ export function changeToken(newToken: string): void {
   token = newToken;
 }
 
-export type Querystring =Record<string, string | string[] | number | undefined>;
 
 export function fullFetch(
   path: string,
   query?: Querystring,
-  init?: RequestInit
+  init?: RequestInit,
 ): Promise<Response> {
   const headers = token
     ? { ...init?.headers, "authorization": `Bearer ${token}` }
@@ -27,9 +32,7 @@ export function fullFetch(
 
   let url = baseUrl + path;
   if (query) {
-    url += "?";
-    // TODO use a better URLSearchParam strategy
-    url += new URLSearchParams(query as any).toString();
+    url += parseQueryToQuerystring(query);
   }
 
   return fetch(url,
@@ -40,7 +43,6 @@ export function fullFetch(
       // disable cache for IE11
       cache: "no-cache",
     });
-
 }
 
 export type FullFetch = typeof fullFetch;
@@ -50,27 +52,54 @@ export interface FetchInfo {
   method?: HttpMethod;
   query?: Querystring;
   body?: unknown;
-  headers?: Headers;
+  headers?: Record<string, string>;
 }
 
 export type JsonFetchResult<TResp> = TResp;
 
-export type HttpError<T = object> = {
-  data: T;
+const SERVER_ERROR_STATUS = -2;
+const CLIENT_ERROR_STATUS = -1;
+
+export class HttpError<T = string | object | undefined> {
+  data: T | undefined;
   status: number;
+  text?: string;
+
+  get isServerError() { return this.status === SERVER_ERROR_STATUS; }
+  get isClientError() { return this.status === CLIENT_ERROR_STATUS; }
 }
 
-export function makeHttpError<T>(data: T, status: number) {
-  return { data, status };
+export function makeHttpError<T>(status: number, data: T, text?: string) {
+  const error = new HttpError<T>();
+  error.data = data;
+  error.status = status;
+  error.text = text;
+  return error;
+}
+
+function tryParseJson(text: string): object | undefined {
+  try {
+    return JSON.parse(text);
+  } catch (e) {
+    return undefined;
+  }
+}
+
+function checkIsJson(resp: Response) {
+  const type = resp.headers.get("content-type");
+  return type && type.includes("application/json");
 }
 
 /**
  * Fetch and returns as json.
  * @param info the fetch info
+ * @throws {Response} If the request is successful but response is not json,
+ * the response will be thrown
  * @throws {JsonFetchError} If the statusCode is not [200, 300), a error will be thrown
  */
 export async function jsonFetch<T>(
   info: FetchInfo,
+  signal?: AbortSignal,
 ): Promise<JsonFetchResult<T>> {
 
   const isForm = isFormData(info.body);
@@ -85,28 +114,34 @@ export async function jsonFetch<T>(
         ...info.headers,
       },
       body: isForm ? (info.body as any) : JSON.stringify(info.body),
+      signal,
     });
 
-    const obj = await resp.json();
-
     if (resp.ok) {
-      successEvent.execute({ status: resp.status, data: obj });
-      return obj;
+      if (checkIsJson(resp)) {
+        const obj = await resp.json();
+        successEvent.execute({ status: resp.status, data: obj });
+        return obj;
+      } else {
+        successEvent.execute({ status: resp.status, data: resp });
+        throw resp;
+      }
     } else {
-      const payload = { status: resp.status, data: obj };
+      const text = await resp.text();
+      const payload = makeHttpError(resp.status, tryParseJson(text), text);
       failEvent.execute(payload);
       throw payload;
     }
   } catch (r) {
     // existence of r.type indicates it's a server error (node-fetch)
     if (r.name === "FetchError") {
-      const payload = { status: -2, data: JSON.parse(JSON.stringify(r)) };
+      const payload = makeHttpError(SERVER_ERROR_STATUS, JSON.parse(JSON.stringify(r)));
       failEvent.execute(payload);
       throw payload;
     }
     // TypeError is client side fetch error
     if (r instanceof TypeError) {
-      const payload = { status: -1, data: r };
+      const payload = makeHttpError(CLIENT_ERROR_STATUS, r);
       failEvent.execute(payload);
       throw payload;
     }
@@ -119,29 +154,10 @@ export async function jsonFetch<T>(
 
 export type JsonFetch = typeof jsonFetch;
 
-type Responses<T extends Schema> = T["responses"];
-
-type SuccessResponse<T extends Schema> =
-  Responses<T>[200] extends object
-  ? Responses<T>[200]
-  : Responses<T>[201] extends object ? Responses<T>[201] : never;
-
-type SelectNotUndefined<T extends {
-  path: {} | undefined;
-  query: {} | undefined;
-  body: {} | undefined}> =
-  ({ path: T["path"] } extends { path: object } ?  { path: T["path"]} : {}) &
-  ({ query: T["query"] } extends { query: object } ? { query: T["query"]} : {}) &
-  ({ body: T["body"] } extends { body: object } ? { body: T["body"]} : {});
-
-
-export function fromApi<TSchema extends Schema>(endpoint: Endpoint) {
+export function fromApi<TSchema extends GeneralSchema>(endpoint: Endpoint<TSchema>) {
   return function (
-    args: SelectNotUndefined<{
-      path: TSchema["path"];
-      query: TSchema["querystring"];
-      body: TSchema["body"];
-    }>,
+    args: RequestArgs<TSchema>,
+    signal?: AbortSignal,
   ): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
 
     const anyArgs = args as any;
@@ -155,6 +171,6 @@ export function fromApi<TSchema extends Schema>(endpoint: Endpoint) {
       method: endpoint.method,
       query: removeNullOrUndefinedKey(anyArgs.query),
       body: anyArgs.body,
-    });
+    }, signal);
   };
 }

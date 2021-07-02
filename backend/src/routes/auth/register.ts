@@ -1,5 +1,5 @@
 import { route } from "@/utils/route";
-import * as api from "yaarxiv-api/auth/register";
+import * as api from "yaarxiv-api/api/auth/register";
 import { User, UserRole } from "@/entities/User";
 import { signUser } from "@/plugins/auth";
 import { UniqueConstraintViolationException } from "@mikro-orm/core";

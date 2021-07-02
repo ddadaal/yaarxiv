@@ -1,6 +1,7 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
+import { UserId } from "../auth/models";
 
 
 /** Get the profile of current logged in user. */
@@ -13,7 +14,7 @@ export interface DashboardGetProfileSchema {
       /** The email of the user. */
       email: string;
       /** The id of the user. */
-      userId: number;
+      userId: UserId;
     }
   }
 }

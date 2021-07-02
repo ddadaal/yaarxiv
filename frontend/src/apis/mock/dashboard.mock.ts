@@ -1,12 +1,11 @@
-/* eslint-disable max-len */
-import type { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
-import type { MockApi } from ".";
-import type { dashboardApis } from "./dashboard";
-import { makeHttpError } from "./fetch";
+import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
+import { realApi } from "../api";
+import { makeHttpError } from "../fetch";
 
+/* eslint-disable max-len */
 const base: DashboardArticleInfo[] = [
   {
-    id: "12312412",
+    id: 12312412,
     title: "AcademyCloud: A education-oriented IaaS cloud built on OpenStack",
     lastUpdatedTime: "2020-08-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
@@ -15,7 +14,7 @@ const base: DashboardArticleInfo[] = [
     ownerSetPublicity: false,
   },
   {
-    id: "dashboard123123123",
+    id: 123123123,
     title: "Understanding the interleaving-space overlap across inputs and software versions",
     lastUpdatedTime: "2020-07-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
@@ -25,28 +24,29 @@ const base: DashboardArticleInfo[] = [
   },
 ];
 
-export const dashboardApisMock: MockApi<typeof dashboardApis> = () => ({
-  getArticles: async ({ query: { page = 1 } }) => {
+export const dashboardApisMock: typeof realApi["dashboard"] = ({
+  userGetArticleInfo: async ({ query: { page = 1 } }) => {
     const start = (page - 1) * 10;
     return {
       articles: base.slice(start, start + 10),
       totalCount: base.length,
     };
   },
-  getProfile: async () => {
+  dashboardGetProfile: async () => {
     return {
-      userId: "123",
+      userId: 123,
       email: "123@123.com",
       role: "user",
       name: "123name",
     };
   },
-  changePassword: async ({ body: { current, changed } }) => {
+  changePassword: async ({ body: { current } }) => {
     if (current !== "1") {
-      throw makeHttpError({}, 403);
+      throw makeHttpError(403, null);
     }
-    return {};
+    return null;
   },
-  changeProfile: async () => ({}),
-  changeArticlePublicity: async ({ body }) => ({ publicity: body.publicity }),
+  changeProfile: async () => null,
+
+  changeArticleOwnerSetPublicity: async ({ body }) => ({ publicity: body.publicity }),
 });

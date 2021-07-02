@@ -1,4 +1,5 @@
 import { Endpoint } from "../utils/schema";
+import { UserId } from "./models";
 
 export const summary = "Login using id and password";
 
@@ -25,7 +26,7 @@ export interface LoginSchema {
       /** The role of the user. */
       role: UserRole;
       /** User id */
-      userId: number;
+      userId: UserId;
     },
     /** Login failed. The username and password are not valid. */
     401: null;

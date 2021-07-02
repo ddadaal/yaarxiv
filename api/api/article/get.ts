@@ -1,12 +1,12 @@
 import { Endpoint } from "../utils/schema";
-import { Article } from "./models";
+import { Article, ArticleId } from "./models";
 
 
 /** Get the full information of an article. */
 export interface GetArticleSchema {
   path: {
     /** Article ID. */
-    articleId: number;
+    articleId: ArticleId;
   },
   querystring: {
     /**

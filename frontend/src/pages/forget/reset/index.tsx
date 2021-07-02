@@ -2,8 +2,7 @@ import * as React from "react";
 import { NextPage } from "next";
 import { lang } from "src/i18n";
 import Router from "next/router";
-import { getApi } from "src/apis";
-import { authApis } from "src/apis/auth";
+
 import { SSRPageProps } from "src/utils/ssr";
 import { Close } from "grommet-icons";
 import { ErrorPage } from "src/components/errors/ErrorPage";
@@ -15,6 +14,7 @@ import { queryToString } from "src/utils/querystring";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
+import { api } from "src/apis";
 
 type Props = SSRPageProps<{
   token: string;
@@ -22,8 +22,6 @@ type Props = SSRPageProps<{
 }>;
 
 const root = lang.forgetPassword.reset;
-
-const api = getApi(authApis);
 
 const initial = {
   changed: "",
@@ -45,7 +43,7 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
 
   const submit = () => request(async () => {
     if (error) { return; }
-    await api.resetPassword({
+    await api.auth.resetPassword({
       body: {
         token,
         newPassword: form.changed,
@@ -146,7 +144,7 @@ export const PasswordResetPage: NextPage<Props> = (props) => {
 PasswordResetPage.getInitialProps = async (ctx) => {
   const token = queryToString(ctx.query.token);
 
-  const resp = await api.validatePasswordResetToken({ query: { token } })
+  const resp = await api.auth.validatePasswordResetToken({ query: { token } })
     .catch((e: HttpError) => ({ error: e }));
 
   return "error" in resp

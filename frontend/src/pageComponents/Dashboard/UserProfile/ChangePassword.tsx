@@ -1,17 +1,14 @@
 import React, { useState } from "react";
 import { lang } from "src/i18n";
-import { getApi } from "src/apis";
-import { dashboardApis } from "src/apis/dashboard";
 import { FormField, Box, Text, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { HttpError } from "src/apis/fetch";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
+import { api } from "src/apis";
 
 const root = lang.pages.dashboard.profile.changePassword;
-
-const api = getApi(dashboardApis);
 
 const initial = {
   current: "",
@@ -34,7 +31,7 @@ export const ChangePassword: React.FC = () => {
 
   const submit = () => request(async () => {
     if (error) { return; }
-    await api.changePassword({
+    await api.dashboard.changePassword({
       body: {
         current: form.current,
         changed: form.changed,

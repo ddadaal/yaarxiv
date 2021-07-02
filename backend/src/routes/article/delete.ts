@@ -1,5 +1,5 @@
 import { route } from "@/utils/route";
-import * as api from "yaarxiv-api/article/delete";
+import * as api from "yaarxiv-api/api/article/delete";
 import { Article } from "@/entities/Article";
 import { UserRole } from "@/entities/User";
 

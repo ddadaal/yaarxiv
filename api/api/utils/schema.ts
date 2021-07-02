@@ -39,6 +39,10 @@ export type ResponseBody<
 
 
 export type SuccessResponse<T extends GeneralSchema> =
-  Responses<T>[200] extends object
+  Responses<T>[200] extends object | null
   ? Responses<T>[200]
-  : Responses<T>[201] extends object ? Responses<T>[201] : never;
+  : Responses<T>[201] extends object | null
+  ? Responses<T>[201]
+  : Responses<T>[204] extends null
+  ? null
+  : never;

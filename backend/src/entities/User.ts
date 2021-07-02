@@ -3,7 +3,7 @@ import { Entity, Property, OneToMany, PrimaryKey, Enum, Cascade, Collection,
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
 import { encrypt, compare } from "@/utils/bcrypt";
-import { UserRole } from "yaarxiv-api/auth/login";
+import { UserRole } from "yaarxiv-api/api/auth/login";
 import { ResetPasswordToken } from "./ResetPasswordToken";
 
 export { UserRole };

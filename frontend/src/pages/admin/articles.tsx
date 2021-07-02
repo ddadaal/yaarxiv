@@ -2,10 +2,8 @@ import { Box, Heading } from "grommet";
 import React, { useCallback, useEffect } from "react";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
-import { AdminGetArticlesSchema } from "yaarxiv-api/admin/getArticles";
+import { AdminGetArticlesSchema } from "yaarxiv-api/api/admin/getArticles";
 import { requireAuth } from "src/utils/requireAuth";
-import { getApi } from "src/apis";
-import { adminApis } from "src/apis/admin";
 import { useAsync } from "react-async";
 import { useRouter } from "next/router";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
@@ -13,25 +11,25 @@ import { SearchBar } from "src/components/SearchBar";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { AdminArticleTable } from "src/pageComponents/admin/articles/AdminArticlesTable";
-import { articleApis } from "src/apis/article";
+import { api } from "src/apis";
+import { ArticleId } from "../../../../api/api/article/models";
 
 const root = lang.pages.admin.articles;
 
-const api = getApi(adminApis);
-const articlesApi = getApi(articleApis);
-
 type SearchQuery =Partial<AdminGetArticlesSchema["querystring"]>;
 
-const getArticles = ([query]: [SearchQuery]) => api.getArticles({ query });
-const deleteArticle = async (articleId: string) => {
-  await articlesApi.deleteArticle({ path: { articleId } });
+const getArticles = ([query]: [SearchQuery]) =>
+  api.admin.adminGetArticles({ query });
+const deleteArticle = async (articleId: ArticleId) => {
+  await api.article.deleteArticle({ path: { articleId } });
 };
-const changeArticleAdminSetPublicity = async (articleId: string, publicity: boolean) => {
-  return await api.changeArticlePublicity({
-    path: { articleId },
-    body: { publicity },
-  }).then((x) => x.publicity);
-};
+const changeArticleAdminSetPublicity =
+ async (articleId: ArticleId, publicity: boolean) => {
+   return await api.admin.changeArticleAdminSetPublicity({
+     path: { articleId },
+     body: { publicity },
+   }).then((x) => x.publicity);
+ };
 
 export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
 

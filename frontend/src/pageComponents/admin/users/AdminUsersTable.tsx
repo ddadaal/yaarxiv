@@ -5,7 +5,8 @@ import { OverlayLoading } from "src/components/OverlayLoading";
 import { Pagination } from "src/components/Pagination";
 import { lang } from "src/i18n";
 import { UrlObject } from "url";
-import { AdminGetUsersResult } from "yaarxiv-api/admin/getUsers";
+import { AdminGetUsersResult } from "yaarxiv-api/api/admin/getUsers";
+import { UserId } from "../../../../../api/api/auth/models";
 import { DeleteUserLink } from "./DeleteUserLink";
 
 const root = lang.pages.admin.users;
@@ -39,7 +40,7 @@ interface Props {
   users: AdminGetUsersResult[];
   isLoading: boolean;
   reload: (page: number) => void;
-  deleteUser: (userId: string) => Promise<any>;
+  deleteUser: (userId: UserId) => Promise<any>;
   page: number;
   totalCount: number;
   getPageUrl: (page: number) => string | UrlObject;

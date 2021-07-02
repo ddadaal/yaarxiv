@@ -1,15 +1,17 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
+import { ArticleId } from "../article/models";
+import { UserId } from "../auth/models";
 
 
 export interface AdminGetArticlesResult {
   /** The article id. */
-  id: number;
+  id: ArticleId;
   /** Thw article owner. */
   owner: {
     /** The owner id. */
-    id: number;
+    id: UserId;
     /** The owner name. */
     name: string;
   }

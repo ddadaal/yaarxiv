@@ -9,8 +9,9 @@ import { PublicitySelect } from "src/pageComponents/PublicitySelect";
 import { PublicityText } from "src/pageComponents/PublicityText";
 import { formatDateTime } from "src/utils/datetime";
 import { UrlObject } from "url";
-import { AdminGetArticlesResult } from "yaarxiv-api/admin/getArticles";
-import { DashboardArticleInfo } from "yaarxiv-api/dashboard/getArticles";
+import { AdminGetArticlesResult } from "yaarxiv-api/api/admin/getArticles";
+import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
+import { ArticleId } from "../../../../../api/api/article/models";
 import { DeleteArticleLink } from "../../Dashboard/DeleteArticleLink";
 
 const root = lang.pages.admin.articles;
@@ -60,12 +61,12 @@ interface Props {
   articles: AdminGetArticlesResult[];
   isLoading: boolean;
   reload: (page: number) => void;
-  deleteArticle: (articleId: string) => Promise<any>;
+  deleteArticle: (articleId: ArticleId) => Promise<any>;
   page: number;
   totalCount: number;
   getPageUrl: (page: number) => string | UrlObject;
   changeArticleAdminSetPublicity: (
-    articleId: string,
+    articleId: ArticleId,
     publicity: boolean,
   ) => Promise<boolean>;
 }

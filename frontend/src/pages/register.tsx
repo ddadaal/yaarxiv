@@ -5,8 +5,8 @@ import {
 } from "grommet";
 import { lang } from "src/i18n";
 import { LocalizedString } from "simstate-i18n";
-import { getApi } from "src/apis";
-import { authApis } from "src/apis/auth";
+
+import { api } from "src/apis";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import Router from "next/router";
@@ -20,7 +20,6 @@ const root = lang.register;
 
 const defaultValue = { email: "", password: "", remember: true };
 
-const api = getApi(authApis);
 
 const RegisterForm: React.FC = () => {
   const userStore = useStore(UserStore);
@@ -31,7 +30,7 @@ const RegisterForm: React.FC = () => {
   const register = () => request(async () => {
     const { email, password, remember } = value;
     try {
-      const res = await api.register({ body: { email, password } });
+      const res = await api.auth.register({ body: { email, password } });
       toast.success(
         <LocalizedString id={root.success} />
       );

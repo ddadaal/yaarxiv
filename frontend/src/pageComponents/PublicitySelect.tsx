@@ -6,7 +6,6 @@ import { lang } from "src/i18n";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { PublicityText } from "./PublicityText";
 
-
 export interface Props {
   initialValue: boolean;
   onChange: (changed: boolean) => Promise<boolean>;

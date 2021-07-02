@@ -40,7 +40,7 @@
                   "description": "The role of the user."
                 },
                 "userId": {
-                  "type": "number",
+                  "$ref": "#/definitions/UserId",
                   "description": "User id"
                 }
               },
@@ -79,7 +79,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "number",
+              "$ref": "#/definitions/ArticleId",
               "description": "The id of the article."
             }
           },
@@ -143,14 +143,14 @@
       "additionalProperties": false,
       "description": "Change the owner set publicity of an article."
     },
-    "AdminDeleteArticleSchema": {
+    "AdminDeleteUserSchema": {
       "type": "object",
       "properties": {
         "path": {
           "type": "object",
           "properties": {
             "userId": {
-              "type": "number",
+              "$ref": "#/definitions/UserId",
               "description": "The ID of the user to be deleted."
             }
           },
@@ -323,7 +323,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "number",
+              "$ref": "#/definitions/ArticleId",
               "description": "The ID of the article to be deleted."
             }
           },
@@ -370,7 +370,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "number",
+              "$ref": "#/definitions/ArticleId",
               "description": "Article ID."
             }
           },
@@ -525,7 +525,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "number",
+              "$ref": "#/definitions/ArticleId",
               "description": "The original articleId."
             }
           },
@@ -722,7 +722,7 @@
               "type": "object",
               "properties": {
                 "token": {
-                  "type": "number",
+                  "$ref": "#/definitions/UploadedFileId",
                   "description": "The token for the upload. It is used to upload the following content of the article."
                 }
               },
@@ -783,7 +783,7 @@
                   "description": "The initial name of the newly-created user."
                 },
                 "userId": {
-                  "type": "number",
+                  "$ref": "#/definitions/UserId",
                   "description": "User id"
                 }
               },
@@ -956,7 +956,7 @@
           "type": "object",
           "properties": {
             "articleId": {
-              "type": "number",
+              "$ref": "#/definitions/ArticleId",
               "description": "The id of the article."
             }
           },
@@ -1180,7 +1180,7 @@
                   "description": "The email of the user."
                 },
                 "userId": {
-                  "type": "number",
+                  "$ref": "#/definitions/UserId",
                   "description": "The id of the user."
                 }
               },
@@ -1204,56 +1204,12 @@
       ],
       "additionalProperties": false,
       "description": "Get the profile of current logged in user."
-    },
-    "GreetingSchema": {
-      "type": "object",
-      "properties": {
-        "querystring": {
-          "type": "object",
-          "properties": {
-            "username": {
-              "type": "string",
-              "description": "The username"
-            }
-          },
-          "required": [
-            "username"
-          ],
-          "additionalProperties": false
-        },
-        "responses": {
-          "type": "object",
-          "properties": {
-            "200": {
-              "type": "object",
-              "properties": {
-                "hello": {
-                  "type": "string",
-                  "description": "The user same as the input querystring"
-                }
-              },
-              "required": [
-                "hello"
-              ],
-              "additionalProperties": false,
-              "description": "Hello"
-            }
-          },
-          "required": [
-            "200"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "querystring",
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Home page api"
     }
   },
   "models": {
+    "UserId": {
+      "type": "number"
+    },
     "UserRole": {
       "type": "string",
       "enum": [
@@ -1261,101 +1217,8 @@
         "Admin"
       ]
     },
-    "AdminGetArticlesResult": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "number",
-          "description": "The article id."
-        },
-        "owner": {
-          "type": "object",
-          "properties": {
-            "id": {
-              "type": "number",
-              "description": "The owner id."
-            },
-            "name": {
-              "type": "string",
-              "description": "The owner name."
-            }
-          },
-          "required": [
-            "id",
-            "name"
-          ],
-          "additionalProperties": false,
-          "description": "Thw article owner."
-        },
-        "title": {
-          "type": "string",
-          "description": "The article title of the latest revision."
-        },
-        "createTime": {
-          "type": "string",
-          "description": "The time the article is first created."
-        },
-        "lastUpdatedTime": {
-          "type": "string",
-          "description": "Last updated time"
-        },
-        "revisionCount": {
-          "type": "number",
-          "description": "The number of revisions this article has."
-        },
-        "ownerSetPublicity": {
-          "type": "boolean",
-          "description": "Whether the article is public set by the author."
-        },
-        "adminSetPublicity": {
-          "type": "boolean",
-          "description": "Whether the article is public set by admin."
-        }
-      },
-      "required": [
-        "id",
-        "owner",
-        "title",
-        "createTime",
-        "lastUpdatedTime",
-        "revisionCount",
-        "ownerSetPublicity",
-        "adminSetPublicity"
-      ],
-      "additionalProperties": false
-    },
-    "AdminGetUsersResult": {
-      "type": "object",
-      "properties": {
-        "id": {
-          "type": "number",
-          "description": "The user id."
-        },
-        "name": {
-          "type": "string",
-          "description": "The name of the user."
-        },
-        "email": {
-          "type": "string",
-          "description": "The email of the user."
-        },
-        "role": {
-          "$ref": "#/definitions/UserRole",
-          "description": "User role."
-        },
-        "articleCount": {
-          "type": "number",
-          "description": "How many articles this user has uploaded."
-        }
-      },
-      "required": [
-        "id",
-        "name",
-        "email",
-        "role",
-        "articleCount"
-      ],
-      "additionalProperties": false
+    "UploadedFileId": {
+      "type": "number"
     },
     "Author": {
       "type": "object",
@@ -1443,11 +1306,14 @@
       ],
       "additionalProperties": false
     },
+    "ArticleId": {
+      "type": "number"
+    },
     "Article": {
       "type": "object",
       "properties": {
         "id": {
-          "type": "number",
+          "$ref": "#/definitions/ArticleId",
           "description": "The id of the article."
         },
         "revisionNumber": {
@@ -1466,7 +1332,7 @@
           "description": "All revisions"
         },
         "ownerId": {
-          "type": "number",
+          "$ref": "#/definitions/UserId",
           "description": "Owner User Id"
         },
         "createTime": {
@@ -1528,6 +1394,102 @@
       "additionalProperties": false,
       "description": "The comment to an article."
     },
+    "AdminGetArticlesResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/ArticleId",
+          "description": "The article id."
+        },
+        "owner": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "$ref": "#/definitions/UserId",
+              "description": "The owner id."
+            },
+            "name": {
+              "type": "string",
+              "description": "The owner name."
+            }
+          },
+          "required": [
+            "id",
+            "name"
+          ],
+          "additionalProperties": false,
+          "description": "Thw article owner."
+        },
+        "title": {
+          "type": "string",
+          "description": "The article title of the latest revision."
+        },
+        "createTime": {
+          "type": "string",
+          "description": "The time the article is first created."
+        },
+        "lastUpdatedTime": {
+          "type": "string",
+          "description": "Last updated time"
+        },
+        "revisionCount": {
+          "type": "number",
+          "description": "The number of revisions this article has."
+        },
+        "ownerSetPublicity": {
+          "type": "boolean",
+          "description": "Whether the article is public set by the author."
+        },
+        "adminSetPublicity": {
+          "type": "boolean",
+          "description": "Whether the article is public set by admin."
+        }
+      },
+      "required": [
+        "id",
+        "owner",
+        "title",
+        "createTime",
+        "lastUpdatedTime",
+        "revisionCount",
+        "ownerSetPublicity",
+        "adminSetPublicity"
+      ],
+      "additionalProperties": false
+    },
+    "AdminGetUsersResult": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "$ref": "#/definitions/UserId",
+          "description": "The user id."
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the user."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email of the user."
+        },
+        "role": {
+          "$ref": "#/definitions/UserRole",
+          "description": "User role."
+        },
+        "articleCount": {
+          "type": "number",
+          "description": "How many articles this user has uploaded."
+        }
+      },
+      "required": [
+        "id",
+        "name",
+        "email",
+        "role",
+        "articleCount"
+      ],
+      "additionalProperties": false
+    },
     "ArticleSearchResult": {
       "type": "object",
       "properties": {
@@ -1563,7 +1525,7 @@
           "format": "uri"
         },
         "articleId": {
-          "type": "number",
+          "$ref": "#/definitions/ArticleId",
           "description": "The id of the article."
         },
         "commentCount": {
@@ -1644,7 +1606,7 @@
       "type": "object",
       "properties": {
         "id": {
-          "type": "string",
+          "$ref": "#/definitions/ArticleId",
           "description": "The article id."
         },
         "title": {

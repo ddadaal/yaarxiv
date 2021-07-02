@@ -1,6 +1,6 @@
 import React from "react";
 import { Box, Heading, Text, Paragraph, Anchor } from "grommet";
-import { Article } from "yaarxiv-api/article/models";
+import { Article } from "yaarxiv-api/api/article/models";
 import { AnchorLink } from "src/components/AnchorLink";
 import { formatDateTime } from "src/utils/datetime";
 import { TitledSection } from "src/components/TitledSection";

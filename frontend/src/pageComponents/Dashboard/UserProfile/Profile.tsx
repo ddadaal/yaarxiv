@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { lang } from "src/i18n";
-import { getApi } from "src/apis";
-import { dashboardApis } from "src/apis/dashboard";
+
 import { FormField, Box, Button } from "grommet";
 import { useAsync } from "react-async";
 import { OverlayLoading } from "src/components/OverlayLoading";
@@ -10,15 +9,13 @@ import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandl
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
+import { api } from "src/apis";
 
 const root = lang.pages.dashboard.profile;
 
-const api = getApi(dashboardApis);
-
-const getProfile = () => api.getProfile({});
+const getProfile = () => api.dashboard.dashboardGetProfile({});
 
 const emptyForm = {
-  userId: "",
   email: "",
   name: "",
 };
@@ -38,7 +35,7 @@ export const Profile: React.FC = () => {
   });
 
   const submit = () => request(async ({ userStore }) => {
-    await api.changeProfile({
+    await api.dashboard.changeProfile({
       body: {
         email: form.email,
         name: form.name,
@@ -65,7 +62,10 @@ export const Profile: React.FC = () => {
         validate="blur"
         onReset={() => setForm(data ?? emptyForm)}
       >
-        <FormField name="userId" disabled label={<LocalizedString id={root.id} />} />
+        <FormField
+          disabled label={<LocalizedString id={root.id} />}
+          value={data?.userId}
+        />
         <FormField name="name" label={<LocalizedString id={root.name} />} />
         <FormField
           name="email" label={<LocalizedString id={root.email} />}

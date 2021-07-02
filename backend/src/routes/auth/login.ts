@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/auth/login";
+import * as api from "yaarxiv-api/api/auth/login";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 import { signUser } from "@/plugins/auth";

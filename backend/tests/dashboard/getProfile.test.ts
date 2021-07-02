@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import * as api from "yaarxiv-api/dashboard/getProfile";
+import * as api from "yaarxiv-api/api/dashboard/getProfile";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { getProfileRoute } from "@/routes/dashboard/getProfile";

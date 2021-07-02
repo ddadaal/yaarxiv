@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { getApi } from "src/apis";
-import { articleApis } from "src/apis/article";
+
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
 import Router from "next/router";
+import { api } from "src/apis";
 
 const initialState ={
   title: "",
@@ -12,8 +12,6 @@ const initialState ={
   keywords: [] as string[],
   abstract: "",
 };
-
-const api = getApi(articleApis);
 
 export const UploadPage: React.FC = requireAuth({ roles: ["user"]})(() => {
 
@@ -24,10 +22,10 @@ export const UploadPage: React.FC = requireAuth({ roles: ["user"]})(() => {
   const submit = async (file: File | undefined, info: ArticleForm) => {
     request(async () => {
       // 1. upload the PDF and get the token
-      const pdfResp = await api.uploadPDF(file!);
+      const pdfResp = await api.article.uploadPDF(file!);
 
       // 2. upload the rest information
-      const resp = await api.uploadArticle({
+      const resp = await api.article.uploadArticle({
         body: {
           pdfToken: pdfResp.token,
           ...info,

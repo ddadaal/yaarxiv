@@ -1,11 +1,12 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
+import { UserId } from "../auth/models";
 
 
 export interface AdminGetUsersResult {
   /** The user id. */
-  id: number;
+  id: UserId;
   /** The name of the user. */
   name: string;
   /** The email of the user. */

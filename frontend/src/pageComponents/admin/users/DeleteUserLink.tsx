@@ -7,13 +7,14 @@ import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
 import { lang } from "src/i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { UserId } from "yaarxiv-api/api/auth/models";
 
 const root = lang.pages.admin.users.delete;
 
 export const DeleteUserLink: React.FC<{
-  userId: string;
+  userId: UserId;
   username: string;
-  deleteUser: (userId: string) => Promise<any>;
+  deleteUser: (userId: UserId) => Promise<any>;
   reload: () => void;
 }> = ({ userId, username, deleteUser, reload }) => {
 

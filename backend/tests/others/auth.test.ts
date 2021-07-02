@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import * as api from "yaarxiv-api/auth/login";
+import * as api from "yaarxiv-api/api/auth/login";
 import { User } from "@/entities/User";
 import { AuthOption, signUser } from "@/plugins/auth";
 import { RouteHandlerMethod } from "fastify";

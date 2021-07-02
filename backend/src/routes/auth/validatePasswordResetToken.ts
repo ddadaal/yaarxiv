@@ -1,5 +1,5 @@
 import { route } from "@/utils/route";
-import * as api from "yaarxiv-api/auth/validatePasswordResetToken";
+import * as api from "yaarxiv-api/api/auth/validatePasswordResetToken";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 
 export const validatePasswordResetTokenRoute = route(

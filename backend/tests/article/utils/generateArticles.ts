@@ -1,7 +1,7 @@
 import { ArticleRevision } from "../../../src/entities/ArticleRevision";
 import { Article } from "../../../src/entities/Article";
 import { range } from "../../../src/utils/array";
-import { Author } from "yaarxiv-api/article/models";
+import { Author } from "yaarxiv-api/api/article/models";
 import { UploadedFile } from "../../../src/entities/UploadedFile";
 import { MockUsers } from "tests/utils/data";
 import { IdentifiedReference, Reference } from "@mikro-orm/core";

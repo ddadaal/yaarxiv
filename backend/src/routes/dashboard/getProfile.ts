@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/dashboard/getProfile";
+import * as api from "yaarxiv-api/api/dashboard/getProfile";
 import { route } from "@/utils/route";
 
 export const getProfileRoute = route(

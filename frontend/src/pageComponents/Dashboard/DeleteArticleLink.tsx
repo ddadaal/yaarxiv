@@ -7,12 +7,13 @@ import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
 import { lang } from "src/i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { ArticleId } from "yaarxiv-api/api/article/models";
 
 const root = lang.pages.dashboard.articles;
 
 export const DeleteArticleLink: React.FC<{
-  articleId: string;
-  deleteArticle: (articleId: string) => Promise<any>;
+  articleId: ArticleId;
+  deleteArticle: (articleId: ArticleId) => Promise<any>;
   reload: () => void;
 }> = ({ articleId, deleteArticle, reload }) => {
   const [open, setOpen] = useState(false);

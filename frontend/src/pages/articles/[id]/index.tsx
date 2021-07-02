@@ -1,11 +1,10 @@
 import React, { useEffect, useMemo } from "react";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { NextPage } from "next";
-import { Article } from "yaarxiv-api/article/models";
-import { getApi } from "src/apis";
-import { articleApis } from "src/apis/article";
+import { Article, ArticleId } from "yaarxiv-api/api/article/models";
+
 import { ArticlePage as ArticlePageComp } from "src/pageComponents/article/ArticlePage";
-import { HttpError } from "src/apis/fetch";
+import { HttpError, makeHttpError } from "src/apis/fetch";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 import { useAsync } from "react-async";
 import { useRouter } from "next/router";
@@ -15,16 +14,16 @@ import { ParsedUrlQuery } from "querystring";
 import { SSRPageProps } from "src/utils/ssr";
 import { useFirstMount } from "src/utils/useFirstMount";
 import { OverlayLoading } from "src/components/OverlayLoading";
+import { api } from "src/apis";
 
 type Props = SSRPageProps<{
   article: Article;
 }>;
 
-const api = getApi(articleApis);
 
-const getArticle = ([articleId, revision]: [string, number | undefined]) =>
-  api
-    .get({ path: { articleId }, query: { revision } })
+const getArticle = ([articleId, revision]: [ArticleId, number | undefined]) =>
+  api.article
+    .getArticle({ path: { articleId }, query: { revision } })
     .then((x) => x.article);
 
 function getParams(query: ParsedUrlQuery) {
@@ -77,7 +76,13 @@ export const ArticlePage: NextPage<Props> = (props) => {
 };
 
 ArticlePage.getInitialProps = async (context) => {
-  const [articleId, revision] = getParams(context.query);
+  const [id, revision] = getParams(context.query);
+
+  const articleId = queryToIntOrDefault(id);
+
+  if (!articleId) {
+    return { error: makeHttpError(400, "Expect article id to be numeric.") };
+  }
 
   const data = getArticle([articleId, revision])
     .then((article) => ({ article }))

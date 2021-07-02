@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/admin/getUsers";
+import * as api from "yaarxiv-api/api/admin/getUsers";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 import { paginationProps } from "@/utils/pagination";

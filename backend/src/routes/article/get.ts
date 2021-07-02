@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/article/get";
+import * as api from "yaarxiv-api/api/article/get";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
 import { UserRole } from "@/entities/User";

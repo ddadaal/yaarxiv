@@ -1,4 +1,4 @@
-import type { SearchArticleSchema } from "yaarxiv-api/article/search";
+import type { SearchArticleSchema } from "yaarxiv-api/api/article/search";
 
 export type SearchQuery = SearchArticleSchema["querystring"];
 

@@ -1,8 +1,8 @@
 import { JwtTokenPayload, signUser } from "@/plugins/auth";
 import { FastifyInstance } from "fastify";
-import { replacePathArgs } from "yaarxiv-api/utils/replacePathArgs";
-import { RequestArgs } from "yaarxiv-api/utils/request";
-import { Awaited, GeneralSchema } from "yaarxiv-api/utils/schema";
+import { replacePathArgs } from "yaarxiv-api/api/utils/replacePathArgs";
+import { RequestArgs } from "yaarxiv-api/api/utils/request";
+import { Awaited, GeneralSchema } from "yaarxiv-api/api/utils/schema";
 import { Route } from "@/utils/route";
 
 export async function callRoute<TSchema extends GeneralSchema>(

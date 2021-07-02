@@ -2,7 +2,7 @@ import { Box, Text } from "grommet";
 import React from "react";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Mark } from "src/components/HighlightedText";
-import { Author } from "yaarxiv-api/article/models";
+import { Author } from "yaarxiv-api/api/article/models";
 
 interface Props {
   authors: Author[];

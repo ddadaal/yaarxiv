@@ -1,11 +1,11 @@
 import { Endpoint } from "../utils/schema";
-import { ArticleInfo } from "./models";
+import { ArticleId, ArticleInfo } from "./models";
 
 /** A preview information of the article. */
 export interface ArticleSearchResult extends Omit<ArticleInfo, "pdfLink"> {
 
   /** The id of the article. */
-  articleId: number;
+  articleId: ArticleId;
 
   /** The number of comments the article has. */
   commentCount: number;

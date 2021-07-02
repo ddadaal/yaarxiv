@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/admin/getArticles";
+import * as api from "yaarxiv-api/api/admin/getArticles";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
 import { QueryOrder } from "@mikro-orm/core";

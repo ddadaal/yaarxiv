@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { Article } from "../../src/entities/Article";
-import * as api from "yaarxiv-api/article/upload";
+import * as api from "yaarxiv-api/api/article/upload";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { Reference } from "@mikro-orm/core";

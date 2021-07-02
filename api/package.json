@@ -4,7 +4,8 @@
   "description": "",
   "sideEffects": false,
   "scripts": {
-    "api": "ts-node -T ./generateSchemas.ts"
+    "api": "ts-node -T ./generateSchemas.ts",
+    "client": "ts-node -T ./generateClients.ts"
   },
   "author": "",
   "license": "ISC",

@@ -1,3 +1,7 @@
+import { UserId } from "../auth/models";
+
+export type UploadedFileId = number;
+
 /** The author information. */
 export interface Author {
   /** The name of author. */
@@ -38,10 +42,12 @@ export interface ArticleRevision {
   time: string;
 }
 
+export type ArticleId = number;
+
 /** The full article info. */
 export interface Article {
   /** The id of the article. */
-  id: number;
+  id: ArticleId;
   /**
    * Current revision number.
    * Must be a integer.
@@ -52,7 +58,7 @@ export interface Article {
   /** All revisions */
   revisions: ArticleRevision[];
   /** Owner User Id */
-  ownerId: number;
+  ownerId: UserId;
   /**
    * The time when the article is first uploaded to the platform.
    * Must be a valid datetime string.

@@ -2,7 +2,7 @@ import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { route } from "@/utils/route";
-import * as api from "yaarxiv-api/article/upload";
+import * as api from "yaarxiv-api/api/article/upload";
 import createError from "http-errors";
 import { validateCodeLink } from "@/utils/codeLink";
 import { Reference } from "@mikro-orm/core";

@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/admin/changeArticlePublicity";
+import * as api from "yaarxiv-api/api/admin/changeArticlePublicity";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
 

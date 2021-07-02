@@ -2,18 +2,16 @@ import React, { useState } from "react";
 import { Box, Heading, FormField, TextInput, Button } from "grommet";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
-import { getApi } from "src/apis";
-import { authApis } from "src/apis/auth";
+
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import Router, { useRouter } from "next/router";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { queryToString } from "src/utils/querystring";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
+import { api } from "src/apis";
 
 const root = lang.forgetPassword;
-
-const api = getApi(authApis);
 
 const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
   const [value, setValue] = useState({ email });
@@ -23,7 +21,7 @@ const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
   const login = () => request(async () => {
     const { email } = value;
     try {
-      await api.requestPasswordReset({ body: { email } });
+      await api.auth.requestPasswordReset({ body: { email } });
       Router.push("/forget/sent");
     } catch (e) {
       if (e.status === 404) {

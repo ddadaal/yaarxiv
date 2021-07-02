@@ -1,4 +1,4 @@
-import * as api from "yaarxiv-api/dashboard/getArticles";
+import * as api from "yaarxiv-api/api/dashboard/getArticles";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
 import { paginationProps } from "@/utils/pagination";

@@ -1,6 +1,6 @@
 import { route } from "@/utils/route";
 import path from "path";
-import * as api from "yaarxiv-api/article/uploadPDF";
+import * as api from "yaarxiv-api/api/article/uploadPDF";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { RequestFile } from "@/plugins/upload";
 import { config } from "@/utils/config";

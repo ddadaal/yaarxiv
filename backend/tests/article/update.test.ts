@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { Article } from "../../src/entities/Article";
-import * as api from "yaarxiv-api/article/update";
+import * as api from "yaarxiv-api/api/article/update";
 import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createMockUsers, MockUsers, reloadEntities, reloadEntity } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";

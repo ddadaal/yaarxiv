@@ -1,6 +1,7 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
+import { ArticleId } from "./models";
 
 /**
  * Delete an article and all of its revisions.
@@ -9,7 +10,7 @@ import { Endpoint } from "../utils/schema";
 export interface DeleteArticleSchema {
   path: {
     /** The ID of the article to be deleted. */
-    articleId: number;
+    articleId: ArticleId;
   },
   responses: {
     /** The article and all is deleted. */

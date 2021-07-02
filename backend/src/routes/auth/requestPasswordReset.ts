@@ -1,5 +1,5 @@
 import { route } from "@/utils/route";
-import * as api from "yaarxiv-api/auth/requestPasswordReset";
+import * as api from "yaarxiv-api/api/auth/requestPasswordReset";
 import { User } from "@/entities/User";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { genId } from "@/utils/genId";
