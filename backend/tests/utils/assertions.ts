@@ -6,13 +6,14 @@ export function expectCode<TSchema extends GeneralSchema, Code extends number & 
   if (resp.statusCode === code) {
     return resp.json<Code>();
   } else {
+    const err = JSON.parse(resp.json().message);
     throw new Error(`
       Expect response code failed.
       Expect: ${code}
       Received: ${resp.statusCode}
 
-      Response:
-      ${resp.body}
+      Message: ${err.message}
+      Stack: ${err.stack}
     `);
 
   }

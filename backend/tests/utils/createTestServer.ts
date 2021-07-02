@@ -9,6 +9,16 @@ export async function createTestServer(build?: (server: FastifyInstance) => void
   ]);
   const server = buildApp(pluginOverrides);
 
+  // fails the process if there is error
+  server.setErrorHandler((e, req, rep) => {
+    // attach the stacktrace
+    e.message = JSON.stringify({
+      message: e,
+      stack: e.stack,
+    });
+    rep.send(e);
+  });
+
   await build?.(server);
 
   await server.ready();
