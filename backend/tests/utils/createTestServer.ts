@@ -13,7 +13,7 @@ export async function createTestServer(build?: (server: FastifyInstance) => void
   server.setErrorHandler((e, req, rep) => {
     // attach the stacktrace
     e.message = JSON.stringify({
-      message: e,
+      message: e.message,
       stack: e.stack,
     });
     rep.send(e);

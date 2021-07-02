@@ -7,6 +7,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { searchArticleRoute } from "@/routes/article/search";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 12;
 
@@ -29,8 +30,7 @@ afterEach(async () => {
 it("should return the first page (10) of articles when no query is input.", async () => {
   const resp = await callRoute(server, searchArticleRoute, { query: {} });
 
-  expect(resp.statusCode).toBe(200);
-  const json = resp.json<200>();
+  const json = expectCode(resp, 200);
 
   expect(json.totalCount).toBe(articleCount);
   expect(json.results.length).toBe(10);
@@ -41,8 +41,7 @@ it("should paginate results when page is set", async () => {
     page: 2,
   } });
 
-  expect(resp.statusCode).toBe(200);
-  const json = resp.json<200>();
+  const json = expectCode(resp, 200);
 
   expect(json.totalCount).toBe(articleCount);
   expect(json.results.length).toBe(2);
@@ -53,8 +52,7 @@ it("should filter the title with searchText if searchText query is input", async
     searchText: "9",
   } });
 
-  expect(resp.statusCode).toBe(200);
-  const json = resp.json<200>();
+  const json = expectCode(resp, 200);
 
   expect(json.totalCount).toBe(1);
   expect(json.results[0].articleId).toBe("9");
