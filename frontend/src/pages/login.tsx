@@ -16,6 +16,7 @@ import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { queryToString } from "src/utils/querystring";
+import { UserRole } from "../../../api/api/auth/login";
 
 const root = lang.login;
 
@@ -56,7 +57,7 @@ const LoginForm: React.FC = () => {
         role: res.role,
         id: res.userId,
       });
-      if (res.role === "admin"){
+      if (res.role === UserRole.Admin){
         await jumpBackOrDefault("/admin/articles");
       } else {
         await jumpBackOrDefault("/");

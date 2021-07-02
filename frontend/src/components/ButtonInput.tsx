@@ -1,7 +1,7 @@
 import React from "react";
-import { TextInput, Box, Button, TextInputProps, Keyboard } from "grommet";
+import { TextInput, Box, Button, Keyboard } from "grommet";
 
-interface Props extends TextInputProps {
+interface Props {
   value: string;
   onChange?: (newValue: string) => void;
   onConfirm?: (value: string) => void;

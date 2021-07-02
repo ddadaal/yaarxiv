@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import type { AppContext, AppProps } from "next/app";
 import App from "next/app";
 import "normalize.css";
 import { createI18nStore, loadLanguage } from "simstate-i18n";
-import { cn, getCookieLanguage, i18nContext, Language, useI18nStore } from "src/i18n";
+import { cn, getCookieLanguage, i18nContext, Language } from "src/i18n";
 import { StoreProvider, createStore } from "simstate";
 import { MainLayout } from "src/layouts/MainLayout";
 import { getCurrentUserInCookie, User, UserStore } from "src/stores/UserStore";
