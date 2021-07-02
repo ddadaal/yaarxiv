@@ -55,7 +55,7 @@ it("should filter the title with searchText if searchText query is input", async
   const json = expectCode(resp, 200);
 
   expect(json.totalCount).toBe(1);
-  expect(json.results[0].articleId).toBe("9");
+  expect(json.results[0].articleId).toBe(9);
 });
 
 // Can use each function of jest,
@@ -92,7 +92,7 @@ it("should return the articles with ALL of specified keyword", async () => {
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(4);
-  expect(data.results.map((x) => x.articleId)).toEqual(["1","10","11","12"]);
+  expect(data.results.map((x) => x.articleId)).toEqual([1,10,11,12]);
 });
 
 it("should return the articles with specified single keyword", async () => {
@@ -104,7 +104,7 @@ it("should return the articles with specified single keyword", async () => {
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(1);
-  expect(data.results.map((x) => x.articleId)).toEqual(["8"]);
+  expect(data.results.map((x) => x.articleId)).toEqual([8]);
 });
 
 it("should return articls with ALL of specified authors", async () => {
@@ -115,7 +115,7 @@ it("should return articls with ALL of specified authors", async () => {
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(6);
-  expect(data.results.map((x) => x.articleId)).toEqual(range(2, 14, 2).map((x) => x + ""));
+  expect(data.results.map((x) => x.articleId)).toEqual(range(2, 14, 2));
 });
 
 it("should not return admin set private articles", async () => {

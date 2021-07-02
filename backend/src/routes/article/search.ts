@@ -12,27 +12,28 @@ export const searchArticleRoute = route(
     const { searchText, page, startYear, endYear, keywords, authorNames } = req.query;
 
     const builder = req.em.createQueryBuilder(Article, "a")
+      .select("*")
       .joinAndSelect("a.latestRevision", "l")
       .where({ "a.ownerSetPublicity":  true })
       .andWhere({ "a.adminSetPublicity": true });
 
     if (startYear) {
-      builder.andWhere({ $gte: { "a.createTime": `${startYear}-01-01` } });
+      builder.andWhere({ "a.createTime": { $gte: `${startYear}-01-01` } });
     }
 
     if (endYear) {
-      builder.andWhere({ $lt: { "a.createTime": `${endYear + 1}-01-01` } });
+      builder.andWhere({ "a.createTime": { $lt: `${endYear + 1}-01-01` } });
     }
 
     if (searchText) {
-      builder.andWhere({ $like: { "l.title": `%${searchText}%` } });
+      builder.andWhere({ "l.title": { $like: `%${searchText}%` } });
     }
 
     // ALL of specified keywords
     // Allows search part of keyword ("Computer" -> "Computer Science")
     if (keywords) {
       keywords.forEach((k) => {
-        builder.andWhere({ $like: { "l.keywords": `%${k}%` } });
+        builder.andWhere( { "l.keywords": { $like:`%${k}%` } });
       });
     }
 
@@ -41,13 +42,13 @@ export const searchArticleRoute = route(
     // TODO limit the author input
     if (authorNames) {
       authorNames.forEach((k) => {
-        builder.andWhere({ $like: { "l.authors": `%{"name":"${k}"%` } });
+        builder.andWhere( { "l.authors": { $like:`%{"name": "${k}"%` } });
       });
     }
 
     builder.orderBy({ "a.lastUpdateTime": QueryOrder.DESC });
 
-    const { count } = await builder.count("id").execute("get") as { count: number };
+    const { count } = await builder.clone().count("id").execute("get") as { count: number };
 
     builder.offset(((page ?? 1) - 1) * config.defaultPageSize)
       .limit(config.defaultPageSize);
@@ -58,7 +59,7 @@ export const searchArticleRoute = route(
       200: {
         totalCount: count,
         results: results.map((x) => {
-          const rev = x.revisions[0];
+          const rev = x.latestRevision.getEntity();
           return {
             articleId: x.id,
             title: rev.title,
