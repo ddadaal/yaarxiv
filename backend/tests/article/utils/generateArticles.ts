@@ -2,7 +2,7 @@ import { ArticleRevision } from "../../../src/entities/ArticleRevision";
 import { Article } from "../../../src/entities/Article";
 import { range } from "../../../src/utils/array";
 import { Author } from "yaarxiv-api/article/models";
-import { PdfUpload } from "../../../src/entities/PdfUpload";
+import { UploadedFile } from "../../../src/entities/UploadedFile";
 import { MockUsers } from "tests/utils/data";
 import { IdentifiedReference, Reference } from "@mikro-orm/core";
 import { User } from "@/entities/User";
@@ -17,7 +17,7 @@ const authors: Author[][] = [
 
 export const commonKeyword = "commonKeyword";
 
-const genRevision = (article: Article, revisionId: number, pdf: PdfUpload) => {
+const genRevision = (article: Article, revisionId: number, pdf: UploadedFile) => {
   const rev = new ArticleRevision();
   rev.title = `Article ${article.id} Revision ${revisionId}`;
   rev.revisionNumber = revisionId;
@@ -44,7 +44,7 @@ export const generateArticle = (id: number, users: MockUsers) => {
 
 export function generatePdf(owner: IdentifiedReference<User>) {
 
-  const pdf = new PdfUpload();
+  const pdf = new UploadedFile();
   pdf.user = owner;
   pdf.filePath = "test";
   return pdf;

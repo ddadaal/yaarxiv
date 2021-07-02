@@ -1,6 +1,6 @@
 import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
-import { PdfUpload } from "@/entities/PdfUpload";
+import { UploadedFile } from "@/entities/UploadedFile";
 import { route } from "@/utils/route";
 import * as api from "yaarxiv-api/article/update";
 import createError from "http-errors";
@@ -11,9 +11,9 @@ export const updateArticleRoute = route(
   api, "UpdateArticleSchema",
   async (req) => {
     // validate the pdfToken first.
-    let pdf: PdfUpload | null = null;
+    let pdf: UploadedFile | null = null;
     if (req.body.pdfToken) {
-      const pdfRepo = req.em.getRepository(PdfUpload);
+      const pdfRepo = req.em.getRepository(UploadedFile);
       pdf = await pdfRepo.findOne({ id: req.body.pdfToken });
       if (!pdf) {
         throw createError(400, "PDF token is invalid.");

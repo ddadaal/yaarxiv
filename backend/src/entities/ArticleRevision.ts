@@ -3,7 +3,7 @@ import {
   Entity, ArrayType, IdentifiedReference, OneToOne, Cascade, JsonType } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
-import { PdfUpload } from "./PdfUpload";
+import { UploadedFile } from "./UploadedFile";
 
 @Entity()
 export class ArticleRevision {
@@ -31,8 +31,8 @@ export class ArticleRevision {
   @Property()
   category: string;
 
-  @ManyToOne(() => PdfUpload)
-  pdf: PdfUpload;
+  @ManyToOne(() => UploadedFile)
+  pdf: UploadedFile;
 
   @ManyToOne(() => Article, { nullable: false, wrappedReference: true, cascade: [Cascade.ALL]})
   article: IdentifiedReference<Article>;

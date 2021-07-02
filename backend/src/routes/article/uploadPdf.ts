@@ -1,15 +1,15 @@
 import { route } from "@/utils/route";
 import path from "path";
 import * as api from "yaarxiv-api/article/uploadPDF";
-import { PdfUpload } from "@/entities/PdfUpload";
-import { UploadedFile } from "@/plugins/upload";
+import { UploadedFile } from "@/entities/UploadedFile";
+import { RequestFile } from "@/plugins/upload";
 import { config } from "@/utils/config";
 
 // Save uploaded pdf to /{uploadPath}/{userId}/{current date}_{filename}
 export const uploadPdfRoute = route(
   api, "UploadPDFSchema",
   async (req) => {
-    const data = req.body.file as UploadedFile;
+    const data = req.body.file as RequestFile;
 
     const user = req.dbUserRef();
 
@@ -25,7 +25,7 @@ export const uploadPdfRoute = route(
 
     req.log.info(`${filePath} saved successfully.`);
 
-    const pdf = new PdfUpload();
+    const pdf = new UploadedFile();
     // the link must be joined by /
     pdf.filePath = [user.id, filename].join("/");
     pdf.user = user;

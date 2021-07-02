@@ -3,7 +3,7 @@ import { createMockArticles } from "tests/article/utils/generateArticles";
 import { User } from "@/entities/User";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { Article } from "@/entities/Article";
-import { PdfUpload } from "@/entities/PdfUpload";
+import { UploadedFile } from "@/entities/UploadedFile";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
@@ -62,7 +62,7 @@ it("delete user and all related articles", async () => {
   expect(await countEntities(User)).toBe(2);
   expect(await countEntities(Article)).toBe(1);
   expect(await countEntities(ArticleRevision)).toBe(2);
-  expect(await countEntities(PdfUpload)).toBe(2);
+  expect(await countEntities(UploadedFile)).toBe(2);
 
 });
 

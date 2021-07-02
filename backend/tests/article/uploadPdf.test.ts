@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { PdfUpload } from "../../src/entities/PdfUpload";
+import { UploadedFile } from "../../src/entities/UploadedFile";
 import fs from "fs";
 import { mockFileForm } from "./utils/mockFileForm";
 import { config } from "@/utils/config";
@@ -36,11 +36,11 @@ it("upload an PDF to the system.", async () => {
   expect(resp.statusCode).toBe(201);
 
   const em = server.orm.em.fork();
-  expect(await em.count(PdfUpload)).toBe(1);
+  expect(await em.count(UploadedFile)).toBe(1);
 
   const token = resp.json<201>().token;
 
-  const upload = await em.findOneOrFail(PdfUpload, { id: token });
+  const upload = await em.findOneOrFail(UploadedFile, { id: token });
   expect(upload.user.id).toBe(users.normalUser1.id);
 
 });

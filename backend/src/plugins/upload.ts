@@ -12,7 +12,7 @@ export const uploadPlugin = fp(async (fastify) => {
 });
 
 // https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/express-fileupload/index.d.ts
-export interface UploadedFile {
+export interface RequestFile {
   /** file name */
   name: string;
   /** A function to move the file elsewhere on your server */

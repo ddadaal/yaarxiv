@@ -6,7 +6,7 @@ import urlJoin from "url-join";
 import { config } from "@/utils/config";
 
 @Entity()
-export class PdfUpload {
+export class UploadedFile {
   @PrimaryKey()
   id: number;
 
@@ -20,7 +20,6 @@ export class PdfUpload {
   articleRevisions = new Collection<ArticleRevision>(this);
 
   getPdfUrl(): string {
-    console.log(config.staticPrefix, config.upload.path, this.filePath);
     return urlJoin(
       config.staticPrefix,
       config.upload.path,
