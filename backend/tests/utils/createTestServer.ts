@@ -9,16 +9,6 @@ export async function createTestServer(build?: (server: FastifyInstance) => void
   ]);
   const server = buildApp(pluginOverrides);
 
-  // fails the process if there is error
-  server.setErrorHandler((e, req, rep) => {
-    // pass if it's validation error
-    if (e.statusCode !== 400 && !e.validation) {
-      throw e;
-    } else {
-      rep.send(e);
-    }
-  });
-
   await build?.(server);
 
   await server.ready();

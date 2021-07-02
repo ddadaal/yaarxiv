@@ -5,6 +5,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { getArticleRoute } from "@/routes/article/get";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 12;
 
@@ -39,9 +40,7 @@ it("should return the latest revision of article if revision is not specified", 
     query: {},
   });
 
-  expect(resp.statusCode).toBe(200);
-
-  const { article } = resp.json<200>();
+  const { article } = expectCode(resp, 200);
 
   expect(article.id).toBe(2);
   expect(article.revisionNumber).toBe(2);

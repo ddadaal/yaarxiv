@@ -11,7 +11,7 @@ export async function callRoute<TSchema extends GeneralSchema>(
   args: RequestArgs<TSchema>,
   loginAs?: JwtTokenPayload,
   headers?: Record<string, string>,
-) {
+): Promise<CallRouteResponse<TSchema>> {
   // @ts-ignore
   const { path, query, body } = args;
 
@@ -26,7 +26,10 @@ export async function callRoute<TSchema extends GeneralSchema>(
         authorization: `bearer ${signUser(server, loginAs)}`,
       } : undefined,
     },
-  }) as (Omit<Awaited<ReturnType<typeof server.inject>>, "json"> & {
-    json<Code extends number>(): TSchema["responses"][Code];
   });
 }
+
+export type CallRouteResponse<TSchema extends GeneralSchema> =
+  Omit<Awaited<ReturnType<FastifyInstance["inject"]>>, "json"> & {
+    json<Code extends number>(): TSchema["responses"][Code];
+  }
