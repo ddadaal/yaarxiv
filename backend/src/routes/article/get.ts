@@ -35,6 +35,8 @@ export const getArticleRoute = route(
       return { 404: { notFound: "revision" } as const };
     }
 
+    await req.em.populate(targetRevision, ["pdf"]);
+
     return {
       200: {
         article: {

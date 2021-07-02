@@ -1,6 +1,6 @@
 import {
   Property, ManyToOne, PrimaryKey,
-  Entity, ArrayType, IdentifiedReference, OneToOne, Cascade } from "@mikro-orm/core";
+  Entity, ArrayType, IdentifiedReference, OneToOne, Cascade, JsonType } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/article/models";
 import { Article } from "./Article";
 import { PdfUpload } from "./PdfUpload";
@@ -19,7 +19,7 @@ export class ArticleRevision {
   @Property()
   title: string;
 
-  @Property({ type: ArrayType })
+  @Property({ type: JsonType })
   authors: Author[];
 
   @Property({ type: ArrayType })

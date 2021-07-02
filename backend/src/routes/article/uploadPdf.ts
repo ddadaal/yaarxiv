@@ -27,7 +27,7 @@ export const uploadPdfRoute = route(
 
     const pdf = new PdfUpload();
     // the link must be joined by /
-    pdf.link = [user.id, filename].join("/");
+    pdf.filePath = [user.id, filename].join("/");
     pdf.user = user;
 
     await req.em.persistAndFlush(pdf);

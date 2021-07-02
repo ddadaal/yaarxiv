@@ -14,16 +14,17 @@ export class PdfUpload {
   user: IdentifiedReference<User>;
 
   @Property()
-  link: string;
+  filePath: string;
 
   @OneToMany(() => ArticleRevision, (r) => r.pdf, { cascade: [Cascade.ALL]})
   articleRevisions = new Collection<ArticleRevision>(this);
 
   getPdfUrl(): string {
+    console.log(config.staticPrefix, config.upload.path, this.filePath);
     return urlJoin(
       config.staticPrefix,
       config.upload.path,
-      this.link,
+      this.filePath,
     );
   }
 

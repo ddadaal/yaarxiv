@@ -1,7 +1,7 @@
-import { Options } from "@mikro-orm/core";
-import { MySqlDriver } from "@mikro-orm/mysql";
+import type { Options } from "@mikro-orm/core";
+import type { MySqlDriver } from "@mikro-orm/mysql";
 import config from "config";
-import { FastifyServerOptions } from "fastify";
+import type { FastifyServerOptions } from "fastify";
 import type SMTPConnection from "nodemailer/lib/smtp-connection";
 
 export interface Config {

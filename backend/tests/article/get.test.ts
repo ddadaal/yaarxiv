@@ -52,9 +52,7 @@ it("should return the specified revision of article if specified", async () => {
     query: { revision: 1 },
   });
 
-  expect(resp.statusCode).toBe(200);
-
-  const { article } = resp.json<200>();
+  const { article } = expectCode(resp, 200);
 
   expect(article.id).toBe(2);
   expect(article.revisionNumber).toBe(1);
@@ -67,8 +65,7 @@ it("shoud return 404 if revision is not found.", async () => {
     query: { revision: 5 },
   });
 
-  expect(resp.statusCode).toBe(404);
-  expect(resp.json<404>().notFound).toBe("revision");
+  expect(expectCode(resp, 404).notFound).toBe("revision");
 });
 
 async function changeArticleToPrivate(property: "admin" | "owner") {
