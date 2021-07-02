@@ -5,7 +5,6 @@ import { mockFileForm } from "./utils/mockFileForm";
 import { config } from "@/utils/config";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
-import { createMockArticles } from "tests/article/utils/generateArticles";
 import { callRoute } from "@/utils/callRoute";
 import { uploadPdfRoute } from "@/routes/article/uploadPdf";
 
@@ -16,7 +15,6 @@ beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  await createMockArticles(server, 12, users);
 });
 
 
@@ -28,12 +26,12 @@ afterEach(async () => {
 
 it("upload an PDF to the system.", async () => {
 
-  const fileSize = 1* 1024*1024; // 1MB
+  const fileSize = config.upload.maxFileSize - 100;
   const formData = mockFileForm(fileSize);
 
   const resp = await callRoute(server, uploadPdfRoute, {
     body: formData as any,
-  }, users.normalUser1);
+  }, users.normalUser1, formData.getHeaders());
 
   expect(resp.statusCode).toBe(201);
 
@@ -48,12 +46,12 @@ it("upload an PDF to the system.", async () => {
 });
 
 it("fails if the file size is too big.", async () => {
-  const fileSize = 10* 1024*1024; // 10MB
+  const fileSize = config.upload.maxFileSize + 100;
   const formData = mockFileForm(fileSize);
 
   const resp = await callRoute(server, uploadPdfRoute, {
     body: formData as any,
-  }, users.normalUser1);
+  }, users.normalUser1, formData.getHeaders());
 
   expect(resp.statusCode).toBe(413);
 });
