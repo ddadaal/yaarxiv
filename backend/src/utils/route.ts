@@ -1,6 +1,6 @@
 import { FastifyInstance, FastifyRequest, FastifyReply, preValidationHookHandler } from "fastify";
-import { ApiProps } from "yaarxiv-api/utils/apiProps";
-import { Endpoint, GeneralSchema, SchemaObject } from "yaarxiv-api/utils/schema";
+import { ApiProps } from "yaarxiv-api/api/utils/apiProps";
+import { Endpoint, GeneralSchema, SchemaObject } from "yaarxiv-api/api/utils/schema";
 import { routes } from "./schemas";
 
 export interface Route<TSchema extends GeneralSchema> {

@@ -21,7 +21,7 @@ export const dashboardGetArticlesRoute = route(
     return {
       200: {
         articles: articles.map((x) => ({
-          id: x.id + "",
+          id: x.id,
           createTime: x.createTime.toISOString(),
           lastUpdatedTime: x.lastUpdateTime.toISOString(),
           revisionCount: x.revisions.length,

@@ -3,7 +3,7 @@ import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 
 export const adminDeleteUserRoute = route(
-  api, "AdminDeleteArticleSchema",
+  api, "AdminDeleteUserSchema",
   async (req) => {
 
     const { userId } = req.params;

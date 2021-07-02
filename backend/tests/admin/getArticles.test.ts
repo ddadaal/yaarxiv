@@ -1,5 +1,4 @@
 import { FastifyInstance } from "fastify/types/instance";
-import * as api from "yaarxiv-api/api/admin/getArticles";
 import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";

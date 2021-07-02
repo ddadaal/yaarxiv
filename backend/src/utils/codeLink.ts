@@ -1,5 +1,5 @@
 import createHttpError from "http-errors";
-import { ACCEPTABLE_CODE_SITES, getCodeLinkInfo } from "yaarxiv-api/utils/codeLink";
+import { ACCEPTABLE_CODE_SITES, getCodeLinkInfo } from "yaarxiv-api/api/utils/codeLink";
 
 
 

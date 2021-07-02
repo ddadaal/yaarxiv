@@ -20,8 +20,6 @@ export const adminGetArticlesRoute = route(
         ...paginationProps(page),
       });
 
-    const users = articles.map((x) => x.owner);
-
     return {
       200: {
         articles: articles.map((x) => ({

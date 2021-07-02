@@ -1,4 +1,4 @@
-import { FastifyInstance } from "fastify/types/instance";
+import { FastifyInstance } from "fastify";
 import { createMockArticles } from "tests/article/utils/generateArticles";
 import { commonKeyword } from "./utils/generateArticles";
 import { range } from "@/utils/array";

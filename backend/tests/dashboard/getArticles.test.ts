@@ -39,7 +39,7 @@ it("return the first page of articles whose owner is the logged in user.", async
   const payload = resp.json<200>();
   expect(payload.articles).toHaveLength(10);
 
-  expect(payload.articles.map((x) => parseInt(x.id) % 2 === 1)).toEqual(range(0, 10).map(() => true));
+  expect(payload.articles.map((x) => x.id % 2 === 1)).toEqual(range(0, 10).map(() => true));
   expect(payload.totalCount).toBe(12);
 });
 
