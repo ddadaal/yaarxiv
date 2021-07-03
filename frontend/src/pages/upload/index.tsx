@@ -23,7 +23,10 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
   const submit = async (file: File, info: ArticleForm) => {
     request(async () => {
       // 1. upload the PDF and get the token
-      const pdfResp = await api.article.uploadPDF({ body: { file } });
+      const data = new FormData();
+      data.append("file", file);
+
+      const pdfResp = await api.article.uploadPDF({ body: data as any });
 
       // 2. upload the rest information
       const resp = await api.article.uploadArticle({

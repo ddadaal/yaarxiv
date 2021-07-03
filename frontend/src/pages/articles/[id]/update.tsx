@@ -35,7 +35,9 @@ export const ArticleUpdatePage = ssrPage<Props>(
         let pdfToken: number | undefined = undefined;
         if (file) {
           // user wants to update the pdf. so upload it first.
-          const fileResp = await api.article.uploadPDF({ body: { file } });
+          const data = new FormData();
+          data.append("file", file);
+          const fileResp = await api.article.uploadPDF({ body: data as any });
           pdfToken = fileResp.token;
         }
         const resp = await api.article.updateArticle({

@@ -21,7 +21,6 @@ export class UploadedFile {
 
   getPdfUrl(): string {
     return urlJoin(
-      config.staticPrefix,
       config.upload.path,
       this.filePath,
     );
