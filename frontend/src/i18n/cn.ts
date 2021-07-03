@@ -258,8 +258,8 @@ export default {
           email: "电子邮箱",
           role: {
             title: "角色",
-            admin: "管理员",
-            user: "普通用户",
+            Admin: "管理员",
+            User: "普通用户",
           },
           articleCount: "文章数",
           actions: "操作",

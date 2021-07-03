@@ -262,8 +262,8 @@ export default {
           email: "Email",
           role: {
             title: "Role",
-            admin: "Admin",
-            user: "User",
+            Admin: "Admin",
+            User: "User",
           },
           articleCount: "Article Count",
           actions: "Actions",
