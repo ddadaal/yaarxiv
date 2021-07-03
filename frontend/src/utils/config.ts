@@ -1,8 +1,9 @@
 import getConfig from "next/config";
 
 export interface AppConfig {
-  apiRoot: string;
-  staticRoot: string;
+  clientApiRoot: string;
+  serverApiRoot: string;
+  serverStaticFileRoot: string;
   pdfSizeLimit: number;
 }
 

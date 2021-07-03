@@ -3,7 +3,7 @@ import type { Config } from "@/utils/config";
 export default {
   "address": "0.0.0.0",
   "pluginTimeout": 30000,
-  "port": 3000,
+  "port": 5000,
   "defaultPageSize": 10,
   "loadSwagger": true,
   "logger": true,

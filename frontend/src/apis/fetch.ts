@@ -7,10 +7,11 @@ import {
 import { isFormData, isServer } from "src/utils/isServer";
 import { removeNullOrUndefinedKey } from "src/utils/array";
 import { failEvent, finallyEvent, prefetchEvent, successEvent } from "./events";
+import { config } from "src/utils/config";
 
 const baseUrl = isServer()
-  ? process.env.NEXT_PUBLIC_SERVER_API_ROOT
-  : process.env.NEXT_PUBLIC_CLIENT_API_ROOT;
+  ? config.serverApiRoot
+  : config.clientApiRoot;
 
 export type HttpMethod = "GET" | "POST" | "DELETE" | "PATCH" | "PUT";
 

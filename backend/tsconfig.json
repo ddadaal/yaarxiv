@@ -29,7 +29,8 @@
   "include": [
     "src/**/*",
     "config",
-    "tests/**/*"
+    "tests/**/*",
+    "mikro-orm.config.ts"
   ],
   "exclude": [
     "node_modules",

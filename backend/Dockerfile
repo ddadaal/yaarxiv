@@ -33,5 +33,5 @@ RUN npm ci --only=production
 COPY --from=builder /backend/dist .
 
 # Serve
-EXPOSE 3000
+EXPOSE 5000
 CMD npm run serve

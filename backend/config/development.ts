@@ -11,6 +11,7 @@ export default {
     "dbName": "yaarxiv_dev",
     "logging": true,
   },
+  "mail": false,
   "logger": {
     "level": "trace",
     "prettyPrint": true,

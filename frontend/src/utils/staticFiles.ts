@@ -1,6 +1,6 @@
 import { config } from "src/utils/config";
 import urljoin from "url-join";
 
-export function getStaticFileUrl(path: string) {
-  return urljoin(config.staticRoot, path);
+export function getServerStaticFileUrl(path: string) {
+  return urljoin(config.serverStaticFileRoot, path);
 }

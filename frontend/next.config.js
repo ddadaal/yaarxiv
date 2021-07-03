@@ -11,8 +11,9 @@ module.exports = withPlugins([
   [images, {}],
 ], {
   publicRuntimeConfig: {
-    apiRoot: process.env.API_ROOT,
-    staticRoot: process.env.STATIC_ROOT,
+    clientApiRoot: process.env.CLIENT_API_ROOT,
+    serverApiRoot: process.env.SERVER_API_ROOT,
+    serverStaticFileRoot: process.env.SERVER_STATIC_FILE_ROOT,
     pdfSizeLimit: process.env.PDF_SIZE_LIMIT,
   },
 });

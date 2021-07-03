@@ -14,7 +14,7 @@ import {
   getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
 import { config } from "src/utils/config";
-import { getStaticFileUrl } from "src/utils/staticFiles";
+import { getServerStaticFileUrl } from "src/utils/staticFiles";
 
 const root = lang.pages.upload;
 
@@ -71,7 +71,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               <LocalizedString id={root.pdf.existing} replacements={[
                 <Anchor
                   key="here"
-                  href={getStaticFileUrl(existingFileUrl)}
+                  href={getServerStaticFileUrl(existingFileUrl)}
                   download
                 >
                   <LocalizedString id={root.pdf.here} />

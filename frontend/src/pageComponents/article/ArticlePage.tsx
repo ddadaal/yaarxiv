@@ -7,7 +7,7 @@ import { TitledSection } from "src/components/TitledSection";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { lang } from "src/i18n";
-import { getStaticFileUrl } from "src/utils/staticFiles";
+import { getServerStaticFileUrl } from "src/utils/staticFiles";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
 
@@ -75,7 +75,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
           </TitledSection>
           <TitledSection titleId={root.download}>
             <Anchor
-              href={getStaticFileUrl(currentRevision.pdfLink)}
+              href={getServerStaticFileUrl(currentRevision.pdfLink)}
               download
               target="__blank"
             >
