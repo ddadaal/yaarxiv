@@ -119,6 +119,10 @@ export async function jsonFetch<T>(
     });
 
     if (resp.ok) {
+      if (resp.status === 204) {
+        successEvent.execute({ status: 204, data: undefined });
+        return undefined as any;
+      }
       if (checkIsJson(resp)) {
         const obj = await resp.json();
         successEvent.execute({ status: resp.status, data: obj });
