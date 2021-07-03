@@ -15,6 +15,7 @@ import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
+import { UserRole } from "src/models/User";
 
 const root = lang.register;
 
@@ -40,7 +41,7 @@ const RegisterForm: React.FC = () => {
         name: res.name,
         token: res.token,
         remember: remember,
-        role: "user",
+        role: UserRole.User,
         id: res.userId,
       });
     } catch (e) {

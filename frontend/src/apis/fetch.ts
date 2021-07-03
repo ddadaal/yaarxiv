@@ -60,8 +60,8 @@ export type JsonFetchResult<TResp> = TResp;
 const SERVER_ERROR_STATUS = -2;
 const CLIENT_ERROR_STATUS = -1;
 
-export class HttpError<T = string | object | undefined> {
-  data: T | undefined;
+export class HttpError<T = any> {
+  data: T;
   status: number;
   text?: string;
 

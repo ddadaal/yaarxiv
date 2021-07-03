@@ -6,10 +6,11 @@ import { lang } from "src/i18n";
 import { queryToString } from "src/utils/querystring";
 import { Checkmark } from "grommet-icons";
 import { requireAuth } from "src/utils/requireAuth";
+import { UserRole } from "src/models/User";
 
 const root = lang.pages.upload.complete;
 
-export const UploadCompletePage = requireAuth({ roles: ["user"]})(() => {
+export const UploadCompletePage = requireAuth({ roles: [UserRole.User]})(() => {
   const router = useRouter();
 
   const articleId = queryToString(router.query.articleId);

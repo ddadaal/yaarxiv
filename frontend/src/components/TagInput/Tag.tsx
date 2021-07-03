@@ -3,7 +3,7 @@ import { FormClose } from "grommet-icons";
 import React from "react";
 
 interface Props {
-  onRemove: () => void;
+  onRemove?: () => void;
   disabled?: boolean;
 }
 

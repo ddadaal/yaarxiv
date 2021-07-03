@@ -1,24 +1,24 @@
 import React, { useEffect, useMemo } from "react";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
-import { NextPage } from "next";
 import { Article, ArticleId } from "yaarxiv-api/api/article/models";
 
 import { ArticlePage as ArticlePageComp } from "src/pageComponents/article/ArticlePage";
-import { HttpError, makeHttpError } from "src/apis/fetch";
+import { HttpError } from "src/apis/fetch";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 import { useAsync } from "react-async";
 import { useRouter } from "next/router";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import { ParsedUrlQuery } from "querystring";
-import { SSRPageProps } from "src/utils/ssr";
+import { ssrError, ssrPage } from "src/utils/ssr";
 import { useFirstMount } from "src/utils/useFirstMount";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { api } from "src/apis";
+import { UserRole } from "src/models/User";
 
-type Props = SSRPageProps<{
+type Props = {
   article: Article;
-}>;
+};
 
 
 const getArticle = ([articleId, revision]: [ArticleId, number | undefined]) =>
@@ -33,12 +33,7 @@ function getParams(query: ParsedUrlQuery) {
   return [ articleId, revision ] as const;
 }
 
-export const ArticlePage: NextPage<Props> = (props) => {
-
-  if ("error" in props) {
-    return <UnifiedErrorPage error={props.error} />;
-  }
-
+export const ArticlePage  = ssrPage<Props>((props) => {
   const router = useRouter();
 
   const params = useMemo(() => getParams(router.query), [router.query]);
@@ -72,16 +67,13 @@ export const ArticlePage: NextPage<Props> = (props) => {
       { data ? <ArticlePageComp article={data}/> : undefined}
     </OverlayLoading>
   );
-
-};
-
-ArticlePage.getInitialProps = async (context) => {
+}, async (context) => {
   const [id, revision] = getParams(context.query);
 
   const articleId = queryToIntOrDefault(id);
 
   if (!articleId) {
-    return { error: makeHttpError(400, "Expect article id to be numeric.") };
+    return ssrError(400, "Expect article id to be numeric.");
   }
 
   const data = getArticle([articleId, revision])
@@ -89,6 +81,6 @@ ArticlePage.getInitialProps = async (context) => {
     .catch((e: HttpError) => ({ error: e }));
 
   return data;
-};
+}, { authOptions: { roles: [UserRole.User]} });
 
 export default ArticlePage;

@@ -5,6 +5,7 @@ import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { requireAuth } from "src/utils/requireAuth";
 import Router from "next/router";
 import { api } from "src/apis";
+import { UserRole } from "src/models/User";
 
 const initialState ={
   title: "",
@@ -13,7 +14,7 @@ const initialState ={
   abstract: "",
 };
 
-export const UploadPage: React.FC = requireAuth({ roles: ["user"]})(() => {
+export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() => {
 
   const [submitting, setSubmitting] = useState(false);
 

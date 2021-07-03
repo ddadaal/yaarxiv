@@ -2,7 +2,7 @@ import React from "react";
 import { LocalizedString } from "simstate-i18n";
 import { lang } from "src/i18n";
 import { Text } from "grommet";
-import { ACCEPTABLE_CODE_SITES, getCodeLinkInfo } from "yaarxiv-api/utils/codeLink";
+import { ACCEPTABLE_CODE_SITES, getCodeLinkInfo } from "yaarxiv-api/api/utils/codeLink";
 export { ACCEPTABLE_CODE_SITES, getCodeLinkInfo };
 
 const root = lang.components.form.validationError;

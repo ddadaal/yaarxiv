@@ -1,3 +1,1 @@
-import type { UserRole as ApiUserRole } from "yaarxiv-api/auth/login";
-
-export type UserRole = ApiUserRole;
+export { UserRole } from "yaarxiv-api/api/auth/login";

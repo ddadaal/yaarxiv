@@ -11,6 +11,7 @@ import Link from "next/link";
 import { Media } from "src/styles/media";
 import { TLink, commonLinks, adminLinks, userLinks } from "./links";
 import { UrlObject } from "url";
+import { UserRole } from "src/models/User";
 
 const root = lang.header;
 
@@ -160,7 +161,7 @@ export const MainNav: React.FC = () => {
   const userStore = useStore(UserStore);
 
   const authenticatedLinks = userStore.user
-    ? userStore.user.role === "admin" ? adminLinks : userLinks
+    ? userStore.user.role === UserRole.Admin ? adminLinks : userLinks
     : [];
 
   const router = useRouter();

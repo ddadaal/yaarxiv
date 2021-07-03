@@ -5,7 +5,7 @@ import { isServer } from "src/utils/isServer";
 
 NProgress.configure({ showSpinner: false });
 
-let timer: number;
+let timer: NodeJS.Timer;
 let state: string;
 let activeRequests = 0;
 const delay = 250;

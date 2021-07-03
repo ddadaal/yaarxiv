@@ -14,6 +14,7 @@ import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { AdminUsersTable } from "src/pageComponents/admin/users/AdminUsersTable";
 import { api } from "src/apis";
 import { UserId } from "yaarxiv-api/api/auth/models";
+import { UserRole } from "src/models/User";
 
 const root = lang.pages.admin.users;
 
@@ -26,7 +27,7 @@ const deleteUser = async (userId: UserId) => {
 
 
 
-export const AdminUsersPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
+export const AdminUsersPage: React.FC = requireAuth({ roles: [UserRole.Admin]})(() => {
 
   const router = useRouter();
 

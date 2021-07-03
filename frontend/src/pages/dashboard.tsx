@@ -5,6 +5,7 @@ import { lang } from "src/i18n";
 import { ArticleTable } from "src/pageComponents/Dashboard/ArticleTable";
 import { requireAuth } from "src/utils/requireAuth";
 import { UserProfile } from "src/pageComponents/Dashboard/UserProfile";
+import { UserRole } from "src/models/User";
 
 const root = lang.pages.dashboard;
 
@@ -23,7 +24,7 @@ const DashboardSection: React.FC<{ titleId: string }> = ({
 };
 
 
-const DashboardPage = requireAuth({ roles: ["user"]})(({ userStore }) => {
+const DashboardPage = requireAuth({ roles: [UserRole.User]})(({ userStore }) => {
 
   return (
     <Box gap="xlarge">

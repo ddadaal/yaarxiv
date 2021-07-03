@@ -6,7 +6,7 @@ import { Forbidden } from "src/components/errors/Forbidden";
 import { NotAuthorized } from "src/components/errors/NotAuthorized";
 
 
-interface Props {
+export interface AuthOptions {
   roles?: UserRole[];
 }
 
@@ -14,7 +14,7 @@ export interface RequireAuthProps {
   userStore: ReturnType<typeof UserStore>;
 }
 
-export const requireAuth = (props: Props) =>
+export const requireAuth = (props: AuthOptions) =>
   <CP extends {}>(Component: React.ComponentType<RequireAuthProps & CP>) => (cp) => {
     const userStore = useStore(UserStore);
 

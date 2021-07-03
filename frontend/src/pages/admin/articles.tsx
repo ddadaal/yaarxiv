@@ -13,6 +13,7 @@ import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { AdminArticleTable } from "src/pageComponents/admin/articles/AdminArticlesTable";
 import { api } from "src/apis";
 import { ArticleId } from "../../../../api/api/article/models";
+import { UserRole } from "src/models/User";
 
 const root = lang.pages.admin.articles;
 
@@ -31,7 +32,7 @@ const changeArticleAdminSetPublicity =
    }).then((x) => x.publicity);
  };
 
-export const AdminArticlesPage: React.FC = requireAuth({ roles: ["admin"]})(() => {
+export const AdminArticlesPage: React.FC = requireAuth({ roles: [UserRole.Admin]})(() => {
 
   const router = useRouter();
 
