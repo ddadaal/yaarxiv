@@ -1,6 +1,6 @@
 import {
   Entity, Property, OneToMany, ManyToOne,
-  PrimaryKey, Cascade, OneToOne, IdentifiedReference, Collection } from "@mikro-orm/core";
+  PrimaryKey, OneToOne, IdentifiedReference, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 
@@ -10,7 +10,7 @@ export class Article {
   @PrimaryKey()
   id: number;
 
-  @OneToMany(() => ArticleRevision, (r) => r.article, { cascade: [Cascade.ALL]})
+  @OneToMany(() => ArticleRevision, (r) => r.article)
   revisions = new Collection<ArticleRevision>(this);
 
   @Property()
@@ -20,8 +20,7 @@ export class Article {
   lastUpdateTime: Date;
 
   @OneToOne(() => ArticleRevision, (r) => r.latestRevisionOf, {
-    nullable: false,
-    owner: true, cascade: [Cascade.ALL], wrappedReference: true })
+    owner: true, wrappedReference: true })
   latestRevision: IdentifiedReference<ArticleRevision>;
 
   @Property()
@@ -30,6 +29,6 @@ export class Article {
   @Property()
   adminSetPublicity: boolean = true;
 
-  @ManyToOne(() => User, { nullable: false, cascade: [Cascade.ALL], wrappedReference: true })
+  @ManyToOne(() => User, { wrappedReference: true })
   owner: IdentifiedReference<User>;
 }

@@ -7,7 +7,7 @@ export class ResetPasswordToken {
   @PrimaryKey()
   id: string;
 
-  @OneToOne(() => User, (u) => u.resetPasswordToken, { owner: true, wrappedReference: true })
+  @OneToOne(() => User, (u) => u.resetPasswordToken, { owner: true, wrappedReference: true, onDelete: "CASCADE" })
   user: IdentifiedReference<User>;
 
   @Property()

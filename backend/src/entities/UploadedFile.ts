@@ -1,5 +1,5 @@
 import { Entity, Property, OneToMany,
-  ManyToOne, PrimaryKey, Cascade, IdentifiedReference, Collection } from "@mikro-orm/core";
+  ManyToOne, PrimaryKey, IdentifiedReference, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
 import urlJoin from "url-join";
@@ -10,13 +10,13 @@ export class UploadedFile {
   @PrimaryKey()
   id: number;
 
-  @ManyToOne(() => User, { nullable: false, cascade: [Cascade.ALL], wrappedReference: true })
+  @ManyToOne(() => User, { nullable: false, onDelete: "CASCADE", wrappedReference: true })
   user: IdentifiedReference<User>;
 
   @Property()
   filePath: string;
 
-  @OneToMany(() => ArticleRevision, (r) => r.pdf, { cascade: [Cascade.ALL]})
+  @OneToMany(() => ArticleRevision, (r) => r.pdf)
   articleRevisions = new Collection<ArticleRevision>(this);
 
   getPdfUrl(): string {

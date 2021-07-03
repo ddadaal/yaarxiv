@@ -1,6 +1,6 @@
 import {
   Property, ManyToOne, PrimaryKey,
-  Entity, ArrayType, IdentifiedReference, OneToOne, Cascade, JsonType } from "@mikro-orm/core";
+  Entity, ArrayType, IdentifiedReference, OneToOne, JsonType } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/api/article/models";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
@@ -31,13 +31,13 @@ export class ArticleRevision {
   @Property()
   category: string;
 
-  @ManyToOne(() => UploadedFile, { nullable: false, wrappedReference: true, cascade: [Cascade.ALL]})
+  @ManyToOne(() => UploadedFile, { nullable: false, wrappedReference: true })
   pdf: IdentifiedReference<UploadedFile>;
 
-  @ManyToOne(() => Article, { nullable: false, wrappedReference: true, cascade: [Cascade.ALL]})
+  @ManyToOne(() => Article, { nullable: false, wrappedReference: true, onDelete: "CASCADE" })
   article: IdentifiedReference<Article>;
 
-  @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true, wrappedReference: true, cascade: [Cascade.ALL]})
+  @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true, wrappedReference: true, onDelete: "CASCADE" })
   latestRevisionOf?: IdentifiedReference<Article>;
 
   @Property({ nullable: true })
