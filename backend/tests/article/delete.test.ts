@@ -6,6 +6,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { deleteArticleRoute } from "@/routes/article/delete";
+import { User } from "@/entities/User";
 
 let server: FastifyInstance;
 
@@ -36,6 +37,9 @@ it("delete the article and all revisions as admin", async () => {
   const em = server.orm.em.fork();
   expect(await em.getRepository(Article).count()).toBe(1);
   expect(await em.getRepository(ArticleRevision).count()).toBe(1);
+
+  // Should not delete the user
+  expect(await em.findOne(User, { id: article.owner.id })).not.toBeNull();
 });
 
 it("delete the article and all revisions as owner", async () => {
@@ -49,6 +53,9 @@ it("delete the article and all revisions as owner", async () => {
   const em = server.orm.em.fork();
   expect(await em.getRepository(Article).count()).toBe(1);
   expect(await em.getRepository(ArticleRevision).count()).toBe(2);
+
+  // Should not delete the user
+  expect(await em.findOne(User, { id: article.owner.id })).not.toBeNull();
 });
 
 it("cannot delete the article and all revisions as neither owner nor admin",  async () => {

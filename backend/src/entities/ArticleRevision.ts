@@ -31,8 +31,8 @@ export class ArticleRevision {
   @Property()
   category: string;
 
-  @ManyToOne(() => UploadedFile)
-  pdf: UploadedFile;
+  @ManyToOne(() => UploadedFile, { nullable: false, wrappedReference: true, cascade: [Cascade.ALL]})
+  pdf: IdentifiedReference<UploadedFile>;
 
   @ManyToOne(() => Article, { nullable: false, wrappedReference: true, cascade: [Cascade.ALL]})
   article: IdentifiedReference<Article>;

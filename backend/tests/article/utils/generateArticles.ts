@@ -24,8 +24,9 @@ const genRevision = (article: Article, revisionId: number, pdf: UploadedFile) =>
   rev.authors = authors[revisionId % 2];
   rev.abstract = rev.title + " Abstract";
   rev.time = articleTime;
-  rev.pdf = pdf;
+  rev.pdf = Reference.create(pdf);
   rev.category = rev.title + "Category";
+  rev.article = Reference.create(article);
   rev.keywords = [commonKeyword, article.id+""];
   return rev;
 };
@@ -36,7 +37,7 @@ export const generateArticle = (id: number, users: MockUsers) => {
   article.createTime = new Date(articleTime);
   article.createTime.setFullYear(2000 + id);
   article.lastUpdateTime = articleTime;
-  article.owner = Reference.create(id % 2 == 1 ? users.normalUser1 : users.normalUser2);
+  article.owner = Reference.create(id % 2 === 1 ? users.normalUser1 : users.normalUser2);
   article.revisions.add(...range(1, id+1).map((i) => genRevision(article, i, generatePdf(article.owner))));
   article.latestRevision = Reference.create(article.revisions[article.revisions.length-1]);
   return article;

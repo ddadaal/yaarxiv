@@ -20,6 +20,7 @@ export class Article {
   lastUpdateTime: Date;
 
   @OneToOne(() => ArticleRevision, (r) => r.latestRevisionOf, {
+    nullable: false,
     owner: true, cascade: [Cascade.ALL], wrappedReference: true })
   latestRevision: IdentifiedReference<ArticleRevision>;
 
@@ -29,6 +30,6 @@ export class Article {
   @Property()
   adminSetPublicity: boolean = true;
 
-  @ManyToOne(() => User, { cascade: [Cascade.ALL], wrappedReference: true })
+  @ManyToOne(() => User, { nullable: false, cascade: [Cascade.ALL], wrappedReference: true })
   owner: IdentifiedReference<User>;
 }

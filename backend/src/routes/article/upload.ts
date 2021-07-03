@@ -29,7 +29,7 @@ export const uploadArticleRoute = route(
     rev.authors = req.body.authors.map((x) => ({ name: x }));
     rev.category = "";
     rev.keywords = req.body.keywords;
-    rev.pdf = pdf;
+    rev.pdf = Reference.create(pdf);
     rev.revisionNumber = 1;
     rev.title = req.body.title;
     rev.time = createTime;
