@@ -4,7 +4,8 @@
   "private": true,
   "sideEffects": false,
   "scripts": {
-    "dev": "next dev --port=5000",
+    "dev": "cross-env NEXT_PUBLIC_USE_MOCK=1 next dev",
+    "devapi": "cross-env NEXT_PUBLIC_USE_MOCK=0 next dev",
     "build": "next build",
     "start": "next start"
   },
@@ -41,6 +42,7 @@
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
     "babel-plugin-styled-components": "^1.13.1",
+    "cross-env": "^7.0.3",
     "eslint": "^7.29.0",
     "eslint-plugin-react": "^7.24.0",
     "imagemin-svgo": "^9.0.0",
