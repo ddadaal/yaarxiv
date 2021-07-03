@@ -31,6 +31,10 @@ export default {
           title: "Not Authorized",
           description: "Login is required to access this page. Please login and retry.",
         },
+        badRequest: {
+          title: "Bad Request",
+          description: "Your request is invalid. Please check your URL.",
+        },
         forbidden: {
           title: "Forbiddden",
           description: "You can't access this page. Please login as required user and retry.",

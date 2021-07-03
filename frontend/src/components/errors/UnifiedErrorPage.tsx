@@ -1,6 +1,7 @@
 import React from "react";
 import { HttpError } from "src/apis/fetch";
 import { useInvalidTokenHandler } from "src/utils/useHttpErrorHandler";
+import { BadRequest } from "./BadRequest";
 import { Forbidden } from "./Forbidden";
 import { NotAuthorized } from "./NotAuthorized";
 import { NotFound } from "./NotFound";
@@ -19,6 +20,8 @@ export const UnifiedErrorPage: React.FC<Props> = ({
   const invalidTokenHandler = useInvalidTokenHandler();
 
   switch (error.status) {
+  case 400:
+    return customComponents[400] ?? <BadRequest />;
   case 401:
     invalidTokenHandler();
     return customComponents[401] ?? <NotAuthorized />;

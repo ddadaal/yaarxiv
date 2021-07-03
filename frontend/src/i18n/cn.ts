@@ -27,6 +27,10 @@ export default {
           title: "请登录",
           description: "访问此页面需要登录，请先登录后再重试。",
         },
+        badRequest: {
+          title: "请求无效",
+          description: "您的请求无效，请检查URL是否正确",
+        },
         forbidden: {
           title: "无权限",
           description: "您没有权限访问本页面。请以要求的权限的用户登录后再尝试。",
