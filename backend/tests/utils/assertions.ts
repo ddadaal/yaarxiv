@@ -1,7 +1,7 @@
 import { CallRouteResponse } from "@/utils/callRoute";
 import { GeneralSchema } from "yaarxiv-api/api/utils/schema";
 
-type CommonErrorCode = 400 | 401 | 403 | 413;
+type CommonErrorCode = 400 | 401 | 403;
 
 export function expectCode<
   TSchema extends GeneralSchema,

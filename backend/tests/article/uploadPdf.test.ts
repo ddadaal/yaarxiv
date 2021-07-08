@@ -54,5 +54,5 @@ it("fails if the file size is too big.", async () => {
     body: formData as any,
   }, users.normalUser1, formData.getHeaders());
 
-  expectCode(resp, 413);
+  expect(resp.statusCode).toBe(413);
 });
