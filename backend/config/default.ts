@@ -17,7 +17,7 @@ export default {
   },
   "upload": {
     "path": "upload",
-    "maxFileSize": 5242880,
+    "maxFileSize": 30*1024*1024,
   },
   "staticPrefix": "static",
   "bcryptSaltLength": 10,
