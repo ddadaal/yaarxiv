@@ -65,9 +65,9 @@ it("update an article.", async () => {
     body: payload,
   }, users.normalUser2);
 
-  expectCode(resp, 201);
+  const json = expectCode(resp, 201);
 
-  expect(resp.json<201>().revisionNumber).toBe(3);
+  expect(json.revisionNumber).toBe(3);
 
   // cannot reorder the following 2 statements
   // nor cannot use reloadEntities

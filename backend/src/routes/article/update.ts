@@ -43,6 +43,10 @@ export const updateArticleRoute = route(
     const time = new Date();
 
     const latestRev = article.latestRevision.getEntity();
+
+    latestRev.latestRevisionOf = undefined;
+    await req.em.flush();
+
     const revNumber = latestRev.revisionNumber + 1;
 
     const rev = new ArticleRevision();
@@ -57,8 +61,10 @@ export const updateArticleRoute = route(
     rev.time = time;
     rev.codeLink = req.body.codeLink ?? latestRev.codeLink;
 
-    // IdentifiedReference cannot be set to LoadedReference
-    article.latestRevision = Reference.create(rev) as any;
+    req.em.persist(rev);
+
+
+    rev.latestRevisionOf = rev.article;
 
     await req.em.flush();
 
