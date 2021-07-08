@@ -8,6 +8,7 @@ import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { adminDeleteUserRoute } from "@/routes/admin/deleteUser";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 2;
 
@@ -15,13 +16,12 @@ const articleCount = 2;
 let server: FastifyInstance;
 
 let users: MockUsers;
-let articles: Article[];
 
 beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  articles = await createMockArticles(server, articleCount, users);
+  await createMockArticles(server, articleCount, users);
 });
 
 
@@ -36,7 +36,7 @@ it("return 401 if not login.", async () => {
     path: { userId: 1 },
   });
 
-  expect(resp.statusCode).toBe(401);
+  expectCode(resp, 401);
 });
 
 it("return 403 if not admin", async () => {
@@ -44,7 +44,7 @@ it("return 403 if not admin", async () => {
     path: { userId: 1 },
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(403);
+  expectCode(resp, 403);
 });
 
 async function countEntities(entity: any) {
@@ -57,7 +57,7 @@ it("delete user and all related articles", async () => {
     path: { userId: users.normalUser1.id },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(204);
+  expectCode(resp, 204);
 
   expect(await countEntities(User)).toBe(2);
   expect(await countEntities(Article)).toBe(1);
@@ -71,6 +71,6 @@ it("return 404 if user does not exist", async () => {
     path: { userId: users.normalUser1.id + 123 },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(404);
+  expectCode(resp, 404);
 
 });

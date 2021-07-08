@@ -7,6 +7,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadPdfRoute } from "@/routes/article/uploadPdf";
+import { expectCode } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -33,7 +34,7 @@ it("upload an PDF to the system.", async () => {
     body: formData as any,
   }, users.normalUser1, formData.getHeaders());
 
-  expect(resp.statusCode).toBe(201);
+  expectCode(resp, 201);
 
   const em = server.orm.em.fork();
   expect(await em.count(UploadedFile)).toBe(1);
@@ -53,5 +54,5 @@ it("fails if the file size is too big.", async () => {
     body: formData as any,
   }, users.normalUser1, formData.getHeaders());
 
-  expect(resp.statusCode).toBe(413);
+  expectCode(resp, 413);
 });

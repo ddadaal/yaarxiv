@@ -2,24 +2,23 @@ import { FastifyInstance } from "fastify/types/instance";
 import * as api from "yaarxiv-api/api/admin/getUsers";
 import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createMockUsers, MockUsers } from "tests/utils/data";
-import { Article } from "@/entities/Article";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { adminGetUsersRoute } from "@/routes/admin/getUsers";
 import { User } from "@/entities/User";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 3;
 
 let server: FastifyInstance;
 
 let users: MockUsers;
-let articles: Article[];
 
 beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  articles = await createMockArticles(server, articleCount, users);
+  await createMockArticles(server, articleCount, users);
 });
 
 
@@ -40,7 +39,7 @@ function toInfo(user: User, articleCount: number) {
 it("should return all users", async () => {
   const resp = await callRoute(server, adminGetUsersRoute, { query: {} }, users.adminUser);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(3);
@@ -60,7 +59,7 @@ it("should filter users by name", async () => {
     query: { searchWord: users.normalUser1.name.substr(1, users.normalUser1.name.length - 2) },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(2);
@@ -76,7 +75,7 @@ it("should filter users by incomplete email", async () => {
     query: { searchWord: users.normalUser1.email.substr(1, users.normalUser1.email.length - 2) },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(1);
@@ -89,13 +88,13 @@ it("should filter users by incomplete email", async () => {
 it("return 401 if not login.", async () => {
   const resp = await callRoute(server, adminGetUsersRoute, { query: {} });
 
-  expect(resp.statusCode).toBe(401);
+  expectCode(resp, 401);
 
 });
 
 it("return 403 if not admin", async () => {
   const resp = await callRoute(server, adminGetUsersRoute, { query: {} }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(403);
+  expectCode(resp, 403);
 });
 

@@ -6,7 +6,7 @@ import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { resetPasswordRoute } from "@/routes/auth/resetPassword";
 import { createTestServer } from "tests/utils/createTestServer";
-import { User } from "@/entities/User";
+import { expectCode } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -53,7 +53,7 @@ it("returns 403 if token is timeout", async () => {
     body: { token: token2.id, newPassword: "123" },
   });
 
-  expect(resp.statusCode).toBe(403);
+  expectCode(resp, 403);
   await expectTokenDeleted(token2);
 });
 
@@ -65,7 +65,7 @@ it("changes user's password if token is valid", async () => {
     body: { token: token1.id, newPassword },
   });
 
-  expect(resp.statusCode).toBe(201);
+  expectCode(resp, 201);
   await expectTokenDeleted(token1);
 
   await reloadEntity(users.normalUser1);

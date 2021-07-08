@@ -4,22 +4,21 @@ import * as api from "yaarxiv-api/api/dashboard/getArticles";
 import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
-import { Article } from "@/entities/Article";
 import { callRoute } from "@/utils/callRoute";
 import { dashboardGetArticlesRoute } from "@/routes/dashboard/getArticles";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 24;
 
 let server: FastifyInstance;
 
 let users: MockUsers;
-let articles: Article[];
 
 beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  articles = await createMockArticles(server, articleCount, users);
+  await createMockArticles(server, articleCount, users);
 });
 
 afterEach(async () => {
@@ -29,13 +28,13 @@ afterEach(async () => {
 it("return 401 if not logged in.", async () => {
   const resp = await server.inject({ ...api.endpoint });
 
-  expect(resp.statusCode).toBe(401);
+  expectCode(resp, 401);
 });
 
 it("return the first page of articles whose owner is the logged in user.", async () => {
   const resp = await callRoute(server, dashboardGetArticlesRoute, { query: { } }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   const payload = resp.json<200>();
   expect(payload.articles).toHaveLength(10);
 
@@ -48,7 +47,7 @@ it("return the second page of articles with query.", async () => {
     query: { page: 2 },
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   const payload = resp.json<200>();
 
   expect(payload.articles).toHaveLength(2);
@@ -60,7 +59,7 @@ it("return empty if a user has no article", async () => {
     query: {},
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   const payload = resp.json<200>();
 
   expect(payload.articles).toHaveLength(0);

@@ -39,5 +39,5 @@ it("should not login when the password is wrong", async () => {
     query: { id: user.id + "", password: normalUser1OriginalPassword + "bad" },
   });
 
-  expect(resp.statusCode).toBe(401);
+  expectCode(resp, 401);
 });

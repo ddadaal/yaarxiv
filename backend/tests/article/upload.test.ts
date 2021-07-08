@@ -7,18 +7,18 @@ import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { uploadArticleRoute } from "@/routes/article/upload";
 import { createMockArticles, generatePdf } from "./utils/generateArticles";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 12;
 
 let server: FastifyInstance;
 let users: MockUsers;
-let articles: Article[];
 
 beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  articles = await createMockArticles(server, articleCount, users);
+  await createMockArticles(server, articleCount, users);
 });
 
 afterEach(async () => {
@@ -50,7 +50,7 @@ it("upload an article.", async () => {
     body: payload,
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(201);
+  expectCode(resp, 201);
 
   const em = server.orm.em.fork();
 
@@ -79,7 +79,7 @@ it("fails if pdf token is invalid.", async () => {
     body: payload,
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(400);
+  expectCode(resp, 400);
 });
 
 it("fails if the title is too long", async () => {
@@ -97,7 +97,7 @@ it("fails if the title is too long", async () => {
     body: payload,
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(400);
+  expectCode(resp, 400);
 });
 
 it("fails if code link is bad", async () => {
@@ -117,5 +117,5 @@ it("fails if code link is bad", async () => {
     body: payload,
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(400);
+  expectCode(resp, 400);
 });

@@ -30,7 +30,7 @@ it("should return 404 if article doesn't exist", async () => {
     query: {},
   });
 
-  expect(resp.statusCode).toBe(404);
+  expectCode(resp, 404);
   expect(resp.json<404>().notFound).toBe("article");
 });
 
@@ -87,7 +87,7 @@ it("should return 404 for admin set private articles", async () => {
     query: {},
   });
 
-  expect(resp.statusCode).toBe(404);
+  expectCode(resp, 404);
   expect(resp.json<404>().notFound).toBe("article");
 
 });
@@ -100,7 +100,7 @@ it("should return 404 for owner set private articles", async () => {
     query: {},
   });
 
-  expect(resp.statusCode).toBe(404);
+  expectCode(resp, 404);
   expect(resp.json<404>().notFound).toBe("article");
 
 });
@@ -113,7 +113,7 @@ it("return the private article if the logged in user is the owner", async () => 
     query: {},
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
 });
 
 it("return the private article if the logged in user is admin", async () => {
@@ -124,5 +124,5 @@ it("return the private article if the logged in user is admin", async () => {
     query: {},
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
 });

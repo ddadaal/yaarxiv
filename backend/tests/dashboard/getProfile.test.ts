@@ -4,6 +4,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { getProfileRoute } from "@/routes/dashboard/getProfile";
 import { createMockUsers, MockUsers, reloadUsers } from "tests/utils/data";
+import { expectCode } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 
@@ -24,14 +25,14 @@ it("return 401 if not logged in.", async () => {
 
   await reloadUsers(users);
 
-  expect(resp.statusCode).toBe(401);
+  expectCode(resp, 401);
 });
 
 it("return user profile", async () => {
   const resp = await callRoute(server, getProfileRoute, {
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   const data = resp.json<200>();
   expect(data.name).toBe(users.normalUser1.name);
   expect(data.userId).toBe(users.normalUser1.id);

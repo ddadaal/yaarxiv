@@ -2,9 +2,10 @@ import { FastifyInstance } from "fastify/types/instance";
 import { Article } from "../../src/entities/Article";
 import * as api from "yaarxiv-api/api/article/update";
 import { createMockArticles } from "tests/article/utils/generateArticles";
-import { createMockUsers, MockUsers, reloadEntities, reloadEntity } from "tests/utils/data";
+import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute"; import { updateArticleRoute } from "@/routes/article/update";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 2;
 
@@ -41,7 +42,7 @@ it("should reject bad code link", async () => {
     body: badPayload,
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(400);
+  expectCode(resp, 400);
 });
 
 it("return 403 if not the owner.", async () => {
@@ -51,7 +52,7 @@ it("return 403 if not the owner.", async () => {
     body: payload,
   }, users.normalUser2);
 
-  expect(resp.statusCode).toBe(403);
+  expectCode(resp, 403);
 
 });
 it("update an article.", async () => {
@@ -64,7 +65,7 @@ it("update an article.", async () => {
     body: payload,
   }, users.normalUser2);
 
-  expect(resp.statusCode).toBe(201);
+  expectCode(resp, 201);
 
   expect(resp.json<201>().revisionNumber).toBe(3);
 

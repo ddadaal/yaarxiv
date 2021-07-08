@@ -5,6 +5,7 @@ import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { changeArticleAdminSetPublicityRoute } from "@/routes/admin/changeArticlePublicity";
 import { createMockArticles } from "tests/article/utils/generateArticles";
+import { expectCode } from "tests/utils/assertions";
 
 const articleCount = 3;
 
@@ -36,7 +37,7 @@ it("change the admin set publicity of an article", async () => {
     body: { publicity: false },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
 
   expect(resp.json<200>().publicity).toBe(false);
 
@@ -56,7 +57,7 @@ it("return 403 if the logged in user is not admin", async () => {
     body: { publicity: false },
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(403);
+  expectCode(resp, 403);
 });
 
 it("return 404 if article does not exist", async () => {
@@ -66,5 +67,5 @@ it("return 404 if article does not exist", async () => {
     body: { publicity: false },
   }, users.adminUser);
 
-  expect(resp.statusCode).toBe(404);
+  expectCode(resp, 404);
 });
