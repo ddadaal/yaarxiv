@@ -20,7 +20,7 @@ export class Article {
   lastUpdateTime: Date;
 
   @OneToOne(() => ArticleRevision, (r) => r.latestRevisionOf, {
-    owner: true, wrappedReference: true })
+    wrappedReference: true })
   latestRevision: IdentifiedReference<ArticleRevision>;
 
   @Property()

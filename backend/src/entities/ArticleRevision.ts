@@ -37,7 +37,8 @@ export class ArticleRevision {
   @ManyToOne(() => Article, { nullable: false, wrappedReference: true, onDelete: "CASCADE" })
   article: IdentifiedReference<Article>;
 
-  @OneToOne(() => Article, (a) => a.latestRevision, { nullable: true, wrappedReference: true, onDelete: "CASCADE" })
+  @OneToOne(() => Article, (a) => a.latestRevision, {
+    nullable: true, owner: true, wrappedReference: true, onDelete: "CASCADE" })
   latestRevisionOf?: IdentifiedReference<Article>;
 
   @Property({ nullable: true })
