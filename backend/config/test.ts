@@ -14,7 +14,7 @@ export default {
     "dropSchema": true,
   },
   "logger": {
-    "level": "info",
+    "level": "error",
     "prettyPrint": true,
   },
   "upload": {
