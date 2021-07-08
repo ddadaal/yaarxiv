@@ -29,6 +29,6 @@ export class Article {
   @Property()
   adminSetPublicity: boolean = true;
 
-  @ManyToOne(() => User, { wrappedReference: true })
+  @ManyToOne(() => User, { wrappedReference: true, onDelete: "CASCADE" })
   owner: IdentifiedReference<User>;
 }
