@@ -1,14 +1,13 @@
 import { Box, Heading, Paragraph } from "grommet";
 import { useRouter } from "next/router";
 import React from "react";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized, prefix } from "src/i18n";
 import { queryToString } from "src/utils/querystring";
 import { Checkmark } from "grommet-icons";
 import { requireAuth } from "src/utils/requireAuth";
 import { UserRole } from "src/models/User";
 
-const root = lang.pages.upload.complete;
+const root = prefix("pages.upload.complete.");
 
 export const UploadCompletePage = requireAuth({ roles: [UserRole.User]})(() => {
   const router = useRouter();
@@ -19,13 +18,13 @@ export const UploadCompletePage = requireAuth({ roles: [UserRole.User]})(() => {
     <Box justify="center" align="center">
       <Heading level={1} size="small">
         <Checkmark color="status-ok" />
-        <LocalizedString id={root.title} />
+        <Localized id={root("title")} />
       </Heading>
 
       <Paragraph fill>
-        <LocalizedString
-          id={root.description}
-          replacements={[articleId]}
+        <Localized
+          id={root("description")}
+          args={[articleId]}
         />
       </Paragraph>
     </Box>

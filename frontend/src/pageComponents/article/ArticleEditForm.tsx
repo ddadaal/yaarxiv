@@ -3,11 +3,10 @@ import {
   Heading, Paragraph, TextArea,
 } from "grommet";
 import React, { useState } from "react";
-import { LocalizedString } from "simstate-i18n";
+import { Localized, prefix } from "src/i18n";
 import { FileUploader } from "src/components/FileUploader";
 import { Form } from "src/components/form/Form";
 import { TagInput } from "src/components/TagInput";
-import { lang } from "src/i18n";
 import {
   codeLinkValidation,
   ACCEPTABLE_CODE_SITES,
@@ -16,7 +15,7 @@ import {
 import { config } from "src/utils/config";
 import { getServerStaticFileUrl } from "src/utils/staticFiles";
 
-const root = lang.pages.upload;
+const root = prefix("pages.upload.");
 
 export interface ArticleForm {
   title: string;
@@ -57,24 +56,24 @@ export const ArticleEditForm: React.FC<Props> = ({
     <Box gap="large">
       <Box>
         <Heading level="2" size="small" margin="none">
-          <LocalizedString id={root.pdf.title}/>
+          <Localized id={root("pdf.title")}/>
         </Heading>
         <Paragraph fill>
-          <LocalizedString
-            id={root.pdf.description}
-            replacements={[pdfSizeLimit / 1024 / 1024]}
+          <Localized
+            id={root("pdf.description")}
+            args={[pdfSizeLimit / 1024 / 1024]}
           />
         </Paragraph>
         { existingFileUrl
           ? (
             <Paragraph>
-              <LocalizedString id={root.pdf.existing} replacements={[
+              <Localized id={root("pdf.existing")} args={[
                 <Anchor
                   key="here"
                   href={getServerStaticFileUrl(existingFileUrl)}
                   download
                 >
-                  <LocalizedString id={root.pdf.here} />
+                  <Localized id={root("pdf.here")} />
                 </Anchor>,
               ]}
               />
@@ -90,7 +89,7 @@ export const ArticleEditForm: React.FC<Props> = ({
       </Box>
       <Box>
         <Heading level="2" size="small" margin="none">
-          <LocalizedString id={root.info.title} />
+          <Localized id={root("info.title")} />
         </Heading>
         <Box margin={{ vertical: "small" }}>
           <Form
@@ -109,7 +108,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             validate="blur"
           >
             <FormField
-              label={<LocalizedString id={root.info.articleTitle} replacements={[100]} />}
+              label={<Localized id={root("info.articleTitle")} args={[100]} />}
               name="title"
               value={info.title}
               disabled={disabled}
@@ -119,7 +118,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             />
 
             <FormField
-              label={<LocalizedString id={root.info.authors} replacements={[50]} />}
+              label={<Localized id={root("info.authors")} args={[50]} />}
               name="authors"
               required
             >
@@ -136,7 +135,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               />
             </FormField>
             <FormField
-              label={<LocalizedString id={root.info.keywords} replacements={[50]} />}
+              label={<Localized id={root("info.keywords")} args={[50]} />}
               name="keywords"
               required
             >
@@ -154,7 +153,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               />
             </FormField>
             <FormField
-              label={<LocalizedString id={root.info.abstract} replacements={[2000]} />}
+              label={<Localized id={root("info.abstract")} args={[2000]} />}
               name="abstract"
               required
             >
@@ -169,9 +168,9 @@ export const ArticleEditForm: React.FC<Props> = ({
             </FormField>
             <FormField
               label={
-                <LocalizedString
-                  id={root.info.codeLink}
-                  replacements={[Object.values(ACCEPTABLE_CODE_SITES).join(", ")]}
+                <Localized
+                  id={root("info.codeLink")}
+                  args={[Object.values(ACCEPTABLE_CODE_SITES).join(", ")]}
                 />
               }
               validate={(value) => !value || codeLinkValidation(value)}
@@ -184,12 +183,12 @@ export const ArticleEditForm: React.FC<Props> = ({
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
               <Button
                 type="reset"
-                label={<LocalizedString id={root.info.reset} />}
+                label={<Localized id={root("info.reset")} />}
                 disabled={disabled}
               />
               <Button
                 type="submit"
-                label={<LocalizedString id={root.info.upload} />}
+                label={<Localized id={root("info.upload")} />}
                 primary
                 disabled={!submittable || disabled}
               />

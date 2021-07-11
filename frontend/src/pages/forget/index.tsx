@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Box, Heading, FormField, TextInput, Button } from "grommet";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized, prefix } from "src/i18n";
 
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import Router, { useRouter } from "next/router";
@@ -11,7 +10,7 @@ import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
 
-const root = lang.forgetPassword;
+const root = prefix("forgetPassword.");
 
 const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
   const [value, setValue] = useState({ email });
@@ -26,7 +25,7 @@ const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
     } catch (e) {
       if (e.status === 404) {
         toast.error(
-          <LocalizedString id={root.accountNotExist} />
+          <Localized id={root("accountNotExist")} />
         );
       } else {
         throw e;
@@ -37,7 +36,7 @@ const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
   return (
     <Form value={value} onChange={setValue} onSubmit={login} validate="blur">
       <FormField
-        label={<LocalizedString id={root.email} />}
+        label={<Localized id={root("email")} />}
         name="email" required={true}
         disabled={inProgress}
         validate={emailValidation}
@@ -48,7 +47,7 @@ const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
       <Box>
         <Button
           type="submit"
-          label={<LocalizedString id={root.sendRecoveryMail} />}
+          label={<Localized id={root("sendRecoveryMail")} />}
           primary={true}
           disabled={inProgress}
         />
@@ -66,7 +65,7 @@ export const ForgetPasswordPage: React.FC = () => {
     <Box align="center" justify="center" pad="medium" flex="grow">
       <Box width="medium" border="all" pad="medium" elevation="small">
         <Heading alignSelf="center" level="2" margin="none">
-          <LocalizedString id={root.title} />
+          <Localized id={root("title")} />
         </Heading>
         <ForgetForm email={email}  />
       </Box>

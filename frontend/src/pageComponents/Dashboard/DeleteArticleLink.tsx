@@ -2,14 +2,13 @@ import { Button } from "grommet";
 import { Trash } from "grommet-icons";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { LocalizedString } from "simstate-i18n";
+import { Localized, prefix } from "src/i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
-import { lang } from "src/i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { ArticleId } from "yaarxiv-api/api/article/models";
 
-const root = lang.pages.dashboard.articles;
+const root = prefix("pages.dashboard.articles.");
 
 export const DeleteArticleLink: React.FC<{
   articleId: ArticleId;
@@ -25,7 +24,7 @@ export const DeleteArticleLink: React.FC<{
       await deleteArticle(articleId);
       setOpen(false);
       toast.success(
-        <LocalizedString id={root.delete.success} replacements={[articleId]} />
+        <Localized id={root("delete.success")} args={[articleId]} />
       );
       reload();
     });
@@ -35,25 +34,25 @@ export const DeleteArticleLink: React.FC<{
     <>
       <AnchorLink
         icon={<Trash />}
-        label={<LocalizedString id={root.delete.button} />}
+        label={<Localized id={root("delete.button")} />}
         onClick={() => setOpen(true)}
       />
       <Modal
         open={open}
-        title={<LocalizedString id={root.delete.title} />}
-        content={<LocalizedString id={root.delete.content} replacements={[articleId]}/>}
+        title={<Localized id={root("delete.title")} />}
+        content={<Localized id={root("delete.content")} args={[articleId]}/>}
         footer={[
           <Button
             key="confirm"
             primary
             disabled={confirming}
-            label={<LocalizedString id={root.delete.confirm} />}
+            label={<Localized id={root("delete.confirm")} />}
             onClick={onDelete}
           />,
           <Button
             key="cancel"
             disabled={confirming}
-            label={<LocalizedString id={root.delete.cancel} />}
+            label={<Localized id={root("delete.cancel")} />}
             onClick={() => setOpen(false)}
           />,
         ]}

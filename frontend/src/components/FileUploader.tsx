@@ -2,11 +2,12 @@
 import { Box, Paragraph, Text, Anchor } from "grommet";
 import React, { useCallback } from "react";
 import { DropzoneOptions, FileRejection, useDropzone } from "react-dropzone";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized } from "src/i18n";
+import { prefix } from "src/i18n";
 import { Clear } from "grommet-icons";
 import { toast } from "react-toastify";
-const root = lang.components.fileUploader;
+
+const root = prefix("components.fileUploader.");
 
 interface Props {
   options?: DropzoneOptions;
@@ -23,7 +24,7 @@ export const FileUploader: React.FC<Props> = ({ options, files, onFileRemoved, o
         toast.error(
           <Text>
             {file.name}: {" "}
-            <LocalizedString id={root[e.code]} />
+            <Localized id={root[e.code]} />
           </Text>
         );
       });
@@ -40,7 +41,7 @@ export const FileUploader: React.FC<Props> = ({ options, files, onFileRemoved, o
     <Box gap="small">
       <Box {...getRootProps()} border={{ style: "dotted" }} align="center">
         <input {...getInputProps()} />
-        <Paragraph><LocalizedString id={root.zoneLabel} /></Paragraph>
+        <Paragraph><Localized id={root("zoneLabel")} /></Paragraph>
       </Box>
       {files.map((val, i) => (
         <Box direction="row" key={i} justify="between">

@@ -1,12 +1,12 @@
 import * as React from "react";
 import { NextPage } from "next";
-import { lang } from "src/i18n";
+import { prefix } from "src/i18n";
 import Router from "next/router";
 
 import { SSRPageProps } from "src/utils/ssr";
 import { Close } from "grommet-icons";
 import { ErrorPage } from "src/components/errors/ErrorPage";
-import { LocalizedString } from "simstate-i18n";
+import { Localized } from "src/i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { HttpError } from "src/apis/fetch";
 import { FormField, Box, Button, Text, Heading } from "grommet";
@@ -21,7 +21,7 @@ type Props = SSRPageProps<{
   valid: boolean;
 }>;
 
-const root = lang.forgetPassword.reset;
+const root = prefix("forgetPassword.reset.");
 
 const initial = {
   changed: "",
@@ -35,7 +35,7 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
   const error =
     form.changed && form.confirmChanged
     && form.changed !== form.confirmChanged
-      ? <LocalizedString id={root.notMatch} />
+      ? <Localized id={root("notMatch")} />
       : undefined;
 
   const [loading, setLoading] = React.useState(false);
@@ -56,8 +56,8 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
         if (e.status === 403) {
           toast.error(
             <Text>
-              <LocalizedString id={root.error.title} />{". "}
-              <LocalizedString id={root.error.description} />
+              <Localized id={root("error.title")} />{". "}
+              <Localized id={root("error.description")} />
             </Text>
           );
         } else {
@@ -75,13 +75,13 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
     >
       <FormField
         name="changed"
-        label={<LocalizedString id={root.password} />}
+        label={<Localized id={root("password")} />}
         type="password"
         required
       />
       <FormField
         name="confirmChanged"
-        label={<LocalizedString id={root.confirm} />}
+        label={<Localized id={root("confirm")} />}
         type="password"
         required
       />
@@ -96,8 +96,8 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
         <Button
           type="submit"
           label={
-            <LocalizedString
-              id={root.confirm}
+            <Localized
+              id={root("confirm")}
             />
           }
           primary={true}
@@ -105,7 +105,7 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
         />
         <Button
           type="reset"
-          label={<LocalizedString id={root.reset} />}
+          label={<Localized id={root("reset")} />}
           disabled={loading}
         />
       </Box>
@@ -121,9 +121,9 @@ export const PasswordResetPage: NextPage<Props> = (props) => {
   if (!props.valid) {
     return (
       <ErrorPage
-        titleId={root.error.title}
+        titleId={root("error.title")}
         Icon={Close}
-        defaultDescriptionId={root.error.description}
+        defaultDescriptionId={root("error.description")}
       />
     );
 
@@ -133,7 +133,7 @@ export const PasswordResetPage: NextPage<Props> = (props) => {
     <Box align="center" justify="center" pad="medium" flex="grow">
       <Box width="medium" border="all" pad="medium" elevation="small">
         <Heading alignSelf="center" level="2" margin="none">
-          <LocalizedString id={root.title} />
+          <Localized id={root("title")} />
         </Heading>
         <ResetPasswordForm token={props.token}  />
       </Box>

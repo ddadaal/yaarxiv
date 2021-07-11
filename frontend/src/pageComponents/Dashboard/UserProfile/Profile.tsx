@@ -1,17 +1,17 @@
 import React, { useState } from "react";
-import { lang } from "src/i18n";
+import { prefix } from "src/i18n";
 
 import { FormField, Box, Button } from "grommet";
 import { useAsync } from "react-async";
 import { OverlayLoading } from "src/components/OverlayLoading";
-import { LocalizedString } from "simstate-i18n";
+import { Localized } from "src/i18n";
 import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
 
-const root = lang.pages.dashboard.profile;
+const root = prefix("pages.dashboard.profile.");
 
 const getProfile = () => api.dashboard.dashboardGetProfile({});
 
@@ -43,7 +43,7 @@ export const Profile: React.FC = () => {
     })
       .then(() => {
         toast.success(
-          <LocalizedString id={root.success} />
+          <Localized id={root("success")} />
         );
         // change user store information
         userStore.login({
@@ -63,20 +63,20 @@ export const Profile: React.FC = () => {
         onReset={() => setForm(data ?? emptyForm)}
       >
         <FormField
-          disabled label={<LocalizedString id={root.id} />}
+          disabled label={<Localized id={root("id")} />}
           value={data?.userId}
         />
-        <FormField name="name" label={<LocalizedString id={root.name} />} />
+        <FormField name="name" label={<Localized id={root("name")} />} />
         <FormField
-          name="email" label={<LocalizedString id={root.email} />}
+          name="email" label={<Localized id={root("email")} />}
           validate={emailValidation}
         />
         <Box direction="row" gap="medium" margin={{ top: "medium" }}>
           <Button
             type="submit"
             label={
-              <LocalizedString
-                id={loading ? root.confirming : root.confirm}
+              <Localized
+                id={loading ? root("confirming") : root("confirm")}
               />
             }
             primary
@@ -84,7 +84,7 @@ export const Profile: React.FC = () => {
           />
           <Button
             type="reset"
-            label={<LocalizedString id={root.reset} />}
+            label={<Localized id={root("reset")} />}
             disabled={loading}
           />
         </Box>

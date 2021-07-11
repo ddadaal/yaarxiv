@@ -2,10 +2,10 @@ import React from "react";
 import type { AppContext, AppProps } from "next/app";
 import App from "next/app";
 import "normalize.css";
-import { createI18nStore, loadLanguage } from "simstate-i18n";
-import { cn, getCookieLanguage, i18nContext, Language } from "src/i18n";
+import { Definitions, getCookieLanguage, languages, Provider } from "src/i18n";
 import { StoreProvider, createStore } from "simstate";
 import { MainLayout } from "src/layouts/MainLayout";
+import { loadDefinitions } from "react-typed-i18n";
 import { getCurrentUserInCookie, User, UserStore } from "src/stores/UserStore";
 import "nprogress/nprogress.css";
 import dynamic from "next/dynamic";
@@ -26,8 +26,10 @@ const themeStore = createStore(ThemeStore);
 
 type Props = AppProps & {
   user: User | null;
-} & {
-  firstLanguage: Language;
+  firstLanguage: {
+    id: string;
+    definitions: Definitions;
+  }
 }
 
 function MyApp({ Component, pageProps, user, firstLanguage }: Props) {
@@ -40,15 +42,15 @@ function MyApp({ Component, pageProps, user, firstLanguage }: Props) {
     return store;
   });
 
-  const i18nStore = useConstant(() => createI18nStore(i18nContext, firstLanguage));
-
   return (
-    <StoreProvider stores={[i18nStore, userStore, themeStore]}>
-      <MainLayout >
-        <TopProgressBar />
-        <Component {...pageProps} />
-      </MainLayout>
-    </StoreProvider>
+    <Provider initialLanguage={firstLanguage}>
+      <StoreProvider stores={[userStore, themeStore]}>
+        <MainLayout >
+          <TopProgressBar />
+          <Component {...pageProps} />
+        </MainLayout>
+      </StoreProvider>
+    </Provider>
   );
 }
 
@@ -62,11 +64,10 @@ MyApp.getInitialProps = async (appContext: AppContext) => {
 
   const langId = getCookieLanguage(appContext.ctx);
 
-  const language = i18nContext.getLanguage(langId);
-  const firstLanguage = language ? await loadLanguage(language) : cn;
+  const definitions = await loadDefinitions(languages[langId] ?? languages["cn"]);
 
   const appProps = await App.getInitialProps(appContext);
-  return { ...appProps, user, firstLanguage };
+  return { ...appProps, user, firstLanguage: { id: langId, definitions } };
 };
 
 export default withDarkMode(MyApp);

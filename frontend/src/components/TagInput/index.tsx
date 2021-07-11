@@ -3,10 +3,10 @@ import React from "react";
 
 import { Box, Keyboard, TextInput, Text } from "grommet";
 import { Tag } from "./Tag";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized } from "src/i18n";
+import { prefix } from "src/i18n";
 
-const root = lang.components.tagInput;
+const root = prefix("components.tagInput.");
 
 interface Props {
   name: string;
@@ -83,8 +83,8 @@ export const TagInput: React.FC<Props> = ({
             maxLength={commaToSplit ? undefined : maxLength}
             placeholder={(
               <Text>
-                <LocalizedString id={root.placeholder} />
-                { commaToSplit ? <LocalizedString id={root.commaToSplit} /> : undefined}
+                <Localized id={root("placeholder")} />
+                { commaToSplit ? <Localized id={root("commaToSplit")} /> : undefined}
               </Text>
             )}
             onSelect={(event) => {

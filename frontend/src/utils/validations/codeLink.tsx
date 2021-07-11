@@ -1,11 +1,11 @@
 import React from "react";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized } from "src/i18n";
+import { prefix } from "src/i18n";
 import { Text } from "grommet";
 import { ACCEPTABLE_CODE_SITES, getCodeLinkInfo } from "yaarxiv-api/api/utils/codeLink";
 export { ACCEPTABLE_CODE_SITES, getCodeLinkInfo };
 
-const root = lang.components.form.validationError;
+const root = prefix("components.form.validationError.");
 
 export const codeLinkValidation = (value: string) => {
 
@@ -15,9 +15,9 @@ export const codeLinkValidation = (value: string) => {
     return {
       message: (
         <Text color="status-error">
-          <LocalizedString
-            id={root.codeLink}
-            replacements={[Object.values(ACCEPTABLE_CODE_SITES).join(", ")]}
+          <Localized
+            id={root("codeLink")}
+            args={[Object.values(ACCEPTABLE_CODE_SITES).join(", ")]}
           />
         </Text>
       ),

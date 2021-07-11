@@ -1,15 +1,15 @@
 import React from "react";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized } from "src/i18n";
+import { prefix } from "src/i18n";
 
 interface Props {
   publicity: boolean;
 }
 
-const root = lang.components.publicitySelect;
+const root = prefix("components.publicitySelect.");
 
 export const PublicityText: React.FC<Props> = ({ publicity }) => {
   return (
-    <LocalizedString id={publicity ? root.public : root.private} />
+    <Localized id={publicity ? root("public") : root("private")} />
   );
 };

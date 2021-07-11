@@ -1,10 +1,9 @@
 import { ColumnConfig, Box, DataTable } from "grommet";
 import React, { useMemo } from "react";
-import { LocalizedString } from "simstate-i18n";
+import { Localized, prefix } from "src/i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { Pagination } from "src/components/Pagination";
-import { lang } from "src/i18n";
 import { PublicitySelect } from "src/pageComponents/PublicitySelect";
 import { PublicityText } from "src/pageComponents/PublicityText";
 import { formatDateTime } from "src/utils/datetime";
@@ -14,12 +13,12 @@ import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
 import { ArticleId } from "../../../../../api/api/article/models";
 import { DeleteArticleLink } from "../../Dashboard/DeleteArticleLink";
 
-const root = lang.pages.admin.articles;
+const root = prefix("pages.admin.articles.");
 
 export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   {
     property: "id",
-    header: <LocalizedString id={root.articleId} />,
+    header: <Localized id={root("articleId")} />,
     render: (d) => (
       <AnchorLink
         href="/articles/[id]"
@@ -32,25 +31,25 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   },
   {
     property: "title",
-    header: <LocalizedString id={root.articleTitle} />,
+    header: <Localized id={root("articleTitle")} />,
   },
   {
     property: "createTime",
-    header: <LocalizedString id={root.createTime} />,
+    header: <Localized id={root("createTime")} />,
     render: (d) => formatDateTime(d.createTime),
   },
   {
     property: "lastUpdatedTime",
-    header: <LocalizedString id={root.lastUpdatedTime} />,
+    header: <Localized id={root("lastUpdatedTime")} />,
     render: (d) => formatDateTime(d.lastUpdatedTime),
   },
   {
     property: "revisionCount",
-    header: <LocalizedString id={root.revisionCount} />,
+    header: <Localized id={root("revisionCount")} />,
   },
   {
     property: "ownerSetPublicity",
-    header: <LocalizedString id={root.ownerSetPublicity} />,
+    header: <Localized id={root("ownerSetPublicity")} />,
     render: (d) => (
       <PublicityText publicity={d.ownerSetPublicity} />
     ),
@@ -85,7 +84,7 @@ export const AdminArticleTable: React.FC<Props> = ({
     ...columns,
     {
       property: "adminSetPublicity",
-      header: <LocalizedString id={root.adminSetPublicity} />,
+      header: <Localized id={root("adminSetPublicity")} />,
       render: (d) => (
         <PublicitySelect
           initialValue={d.adminSetPublicity}
@@ -95,7 +94,7 @@ export const AdminArticleTable: React.FC<Props> = ({
     },
     {
       property: "actions",
-      header: <LocalizedString id={root.actions} />,
+      header: <Localized id={root("actions")} />,
       render: (d) => (
         <Box direction="row" gap="medium">
           <DeleteArticleLink

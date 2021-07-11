@@ -1,10 +1,10 @@
 import React from "react";
-import { Box, Heading, Paragraph } from "grommet";
-import { LocalizedString } from "simstate-i18n";
+import { Box, Heading } from "grommet";
+import { Id, Localized } from "src/i18n";
 
 interface Props {
   icon: React.ReactNode;
-  titleId: string;
+  titleId: Id;
 }
 
 export const OperationCompletePage: React.FC<Props> = ({
@@ -17,7 +17,7 @@ export const OperationCompletePage: React.FC<Props> = ({
       <Box direction="row" gap="small" align="center" justify="center">
         {icon}
         <Heading level={1} size="small">
-          <LocalizedString id={titleId} />
+          <Localized id={titleId} />
         </Heading>
       </Box>
       {children}

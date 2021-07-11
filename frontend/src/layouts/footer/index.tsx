@@ -1,31 +1,28 @@
 import React from "react";
 import { Text, Footer as GrommotFooter, Anchor, Box, Button } from "grommet";
-import { LocalizedString } from "simstate-i18n";
-import { lang, useI18nStore, languageNames, saveLanguageToCookie } from "src/i18n";
+import { languageProps, saveLanguageToCookie, Localized, useI18n } from "src/i18n";
 import { useStore } from "simstate";
 import { ThemeStore } from "src/stores/ThemeStore";
 import { Moon, Sun } from "grommet-icons";
 
-const root = lang.footer;
-
 const LanguageSwitcher: React.FC = () => {
-  const i18nStore = useI18nStore();
+  const i18nStore = useI18n();
 
   const onClick = (id: string) => () =>  {
     saveLanguageToCookie(id);
-    i18nStore.changeLanguage(id);
+    i18nStore.setLanguageById(id);
   };
 
   return (
     <Text textAlign="center" size="small">
-      {Object.keys(languageNames).map((id) => (
+      {Object.keys(languageProps).map((id) => (
         <Anchor
           margin={"small"}
           onClick={onClick(id)}
           key={id}
           disabled={i18nStore.currentLanguage.id === id}
         >
-          {languageNames[id]}
+          {languageProps[id].name}
         </Anchor>
       ))}
     </Text>
@@ -56,7 +53,7 @@ export const Footer: React.FC = () => {
       </Box>
       <Box>
         <Text textAlign="center" size="small">
-          © 2020 <LocalizedString id={root.copyright} />
+          © 2020 <Localized id="footer.copyright" />
         </Text>
       </Box>
       <Box alignSelf="end">

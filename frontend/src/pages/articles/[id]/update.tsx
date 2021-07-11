@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useState } from "react";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized } from "src/i18n";
+import { prefix } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { queryToIntOrDefault } from "src/utils/querystring";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
@@ -16,7 +16,7 @@ import { api } from "src/apis";
 import { ssrPage } from "src/utils/ssr";
 import { UserRole } from "src/models/User";
 
-const root = lang.pages.updateArticle;
+const root = prefix("pages.updateArticle.");
 
 type Props = {
   article: Article;
@@ -46,9 +46,9 @@ export const ArticleUpdatePage = ssrPage<Props>(
         });
         await router.push("/articles/[id]", `/articles/${props.article.id}`);
         toast.success(
-          <LocalizedString
-            id={root.success}
-            replacements={[resp.revisionNumber]}
+          <Localized
+            id={root("success")}
+            args={[resp.revisionNumber]}
           />
         );
       });
@@ -104,9 +104,9 @@ export const ArticleUpdatePage = ssrPage<Props>(
           403:(
             <Forbidden
               description={(
-                <LocalizedString
-                  id={root.forbidden}
-                  replacements={[err.data.articleId]}
+                <Localized
+                  id={root("forbidden")}
+                  args={[err.data.articleId]}
                 />
               )}
             />

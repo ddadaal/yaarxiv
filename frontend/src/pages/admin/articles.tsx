@@ -1,7 +1,6 @@
 import { Box, Heading } from "grommet";
 import React, { useCallback, useEffect } from "react";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized, prefix } from "src/i18n";
 import { AdminGetArticlesSchema } from "yaarxiv-api/api/admin/getArticles";
 import { requireAuth } from "src/utils/requireAuth";
 import { useAsync } from "react-async";
@@ -15,7 +14,7 @@ import { api } from "src/apis";
 import { ArticleId } from "../../../../api/api/article/models";
 import { UserRole } from "src/models/User";
 
-const root = lang.pages.admin.articles;
+const root = prefix("pages.admin.articles.");
 
 type SearchQuery =Partial<AdminGetArticlesSchema["querystring"]>;
 
@@ -67,7 +66,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: [UserRole.Admin]
   return (
     <Box gap="medium">
       <Heading level={1} size="small" margin="none">
-        <LocalizedString id={root.title} />
+        <Localized id={root("title")} />
       </Heading>
       <Box align="center">
         <SearchBar

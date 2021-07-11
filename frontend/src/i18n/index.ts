@@ -1,44 +1,41 @@
-import cn from "./cn";
+import { parseCookies, setCookie } from "nookies";
+import { languageDictionary, createI18n, TextIdFromLangDict } from "react-typed-i18n";
+import { Awaited } from "yaarxiv-api/api/utils/schema";
 
 const en = () => import("./en").then((x) => x.default);
+const cn = () => import("./cn").then((x) => x.default);
 
-// Import the factory function
-import { createI18nContext, I18nStore, I18nStoreDef } from "simstate-i18n";
-import { useStore } from "simstate";
-import { parseCookies, setCookie } from "nookies";
+export const languages = languageDictionary({ cn, en });
 
-// Create the I18nContext with all the languages
-const i18nContext = createI18nContext(cn, { en });
+export const { Localized, Provider, useI18n, id, prefix } = createI18n(languages);
 
-// Destruct the members for easier usage
-// Recommendation: rename the idAccessor to lang for shorter typing
-const { getLanguage, idAccessor: lang } = i18nContext;
+export type Id = TextIdFromLangDict<typeof languages>;
 
-type Language = typeof cn;
+export type Definitions = Awaited<ReturnType<typeof cn>>;
 
-const languageNames = {
-  cn: "简体中文",
-  en: "English",
+
+export const languageProps = {
+  cn: {
+    name: "简体中文",
+    langStrings: ["cn", "zh-CN", "zh"],
+    detailedId: "zh-CN",
+  },
+  en: {
+    name: "English",
+    langStrings: ["en", "en-US"],
+    detailedId: "en-US",
+  },
 };
-
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-export function useI18nStore() {
-  return useStore(I18nStore) as I18nStoreDef<Language["definitions"], Language>;
-}
-
-export { i18nContext, getLanguage, lang, cn, languageNames };
-
-export type { Language };
 
 const LANG_STORAGE_KEY = "simstate-i18n-lang";
 const COOKIE_PATH = "/";
 
 type Ctx = Parameters<typeof parseCookies>[0];
 
-export function getCookieLanguage(ctx?: Ctx): string {
+export function getCookieLanguage(ctx?: Ctx): keyof typeof languages {
   const cookie = parseCookies(ctx)[LANG_STORAGE_KEY];
 
-  return cookie || "cn";
+  return (cookie in languages) ? cookie as keyof typeof languages : "cn";
 }
 
 export function saveLanguageToCookie(language: string) {

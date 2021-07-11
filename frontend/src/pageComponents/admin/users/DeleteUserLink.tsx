@@ -2,14 +2,13 @@ import { Button } from "grommet";
 import { Trash } from "grommet-icons";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
-import { LocalizedString } from "simstate-i18n";
+import { Localized, prefix } from "src/i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
-import { lang } from "src/i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { UserId } from "yaarxiv-api/api/auth/models";
 
-const root = lang.pages.admin.users.delete;
+const root = prefix("pages.admin.users.delete.");
 
 export const DeleteUserLink: React.FC<{
   userId: UserId;
@@ -27,7 +26,7 @@ export const DeleteUserLink: React.FC<{
       await deleteUser(userId);
       setOpen(false);
       toast.success(
-        <LocalizedString id={root.success} replacements={[username, userId]} />
+        <Localized id={root("success")} args={[username, userId]} />
       );
       reload();
     });
@@ -37,25 +36,25 @@ export const DeleteUserLink: React.FC<{
     <>
       <AnchorLink
         icon={<Trash />}
-        label={<LocalizedString id={root.button} />}
+        label={<Localized id={root("button")} />}
         onClick={() => setOpen(true)}
       />
       <Modal
         open={open}
-        title={<LocalizedString id={root.title} />}
-        content={<LocalizedString id={root.content} replacements={[username, userId]}/>}
+        title={<Localized id={root("title")} />}
+        content={<Localized id={root("content")} args={[username, userId]}/>}
         footer={[
           <Button
             key="confirm"
             primary
             disabled={confirming}
-            label={<LocalizedString id={root.confirm} />}
+            label={<Localized id={root("confirm")} />}
             onClick={onDelete}
           />,
           <Button
             key="cancel"
             disabled={confirming}
-            label={<LocalizedString id={root.cancel} />}
+            label={<Localized id={root("cancel")} />}
             onClick={() => setOpen(false)}
           />,
         ]}

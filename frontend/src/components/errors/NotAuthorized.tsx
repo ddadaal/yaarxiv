@@ -1,9 +1,9 @@
 import { Lock  } from "grommet-icons";
 import React from "react";
-import { lang } from "src/i18n";
+import { prefix } from "src/i18n";
 import { ErrorPage } from "./ErrorPage";
 
-const root = lang.components.errors.notAuthorized;
+const root = prefix("components.errors.notAuthorized.");
 
 interface Props {
   description?: React.ReactNode;
@@ -12,8 +12,8 @@ interface Props {
 // handle 401
 export const NotAuthorized: React.FC<Props> = ({ description }) => (
   <ErrorPage
-    titleId={root.title}
-    defaultDescriptionId={root.description}
+    titleId={root("title")}
+    defaultDescriptionId={root("description")}
     description={description}
     Icon={Lock}
   />

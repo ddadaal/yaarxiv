@@ -2,8 +2,6 @@ import React from "react";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 import { Nav, Menu, Box, BoxProps } from "grommet";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { useRouter, NextRouter } from "next/router";
 import { Menu as MenuIcon } from "grommet-icons";
@@ -12,9 +10,9 @@ import { Media } from "src/styles/media";
 import { TLink, commonLinks, adminLinks, userLinks } from "./links";
 import { UrlObject } from "url";
 import { UserRole } from "src/models/User";
+import { Localized, prefix } from "src/i18n";
 
-const root = lang.header;
-
+const root = prefix("header.");
 
 const matchRoute = (
   mode: TLink["mode"],
@@ -34,9 +32,9 @@ const matchRoute = (
 
 const Greeting = ({ name, ...rest }: { name: string } & BoxProps) => (
   <Box justify="center" {...rest}>
-    <LocalizedString
-      id={root.welcome}
-      replacements={[name]}
+    <Localized
+      id={root("welcome")}
+      args={[name]}
     />
   </Box>
 );
@@ -47,7 +45,7 @@ function linksToAnchorLink(router: NextRouter, links: TLink[]) {
       key={textId} href={href} onClick={onClick}
       margin={{ horizontal: "xsmall" }}
       active={matchRoute(mode, href, router.pathname)}
-      label={<LocalizedString id={textId} />}
+      label={<Localized id={textId} />}
     />
   ));
 }
@@ -92,10 +90,10 @@ function linksToMenuItem(router: NextRouter, links: TLink[]){
       <Box pad="medium">
         {href ? (
           <Link href={href}>
-            <LocalizedString id={textId}/>
+            <Localized id={textId}/>
           </Link>
         )
-          : <LocalizedString id={textId}/>
+          : <Localized id={textId}/>
         }
       </Box>
     ),
@@ -166,10 +164,10 @@ export const MainNav: React.FC = () => {
 
   const router = useRouter();
 
-  const logoutLink = { textId: root.logout, onClick: userStore.logout };
+  const logoutLink = { textId: root("logout"), onClick: userStore.logout };
 
   const loginLink = {
-    textId: root.login,
+    textId: root("login"),
     href: {
       pathname: "/login",
       query: {

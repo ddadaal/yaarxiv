@@ -1,7 +1,7 @@
 import { Box, Heading } from "grommet";
 import React, { useCallback, useEffect } from "react";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized } from "src/i18n";
+import { prefix } from "src/i18n";
 import { AdminGetUsersSchema } from "yaarxiv-api/api/admin/getUsers";
 import { requireAuth } from "src/utils/requireAuth";
 
@@ -16,7 +16,7 @@ import { api } from "src/apis";
 import { UserId } from "yaarxiv-api/api/auth/models";
 import { UserRole } from "src/models/User";
 
-const root = lang.pages.admin.users;
+const root = prefix("pages.admin.users.");
 
 type SearchQuery =Partial<AdminGetUsersSchema["querystring"]>;
 
@@ -61,7 +61,7 @@ export const AdminUsersPage: React.FC = requireAuth({ roles: [UserRole.Admin]})(
   return (
     <Box gap="medium">
       <Heading level={1} size="small" margin="none">
-        <LocalizedString id={root.title} />
+        <Localized id={root("title")} />
       </Heading>
       <Box align="center">
         <SearchBar

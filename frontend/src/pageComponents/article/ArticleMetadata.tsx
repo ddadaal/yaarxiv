@@ -1,25 +1,23 @@
 import { Box, Text } from "grommet";
 import { IconProps, Upload, Edit, Code } from "grommet-icons";
 import React from "react";
-import { useLocalized } from "simstate-i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { IdIcon } from "src/components/icons/Id";
-import { lang } from "src/i18n";
+import { prefix, useI18n } from "src/i18n";
 import { getCodeLinkInfo } from "src/utils/validations/codeLink";
 import { formatDateTime } from "src/utils/datetime";
 import { ArticleId } from "yaarxiv-api/api/article/models";
 
-const root = lang.pages.search.item;
+const root = prefix("pages.search.item.");
 
 export const MetadataItem: React.FC<{
-  textId: string;
-  replacements?: React.ReactNode[];
+  title: string;
   Icon: React.ComponentType<{ size?: IconProps["size"] }>;
   data: string | React.ReactNode;
-}> = ({ textId, replacements, Icon, data }) => (
+}> = ({ title, Icon, data }) => (
   <Box
     margin="xsmall"
-    title={useLocalized(textId, replacements) as string}
+    title={title}
     direction="row" align="center" gap="xsmall"
   >
     <Icon size={"medium"} />
@@ -49,22 +47,24 @@ export const ArticleMetadata: React.FC<{
 
   const codeLinkObj = codeLink ? getCodeLinkInfo(codeLink) : undefined;
 
+  const i18n = useI18n();
+
   return (
     <MetadataContainer>
       <MetadataItem
-        textId={root.id}
+        title={i18n.translate(root("id")) as string}
         Icon={IdIcon}
         data={articleId}
       />
       <MetadataItem
-        textId={root.createTime}
+        title={i18n.translate(root("createTime")) as string}
         Icon={Upload}
         data={formatDateTime(createTime)}
       />
       { lastUpdateTime
         ? (
           <MetadataItem
-            textId={root.lastUpdateTime}
+            title={i18n.translate(root("lastUpdateTime")) as string}
             Icon={Edit}
             data={formatDateTime(lastUpdateTime)}
           />
@@ -73,8 +73,7 @@ export const ArticleMetadata: React.FC<{
       { codeLinkObj
         ? (
           <MetadataItem
-            textId={root.codeLink}
-            replacements={[codeLinkObj.url]}
+            title={i18n.translate(root("codeLink"), [codeLinkObj.url]) as string}
             Icon={Code}
             data={(
               <AnchorLink target="blank" href={codeLinkObj.url}>

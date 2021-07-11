@@ -2,19 +2,18 @@ import Router from "next/router";
 import React from "react";
 import { toast } from "react-toastify";
 import { useStore } from "simstate";
-import { LocalizedString } from "simstate-i18n";
+import { Localized, prefix } from "src/i18n";
 import { HttpError } from "src/apis/fetch";
-import { lang } from "src/i18n";
 import { UserStore } from "src/stores/UserStore";
 
-const root = lang.components.httpHandler;
+const root = prefix("components.httpHandler.");
 
 
 export async function handleTokenInvalid(
   userStore: ReturnType<typeof UserStore>,
 ) {
   toast.error(
-    <LocalizedString id={root.tokenInvalid} />
+    <Localized id={root("tokenInvalid")} />
   );
 
   await Router.push("/login");
@@ -36,7 +35,7 @@ export function handleHttpError(
   }
   if (e.status === -1) {
     toast.error(
-      <LocalizedString id={root.networkError} />
+      <Localized id={root("networkError")} />
     );
 
   } else if (e.status === 401) {
@@ -44,7 +43,7 @@ export function handleHttpError(
     handleTokenInvalid(userStore);
   } else {
     toast.error(
-      <LocalizedString id={root.serverError} />
+      <Localized id={root("serverError")} />
     );
   }
 }

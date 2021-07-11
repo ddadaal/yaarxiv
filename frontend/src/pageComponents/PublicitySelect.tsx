@@ -1,8 +1,7 @@
 import { Select } from "grommet";
 import React, { useCallback } from "react";
 import { useAsync } from "react-async";
-import { LocalizedString } from "simstate-i18n";
-import { lang } from "src/i18n";
+import { Localized, prefix } from "src/i18n";
 import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
 import { PublicityText } from "./PublicityText";
 
@@ -11,11 +10,11 @@ export interface Props {
   onChange: (changed: boolean) => Promise<boolean>;
 }
 
-const root = lang.components.publicitySelect;
+const root = prefix("components.publicitySelect.");
 
 const options = [
-  { label: <LocalizedString id={root.public} />, value: "public" },
-  { label: <LocalizedString id={root.private} />, value: "private" },
+  { label: <Localized id={root("public")} />, value: "public" },
+  { label: <Localized id={root("private")} />, value: "private" },
 ];
 
 

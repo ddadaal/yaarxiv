@@ -1,14 +1,13 @@
 import React, { useState } from "react";
-import { lang } from "src/i18n";
 import { FormField, Box, Text, Button } from "grommet";
-import { LocalizedString } from "simstate-i18n";
+import { Localized, prefix } from "src/i18n";
 import { useHttpRequest } from "src/utils/useHttpErrorHandler";
 import { HttpError } from "src/apis/fetch";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
 
-const root = lang.pages.dashboard.profile.changePassword;
+const root = prefix("pages.dashboard.profile.changePassword.");
 
 const initial = {
   current: "",
@@ -23,7 +22,7 @@ export const ChangePassword: React.FC = () => {
   const error =
     form.changed && form.confirmChanged
     && form.changed !== form.confirmChanged
-      ? <LocalizedString id={root.changedNotMatch} />
+      ? <Localized id={root("changedNotMatch")} />
       : undefined;
 
   const [loading, setLoading] = useState(false);
@@ -39,14 +38,14 @@ export const ChangePassword: React.FC = () => {
     })
       .then(() => {
         toast.success(
-          <LocalizedString id={root.complete} />,
+          <Localized id={root("complete")} />,
         );
         setForm(initial);
       })
       .catch((e: HttpError) => {
         if (e.status === 403) {
           toast.error(
-            <LocalizedString id={root.wrongPassword} />,
+            <Localized id={root("wrongPassword")} />,
           );
         } else {
           throw e;
@@ -63,19 +62,19 @@ export const ChangePassword: React.FC = () => {
     >
       <FormField
         name="current"
-        label={<LocalizedString id={root.current} />}
+        label={<Localized id={root("current")} />}
         type="password"
         required
       />
       <FormField
         name="changed"
-        label={<LocalizedString id={root.changed} />}
+        label={<Localized id={root("changed")} />}
         type="password"
         required
       />
       <FormField
         name="confirmChanged"
-        label={<LocalizedString id={root.confirmChanged} />}
+        label={<Localized id={root("confirmChanged")} />}
         type="password"
         required
       />
@@ -88,8 +87,8 @@ export const ChangePassword: React.FC = () => {
         <Button
           type="submit"
           label={
-            <LocalizedString
-              id={loading ? root.confirming : root.confirm}
+            <Localized
+              id={loading ? root("confirming") : root("confirm")}
             />
           }
           primary={true}
@@ -97,7 +96,7 @@ export const ChangePassword: React.FC = () => {
         />
         <Button
           type="reset"
-          label={<LocalizedString id={root.reset} />}
+          label={<Localized id={root("reset")} />}
           disabled={loading}
         />
       </Box>

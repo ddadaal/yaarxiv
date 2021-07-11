@@ -3,8 +3,8 @@ import {
   Box, FormField,
   TextInput, Button, CheckBox, Heading,
 } from "grommet";
-import { lang } from "src/i18n";
-import { LocalizedString } from "simstate-i18n";
+import { prefix } from "src/i18n";
+import { Localized } from "src/i18n";
 
 import { api } from "src/apis";
 import { useStore } from "simstate";
@@ -17,7 +17,7 @@ import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { UserRole } from "src/models/User";
 
-const root = lang.register;
+const root = prefix("register.");
 
 const defaultValue = { email: "", password: "", remember: true };
 
@@ -33,7 +33,7 @@ const RegisterForm: React.FC = () => {
     try {
       const res = await api.auth.register({ body: { email, password } });
       toast.success(
-        <LocalizedString id={root.success} />
+        <Localized id={root("success")} />
       );
       await Router.push("/");
       userStore.login({
@@ -47,7 +47,7 @@ const RegisterForm: React.FC = () => {
     } catch (e) {
       if (e.status === 405) {
         toast.error(
-          <LocalizedString id={root.conflict} />
+          <Localized id={root("conflict")} />
         );
       } else {
         throw e;
@@ -57,13 +57,13 @@ const RegisterForm: React.FC = () => {
 
   return (
     <Form value={value} onChange={setValue} onSubmit={register} validate="blur">
-      <FormField label={<LocalizedString id={root.email} />} name="email" required={true}
+      <FormField label={<Localized id={root("email")} />} name="email" required={true}
         disabled={inProgress} validate={emailValidation}
       >
         <TextInput name="email" />
       </FormField>
       <FormField
-        label={<LocalizedString id={root.password} />} name="password" required={true}
+        label={<Localized id={root("password")} />} name="password" required={true}
         disabled={inProgress}
       >
         <TextInput type="password" name="password"/>
@@ -72,20 +72,20 @@ const RegisterForm: React.FC = () => {
         <CheckBox
           disabled={inProgress}
           name="remember"
-          label={<LocalizedString id={root.remember} />}
+          label={<Localized id={root("remember")} />}
         />
       </Box>
       <Box>
         <Button
           type="submit"
-          label={<LocalizedString id={inProgress ? root.inProgress : root.register} />}
+          label={<Localized id={inProgress ? root("inProgress") : root("register")} />}
           primary={true}
           disabled={inProgress}
         />
       </Box>
       <Box direction="row" justify="center" margin={{ top: "small" }}>
         <AnchorLink href="/login">
-          <LocalizedString id={root.login} />
+          <Localized id={root("login")} />
         </AnchorLink>
       </Box>
     </Form>
@@ -97,7 +97,7 @@ export const RegisterPage: React.FC = () => {
     <Box align="center" justify="center" pad="medium" flex="grow">
       <Box width="medium" border="all" pad="medium" elevation="small"  >
         <Heading alignSelf="center" level="2" margin="none">
-          <LocalizedString id={root.title} />
+          <Localized id={root("title")} />
         </Heading>
         <RegisterForm />
       </Box>

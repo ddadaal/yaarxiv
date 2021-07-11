@@ -1,12 +1,12 @@
 import { Paragraph } from "grommet";
 import { IconProps  } from "grommet-icons";
 import React from "react";
-import { LocalizedString } from "simstate-i18n";
+import { Id, Localized } from "src/i18n";
 import { OperationCompletePage } from "../OperationCompletePage";
 
 export interface Props {
-  titleId: string;
-  defaultDescriptionId: string;
+  titleId: Id;
+  defaultDescriptionId: Id;
   description?: React.ReactNode;
   Icon: React.ComponentType<IconProps>;
 }
@@ -26,7 +26,7 @@ export const ErrorPage: React.FC<Props> = ({
       <Paragraph>
         {
           description ??
-          <LocalizedString id={defaultDescriptionId}/>
+          <Localized id={defaultDescriptionId}/>
         }
       </Paragraph>
       {children}

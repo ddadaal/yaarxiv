@@ -1,10 +1,10 @@
 import React from "react";
 import { HttpError } from "src/apis/fetch";
-import { lang } from "src/i18n";
+import { prefix } from "src/i18n";
 import { ErrorPage } from "./ErrorPage";
 import { Alert } from "grommet-icons";
 
-const root = lang.components.errors;
+const root = prefix("components.errors.");
 
 interface Props {
   error: HttpError;
@@ -14,8 +14,8 @@ interface Props {
 export const ServerError: React.FC<Props> = ({ error }) => {
   return (
     <ErrorPage
-      titleId={root.serverError.title}
-      defaultDescriptionId={root.serverError.description}
+      titleId={root("serverError.title")}
+      defaultDescriptionId={root("serverError.description")}
       Icon={Alert}
     >
       {JSON.stringify(error)}

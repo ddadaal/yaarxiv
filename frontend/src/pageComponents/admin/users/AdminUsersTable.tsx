@@ -1,38 +1,37 @@
 import { ColumnConfig, Box, DataTable } from "grommet";
 import React, { useMemo } from "react";
-import { LocalizedString } from "simstate-i18n";
+import { Localized, prefix } from "src/i18n";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { Pagination } from "src/components/Pagination";
-import { lang } from "src/i18n";
 import { UrlObject } from "url";
 import { AdminGetUsersResult } from "yaarxiv-api/api/admin/getUsers";
 import { UserId } from "../../../../../api/api/auth/models";
 import { DeleteUserLink } from "./DeleteUserLink";
 
-const root = lang.pages.admin.users;
+const root = prefix("pages.admin.users.");
 
 export const columns: ColumnConfig<AdminGetUsersResult>[] = [
   {
     property: "id",
-    header: <LocalizedString id={root.userId} />,
+    header: <Localized id={root("userId")} />,
     primary: true,
   },
   {
     property: "name",
-    header: <LocalizedString id={root.name} />,
+    header: <Localized id={root("name")} />,
   },
   {
     property: "email",
-    header: <LocalizedString id={root.email} />,
+    header: <Localized id={root("email")} />,
   },
   {
     property: "role",
-    header: <LocalizedString id={root.role.title} />,
-    render: (d) => <LocalizedString id={root.role[d.role]} />,
+    header: <Localized id={root("role.title")} />,
+    render: (d) => <Localized id={root("role."+d.role as any)} />,
   },
   {
     property: "articleCount",
-    header: <LocalizedString id={root.articleCount} />,
+    header: <Localized id={root("articleCount")} />,
   },
 ];
 
@@ -59,7 +58,7 @@ export const AdminUsersTable: React.FC<Props> = ({
     ...columns,
     {
       property: "actions",
-      header: <LocalizedString id={root.actions} />,
+      header: <Localized id={root("actions")} />,
       render: (d) => (
         <Box direction="row" gap="medium">
           <DeleteUserLink

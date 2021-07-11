@@ -7,6 +7,7 @@ module.exports = withPlugins([
   [tm([
     "yaarxiv-api",
     "react-async",
+    "react-typed-i18n"
   ])],
   [images, {}],
 ], {
