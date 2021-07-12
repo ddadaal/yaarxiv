@@ -3,6 +3,8 @@ import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 import { UploadedFileId } from "./models";
 
+export const PDF_SIZE_LIMIT_MB = 30;
+
 /**
  * Upload a PDF into the platform.
  * Expect Content-Type to be multipart/form-data.

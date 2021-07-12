@@ -1,5 +1,6 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { UploadedFile } from "../../src/entities/UploadedFile";
+import * as api from "yaarxiv-api/api/article/uploadPDF";
 import fs from "fs";
 import { mockFileForm } from "./utils/mockFileForm";
 import { config } from "@/utils/config";
@@ -27,7 +28,7 @@ afterEach(async () => {
 
 it("upload an PDF to the system.", async () => {
 
-  const fileSize = config.upload.maxFileSize - 100;
+  const fileSize = api.PDF_SIZE_LIMIT_MB * 1024 * 1024 - 100;
   const formData = mockFileForm(fileSize);
 
   const resp = await callRoute(server, uploadPdfRoute, {
@@ -47,7 +48,7 @@ it("upload an PDF to the system.", async () => {
 });
 
 it("fails if the file size is too big.", async () => {
-  const fileSize = config.upload.maxFileSize + 100;
+  const fileSize = api.PDF_SIZE_LIMIT_MB * 1024 * 1024 + 100;
   const formData = mockFileForm(fileSize);
 
   const resp = await callRoute(server, uploadPdfRoute, {

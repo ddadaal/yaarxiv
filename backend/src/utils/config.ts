@@ -21,7 +21,6 @@ export interface Config {
   };
   upload: {
     path: string;
-    maxFileSize: number;
   };
   staticPrefix: string;
   bcryptSaltLength: number;
