@@ -439,6 +439,67 @@
       "additionalProperties": false,
       "description": "Get the full information of an article."
     },
+    "GetArticleFileSchema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "object",
+          "properties": {
+            "articleId": {
+              "$ref": "#/definitions/ArticleId",
+              "description": "The article id"
+            }
+          },
+          "required": [
+            "articleId"
+          ],
+          "additionalProperties": false
+        },
+        "querystring": {
+          "type": "object",
+          "properties": {
+            "revision": {
+              "type": "number",
+              "description": "The number of revision. If not set, return the latest revision"
+            }
+          },
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {},
+            "404": {
+              "type": "object",
+              "properties": {
+                "notFound": {
+                  "type": "string",
+                  "enum": [
+                    "article",
+                    "revision"
+                  ]
+                }
+              },
+              "required": [
+                "notFound"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "200",
+            "404"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "querystring",
+        "responses"
+      ],
+      "additionalProperties": false
+    },
     "SearchArticleSchema": {
       "type": "object",
       "properties": {
@@ -1267,10 +1328,6 @@
           "type": "string",
           "description": "The category of the article."
         },
-        "pdfLink": {
-          "type": "string",
-          "description": "The download link of the pdf"
-        },
         "codeLink": {
           "type": "string",
           "description": "Link to code. Should pass validation from utils/codeLink.ts",
@@ -1282,8 +1339,7 @@
         "authors",
         "abstract",
         "keywords",
-        "category",
-        "pdfLink"
+        "category"
       ],
       "additionalProperties": false,
       "description": "The brief info of an revision of an article."
@@ -1556,9 +1612,9 @@
       "description": "A preview information of the article."
     },
     "Omit%3CArticleInfo%2C%22pdfLink%22%3E": {
-      "$ref": "#/definitions/Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22pdfLink%22%7C%22codeLink%22)%2C%22pdfLink%22%3E%3E"
+      "$ref": "#/definitions/Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22codeLink%22)%2C%22pdfLink%22%3E%3E"
     },
-    "Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22pdfLink%22%7C%22codeLink%22)%2C%22pdfLink%22%3E%3E": {
+    "Pick%3CArticleInfo%2CExclude%3C(%22title%22%7C%22authors%22%7C%22abstract%22%7C%22keywords%22%7C%22category%22%7C%22codeLink%22)%2C%22pdfLink%22%3E%3E": {
       "type": "object",
       "properties": {
         "title": {

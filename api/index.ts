@@ -25,6 +25,7 @@ export interface SchemaObject {
   }
 }
 
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 type ValueOf<T> = T[keyof T];
 type MapStatic<T> = T extends any ? T : never;

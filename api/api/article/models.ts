@@ -22,8 +22,6 @@ export interface ArticleInfo {
   keywords: string[];
   /** The category of the article. */
   category: string;
-  /** The download link of the pdf */
-  pdfLink: string;
   /**
    * Link to code.
    * Should pass validation from utils/codeLink.ts

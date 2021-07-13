@@ -1,3 +1,5 @@
+import fs from "fs";
+import path from "path";
 import FormData from "form-data";
 
 export function mockFileForm(size: number) {
@@ -8,4 +10,12 @@ export function mockFileForm(size: number) {
     knownLength: size,
   });
   return formData;
+}
+
+export async function createFile(size: number, filePath: string) {
+  await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+  await fs.promises.writeFile(
+    filePath,
+    Buffer.alloc(size),
+  );
 }

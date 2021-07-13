@@ -1,7 +1,6 @@
 import * as api from "yaarxiv-api/api/article/get";
 import { route } from "@/utils/route";
 import { Article } from "@/entities/Article";
-import { UserRole } from "@/entities/User";
 
 export const getArticleRoute = route(
   api, "GetArticleSchema",
@@ -13,18 +12,8 @@ export const getArticleRoute = route(
       populate: ["revisions", "latestRevision"],
     });
 
-    if (!article) {
+    if (!article || !article.checkAccessibility(await req.tryGetUser())) {
       return { 404: { notFound: "article" } as const };
-    }
-
-    // if the logged in user is the owner or an admin,
-    // then it can get the article even if the article is not public,
-    // else, return 404 as if the article does not exist.
-    if (!article.adminSetPublicity || !article.ownerSetPublicity) {
-      const user = await req.tryGetUser();
-      if (!user || (!(user.role === UserRole.Admin || article.owner.id === user.id))) {
-        return { 404: { notFound: "article" } as const };
-      }
     }
 
     const targetRevision = revision
@@ -47,7 +36,6 @@ export const getArticleRoute = route(
             authors: targetRevision.authors,
             category: targetRevision.category,
             keywords: targetRevision.keywords,
-            pdfLink: targetRevision.pdf.getEntity().getPdfUrl(),
             title: targetRevision.title,
             codeLink: targetRevision.codeLink,
           },

@@ -2,6 +2,12 @@ import { FastifyInstance, FastifyRequest, FastifyReply, preValidationHookHandler
 import { ApiProps } from "yaarxiv-api/api/utils/apiProps";
 import { Endpoint, GeneralSchema, SchemaObject } from "yaarxiv-api/api/utils/schema";
 import { routes } from "./schemas";
+import { resolve } from "path";
+import { config } from "./config";
+
+export class SendFileResponse {
+  constructor(public path: string) {}
+}
 
 export interface Route<TSchema extends GeneralSchema> {
   api: {
@@ -63,7 +69,13 @@ export const registerRoute = (
         const resp = await route.handler(req, f, reply);
         const code = Object.keys(resp)[0];
         reply.code(Number(code));
-        return resp[code];
+
+        const respBody = resp[code];
+        if (respBody instanceof SendFileResponse) {
+          reply.sendFile(respBody.path, resolve(config.upload.path));
+        } else {
+          reply.send(respBody);
+        }
       },
     });
     f.log.trace(`Registering route for ${route.api.endpoint.method} ${route.api.endpoint.url}`);

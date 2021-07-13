@@ -18,6 +18,7 @@ import { adminGetUsersRoute } from "./admin/getUsers";
 import { adminDeleteUserRoute } from "./admin/deleteUser";
 import { changeArticleAdminSetPublicityRoute } from "./admin/changeArticlePublicity";
 import { changeArticleOwnerSetPublicityRoute } from "./dashboard/changeArticlePublicity";
+import { getArticleFileRoute } from "./article/getFile";
 
 export const routes = [
   loginRoute,
@@ -27,6 +28,7 @@ export const routes = [
   resetPasswordRoute,
   searchArticleRoute,
   getArticleRoute,
+  getArticleFileRoute,
   deleteArticleRoute,
   dashboardGetArticlesRoute,
   adminGetArticlesRoute,

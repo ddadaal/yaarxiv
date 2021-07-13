@@ -2,7 +2,7 @@ import {
   Entity, Property, OneToMany, ManyToOne,
   PrimaryKey, OneToOne, IdentifiedReference, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
-import { User } from "./User";
+import { User, UserRole } from "./User";
 
 @Entity()
 export class Article {
@@ -31,4 +31,15 @@ export class Article {
 
   @ManyToOne(() => User, { wrappedReference: true, onDelete: "CASCADE" })
   owner: IdentifiedReference<User>;
+
+  // if the logged in user is the owner or an admin,
+  // then it can get the article even if the article is not public,
+  checkAccessibility(user: User | undefined) {
+    if (!this.adminSetPublicity || !this.ownerSetPublicity) {
+      if (!user || (!(user.role === UserRole.Admin || this.owner.id === user.id))) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
