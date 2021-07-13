@@ -58,12 +58,12 @@ export const ArticleUpdatePage = ssrPage<Props>(
 
     }
 
-    const { pdfLink, ...rest } = props.article.currentRevision;
+    const { ...rest } = props.article.currentRevision;
 
     return (
       <ArticleEditForm
         disabled={submitting}
-        existingFileUrl={pdfLink}
+        articleId={props.article.id}
         initial={{ ...rest, authors: rest.authors.map((x) => x.name) }}
         onSubmit={submit}
       />

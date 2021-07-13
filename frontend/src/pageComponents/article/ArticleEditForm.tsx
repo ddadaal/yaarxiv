@@ -13,7 +13,8 @@ import {
   getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
 import { config } from "src/utils/config";
-import { getServerStaticFileUrl } from "src/utils/staticFiles";
+import { ArticleId } from "yaarxiv-api/api/article/models";
+import { DownloadPdfLink } from "./DownloadPdfLink";
 
 const root = prefix("pages.upload.");
 
@@ -26,14 +27,14 @@ export interface ArticleForm {
 }
 
 interface Props {
-  existingFileUrl: string | undefined;
+  articleId: ArticleId | undefined;
   initial: ArticleForm;
   disabled: boolean;
   onSubmit: (file: File | undefined, form: ArticleForm) => void;
 }
 
 export const ArticleEditForm: React.FC<Props> = ({
-  existingFileUrl,
+  articleId,
   initial,
   disabled,
   onSubmit,
@@ -43,7 +44,7 @@ export const ArticleEditForm: React.FC<Props> = ({
   const [info, setInfo] = useState(initial);
 
   const submittable =
-    (existingFileUrl !== undefined || file !== undefined)
+    (articleId !== undefined || file !== undefined)
     && info.title !== ""
     && info.authors.length > 0
     && info.keywords.length > 0
@@ -64,17 +65,20 @@ export const ArticleEditForm: React.FC<Props> = ({
             args={[pdfSizeLimit / 1024 / 1024]}
           />
         </Paragraph>
-        { existingFileUrl
+        { articleId
           ? (
             <Paragraph>
               <Localized id={root("pdf.existing")} args={[
-                <Anchor
-                  key="here"
-                  href={getServerStaticFileUrl(existingFileUrl)}
-                  download
-                >
-                  <Localized id={root("pdf.here")} />
-                </Anchor>,
+                <DownloadPdfLink articleId={articleId} key="download">
+                  {(downloadLink) => (
+                    <Anchor
+                      target="__blank"
+                      onClick={downloadLink}
+                    >
+                      <Localized id={root("pdf.here")} />
+                    </Anchor>
+                  )}
+                </DownloadPdfLink>,
               ]}
               />
             </Paragraph>

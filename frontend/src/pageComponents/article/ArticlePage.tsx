@@ -7,9 +7,9 @@ import { TitledSection } from "src/components/TitledSection";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { prefix } from "src/i18n";
-import { getServerStaticFileUrl } from "src/utils/staticFiles";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
+import { DownloadPdfLink } from "./DownloadPdfLink";
 
 const root = prefix("pages.article.");
 
@@ -74,13 +74,16 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
             </Box>
           </TitledSection>
           <TitledSection titleId={root("download")}>
-            <Anchor
-              href={getServerStaticFileUrl(currentRevision.pdfLink)}
-              download
-              target="__blank"
-            >
-            PDF
-            </Anchor>
+            <DownloadPdfLink articleId={article.id} revision={article.revisionNumber}>
+              {(downloadLink) => (
+                <Anchor
+                  onClick={downloadLink}
+                  target="__blank"
+                >
+                  PDF
+                </Anchor>
+              )}
+            </DownloadPdfLink>
           </TitledSection>
         </Box>
         )}

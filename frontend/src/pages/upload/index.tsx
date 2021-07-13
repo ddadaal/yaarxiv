@@ -43,7 +43,7 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
 
   return (
     <ArticleEditForm
-      existingFileUrl={undefined}
+      articleId={undefined}
       initial={initialState}
       disabled={submitting}
       onSubmit={submit}
