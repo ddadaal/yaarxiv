@@ -2,9 +2,12 @@ import fs from "fs";
 import path from "path";
 import ts from "typescript";
 import { EOL } from "os";
+import { ESLint } from "eslint";
 
+const eslintMaxLen = "/* eslint-disable max-len */";
 const sharedProjectName = "yaarxiv-api";
-const apiFile = "../frontend/src/apis/api.ts";
+const frontendPath = "../frontend";
+const apiFile = "src/apis/api.ts";
 
 const getFileNameInfo = (filename: string) => {
   const parts = filename.split(".");
@@ -128,14 +131,25 @@ async function main() {
   }
 
   const content =
+    eslintMaxLen +
+    EOL +
     getString(fetchApiImportDeclaration) +
     EOL + EOL +
     importDeclarations.map(getString).join(EOL) +
     EOL + EOL +
     getString(apiObjDeclaration);
 
-  await fs.promises.writeFile(apiFile, content + EOL, { flag: "w+" });
+  // lint
+  const eslint = new ESLint({
+    cwd: path.resolve(frontendPath),
+    fix: true,
+  });
+
+  const [result] = await eslint.lintText(content);
+
+  await fs.promises.writeFile(path.join(frontendPath, apiFile), result.output + EOL, { flag: "w+" });
 }
+
 
 
 main();
