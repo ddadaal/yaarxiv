@@ -6,7 +6,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { adminGetUsersRoute } from "@/routes/admin/getUsers";
 import { User } from "@/entities/User";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 const articleCount = 3;
 
@@ -39,7 +39,7 @@ function toInfo(user: User, articleCount: number) {
 it("should return all users", async () => {
   const resp = await callRoute(server, adminGetUsersRoute, { query: {} }, users.adminUser);
 
-  expectCode(resp, 200);
+  expectCodeAndJson(resp, 200);
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(3);
@@ -59,7 +59,7 @@ it("should filter users by name", async () => {
     query: { searchWord: users.normalUser1.name.substr(1, users.normalUser1.name.length - 2) },
   }, users.adminUser);
 
-  expectCode(resp, 200);
+  expectCodeAndJson(resp, 200);
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(2);
@@ -75,7 +75,7 @@ it("should filter users by incomplete email", async () => {
     query: { searchWord: users.normalUser1.email.substr(1, users.normalUser1.email.length - 2) },
   }, users.adminUser);
 
-  expectCode(resp, 200);
+  expectCodeAndJson(resp, 200);
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(1);
@@ -88,13 +88,13 @@ it("should filter users by incomplete email", async () => {
 it("return 401 if not login.", async () => {
   const resp = await callRoute(server, adminGetUsersRoute, { query: {} });
 
-  expectCode(resp, 401);
+  expectCodeAndJson(resp, 401);
 
 });
 
 it("return 403 if not admin", async () => {
   const resp = await callRoute(server, adminGetUsersRoute, { query: {} }, users.normalUser1);
 
-  expectCode(resp, 403);
+  expectCodeAndJson(resp, 403);
 });
 

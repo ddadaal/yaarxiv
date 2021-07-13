@@ -5,7 +5,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { changeArticleOwnerSetPublicityRoute } from "@/routes/dashboard/changeArticlePublicity";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 const articleCount = 3;
 
@@ -38,7 +38,7 @@ it("change the ower set publicity of an article", async () => {
     body: { publicity: false },
   }, users.normalUser1);
 
-  expectCode(resp, 200);
+  expectCodeAndJson(resp, 200);
   const data = resp.json<200>();
 
   expect(data.publicity).toBe(false);
@@ -58,7 +58,7 @@ it("return 403 if the logged in user is not the owner", async () => {
     body: { publicity: false },
   }, users.normalUser2);
 
-  expectCode(resp, 403);
+  expectCodeAndJson(resp, 403);
 });
 
 it("return 403 if the logged in user is an admin", async () => {
@@ -70,7 +70,7 @@ it("return 403 if the logged in user is an admin", async () => {
     body: { publicity: false },
   }, users.adminUser);
 
-  expectCode(resp, 403);
+  expectCodeAndJson(resp, 403);
 });
 
 it("return 404 if article does not exist", async () => {
@@ -80,5 +80,5 @@ it("return 404 if article does not exist", async () => {
     body: { publicity: false },
   }, users.normalUser1);
 
-  expectCode(resp, 404);
+  expectCodeAndJson(resp, 404);
 });

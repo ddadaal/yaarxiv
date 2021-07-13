@@ -1,15 +1,13 @@
 import { CallRouteResponse } from "@/utils/callRoute";
 import { GeneralSchema } from "yaarxiv-api/api/utils/schema";
 
-type CommonErrorCode = 400 | 401 | 403;
+type CommonErrorCode = 400 | 401 | 403 | 413;
 
 export function expectCode<
   TSchema extends GeneralSchema,
   Code extends (number & keyof TSchema["responses"] | CommonErrorCode)
 >(resp: CallRouteResponse<TSchema>, code: Code) {
-  if (resp.statusCode === code) {
-    return resp.json<Code>();
-  } else {
+  if (resp.statusCode !== code) {
     const err = JSON.parse(resp.json().message);
     throw new Error(`
       Expect response code failed.
@@ -21,4 +19,12 @@ export function expectCode<
     `);
 
   }
+}
+
+export function expectCodeAndJson<
+  TSchema extends GeneralSchema,
+  Code extends (number & keyof TSchema["responses"] | CommonErrorCode)
+>(resp: CallRouteResponse<TSchema>, code: Code) {
+  expectCode(resp, code);
+  return resp.json<Code>();
 }

@@ -4,7 +4,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, normalUser1OriginalPassword, reloadUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { changePasswordRoute } from "@/routes/dashboard/changePassword";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -22,7 +22,7 @@ afterEach(async () => {
 it("return 401 if not logged in.", async () => {
   const resp = await server.inject({ ...api.endpoint });
 
-  expectCode(resp, 401);
+  expectCodeAndJson(resp, 401);
 });
 
 it("change user password", async () => {
@@ -36,7 +36,7 @@ it("change user password", async () => {
     },
   }, users.normalUser1);
 
-  expectCode(resp, 204);
+  expectCodeAndJson(resp, 204);
 
   await reloadUsers(users);
 
@@ -52,5 +52,5 @@ it("403 if the original password is not correct", async () => {
     },
   }, users.normalUser1);
 
-  expectCode(resp, 403);
+  expectCodeAndJson(resp, 403);
 });

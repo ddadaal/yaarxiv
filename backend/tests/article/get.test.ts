@@ -5,7 +5,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { getArticleRoute } from "@/routes/article/get";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 const articleCount = 12;
 
@@ -30,8 +30,8 @@ it("should return 404 if article doesn't exist", async () => {
     query: {},
   });
 
-  expectCode(resp, 404);
-  expect(resp.json<404>().notFound).toBe("article");
+  const json = expectCodeAndJson(resp, 404);
+  expect(json.notFound).toBe("article");
 });
 
 it("should return the latest revision of article if revision is not specified", async () => {
@@ -40,7 +40,7 @@ it("should return the latest revision of article if revision is not specified", 
     query: {},
   });
 
-  const { article } = expectCode(resp, 200);
+  const { article } = expectCodeAndJson(resp, 200);
 
   expect(article.id).toBe(2);
   expect(article.revisionNumber).toBe(2);
@@ -52,7 +52,7 @@ it("should return the specified revision of article if specified", async () => {
     query: { revision: 1 },
   });
 
-  const { article } = expectCode(resp, 200);
+  const { article } = expectCodeAndJson(resp, 200);
 
   expect(article.id).toBe(2);
   expect(article.revisionNumber).toBe(1);
@@ -65,7 +65,7 @@ it("shoud return 404 if revision is not found.", async () => {
     query: { revision: 5 },
   });
 
-  expect(expectCode(resp, 404).notFound).toBe("revision");
+  expect(expectCodeAndJson(resp, 404).notFound).toBe("revision");
 });
 
 async function changeArticleToPrivate(property: "admin" | "owner") {
@@ -87,8 +87,8 @@ it("should return 404 for admin set private articles", async () => {
     query: {},
   });
 
-  expectCode(resp, 404);
-  expect(resp.json<404>().notFound).toBe("article");
+  const json = expectCodeAndJson(resp, 404);
+  expect(json.notFound).toBe("article");
 
 });
 
@@ -100,8 +100,8 @@ it("should return 404 for owner set private articles", async () => {
     query: {},
   });
 
-  expectCode(resp, 404);
-  expect(resp.json<404>().notFound).toBe("article");
+  const json = expectCodeAndJson(resp, 404);
+  expect(json.notFound).toBe("article");
 
 });
 
@@ -113,7 +113,7 @@ it("return the private article if the logged in user is the owner", async () => 
     query: {},
   }, users.normalUser1);
 
-  expectCode(resp, 200);
+  expectCodeAndJson(resp, 200);
 });
 
 it("return the private article if the logged in user is admin", async () => {
@@ -124,5 +124,5 @@ it("return the private article if the logged in user is admin", async () => {
     query: {},
   }, users.adminUser);
 
-  expectCode(resp, 200);
+  expectCodeAndJson(resp, 200);
 });

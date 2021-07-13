@@ -7,7 +7,7 @@ import { createMockUsers, MockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { deleteArticleRoute } from "@/routes/article/delete";
 import { User } from "@/entities/User";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 
@@ -34,7 +34,7 @@ it("delete the article and all revisions as admin", async () => {
     path: { articleId: article.id },
   }, users.adminUser);
 
-  expectCode(resp, 204);
+  expectCodeAndJson(resp, 204);
 
   const em = server.orm.em.fork();
   expect(await em.getRepository(Article).count()).toBe(1);
@@ -51,7 +51,7 @@ it("delete the article and all revisions as owner", async () => {
     path: { articleId: article.id },
   }, users.normalUser1);
 
-  expectCode(resp, 204);
+  expectCodeAndJson(resp, 204);
   const em = server.orm.em.fork();
   expect(await em.getRepository(Article).count()).toBe(1);
   expect(await em.getRepository(ArticleRevision).count()).toBe(2);
@@ -67,7 +67,7 @@ it("cannot delete the article and all revisions as neither owner nor admin",  as
     path: { articleId: article.id },
   }, users.normalUser1);
 
-  expectCode(resp, 403);
+  expectCodeAndJson(resp, 403);
 
   const em = server.orm.em.fork();
   expect(await em.getRepository(Article).count()).toBe(2);
@@ -79,6 +79,6 @@ it("cannot delete non-existent article",  async () => {
     path: { articleId: 12124 },
   }, users.normalUser1);
 
-  expectCode(resp, 404);
+  expectCodeAndJson(resp, 404);
 
 });

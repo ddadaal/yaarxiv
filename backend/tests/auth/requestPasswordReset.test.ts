@@ -6,7 +6,7 @@ import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { requestPasswordResetRoute } from "@/routes/auth/requestPasswordReset";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let account: TestAccount;
@@ -46,7 +46,7 @@ it("return 404 if account doesn't exist", async () => {
     body: { email: "notexist@notexist.com" },
   });
 
-  expectCode(resp, 404);
+  expectCodeAndJson(resp, 404);
 
 });
 
@@ -57,7 +57,7 @@ it("sent an email containing a reset link", async () => {
     body: { email },
   });
 
-  expectCode(resp, 201);
+  expectCodeAndJson(resp, 201);
 
   const em = server.orm.em.fork();
 

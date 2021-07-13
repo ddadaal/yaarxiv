@@ -7,6 +7,7 @@ import { MockUsers, createMockUsers } from "tests/utils/data";
 import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { validatePasswordResetTokenRoute } from "@/routes/auth/validatePasswordResetToken";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -36,7 +37,7 @@ it("returns invalid if token does not exist", async () => {
     query: { token: "123" },
   });
 
-  expect(resp.json<200>().valid).toBe(false);
+  expect(expectCodeAndJson(resp, 200).valid).toBe(false);
 
 });
 
@@ -51,7 +52,7 @@ it("returns invalid if token is timeout", async () => {
     query: { token: token },
   });
 
-  expect(resp.json<200>().valid).toBe(false);
+  expect(expectCodeAndJson(resp, 200).valid).toBe(false);
 });
 
 it("returns valid if token is not timeout", async () => {
@@ -64,5 +65,5 @@ it("returns valid if token is not timeout", async () => {
     query: { token: token },
   });
 
-  expect(resp.json<200>().valid).toBe(true);
+  expect(expectCodeAndJson(resp, 200).valid).toBe(true);
 });

@@ -1,7 +1,7 @@
 import { registerUserRoute } from "@/routes/auth/register";
 import { callRoute } from "@/utils/callRoute";
 import { FastifyInstance } from "fastify/types/instance";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 
@@ -27,7 +27,7 @@ it("should register and return token and name", async () => {
     body: { email, password  },
   });
 
-  expectCode(resp, 201);
+  expectCodeAndJson(resp, 201);
   const json = resp.json<201>();
   expect(json.name).toStrictEqual("test");
 });
@@ -38,7 +38,7 @@ it("should error if one email registers twice", async () => {
     body: { email: users.normalUser1.email, password  },
   });
 
-  expectCode(resp, 405);
+  expectCodeAndJson(resp, 405);
 });
 
 it("should fail if input email is not a valid email address", async () => {
@@ -46,5 +46,5 @@ it("should fail if input email is not a valid email address", async () => {
     body: { email: "123", password  },
   });
 
-  expectCode(resp, 400);
+  expectCodeAndJson(resp, 400);
 });

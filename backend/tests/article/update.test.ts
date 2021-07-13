@@ -5,7 +5,7 @@ import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute"; import { updateArticleRoute } from "@/routes/article/update";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 const articleCount = 2;
 
@@ -42,7 +42,7 @@ it("should reject bad code link", async () => {
     body: badPayload,
   }, users.normalUser1);
 
-  expectCode(resp, 400);
+  expectCodeAndJson(resp, 400);
 });
 
 it("return 403 if not the owner.", async () => {
@@ -52,7 +52,7 @@ it("return 403 if not the owner.", async () => {
     body: payload,
   }, users.normalUser2);
 
-  expectCode(resp, 403);
+  expectCodeAndJson(resp, 403);
 
 });
 it("update an article.", async () => {
@@ -65,7 +65,7 @@ it("update an article.", async () => {
     body: payload,
   }, users.normalUser2);
 
-  const json = expectCode(resp, 201);
+  const json = expectCodeAndJson(resp, 201);
 
   expect(json.revisionNumber).toBe(3);
 

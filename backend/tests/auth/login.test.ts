@@ -3,7 +3,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, normalUser1OriginalPassword } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { loginRoute } from "@/routes/auth/login";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 
@@ -27,7 +27,7 @@ it("should login when the user exists", async () => {
     query: { id: user.email, password: normalUser1OriginalPassword },
   });
 
-  const json = expectCode(resp, 200);
+  const json = expectCodeAndJson(resp, 200);
   expect(json.name).toBe(user.name);
   expect(json.role).toBe(user.role);
 });
@@ -39,5 +39,5 @@ it("should not login when the password is wrong", async () => {
     query: { id: user.id + "", password: normalUser1OriginalPassword + "bad" },
   });
 
-  expectCode(resp, 401);
+  expectCodeAndJson(resp, 401);
 });

@@ -76,6 +76,7 @@ export const registerRoute = (
         } else {
           reply.send(respBody);
         }
+        await reply;
       },
     });
     f.log.trace(`Registering route for ${route.api.endpoint.method} ${route.api.endpoint.url}`);

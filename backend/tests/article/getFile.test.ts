@@ -11,7 +11,7 @@ import { createMockArticles } from "./utils/generateArticles";
 import { Article } from "@/entities/Article";
 import { getArticleFileRoute } from "@/routes/article/getFile";
 import { range } from "@/utils/array";
-import { expectCode } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -55,7 +55,7 @@ it("returns file of latest revision", async () => {
     query: {},
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(pdfSize(1));
   expect(resp.headers["content-type"]).toBe("application/pdf");
 });
@@ -66,7 +66,7 @@ it("returns file of specific revision", async () => {
     query: { revision: 1 },
   }, users.normalUser1);
 
-  expect(resp.statusCode).toBe(200);
+  expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(pdfSize(0));
   expect(resp.headers["content-type"]).toBe("application/pdf");
 });
@@ -77,7 +77,7 @@ it("returns 404 if article is not found", async () => {
     query: {},
   }, users.normalUser1);
 
-  const json = expectCode(resp, 404);
+  const json = expectCodeAndJson(resp, 404);
   expect(json.notFound).toBe("article");
 });
 
@@ -87,7 +87,7 @@ it("returns 404 if revision is not found", async () => {
     query: { revision: 3 },
   }, users.normalUser1);
 
-  const json = expectCode(resp, 404);
+  const json = expectCodeAndJson(resp, 404);
   expect(json.notFound).toBe("revision");
 });
 
@@ -102,7 +102,7 @@ it("returns file if article is not public but the user is either admin or owner"
       query: {},
     }, user);
 
-    expect(resp.statusCode).toBe(200);
+    expectCode(resp, 200);
   };
 
   await Promise.all([
@@ -120,7 +120,7 @@ it("returns 404 if article is not public and the user is neither admin nor owner
     query: {},
   }, users.normalUser1);
 
-  const json = expectCode(resp, 404);
+  const json = expectCodeAndJson(resp, 404);
   expect(json.notFound).toBe("article");
 
 });

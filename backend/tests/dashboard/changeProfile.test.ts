@@ -3,7 +3,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, reloadUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { changeProfileRoute } from "@/routes/dashboard/changeProfile";
-import { expectCode } from "tests/utils/assertions";
+import { expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -22,7 +22,7 @@ afterEach(async () => {
 it("return 401 if not logged in.", async () => {
   const resp = await callRoute(server, changeProfileRoute, { body: {} });
 
-  expectCode(resp, 401);
+  expectCodeAndJson(resp, 401);
 });
 
 it("change user profile", async () => {
@@ -33,7 +33,7 @@ it("change user profile", async () => {
     body: { email: newEmail },
   }, users.normalUser1);
 
-  expectCode(resp, 204);
+  expectCodeAndJson(resp, 204);
 
   await reloadUsers(users);
 
