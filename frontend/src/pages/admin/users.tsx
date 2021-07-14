@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { SearchBar } from "src/components/SearchBar";
 import { removeNullOrUndefinedKey } from "src/utils/array";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/http";
 import { AdminUsersTable } from "src/pageComponents/admin/users/AdminUsersTable";
 import { api } from "src/apis";
 import { UserId } from "yaarxiv-api/api/auth/models";

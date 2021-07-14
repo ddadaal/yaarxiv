@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Box, Heading, FormField, TextInput, Button } from "grommet";
 import { Localized, prefix } from "src/i18n";
 
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/http";
 import Router, { useRouter } from "next/router";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { queryToString } from "src/utils/querystring";

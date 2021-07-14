@@ -8,7 +8,7 @@ import { useRouter } from "next/router";
 import { queryToIntOrDefault, queryToString } from "src/utils/querystring";
 import { SearchBar } from "src/components/SearchBar";
 import { removeNullOrUndefinedKey } from "src/utils/array";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/http";
 import { AdminArticleTable } from "src/pageComponents/admin/articles/AdminArticlesTable";
 import { api } from "src/apis";
 import { ArticleId } from "../../../../api/api/article/models";

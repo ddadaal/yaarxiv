@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { Localized, prefix } from "src/i18n";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/http";
 import { ArticleId } from "yaarxiv-api/api/article/models";
 
 const root = prefix("pages.dashboard.articles.");

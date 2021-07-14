@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/http";
 import { requireAuth } from "src/utils/requireAuth";
 import Router from "next/router";
 import { api } from "src/apis";

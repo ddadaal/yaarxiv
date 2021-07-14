@@ -7,7 +7,7 @@ import { prefix } from "src/i18n";
 import { formatDateTime } from "src/utils/datetime";
 import type { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/http";
 import { Pagination } from "src/components/Pagination";
 import { useAsync } from "react-async";
 import { DeleteArticleLink } from "./DeleteArticleLink";

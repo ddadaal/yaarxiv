@@ -16,7 +16,7 @@ import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { useFirstMount } from "src/utils/useFirstMount";
 import { HttpError } from "src/apis/fetch";
 import { ssrPage } from "src/utils/ssr";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/http";
 import { api } from "src/apis";
 
 type Props = {

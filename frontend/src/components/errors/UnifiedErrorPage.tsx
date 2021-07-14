@@ -1,6 +1,6 @@
 import React from "react";
 import { HttpError } from "src/apis/fetch";
-import { useInvalidTokenHandler } from "src/utils/useHttpErrorHandler";
+import { useInvalidTokenHandler } from "src/utils/http";
 import { BadRequest } from "./BadRequest";
 import { Forbidden } from "./Forbidden";
 import { NotAuthorized } from "./NotAuthorized";

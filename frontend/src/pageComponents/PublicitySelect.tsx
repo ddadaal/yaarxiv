@@ -2,7 +2,7 @@ import { Select } from "grommet";
 import React, { useCallback } from "react";
 import { useAsync } from "react-async";
 import { Localized, prefix } from "src/i18n";
-import { useHttpErrorHandler } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler } from "src/utils/http";
 import { PublicityText } from "./PublicityText";
 
 export interface Props {

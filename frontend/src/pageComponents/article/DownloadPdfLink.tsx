@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import { toast } from "react-toastify";
 import { api } from "src/apis";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/http";
 import { ArticleId } from "yaarxiv-api/api/article/models";
 
 interface Props {

@@ -5,7 +5,7 @@ import { FormField, Box, Button } from "grommet";
 import { useAsync } from "react-async";
 import { OverlayLoading } from "src/components/OverlayLoading";
 import { Localized } from "src/i18n";
-import { useHttpErrorHandler, useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpErrorHandler, useHttpRequest } from "src/utils/http";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";

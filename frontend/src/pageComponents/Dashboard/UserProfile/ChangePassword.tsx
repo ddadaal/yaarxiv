@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { FormField, Box, Text, Button } from "grommet";
 import { Localized, prefix } from "src/i18n";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/http";
 import { HttpError } from "src/apis/fetch";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";

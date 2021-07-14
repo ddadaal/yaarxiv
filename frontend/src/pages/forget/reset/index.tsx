@@ -7,7 +7,7 @@ import { SSRPageProps } from "src/utils/ssr";
 import { Close } from "grommet-icons";
 import { ErrorPage } from "src/components/errors/ErrorPage";
 import { Localized } from "src/i18n";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/http";
 import { HttpError } from "src/apis/fetch";
 import { FormField, Box, Button, Text, Heading } from "grommet";
 import { queryToString } from "src/utils/querystring";

@@ -4,7 +4,7 @@ import { Localized } from "src/i18n";
 import { prefix } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { queryToIntOrDefault } from "src/utils/querystring";
-import { useHttpRequest } from "src/utils/useHttpErrorHandler";
+import { useHttpRequest } from "src/utils/http";
 import { Article } from "yaarxiv-api/api/article/models";
 import { getCurrentUserInCookie } from "src/stores/UserStore";
 import { HttpError } from "src/apis/fetch";
