@@ -144,6 +144,7 @@ export async function jsonFetch<T>(
       failEvent.execute(payload);
       throw payload;
     }
+
     // TypeError is client side fetch error
     if (r instanceof TypeError) {
       const payload = makeHttpError(CLIENT_ERROR_STATUS, r);

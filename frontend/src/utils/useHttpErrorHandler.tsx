@@ -67,7 +67,9 @@ export function useHttpRequest(
       setLoadingState(true);
       return await call({ userStore });
     } catch (e) {
-      handleHttpError(e, userStore);
+      if (e.name !== "AbortError") {
+        handleHttpError(e, userStore);
+      }
     } finally {
       setLoadingState(false);
     }

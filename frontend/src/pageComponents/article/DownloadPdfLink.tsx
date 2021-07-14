@@ -26,6 +26,8 @@ export const DownloadPdfLink: React.FC<Props> = ({
 
   const downloadFile = () => call(async () => {
 
+    const abortController = new AbortController();
+
     function removeToast() {
       if (toastId.current) {
         toast.dismiss(toastId.current);
@@ -33,12 +35,21 @@ export const DownloadPdfLink: React.FC<Props> = ({
       }
     }
 
+    function onClose() {
+      removeToast();
+      toast.info("下载已中断");
+      abortController.abort();
+    }
+
     const update = (percent: number) => {
 
       if (toastId.current === null) {
         toastId.current = toast.info(
           downloadMessage(percent),
-          { progress: percent },
+          {
+            progress: percent,
+            onClick: onClose,
+          },
         );
       } else if (percent === 1) {
         toast.done(toastId.current);
@@ -50,62 +61,66 @@ export const DownloadPdfLink: React.FC<Props> = ({
           render: downloadMessage(percent),
           hideProgressBar: false,
           progress: percent,
+          onClick: onClose,
         });
       }
     };
 
     update(0);
 
-    await api.article.getArticleFile({ query: { revision }, path: { articleId } })
-      .catch(async (e) => {
-        if (e instanceof Response) {
-          // download the file
-          const reader = e.body!.getReader();
+    await api.article.getArticleFile(
+      { query: { revision }, path: { articleId } },
+      abortController.signal
+    ).catch(async (e) => {
+      if (e instanceof Response) {
+        // download the file
+        const reader = e.body!.getReader();
 
-          // Step 2: get total length
-          const contentLength = +e.headers.get("Content-Length")!;
+        // Step 2: get total length
+        const contentLength = +e.headers.get("Content-Length")!;
 
-          // Step 3: read the data
-          let receivedLength = 0; // received that many bytes at the moment
-          const chunks = new Uint8Array(contentLength);
+        // Step 3: read the data
+        let receivedLength = 0; // received that many bytes at the moment
+        const chunks = new Uint8Array(contentLength);
 
-          let error = false;
+        let error = false;
 
-          while(true) {
-            const { done, value } = await reader.read();
+        while(!abortController.signal.aborted) {
+          console.log(abortController.signal.aborted);
+          const { done, value } = await reader.read();
 
-            if (done) {
-              break;
-            }
-
-            if (value) {
-              chunks.set(value, receivedLength);
-              receivedLength += value.length;
-              update(receivedLength / contentLength);
-            } else {
-              error = true;
-              break;
-            }
+          if (done) {
+            break;
           }
 
-          if (error) {
-            removeToast();
-            toast.error("下载文件出现错误。请重试。");
+          if (value) {
+            chunks.set(value, receivedLength);
+            receivedLength += value.length;
+            update(receivedLength / contentLength);
           } else {
-            const objectUrl = window.URL.createObjectURL(new Blob([chunks]));
-
-            const anchor = document.createElement("a");
-            document.body.appendChild(anchor);
-            anchor.href = objectUrl;
-            anchor.download = filename ?? "xx.pdf";
-            anchor.click();
-            window.URL.revokeObjectURL(objectUrl);
+            error = true;
+            break;
           }
-
-        } else {
-          throw e;
         }
-      });
+
+        if (error) {
+          removeToast();
+          toast.error("下载文件出现错误。请重试。");
+        } else {
+          const objectUrl = window.URL.createObjectURL(new Blob([chunks]));
+
+          const anchor = document.createElement("a");
+          document.body.appendChild(anchor);
+          anchor.href = objectUrl;
+          anchor.download = filename ?? "xx.pdf";
+          anchor.click();
+          window.URL.revokeObjectURL(objectUrl);
+        }
+
+      } else {
+        throw e;
+      }
+    });
   });
 
   return children(downloadFile);
