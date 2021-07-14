@@ -11,7 +11,7 @@ interface Props {
   children: (onClick: () => void) => ReturnType<React.FC>;
 }
 
-const downloadMessage = (percent: string) => `正在下载文件……${percent}%`;
+const downloadMessage = (percent: number) => `正在下载文件……${(percent * 100).toFixed(1)}%`;
 
 // require children to have only one child and accepts onClick
 export const DownloadPdfLink: React.FC<Props> = ({
@@ -26,15 +26,31 @@ export const DownloadPdfLink: React.FC<Props> = ({
 
   const downloadFile = () => call(async () => {
 
+    function removeToast() {
+      if (toastId.current) {
+        toast.dismiss(toastId.current);
+        toastId.current = null;
+      }
+    }
+
     const update = (percent: number) => {
 
       if (toastId.current === null) {
-        toastId.current = toast(
-          downloadMessage((percent * 100).toFixed(1)),
-          { progress: percent }
+        toastId.current = toast.info(
+          downloadMessage(percent),
+          { progress: percent },
         );
+      } else if (percent === 1) {
+        toast.done(toastId.current);
+        removeToast();
+        toast.success("下载成功");
+
       } else {
-        toast.update(toastId.current, { progress: percent });
+        toast.update(toastId.current, {
+          render: downloadMessage(percent),
+          hideProgressBar: false,
+          progress: percent,
+        });
       }
     };
 
@@ -72,11 +88,8 @@ export const DownloadPdfLink: React.FC<Props> = ({
             }
           }
 
-          if (toastId.current) {
-            toast.done(toastId.current);
-          }
-
           if (error) {
+            removeToast();
             toast.error("下载文件出现错误。请重试。");
           } else {
             const objectUrl = window.URL.createObjectURL(new Blob([chunks]));

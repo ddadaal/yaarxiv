@@ -20,7 +20,9 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
   return (
     <>
       <GlobalStyle />
-      <ToastContainer />
+      <ToastContainer
+        hideProgressBar={true}
+      />
       <MediaContextProvider>
         <Grommet theme={siteTheme} full={true} themeMode={theme}>
           <Box direction="column" height="100vh">
