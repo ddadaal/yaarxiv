@@ -45,6 +45,7 @@ Default configs are provided in `docker-compose.yml`. The following can be chang
 | frontend port              | 3000                           | mapped from 3000                 |
 | backend port               | 5000                           | mapped from 3000                 |
 | frontend args (see below)  | USE_MOCK=0                     |                                  |
+| static files directory     | ./static                       |                                  |
 | backend configuration file | ./backend/config/production.ts | Must be created before starting. |
 | backend db files           | ./backend/distdb               | MySQL                            |
 | backend upload dir         | ./backend/distupload           |                                  |

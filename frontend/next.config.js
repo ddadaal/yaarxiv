@@ -14,5 +14,6 @@ module.exports = withPlugins([
   publicRuntimeConfig: {
     clientApiRoot: process.env.CLIENT_API_ROOT,
     serverApiRoot: process.env.SERVER_API_ROOT,
+    staticFileRoot: process.env.STATIC_FILE_ROOT,
   },
 });

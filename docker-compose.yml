@@ -37,6 +37,7 @@ services:
       - USE_MOCK="0"
       - SERVER_API_ROOT="http://backend:5000"
       - CLIENT_API_ROOT="/api"
+      - STATIC_FILE_ROOT="/static"
 
   backend:
     image: backend
