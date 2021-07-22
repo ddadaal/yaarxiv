@@ -34,19 +34,20 @@ More commands can be found in `frontend/README.md` and `backend/README.md`.
 
 # Deployment
 
+1. Configure db initial password in `.env`
 1. Create and modify `backend/config/production.ts` based on `backend/config/production.sample.ts`
 2. `docker-compose up`
 
 Default configs are provided in `docker-compose.yml`. The following can be changed.
 
-| config                     | default value                              | extra                            |
-| -------------------------- | ------------------------------------------ | -------------------------------- |
-| frontend port              | 80                                         | mapped from 3000                 |
-| backend port               | 5000                                       | mapped from 3000                 |
-| frontend args (see below)  | USE_MOCK=0, API_ROOT=http://localhost:5000 |                                  |
-| backend configuration file | ./backend/config/production.ts             | Must be created before starting. |
-| backend db files           | ./backend/distdb                           | MySQL                            |
-| backend upload dir         | ./backend/distupload                       |                                  |
+| config                     | default value                  | extra                            |
+| -------------------------- | ------------------------------ | -------------------------------- |
+| frontend port              | 3000                           | mapped from 3000                 |
+| backend port               | 5000                           | mapped from 3000                 |
+| frontend args (see below)  | USE_MOCK=0                     |                                  |
+| backend configuration file | ./backend/config/production.ts | Must be created before starting. |
+| backend db files           | ./backend/distdb               | MySQL                            |
+| backend upload dir         | ./backend/distupload           |                                  |
 
 Note: The default timeout for db connection is **20s**, which can be changed at the backend configuration file. Because of this connection timeout, there is no need to use `wait-for-it.sh` to wait for db connection.
 

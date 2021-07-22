@@ -1,13 +1,29 @@
 version: "3"
 services:
+
+  nginx:
+    image: nginx:stable-alpine
+    container_name: nginx
+    volumes:
+      - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./static:/static/
+    ports:
+      - ${NGINX_PORT}:80
+    depends_on:
+      - frontend
+      - backend
+      - grafana
+      - loki
+
   db:
     image: mysql:8
     environment:
-      MYSQL_ROOT_PASSWORD: dbfordev
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
       - "./db:/var/lib/mysql"
     ports:
       - 3306:3306
+
   frontend:
     image: frontend
     build:
@@ -16,9 +32,12 @@ services:
       args:
         USE_MOCK: "0"
     ports:
-      - "80:3000"
+      - "3000:3000"
     environment:
-      - API_ROOT=http://localhost:5000
+      - USE_MOCK="0"
+      - SERVER_API_ROOT="http://backend:5000"
+      - CLIENT_API_ROOT="/api"
+
   backend:
     image: backend
     build:
