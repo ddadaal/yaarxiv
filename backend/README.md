@@ -12,7 +12,7 @@
 # Tools Used
 
 - fastify
-- typeorm
+- mikro-orm
 - TypeScript
 - eslint
 
@@ -24,27 +24,26 @@
 # Start a local MySQL for dev and local test
 # Username: root, Password: dbfordev
 # The db files are stored under ./db which is gitignored.
-docker-compose -f docker-compose.dev.yml up
+npm run devenv
 
 # Install dependencies
 npm install
 
 # Run migrations
-npm run typeorm:cli migration:run
+npx mikro-orm migration:up
 
 # Start
 npm start
 
-# When executing typeorm:cli, pass argument using -- as follows
-npm run typeorm:cli migration:generate -- -n now
-
+# Stop the dev db
+npm run devenv:stop
 ```
 
 # Configuration
 
 [node-config](https://github.com/lorenwest/node-config) is used for configuration. Create config files on `config` dir according to its strategy.
 
-For example, you will need a `production.json` (which can be copied from `production.sample.json`) for production deployment.
+For example, you will need a `production.ts` (which can be copied from `production.sample.ts`) for production deployment.
 
 # Deployment
 
@@ -60,7 +59,6 @@ npm install
 
 # Build
 npm run build
-
 ```
 
 ## Built Assets

@@ -14,7 +14,7 @@ The frontend of yaarxiv.
 - SSR with responsive layout works fine with [@artsy/fresnel](https://github.com/artsy/fresnel) without any user agent sniffing hack (determine initial breakpoint by guessing device's type using user agent.)
 - Automatic API client generation based on the [API project](https://github.com/ddadaal/yaarxiv/tree/master/api) with all types (response types, parameter types etc) inferred automatically!
 - Separate API layer with mock for complete backend-less development
-- Hot-changable i18n with [simstate-i18n](https://github.com/ddadaal/simstate-i18n)
+- Hot-changable i18n with [react-typed-i18n](https://github.com/ddadaal/react-typed-i18n)
 
 # Development
 
@@ -25,8 +25,11 @@ Make sure the [API project](https://github.com/ddadaal/yaarxiv/tree/master/api) 
 # since we need the stable branch of grommet-icons
 npm install
 
-# Start dev server
+# Start dev server using mock data
 npm run dev
+
+# Start dev server connecting to real API using CLIENT_API_ROOT and SERVER_API_ROOT env values
+npm run devapi
 
 # Build for production
 npm run build
@@ -40,14 +43,10 @@ npm start -- --port 3000
 We utilize [next.js's environment variables feature](https://nextjs.org/docs/basic-features/environment-variables) and [runtime configuration feature](https://nextjs.org/docs/api-reference/next.config.js/runtime-configuration) to handle configs. Available configurations are as follows:
 
 
-| config                 | type        | Description                                    | Possible Values | Default                 |
-| ---------------------- | ----------- | ---------------------------------------------- | --------------- | ----------------------- |
-| `API_ROOT`             | runtime arg | The root of backend API                        | string          | http://localhost:3000   |
-| `STATIC_ROOT`          | runtime arg | The root of static files                       | string          | the same with API_ROOT. |
-| `PDF_SIZE_LIMIT`       | runtime arg | The size limit for uploaded pdf size in bytes. | number          | 31457280 (30MB)         |
-| `NEXT_PUBLIC_USE_MOCK` | build arg   | Whether to use mock API for development        | 1/0             | 1                       |
+| config            | type        | Description                                  | Possible Values | Default               |
+| ----------------- | ----------- | -------------------------------------------- | --------------- | --------------------- |
+| `CLIENT_API_ROOT` | runtime arg | URL for client to connect to backend         | `string`        | http://localhost:5000 |
+| `SERVER_API_ROOT` | runtime arg | URL for server to connect to backend for SSR | `string`        | http://localhost:5000 |
 
 
 This git repo contains a `.env` as default config. You can create a `.env.production` for production configration and this `.env.production` should be git ignored.
-
-To dynamically changing `USE_MOCK` config during development, changing the USE_MOCK directly on the code and after hot reload, new USE_MOCK will be available. But please remember not to check in the changed code. The value inside version control should always be derived from USE_MOCK config.

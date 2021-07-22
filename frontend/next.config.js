@@ -7,14 +7,12 @@ module.exports = withPlugins([
   [tm([
     "yaarxiv-api",
     "react-async",
-    "react-typed-i18n"
+    "react-typed-i18n",
   ])],
   [images, {}],
 ], {
   publicRuntimeConfig: {
     clientApiRoot: process.env.CLIENT_API_ROOT,
     serverApiRoot: process.env.SERVER_API_ROOT,
-    serverStaticFileRoot: process.env.SERVER_STATIC_FILE_ROOT,
-    pdfSizeLimit: process.env.PDF_SIZE_LIMIT,
   },
 });

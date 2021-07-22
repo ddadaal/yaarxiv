@@ -13,8 +13,7 @@
     "devenv": "docker-compose -f devenv.yml up -d",
     "devenv:stop": "docker-compose -f devenv.yml down",
     "test": "cross-env NODE_ENV=test jest --verbose",
-    "test:coverage": "npm run test -- --coverage",
-    "typeorm:cli": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js"
+    "test:coverage": "npm run test -- --coverage"
   },
   "author": "",
   "license": "ISC",

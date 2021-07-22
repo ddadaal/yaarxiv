@@ -6,34 +6,47 @@
 
 A new open-source and modern preprint platform.
 
-# Vision
-
-- Power a new and modern preprint platform
-- Provide a protocol and an implementation for a federated (distributed) preprint platform network.
-
 # Development
 
 A Node.js TypeScript full stack
 
 - Frontend: [Next.js](https://nextjs.org/) with TypeScript
-- Backend: [fastify](https://www.fastify.io/) with TypeScript and [typeorm](https://typeorm.io)
+- Backend: [fastify](https://www.fastify.io/) with TypeScript and [mikro-orm](https://mikro-orm.io)
+
+Start backend:
+
+```bash
+cd backend
+npm install
+npm run devenv
+npm run dev
+```
+
+Develop frontend using real backend
+
+```bash
+cd frontend
+npm install
+npm run devapi
+```
+
+More commands can be found in `frontend/README.md` and `backend/README.md`.
 
 # Deployment
 
-## Docker Compose
-
-A `docker-compose.yml` is provided. So you can just `docker-compose up` to start a system.
+1. Create and modify `backend/config/production.ts` based on `backend/config/production.sample.ts`
+2. `docker-compose up`
 
 Default configs are provided in `docker-compose.yml`. The following can be changed.
 
-| config                     | default value                              | extra                                                       |
-| -------------------------- | ------------------------------------------ | ----------------------------------------------------------- |
-| frontend port              | 80                                         | mapped from 3000                                            |
-| backend port               | 5000                                       | mapped from 3000                                            |
-| frontend args (see below)  | USE_MOCK=0, API_ROOT=http://localhost:5000 |                                                             |
-| backend db file            | ./prod.db                                  | Currently a SQLite db, will change to real db in the future |
-| backend configuration file | ./backend/config/production.sample.env     |                                                             |
-| backend upload dir         | ./backend/upload                           |                                                             |
+| config                     | default value                              | extra                            |
+| -------------------------- | ------------------------------------------ | -------------------------------- |
+| frontend port              | 80                                         | mapped from 3000                 |
+| backend port               | 5000                                       | mapped from 3000                 |
+| frontend args (see below)  | USE_MOCK=0, API_ROOT=http://localhost:5000 |                                  |
+| backend db files           | ./deployed/db                              | MySQL                            |
+| backend configuration file | ./backend/config/production.ts             | Must be created before starting. |
+| backend upload dir         | ./backend/upload                           |                                  |
 
 Note: The default timeout for db connection is **20s**, which can be changed at the backend configuration file. Because of this connection timeout, there is no need to use `wait-for-it.sh` to wait for db connection.
 
@@ -64,8 +77,8 @@ docker build . -f backend/Dockerfile \
 # with mappings to production conf and upload folder
 # -it to ctrl+c to kill the container
 docker run -p 5000:3000 -it \
-    -v $PWD/backend/config/production.json:/dist/config/production.json \
-    -v $PWD/backend/distupload:/dist/upload \
+    -v $PWD/backend/config/production.ts:/dist/config/production.ts \
+    -v $PWD/upload:/dist/upload \
     backend
 
 ```
