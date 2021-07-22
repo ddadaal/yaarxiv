@@ -43,7 +43,10 @@ npm run devenv:stop
 
 [node-config](https://github.com/lorenwest/node-config) is used for configuration. Create config files on `config` dir according to its strategy.
 
+
 For example, you will need a `production.ts` (which can be copied from `production.sample.ts`) for production deployment.
+
+See `config/default.ts` for default config.
 
 # Deployment
 
@@ -89,9 +92,9 @@ On the folder with built assets shown above,
 # Only install production dependencies
 npm ci --only=production
 
-# Copy `config/production.sample.json` to `config/production.json` and change the configs
+# Copy `config/production.sample.ts` to `config/production.ts` and change the configs
 # Or use symlink or docker mount to mount a predefined production.json to the config directory
-cp config/production.sample.json config/production.json
+cp config/production.sample.ts config/production.ts
 vim config/production.json
 
 # Run!

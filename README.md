@@ -44,9 +44,9 @@ Default configs are provided in `docker-compose.yml`. The following can be chang
 | frontend port              | 80                                         | mapped from 3000                 |
 | backend port               | 5000                                       | mapped from 3000                 |
 | frontend args (see below)  | USE_MOCK=0, API_ROOT=http://localhost:5000 |                                  |
-| backend db files           | ./deployed/db                              | MySQL                            |
 | backend configuration file | ./backend/config/production.ts             | Must be created before starting. |
-| backend upload dir         | ./backend/upload                           |                                  |
+| backend db files           | ./backend/distdb                           | MySQL                            |
+| backend upload dir         | ./backend/distupload                       |                                  |
 
 Note: The default timeout for db connection is **20s**, which can be changed at the backend configuration file. Because of this connection timeout, there is no need to use `wait-for-it.sh` to wait for db connection.
 
