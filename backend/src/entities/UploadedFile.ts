@@ -12,7 +12,11 @@ export class UploadedFile {
   user: IdentifiedReference<User>;
 
   @Property()
-  filePath: string;
+  filename: string;
+
+  get filePath() {
+    return [this.user.id, this.filename].join("/");
+  }
 
   @OneToMany(() => ArticleRevision, (r) => r.pdf)
   articleRevisions = new Collection<ArticleRevision>(this);

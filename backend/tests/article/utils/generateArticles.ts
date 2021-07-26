@@ -47,7 +47,7 @@ export function generatePdf(owner: IdentifiedReference<User>) {
 
   const pdf = new UploadedFile();
   pdf.user = owner;
-  pdf.filePath = "test";
+  pdf.filename = "test";
   return pdf;
 }
 

@@ -3,6 +3,7 @@ import { jwtAuthPlugin } from "./auth";
 import { mailPlugin } from "./mail";
 import { ormPlugin } from "./orm";
 import { staticPlugin } from "./static";
+import { storagePlugin } from "./storage";
 import { swaggerPlugin } from "./swagger";
 import { uploadPlugin } from "./upload";
 
@@ -14,4 +15,5 @@ export const plugins = [
   ormPlugin,
   mailPlugin,
   jwtAuthPlugin,
+  storagePlugin,
 ];

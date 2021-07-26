@@ -5,13 +5,13 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createFile } from "./utils/mockFileForm";
 import { config } from "@/utils/config";
-import fs from "fs";
 import path from "path";
 import { createMockArticles } from "./utils/generateArticles";
 import { Article } from "@/entities/Article";
 import { getArticleFileRoute } from "@/routes/article/getFile";
 import { range } from "@/utils/array";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
+import { removeUploadDir } from "tests/utils/fs";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -36,7 +36,7 @@ beforeEach(async () => {
     const filename = pdfFilename(i);
     const size = pdfSize(i);
 
-    revisions[i].pdf.getEntity().filePath = [article.owner.id, filename].join("/");
+    revisions[i].pdf.getEntity().filename = filename;
 
     await createFile(size, path.join(config.upload.path, article.owner.id + "", filename));
   }));
@@ -46,7 +46,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await server.close();
-  await fs.promises.rmdir(config.upload.path, { recursive: true });
+  await removeUploadDir();
 });
 
 it("returns file of latest revision", async () => {

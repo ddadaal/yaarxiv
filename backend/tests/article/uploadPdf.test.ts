@@ -1,14 +1,13 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { UploadedFile } from "../../src/entities/UploadedFile";
 import * as api from "yaarxiv-api/api/article/uploadPDF";
-import fs from "fs";
 import { mockFileForm } from "./utils/mockFileForm";
-import { config } from "@/utils/config";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadPdfRoute } from "@/routes/article/uploadPdf";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
+import { removeUploadDir } from "tests/utils/fs";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -22,8 +21,7 @@ beforeEach(async () => {
 
 afterEach(async () => {
   await server.close();
-  // delete the test upload path
-  await fs.promises.rmdir(config.upload.path, { recursive: true });
+  await removeUploadDir();
 });
 
 it("upload an PDF to the system.", async () => {
