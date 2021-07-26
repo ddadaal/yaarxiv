@@ -7,7 +7,7 @@ import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadPdfRoute } from "@/routes/article/uploadPdf";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
-import { removeUploadDir } from "tests/utils/fs";
+import { expectFile, removeUploadDir } from "tests/utils/fs";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -33,16 +33,17 @@ it("upload an PDF to the system.", async () => {
     body: formData as any,
   }, users.normalUser1, formData.getHeaders());
 
-  expectCodeAndJson(resp, 201);
+  const { token } = expectCodeAndJson(resp, 201);
 
   const em = server.orm.em.fork();
   expect(await em.count(UploadedFile)).toBe(1);
 
-  const token = resp.json<201>().token;
-
   const upload = await em.findOneOrFail(UploadedFile, { id: token });
   expect(upload.user.id).toBe(users.normalUser1.id);
 
+  // expect file
+  const f = await expectFile(upload.filePath);
+  expect(f.size).toBe(fileSize);
 });
 
 it("fails if the file size is too big.", async () => {

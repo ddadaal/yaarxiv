@@ -3,8 +3,7 @@ import { RouteHandlerMethod } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { mockFileForm } from "tests/article/utils/mockFileForm";
 import { expectCode } from "tests/utils/assertions";
-import { expectFileExist, getFullFilePath, removeUploadDir } from "tests/utils/fs";
-import fs from "fs";
+import { expectFile, removeUploadDir } from "tests/utils/fs";
 
 let server: FastifyInstance;
 
@@ -44,9 +43,8 @@ it("saves file", async () => {
 
   expectCode(resp, 200);
 
-  expectFileExist(filename, true);
+  const f = await expectFile(filename, true);
 
-  const f = await fs.promises.stat(getFullFilePath(filename));
   expect(f.size).toBe(size);
 
 });

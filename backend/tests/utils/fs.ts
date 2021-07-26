@@ -6,8 +6,11 @@ export function getFullFilePath(filePath: string) {
   return path.join(config.upload.path, filePath);
 }
 
-export function expectFileExist(filePath: string, exist = true) {
-  expect(fs.existsSync(path.join(config.upload.path, filePath))).toBe(exist);
+export async function expectFile(filePath: string, exist = true): Promise<fs.Stats> {
+  const fullPath = path.join(config.upload.path, filePath);
+  expect(fs.existsSync(fullPath)).toBe(exist);
+
+  return fs.promises.stat(fullPath);
 }
 
 export async function removeUploadDir() {
