@@ -92,7 +92,7 @@ it("should return the articles with ALL of specified keyword", async () => {
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(4);
-  expect(data.results.map((x) => x.articleId)).toEqual([1,10,11,12]);
+  expect(data.results.map((x) => x.articleId)).toEqual([1,10,11,12].reverse());
 });
 
 it("should return the articles with specified single keyword", async () => {
@@ -115,7 +115,7 @@ it("should return articls with ALL of specified authors", async () => {
   const data = resp.json<200>();
 
   expect(data.totalCount).toBe(6);
-  expect(data.results.map((x) => x.articleId)).toEqual(range(2, 14, 2));
+  expect(data.results.map((x) => x.articleId)).toEqual(range(2, 14, 2).reverse());
 });
 
 it("should not return admin set private articles", async () => {

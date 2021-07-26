@@ -17,9 +17,9 @@ export const uploadPdfRoute = route(
 
     const filename =`${Date.now()}_${data.filename}`;
 
-    const pdf = new UploadedFile();
-    pdf.filename = filename;
-    pdf.user = user;
+    const pdf = new UploadedFile({
+      user, filename,
+    });
 
     const filePath = pdf.filePath;
     req.log.info(`

@@ -5,7 +5,6 @@ import { route } from "@/utils/route";
 import * as api from "yaarxiv-api/api/article/update";
 import createError from "http-errors";
 import { validateCodeLink } from "@/utils/codeLink";
-import { Reference } from "@mikro-orm/core";
 
 export const updateArticleRoute = route(
   api, "UpdateArticleSchema",
@@ -49,17 +48,18 @@ export const updateArticleRoute = route(
 
     const revNumber = latestRev.revisionNumber + 1;
 
-    const rev = new ArticleRevision();
-    rev.abstract = req.body.abstract ?? latestRev.abstract;
-    rev.authors = req.body.authors?.map((x) => ({ name: x })) ?? latestRev.authors;
-    rev.article = Reference.create(article);
-    rev.category = "";
-    rev.keywords = req.body.keywords ?? latestRev.keywords;
-    rev.pdf = pdf ? Reference.create(pdf) : latestRev.pdf;
-    rev.revisionNumber = revNumber;
-    rev.title = req.body.title ?? latestRev.title;
-    rev.time = time;
-    rev.codeLink = req.body.codeLink ?? latestRev.codeLink;
+    const rev = new ArticleRevision({
+      abstract: req.body.abstract ?? latestRev.abstract,
+      authors: req.body.authors?.map((x) => ({ name: x })) ?? latestRev.authors,
+      article,
+      category: "",
+      keywords: req.body.keywords ?? latestRev.keywords,
+      pdf: pdf ?? latestRev.pdf,
+      revisionNumber: revNumber,
+      title: req.body.title ?? latestRev.title,
+      time: time,
+      codeLink: req.body.codeLink ?? latestRev.codeLink,
+    });
 
     req.em.persist(rev);
 

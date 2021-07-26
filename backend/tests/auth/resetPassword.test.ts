@@ -16,17 +16,20 @@ let token2: ResetPasswordToken;
 
 async function insertData() {
   // token1 is valid
-  token1 = new ResetPasswordToken();
-  token1.id = "testid";
-  token1.user = Reference.create(users.normalUser1);
-  token1.time = new Date();
+  token1 = new ResetPasswordToken({
+    id: "testid",
+    user: Reference.create(users.normalUser1),
+    time: new Date(),
+  });
 
   // token2 is timeout
-  token2 = new ResetPasswordToken();
-  token2.id = "testid2";
-  token2.user = Reference.create(users.normalUser2);
-  token2.time = new Date();
-  token2.time.setTime(token2.time.getTime() - (config.resetPassword.tokenValidTimeSeconds + 1) * 1000);
+  token2 = new ResetPasswordToken({
+    id : "testid2",
+    user : Reference.create(users.normalUser2),
+    time : new Date(),
+  });
+
+  token2.time.setTime(token2.time.getTime() - (config.resetPassword.tokenValidTimeSeconds + 1) * 1000),
 
   await server.orm.em.persistAndFlush([token1, token2]);
 }

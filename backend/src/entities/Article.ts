@@ -1,3 +1,4 @@
+import { EntityOrRef, toRef } from "@/utils/orm";
 import {
   Entity, Property, OneToMany, ManyToOne,
   PrimaryKey, OneToOne, IdentifiedReference, Collection } from "@mikro-orm/core";
@@ -41,5 +42,23 @@ export class Article {
       }
     }
     return true;
+  }
+
+  constructor(init: {
+    id?: number,
+    createTime: Date,
+    lastUpdateTime: Date,
+    owner: EntityOrRef<User>,
+    latestRevision?: EntityOrRef<ArticleRevision>,
+    revisions?: EntityOrRef<ArticleRevision>[],
+  }) {
+    if (init.id) this.id = init.id;
+    this.createTime = init.createTime;
+    this.lastUpdateTime = init.lastUpdateTime;
+    if (init.latestRevision) this.latestRevision = toRef(init.latestRevision);
+    this.owner = toRef(init.owner);
+    if(init.revisions) {
+      this.revisions.add(...init.revisions);
+    }
   }
 }

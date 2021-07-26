@@ -7,10 +7,11 @@ import { UniqueConstraintViolationException } from "@mikro-orm/core";
 export const registerUserRoute = route(
   api, "RegisterSchema",
   async (req, fastify) => {
-    const user = new User();
-    user.email = req.body.email;
-    user.name = user.email.split("@")[0];
-    user.role = UserRole.User;
+    const user = new User({
+      email:  req.body.email,
+      name: req.body.email.split("@")[0],
+      role: UserRole.User,
+    });
 
     await user.setPassword(req.body.password);
 

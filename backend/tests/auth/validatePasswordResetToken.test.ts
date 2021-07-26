@@ -4,7 +4,6 @@ import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { genId } from "@/utils/genId";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
-import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { validatePasswordResetTokenRoute } from "@/routes/auth/validatePasswordResetToken";
 import { expectCodeAndJson } from "tests/utils/assertions";
@@ -23,10 +22,12 @@ afterEach(async () => {
 });
 
 async function insert(id: string, time: Date) {
-  const token = new ResetPasswordToken();
-  token.id = id;
-  token.time = time;
-  token.user = Reference.create(users.normalUser1);
+  const token = new ResetPasswordToken({
+    id: id,
+    time: time,
+    user: users.normalUser1,
+  });
+
   await server.orm.em.persistAndFlush(token);
 }
 

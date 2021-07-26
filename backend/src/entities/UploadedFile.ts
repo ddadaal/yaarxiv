@@ -1,3 +1,4 @@
+import { EntityOrRef, toRef } from "@/utils/orm";
 import { Entity, Property, OneToMany,
   ManyToOne, PrimaryKey, IdentifiedReference, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
@@ -20,4 +21,16 @@ export class UploadedFile {
 
   @OneToMany(() => ArticleRevision, (r) => r.pdf)
   articleRevisions = new Collection<ArticleRevision>(this);
+
+  constructor(init: {
+    id?: number;
+    user: EntityOrRef<User>,
+    filename: string,
+  }) {
+    if (init.id) {
+      this.id = init.id;
+    }
+    this.user = toRef(init.user);
+    this.filename = init.filename;
+  }
 }

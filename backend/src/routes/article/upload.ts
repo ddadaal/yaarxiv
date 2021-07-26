@@ -6,6 +6,7 @@ import * as api from "yaarxiv-api/api/article/upload";
 import createError from "http-errors";
 import { validateCodeLink } from "@/utils/codeLink";
 import { Reference } from "@mikro-orm/core";
+import { toRef } from "@/utils/orm";
 
 export const uploadArticleRoute = route(
   api, "UploadArticleSchema",
@@ -24,24 +25,27 @@ export const uploadArticleRoute = route(
 
     const createTime = new Date();
 
-    const rev = new ArticleRevision();
-    rev.abstract = req.body.abstract;
-    rev.authors = req.body.authors.map((x) => ({ name: x }));
-    rev.category = "";
-    rev.keywords = req.body.keywords;
-    rev.pdf = Reference.create(pdf);
-    rev.revisionNumber = 1;
-    rev.title = req.body.title;
-    rev.time = createTime;
-    rev.codeLink = req.body.codeLink;
+    const article = new Article({
+      createTime: createTime,
+      lastUpdateTime: createTime,
+      owner: req.dbUserRef(),
+    });
 
-    const article = new Article();
-    article.createTime = createTime;
-    article.lastUpdateTime = createTime;
-    article.latestRevision = Reference.create(rev);
-    article.owner = req.dbUserRef();
+    const rev = new ArticleRevision({
+      abstract: req.body.abstract,
+      authors: req.body.authors.map((x) => ({ name: x })),
+      category: "",
+      keywords: req.body.keywords,
+      pdf: Reference.create(pdf),
+      revisionNumber: 1,
+      title: req.body.title,
+      time: createTime,
+      codeLink: req.body.codeLink,
+      article,
+    });
 
     article.revisions.add(rev);
+    article.latestRevision = toRef(rev);
 
     await req.em.persistAndFlush(article);
 

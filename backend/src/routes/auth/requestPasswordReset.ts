@@ -21,10 +21,12 @@ export const requestPasswordResetRoute = route(
     }
 
     // generate ResetPasswordToken
-    const token = new ResetPasswordToken();
-    token.id = genId();
-    token.time = new Date();
-    token.user = Reference.create(user);
+    const token = new ResetPasswordToken({
+      id: genId(),
+      time: new Date(),
+      user: Reference.create(user),
+    });
+
     await req.em.persistAndFlush(token);
 
     // parse the template
