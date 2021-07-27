@@ -15,6 +15,7 @@ import { toast } from "react-toastify";
 import { api } from "src/apis";
 import { ssrPage } from "src/utils/ssr";
 import { UserRole } from "src/models/User";
+import { LimitedWidthPage } from "src/layouts/LimitedWidthPage";
 
 const root = prefix("pages.updateArticle.");
 
@@ -61,12 +62,14 @@ export const ArticleUpdatePage = ssrPage<Props>(
     const { ...rest } = props.article.currentRevision;
 
     return (
-      <ArticleEditForm
-        disabled={submitting}
-        articleId={props.article.id}
-        initial={{ ...rest, authors: rest.authors.map((x) => x.name) }}
-        onSubmit={submit}
-      />
+      <LimitedWidthPage maxWidth="large">
+        <ArticleEditForm
+          disabled={submitting}
+          articleId={props.article.id}
+          initial={{ ...rest, authors: rest.authors.map((x) => x.name) }}
+          onSubmit={submit}
+        />
+      </LimitedWidthPage>
     );
   }, async (ctx) => {
     const user = getCurrentUserInCookie(ctx);

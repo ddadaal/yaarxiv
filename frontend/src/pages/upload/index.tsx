@@ -6,6 +6,7 @@ import { requireAuth } from "src/utils/requireAuth";
 import Router from "next/router";
 import { api } from "src/apis";
 import { UserRole } from "src/models/User";
+import { LimitedWidthPage } from "src/layouts/LimitedWidthPage";
 
 const initialState ={
   title: "",
@@ -42,12 +43,14 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
   };
 
   return (
-    <ArticleEditForm
-      articleId={undefined}
-      initial={initialState}
-      disabled={submitting}
-      onSubmit={submit}
-    />
+    <LimitedWidthPage maxWidth="large">
+      <ArticleEditForm
+        articleId={undefined}
+        initial={initialState}
+        disabled={submitting}
+        onSubmit={submit}
+      />
+    </LimitedWidthPage>
   );
 
 });
