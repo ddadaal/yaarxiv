@@ -11,8 +11,8 @@ import { useHttpErrorHandler } from "src/utils/http";
 import { Pagination } from "src/components/Pagination";
 import { useAsync } from "react-async";
 import { DeleteArticleLink } from "./DeleteArticleLink";
-import { PublicityText } from "../PublicityText";
-import { PublicitySelect } from "../PublicitySelect";
+import { PublicityText } from "../../PublicityText";
+import { PublicitySelect } from "../../PublicitySelect";
 import { api } from "src/apis";
 
 const root = prefix("pages.dashboard.articles.");

@@ -175,6 +175,12 @@ export const customTheme: ThemeType = deepFreeze(
         }),
       },
     },
+    "tab": {
+      "border": {
+        "color": { "dark": "white", "light": "black" },
+        "active": { "color": { "dark": "brand", "light": "brand" } },
+      },
+    },
   }
 ) as any;
 

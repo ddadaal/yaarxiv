@@ -20,7 +20,7 @@ const emptyForm = {
   name: "",
 };
 
-export const Profile: React.FC = () => {
+export const UserProfileForm: React.FC = () => {
 
   const [form, setForm] = useState(emptyForm);
 

@@ -11,7 +11,7 @@ import { UrlObject } from "url";
 import { AdminGetArticlesResult } from "yaarxiv-api/api/admin/getArticles";
 import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
 import { ArticleId } from "../../../../../api/api/article/models";
-import { DeleteArticleLink } from "../../Dashboard/DeleteArticleLink";
+import { DeleteArticleLink } from "../../Dashboard/ArticleTable/DeleteArticleLink";
 
 const root = prefix("pages.admin.articles.");
 

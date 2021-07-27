@@ -10,11 +10,17 @@ import { ArticleId } from "yaarxiv-api/api/article/models";
 
 const root = prefix("pages.dashboard.articles.");
 
-export const DeleteArticleLink: React.FC<{
+interface Props {
   articleId: ArticleId;
   deleteArticle: (articleId: ArticleId) => Promise<any>;
   reload: () => void;
-}> = ({ articleId, deleteArticle, reload }) => {
+}
+
+export const DeleteArticleLink: React.FC<Props> = ({
+  articleId,
+  deleteArticle,
+  reload,
+}) => {
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const request = useHttpRequest(setConfirming);

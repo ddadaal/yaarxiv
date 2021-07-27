@@ -15,7 +15,7 @@ const initial = {
   confirmChanged: "",
 };
 
-export const ChangePassword: React.FC = () => {
+export const ChangePasswordForm: React.FC = () => {
 
   const [form, setForm] = useState(initial);
 
