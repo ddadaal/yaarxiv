@@ -15,6 +15,7 @@ import {
 import { ArticleId } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
 import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
+import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 
 const root = prefix("pages.upload.");
 
@@ -161,7 +162,12 @@ export const ArticleEditForm: React.FC<Props> = ({
               />
             </FormField>
             <FormField
-              label={<Localized id={root("info.abstract")} args={[2000]} />}
+              label={(
+                <Localized
+                  id={root("info.abstract")}
+                  args={[ARTICLE_ABSTRACT_LENGTH_LIMIT]}
+                />
+              )}
               name="abstract"
               required
             >

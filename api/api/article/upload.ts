@@ -2,6 +2,8 @@ import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
+export const ARTICLE_ABSTRACT_LENGTH_LIMIT = 2000;
+
 /** Upload an new article into the platform. */
 export interface UploadArticleSchema {
   body: {

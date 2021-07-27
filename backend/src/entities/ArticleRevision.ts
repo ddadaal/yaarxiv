@@ -3,6 +3,7 @@ import {
   Property, ManyToOne, PrimaryKey,
   Entity, ArrayType, IdentifiedReference, OneToOne, JsonType } from "@mikro-orm/core";
 import { Author } from "yaarxiv-api/api/article/models";
+import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
 
@@ -26,7 +27,7 @@ export class ArticleRevision {
   @Property({ type: ArrayType })
   keywords: string[];
 
-  @Property({ length: 500 })
+  @Property({ length: ARTICLE_ABSTRACT_LENGTH_LIMIT })
   abstract: string
 
   @Property()
