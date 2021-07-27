@@ -1,0 +1,19 @@
+{
+	"folders": [
+		{
+			// Source code
+			"name": "Frontend",
+			"path": "frontend"
+		},
+		{
+			// Docs and release notes
+			"name": "Backend",
+			"path": "backend"
+		},
+		{
+			// Yeoman extension generator
+			"name": "API",
+			"path": "api"
+		}
+	]
+}
