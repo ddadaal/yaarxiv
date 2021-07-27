@@ -12,9 +12,9 @@ import {
   ACCEPTABLE_CODE_SITES,
   getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
-import { config } from "src/utils/config";
 import { ArticleId } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
+import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
 
 const root = prefix("pages.upload.");
 
@@ -51,7 +51,7 @@ export const ArticleEditForm: React.FC<Props> = ({
     && (!info.codeLink || getCodeLinkInfo(info.codeLink) !== undefined)
     && info.abstract !== "";
 
-  const pdfSizeLimit = config.pdfSizeLimit;
+  const pdfSizeLimit = PDF_SIZE_LIMIT_MB;
 
   return (
     <Box gap="large">
@@ -62,7 +62,7 @@ export const ArticleEditForm: React.FC<Props> = ({
         <Paragraph fill>
           <Localized
             id={root("pdf.description")}
-            args={[pdfSizeLimit / 1024 / 1024]}
+            args={[pdfSizeLimit]}
           />
         </Paragraph>
         { articleId
@@ -85,7 +85,11 @@ export const ArticleEditForm: React.FC<Props> = ({
           ) : undefined
         }
         <FileUploader
-          options={{ accept: ".pdf", multiple: false, maxSize: pdfSizeLimit }}
+          options={{
+            accept: ".pdf",
+            multiple: false,
+            maxSize: pdfSizeLimit * 1024 * 1024,
+          }}
           files={file ? [file] : []}
           onFileRemoved={() => setFile(undefined)}
           onFilesAccepted={(f) => setFile(f[0])}
