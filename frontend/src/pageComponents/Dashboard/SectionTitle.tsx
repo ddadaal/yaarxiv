@@ -8,7 +8,7 @@ interface Props {
 
 export const SectionTitle: React.FC<Props> = ({ titleId }) => {
   return (
-    <Heading level={2}>
+    <Heading level={2} margin={{ top: "none", bottom: "small" }}>
       <Localized id={titleId} />
     </Heading>
   );

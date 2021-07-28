@@ -1,4 +1,4 @@
-import { FormProps, Form as GrommetForm } from "grommet";
+import { FormProps, Form as GrommetForm, Box } from "grommet";
 import React, { useMemo } from "react";
 import { prefix, useI18n } from "src/i18n";
 
@@ -17,6 +17,8 @@ export const Form = React.forwardRef<HTMLFormElement, Props>((props, ref)  => {
   }), [i18nStore.currentLanguage]);
 
   return (
-    <GrommetForm {...props} ref={ref as any} messages={messages} />
+    <Box width={"large"}>
+      <GrommetForm {...props} ref={ref as any} messages={messages} />
+    </Box>
   );
 });
