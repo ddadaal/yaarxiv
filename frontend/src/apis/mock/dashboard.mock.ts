@@ -1,3 +1,4 @@
+import { range } from "src/utils/array";
 import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
 import { realApi } from "../api";
 import { makeHttpError } from "../fetch";
@@ -24,12 +25,16 @@ const base: DashboardArticleInfo[] = [
   },
 ];
 
+const genArticle = (id: number) => ({ ...base[id % 2], id });
+
+const articles = range(0,12).map(genArticle);
+
 export const dashboardApisMock: typeof realApi["dashboard"] = ({
   userGetArticleInfo: async ({ query: { page = 1 } }) => {
     const start = (page - 1) * 10;
     return {
-      articles: base.slice(start, start + 10),
-      totalCount: base.length,
+      articles: articles.slice(start, start + 10),
+      totalCount: articles.length,
     };
   },
   dashboardGetProfile: async () => {

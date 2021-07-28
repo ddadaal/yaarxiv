@@ -1,19 +1,20 @@
 import { Box, ColumnConfig, DataTable } from "grommet";
 import { Edit } from "grommet-icons";
-import React, { useCallback, useMemo, useState } from "react";
+import React, { useMemo } from "react";
 import { Localized } from "src/i18n";
-import { OverlayLoading } from "src/components/OverlayLoading";
 import { prefix } from "src/i18n";
 import { formatDateTime } from "src/utils/datetime";
-import type { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
+import type {
+  DashboardArticleInfo,
+  UserGetArticleInfoSchema,
+} from "yaarxiv-api/api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
-import { useHttpErrorHandler } from "src/utils/http";
 import { Pagination } from "src/components/Pagination";
-import { useAsync } from "react-async";
 import { DeleteArticleLink } from "./DeleteArticleLink";
 import { PublicityText } from "../../PublicityText";
 import { PublicitySelect } from "../../PublicitySelect";
 import { api } from "src/apis";
+import { UrlObject } from "url";
 
 const root = prefix("pages.dashboard.articles.");
 
@@ -51,10 +52,6 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   },
 ];
 
-const getDashboardData = ([page]) =>
-  api.dashboard.userGetArticleInfo({ query: { page } });
-
-const getDashboardDataFirstPage = () => getDashboardData([1]);
 const deleteArticle = (articleId: number) =>
   api.article.deleteArticle({ path: { articleId } });
 
@@ -67,22 +64,14 @@ const changeOwnerSetArticlePublicity = async (articleId: number, publicity: bool
   return resp.publicity;
 };
 
-export const ArticleTable: React.FC = ({}) => {
+interface Props {
+  page: number;
+  data: UserGetArticleInfoSchema["responses"]["200"];
+  getUrlOfPage: (page: number) => string | UrlObject;
+  reload: () => void;
+}
 
-  const [page, setPage] = useState(1);
-
-  const errorHandler = useHttpErrorHandler();
-
-  const { data, isPending, run, error } = useAsync({
-    promiseFn: getDashboardDataFirstPage,
-    deferFn: getDashboardData,
-    onReject: errorHandler,
-  });
-
-  const onPageClicked = useCallback((page: number) => {
-    setPage(page);
-    run(page);
-  }, [setPage, run]);
+export const ArticleTable: React.FC<Props> = ({ page, data, getUrlOfPage, reload }) => {
 
   const fullColumns = useMemo(() => [
     ...columns,
@@ -116,21 +105,15 @@ export const ArticleTable: React.FC = ({}) => {
           <DeleteArticleLink
             articleId={d.id}
             deleteArticle={deleteArticle}
-            reload={() => run(page)}
+            reload={reload}
           />
         </Box>
       ),
     },
-  ], [page, run, deleteArticle]);
-
-  const handler = useHttpErrorHandler();
-
-  if (error) {
-    handler(error);
-  }
+  ], [page, reload, deleteArticle]);
 
   return (
-    <OverlayLoading loading={isPending}>
+    <Box>
       <Box>
         <DataTable
           columns={fullColumns}
@@ -144,9 +127,9 @@ export const ArticleTable: React.FC = ({}) => {
           currentPage={page}
           itemsPerPage={10}
           totalItemsCount={data?.totalCount ?? 0}
-          onPageClicked={onPageClicked}
+          getUrl={getUrlOfPage}
         />
       </Box>
-    </OverlayLoading>
+    </Box>
   );
 };
