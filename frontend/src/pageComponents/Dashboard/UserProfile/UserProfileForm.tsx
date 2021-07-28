@@ -10,19 +10,19 @@ import { emailValidation } from "src/utils/validations/emailValidation";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
+import { Awaited } from "yaarxiv-api/api/utils/schema";
 
 const root = prefix("pages.dashboard.information.");
 
 const getProfile = () => api.dashboard.dashboardGetProfile({});
 
-const emptyForm = {
-  email: "",
-  name: "",
-};
+interface Props {
+  profile: Awaited<ReturnType<typeof getProfile>>;
+}
 
-export const UserProfileForm: React.FC = () => {
+export const UserProfileForm: React.FC<Props> = ({ profile }) => {
 
-  const [form, setForm] = useState(emptyForm);
+  const [form, setForm] = useState(profile);
 
   const [loading, setLoading] = useState(false);
   const request = useHttpRequest(setLoading);
@@ -32,6 +32,7 @@ export const UserProfileForm: React.FC = () => {
     promiseFn: getProfile,
     onResolve: (profile) => setForm(profile),
     onReject: errorHandler,
+    initialValue: profile,
   });
 
   const submit = () => request(async ({ userStore }) => {
@@ -60,11 +61,11 @@ export const UserProfileForm: React.FC = () => {
         onSubmit={submit}
         onChange={setForm}
         validate="blur"
-        onReset={() => setForm(data ?? emptyForm)}
+        onReset={() => setForm(data ?? profile)}
       >
         <FormField
           disabled label={<Localized id={root("account.id")} />}
-          value={data?.userId}
+          value={profile.userId}
         />
         <FormField name="name" label={<Localized id={root("account.name")} />} />
         <FormField
