@@ -2,6 +2,10 @@ import * as api from "yaarxiv-api/api/auth/login";
 import { route } from "@/utils/route";
 import { User } from "@/entities/User";
 import { signUser } from "@/plugins/auth";
+import { toRef } from "@/utils/orm";
+import { EmailValidationToken } from "@/entities/EmailValidationToken";
+import { genToken } from "@/utils/genId";
+import { sendEmailValidation } from "@/services/sendEmailValidation";
 
 export const loginRoute = route(
   api, "LoginSchema",
@@ -12,6 +16,37 @@ export const loginRoute = route(
 
     if (!user || !await user.passwordMatch(password)) {
       return { 401: null };
+    }
+
+    const now = new Date();
+
+    let send: boolean = false;
+
+    if (!user.validated) {
+      if (!user.emailValidation) {
+        user.emailValidation = toRef(new EmailValidationToken(user, now));
+        send = true;
+      } else {
+        const validation = await user.emailValidation.load();
+
+        if (validation.timeout(now)) {
+          validation.token = genToken();
+          validation.time = now;
+          validation.lastSent = now;
+          send = true;
+        } else if (validation.shouldResend(now)) {
+          validation.lastSent = now;
+          send = true;
+        }
+      }
+
+      await req.em.flush();
+
+      if (send) {
+        await sendEmailValidation(fastify, user.email, user.emailValidation!.getProperty("token"));
+      }
+
+      return { 403: { emailSent: send } };
     }
 
     return {

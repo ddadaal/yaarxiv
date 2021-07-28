@@ -19,6 +19,7 @@ export async function createMockUsers(server: FastifyInstance): Promise<MockUser
     name: "normal1",
     email: "normal1@user.com",
     password: encryptSync(normalUser1OriginalPassword),
+    validated: true,
   });
 
   const normalUser2 = new User({
@@ -26,6 +27,7 @@ export async function createMockUsers(server: FastifyInstance): Promise<MockUser
     name: "normal2",
     email: "normal2@user.com",
     password: encryptSync(normalUser2OriginalPassword),
+    validated: true,
   });
 
   const adminUser = new User({
@@ -33,6 +35,7 @@ export async function createMockUsers(server: FastifyInstance): Promise<MockUser
     name: "admin",
     email: "admin@user.com",
     password: encryptSync(adminUserOriginalPassword),
+    validated: true,
   });
 
   await server.orm.em.persistAndFlush([normalUser1, normalUser2, adminUser]);

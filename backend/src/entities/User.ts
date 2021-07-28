@@ -2,7 +2,7 @@ import { Entity, Property, OneToMany, PrimaryKey, Enum, Collection,
   IdentifiedReference, OneToOne } from "@mikro-orm/core";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
-import { encrypt, compare, encryptSync } from "@/utils/bcrypt";
+import { encrypt, compare } from "@/utils/bcrypt";
 import { UserRole } from "yaarxiv-api/api/auth/login";
 import { ResetPasswordToken } from "./ResetPasswordToken";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
@@ -56,12 +56,14 @@ export class User {
     email: string;
     password?: string;
     role: UserRole;
+    validated?: boolean;
   }) {
     if (init.id) this.id = init.id;
 
     this.name = init.name;
     this.email = init.email;
     this.role = init.role;
+    this.validated = init.validated ?? false;
 
     if (init.password) this.password = init.password;
   }
