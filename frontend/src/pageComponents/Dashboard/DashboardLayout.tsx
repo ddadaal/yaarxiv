@@ -4,9 +4,9 @@ import { SideMenuLayout } from "src/layouts/SideMenuLayout";
 const root = prefix("pages.dashboard.");
 
 const links = [
+  { textId: root("articles.title"), to: "articles" },
   { textId: root("information.title"), to: "profile" },
   { textId: root("changePassword.title"), to: "changePassword" },
-  { textId: root("articles.title"), to: "articles" },
 ];
 
 export const DashboardLayout: React.FC = ({ children }) => {

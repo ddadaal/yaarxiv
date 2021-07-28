@@ -7,7 +7,7 @@ export const DashboardIndexPage: NextPage = () => {
 };
 
 export const getServerSideProps: GetServerSideProps = async () => {
-  return { redirect: { destination: "/dashboard/profile", permanent: true  } };
+  return { redirect: { destination: "/dashboard/articles", permanent: true  } };
 };
 
 export default DashboardIndexPage;
