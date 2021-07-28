@@ -22,6 +22,7 @@ export const MainLayout: React.FC<Props> = ({ children }) => {
       <GlobalStyle />
       <ToastContainer
         hideProgressBar={true}
+        position="top-center"
       />
       <MediaContextProvider>
         <Grommet theme={siteTheme} full={true} themeMode={theme}>
