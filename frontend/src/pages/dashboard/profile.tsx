@@ -1,37 +1,29 @@
 /* eslint-disable max-len */
-import { Box, Heading } from "grommet";
+import { Box } from "grommet";
 import React from "react";
-import { Localized, prefix } from "src/i18n";
-import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
+import { prefix } from "src/i18n";
+import { LimitedWidthPage } from "src/layouts/LimitedWidthPage";
 import { DashboardLayout } from "src/pageComponents/Dashboard/DashboardLayout";
+import { SectionTitle } from "src/pageComponents/Dashboard/SectionTitle";
 import { ChangePasswordForm } from "src/pageComponents/Dashboard/UserProfile/ChangePasswordForm";
 import { UserProfileForm } from "src/pageComponents/Dashboard/UserProfile/UserProfileForm";
 
-const root = prefix("pages.dashboard.");
+const root = prefix("pages.dashboard.information.");
 
 export const ProfilePage = () => {
 
   return (
     <DashboardLayout>
-      <Box>
-        <Heading level={1}>
-          <Localized id={root("profile.title")} />
-        </Heading>
-        <Box margin="small">
-          <TwoColumnLayout
-            gap="large"
-            leftProportion="1/2"
-            rightProportion="1/2"
-            left={
-              <UserProfileForm />
-            }
-            right={
-              <ChangePasswordForm />
-            }
-          >
-          </TwoColumnLayout>
+      <LimitedWidthPage maxWidth="large">
+        <Box margin="small" flex>
+          <SectionTitle titleId={root("account.title")} />
+          <UserProfileForm />
         </Box>
-      </Box>
+        <Box margin="small" flex>
+          <SectionTitle titleId={root("changePassword.title")} />
+          <ChangePasswordForm />
+        </Box>
+      </LimitedWidthPage>
     </DashboardLayout>
   );
 };

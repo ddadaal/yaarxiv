@@ -202,16 +202,27 @@ export default {
           success: "Article {} has been removed successfully!",
         },
       },
-      profile: {
-        title: "Profile",
-        name: "Name",
-        email: "Email",
-        id: "User ID",
+      information: {
+        title: "Account Settings",
+        account: {
+          title: "Account",
+          name: "Name",
+          email: "Email",
+          id: "Account ID",
+        },
+        profile: {
+          title: "Profile",
+          honor: "Honor",
+          jobTitle: "Job Title",
+          institution: "Institution",
+          public: "Public",
+        },
         confirm: "Change",
         confirming: "Changing...",
         reset: "Reset",
         success: "Profile updated successfully!",
         changePassword: {
+          title: "Change Password",
           current: "Current password",
           changed: "New password",
           confirmChanged: "Confirm new password",

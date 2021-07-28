@@ -7,7 +7,7 @@ interface Props {
 export const LimitedWidthPage: React.FC<Props> = ({ maxWidth, children }) => {
   return (
     <Box align="center">
-      <Box width={{ max: maxWidth }}>
+      <Box width={maxWidth}>
         {children}
       </Box>
     </Box>

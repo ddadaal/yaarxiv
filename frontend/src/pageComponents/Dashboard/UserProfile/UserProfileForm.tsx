@@ -11,7 +11,7 @@ import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
 
-const root = prefix("pages.dashboard.profile.");
+const root = prefix("pages.dashboard.information.");
 
 const getProfile = () => api.dashboard.dashboardGetProfile({});
 
@@ -63,12 +63,12 @@ export const UserProfileForm: React.FC = () => {
         onReset={() => setForm(data ?? emptyForm)}
       >
         <FormField
-          disabled label={<Localized id={root("id")} />}
+          disabled label={<Localized id={root("account.id")} />}
           value={data?.userId}
         />
-        <FormField name="name" label={<Localized id={root("name")} />} />
+        <FormField name="name" label={<Localized id={root("account.name")} />} />
         <FormField
-          name="email" label={<Localized id={root("email")} />}
+          name="email" label={<Localized id={root("account.email")} />}
           validate={emailValidation}
         />
         <Box direction="row" gap="medium" margin={{ top: "medium" }}>

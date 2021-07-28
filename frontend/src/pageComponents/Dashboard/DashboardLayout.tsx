@@ -4,7 +4,7 @@ import { SideMenuLayout } from "src/layouts/SideMenuLayout";
 const root = prefix("pages.dashboard.");
 
 const links = [
-  { textId: root("profile.title"), to: "profile" },
+  { textId: root("information.title"), to: "profile" },
   { textId: root("articles.title"), to: "articles" },
 ];
 

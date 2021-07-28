@@ -198,16 +198,27 @@ export default {
           success: "撤回文章{}成功！",
         },
       },
-      profile: {
-        title: "个人信息",
-        name: "名字",
-        email: "电子邮箱",
-        id: "用户ID",
+      information: {
+        title: "账号设置",
+        account: {
+          title: "账号信息",
+          name: "名字",
+          email: "电子邮箱",
+          id: "用户ID",
+        },
+        profile: {
+          title: "个人信息",
+          honor: "头衔",
+          jobTitle: "职称",
+          institution: "单位",
+          public: "公开",
+        },
         confirm: "确认修改",
         confirming: "修改中……",
         reset: "撤销修改",
         success: "修改成功！",
         changePassword: {
+          title: "更改密码",
           current: "当前密码",
           changed: "新密码",
           confirmChanged: "确认新密码",
