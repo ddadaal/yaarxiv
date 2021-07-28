@@ -5,6 +5,7 @@ import { UploadedFile } from "./UploadedFile";
 import { encrypt, compare, encryptSync } from "@/utils/bcrypt";
 import { UserRole } from "yaarxiv-api/api/auth/login";
 import { ResetPasswordToken } from "./ResetPasswordToken";
+import { EmailValidationToken } from "@/entities/EmailValidationToken";
 
 export { UserRole };
 
@@ -34,6 +35,12 @@ export class User {
   @OneToOne(() => ResetPasswordToken, (e) => e.user,
     { wrappedReference: true })
   resetPasswordToken?: IdentifiedReference<ResetPasswordToken>;
+
+  @Property()
+  validated: boolean = false;
+
+  @OneToOne(() => EmailValidationToken, (e) => e.user, { wrappedReference: true })
+  emailValidation?: IdentifiedReference<EmailValidationToken>;
 
   async setPassword(newPassword: string) {
     this.password = await encrypt(newPassword);

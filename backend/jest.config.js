@@ -12,4 +12,5 @@ module.exports = {
     "<rootDir>/tests/**/*.test.ts?(x)",
   ],
   testTimeout: 15000,
+  setupFilesAfterEnv: ["jest-extended"]
 };

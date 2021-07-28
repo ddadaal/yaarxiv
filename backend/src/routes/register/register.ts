@@ -1,29 +1,26 @@
 import { route } from "@/utils/route";
-import * as api from "yaarxiv-api/api/auth/register";
+import * as api from "yaarxiv-api/api/register/register";
 import { User, UserRole } from "@/entities/User";
-import { signUser } from "@/plugins/auth";
 import { UniqueConstraintViolationException } from "@mikro-orm/core";
+import { EmailValidationToken } from "@/entities/EmailValidationToken";
+import { sendEmailValidation } from "@/services/sendEmailValidation";
 
 export const registerUserRoute = route(
   api, "RegisterSchema",
   async (req, fastify) => {
     const user = new User({
-      email:  req.body.email,
+      email: req.body.email,
       name: req.body.email.split("@")[0],
       role: UserRole.User,
     });
 
     await user.setPassword(req.body.password);
 
+    // create email validation
+    const validation = new EmailValidationToken(user);
+
     try {
-      await req.em.persistAndFlush(user);
-      return {
-        201: {
-          token: signUser(fastify, user),
-          name: user.name,
-          userId: user.id,
-        },
-      };
+      await req.em.persistAndFlush([user, validation]);
     } catch (e) {
       if (e instanceof UniqueConstraintViolationException) {
         if (e.message.startsWith("insert into `user`")) {
@@ -32,5 +29,10 @@ export const registerUserRoute = route(
       }
       throw e;
     }
+
+    // send activation email
+    await sendEmailValidation(fastify, req.body.email, validation.token);
+
+    return { 201: {} };
   },
 );

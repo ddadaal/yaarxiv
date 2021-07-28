@@ -7,7 +7,11 @@ const nanoid = customAlphabet(
   12,
 );
 
-/** A simple number id generator. */
 export function genId(): string {
   return nanoid();
 }
+
+export function genToken(): string {
+  return nanoid();
+}
+

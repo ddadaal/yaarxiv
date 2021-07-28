@@ -30,7 +30,7 @@ export const requestPasswordResetRoute = route(
     await req.em.persistAndFlush(token);
 
     // parse the template
-    const template = config.resetPassword.resetPageUrlTemplate;
+    const template = config.resetPassword.resetPagePathnameTemplate;
     const url = template.replace("{}", token.id);
 
     // send the email with token.

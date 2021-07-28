@@ -1,6 +1,6 @@
 import { searchArticleRoute } from "./article/search";
 import { getArticleRoute } from "./article/get";
-import { registerUserRoute } from "./auth/register";
+import { registerUserRoute } from "./register/register";
 import { loginRoute } from "./auth/login";
 import { deleteArticleRoute } from "./article/delete";
 import { dashboardGetArticlesRoute } from "./dashboard/getArticles";
@@ -19,10 +19,12 @@ import { adminDeleteUserRoute } from "./admin/deleteUser";
 import { changeArticleAdminSetPublicityRoute } from "./admin/changeArticlePublicity";
 import { changeArticleOwnerSetPublicityRoute } from "./dashboard/changeArticlePublicity";
 import { getArticleFileRoute } from "./article/getFile";
+import { validateEmailRoute } from "@/routes/register/validateEmail";
 
 export const routes = [
   loginRoute,
   registerUserRoute,
+  validateEmailRoute,
   requestPasswordResetRoute,
   validatePasswordResetTokenRoute,
   resetPasswordRoute,

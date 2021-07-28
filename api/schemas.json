@@ -807,74 +807,6 @@
       "additionalProperties": false,
       "description": "Upload a PDF into the platform. Expect Content-Type to be multipart/form-data."
     },
-    "RegisterSchema": {
-      "type": "object",
-      "properties": {
-        "body": {
-          "type": "object",
-          "properties": {
-            "email": {
-              "type": "string",
-              "description": "The email. Requires to be an edu email.",
-              "format": "email"
-            },
-            "password": {
-              "type": "string",
-              "description": "The password"
-            }
-          },
-          "required": [
-            "email",
-            "password"
-          ],
-          "additionalProperties": false
-        },
-        "responses": {
-          "type": "object",
-          "properties": {
-            "201": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "type": "string",
-                  "description": "The generated token"
-                },
-                "name": {
-                  "type": "string",
-                  "description": "The initial name of the newly-created user."
-                },
-                "userId": {
-                  "$ref": "#/definitions/UserId",
-                  "description": "User id"
-                }
-              },
-              "required": [
-                "token",
-                "name",
-                "userId"
-              ],
-              "additionalProperties": false,
-              "description": "Registered successfully."
-            },
-            "405": {
-              "type": "null",
-              "description": "The email already exists."
-            }
-          },
-          "required": [
-            "201",
-            "405"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "body",
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Register"
-    },
     "RequestPasswordResetSchema": {
       "type": "object",
       "properties": {
@@ -1265,6 +1197,98 @@
       ],
       "additionalProperties": false,
       "description": "Get the profile of current logged in user."
+    },
+    "RegisterSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "email": {
+              "type": "string",
+              "description": "The email. Requires to be an edu email.",
+              "format": "email"
+            },
+            "password": {
+              "type": "string",
+              "description": "The password"
+            }
+          },
+          "required": [
+            "email",
+            "password"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Register completed."
+            },
+            "405": {
+              "type": "null",
+              "description": "The email already exists."
+            }
+          },
+          "required": [
+            "201",
+            "405"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Register"
+    },
+    "ValidateEmailSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "token": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "token"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Email has been validated."
+            },
+            "403": {
+              "type": "object",
+              "additionalProperties": false,
+              "description": "Token is not valid."
+            }
+          },
+          "required": [
+            "201",
+            "403"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Validate a email with a token."
     }
   },
   "models": {

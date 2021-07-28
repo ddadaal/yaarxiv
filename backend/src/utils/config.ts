@@ -28,18 +28,24 @@ export interface Config {
     from: string;
     ignoreError: boolean;
   });
+  frontendUrl: string;
   resetPassword: {
     /**
      * The url template to reset password page.
      * Use {} as the placeholder for token.
      *
-     * @example http://localhost:5000/forget/reset?token={}
+     * @example /forget/reset?token={}
      */
-    resetPageUrlTemplate: string;
+    resetPagePathnameTemplate: string;
 
     /** How long a token is valid. Unit: seconds */
     tokenValidTimeSeconds: number;
   }
+  emailValidation: {
+    pathnameTemplate: string;
+    timeoutSeconds: number;
+    sendIntervalSeconds: number;
+  };
 }
 
 const typedConfig: Config = config as any;

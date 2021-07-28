@@ -1,4 +1,5 @@
-import { registerUserRoute } from "@/routes/auth/register";
+import { User } from "@/entities/User";
+import { registerUserRoute } from "@/routes/register/register";
 import { callRoute } from "@/utils/callRoute";
 import { FastifyInstance } from "fastify/types/instance";
 import { expectCodeAndJson } from "tests/utils/assertions";
@@ -21,15 +22,27 @@ afterEach(async () => {
 const email = "test@test.com";
 const password = "testpassword";
 
-it("should register and return token and name", async () => {
+it("registers and sends validation email", async () => {
 
   const resp = await callRoute(server, registerUserRoute, {
     body: { email, password  },
   });
 
   expectCodeAndJson(resp, 201);
-  const json = resp.json<201>();
-  expect(json.name).toStrictEqual("test");
+
+  const em = server.orm.em.fork();
+
+  const user = await em.findOneOrFail(User, { email });
+
+  expect(await user.passwordMatch(password)).toBeTrue();
+
+  expect(user.validated).toBeFalse();
+
+  expect(user.emailValidation).toBeDefined();
+
+  expect(server.sendMail).toHaveBeenCalledWith(expect.objectContaining({
+    to: email,
+  }));
 });
 
 it("should error if one email registers twice", async () => {

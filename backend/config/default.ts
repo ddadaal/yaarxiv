@@ -26,8 +26,14 @@ export default {
     from: "yaarxiv",
     ignoreError: true,
   },
+  frontendUrl: "http://localhost:5000",
   resetPassword: {
-    resetPageUrlTemplate: "http://localhost:5000/forget/reset?token={}",
+    resetPagePathnameTemplate: "/forget/reset?token={}",
     tokenValidTimeSeconds: 1800,
+  },
+  emailValidation: {
+    pathnameTemplate: "/register/emailValidation?token={}",
+    timeoutSeconds: 120 * 60,
+    sendIntervalSeconds: 30 * 60,
   },
 } as Config;

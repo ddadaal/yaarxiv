@@ -31,7 +31,7 @@
     "config",
     "tests/**/*",
     "mikro-orm.config.ts"
-  ],
+, "tests/globals.d.ts"  ],
   "exclude": [
     "node_modules",
     "migrations",

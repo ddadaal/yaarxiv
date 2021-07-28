@@ -14,7 +14,5 @@ export default {
       pass: "<your mail password>",
     },
   },
-  resetPassword: {
-    resetPageUrlTemplate: "http://localhost:5000/forget/reset?token={}",
-  },
+  frontendUrl: "http://localhost:5000",
 };
