@@ -118,7 +118,21 @@ export default {
     title: "注册",
     login: "返回登录",
     conflict: "这个email已经被占用了，请更换一个。",
-    success: "注册成功！",
+    success: {
+      title: "注册成功！",
+      description: "一封邮件已经发到您注册用的邮箱中。请根据邮件内容验证您的账号。",
+    },
+    emailValidation: {
+      success: {
+        title: "认证成功！" ,
+        description: "点击{}去登录您的账号",
+        loginLink: "此处",
+      },
+      failure: {
+        title: "认证失败！",
+        description: "您的链接无效，请检查您的链接。",
+      },
+    },
   },
   footer: {
     main: {

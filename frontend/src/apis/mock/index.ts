@@ -1,3 +1,4 @@
+import { registerApisMock } from "src/apis/mock/register.mock";
 import { adminApisMock } from "./admin.mock";
 import { articleApisMock } from "./article.mock";
 import { authApisMock } from "./auth.mock";
@@ -8,4 +9,5 @@ export const mockApi = {
   article: articleApisMock,
   auth: authApisMock,
   dashboard: dashboardApisMock,
+  register: registerApisMock,
 };

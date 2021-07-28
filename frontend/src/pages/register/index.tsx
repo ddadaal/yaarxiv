@@ -7,15 +7,12 @@ import { prefix } from "src/i18n";
 import { Localized } from "src/i18n";
 
 import { api } from "src/apis";
-import { useStore } from "simstate";
-import { UserStore } from "src/stores/UserStore";
 import Router from "next/router";
 import { emailValidation } from "src/utils/validations/emailValidation";
 import { useHttpRequest } from "src/utils/http";
 import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
-import { UserRole } from "src/models/User";
 
 const root = prefix("register.");
 
@@ -23,27 +20,15 @@ const defaultValue = { email: "", password: "", remember: true };
 
 
 const RegisterForm: React.FC = () => {
-  const userStore = useStore(UserStore);
   const [value, setValue] = useState(defaultValue);
   const [inProgress, setInProgress] = useState(false);
   const request = useHttpRequest(setInProgress);
 
   const register = () => request(async () => {
-    const { email, password, remember } = value;
+    const { email, password } = value;
     try {
-      const res = await api.auth.register({ body: { email, password } });
-      toast.success(
-        <Localized id={root("success")} />
-      );
-      await Router.push("/");
-      userStore.login({
-        email: email,
-        name: res.name,
-        token: res.token,
-        remember: remember,
-        role: UserRole.User,
-        id: res.userId,
-      });
+      await api.register.register({ body: { email, password } });
+      Router.push({ pathname: "/register/success", query: { email } });
     } catch (e) {
       if (e.status === 405) {
         toast.error(

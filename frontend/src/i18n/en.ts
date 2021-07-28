@@ -122,7 +122,21 @@ export default {
     title: "Register",
     login: "Back to Login",
     conflict: "This email has been token by another account. Please change an email and try again.",
-    success: "Registered successful!",
+    success: {
+      title: "Registration completed!",
+      description: "An email has been sent to your mail. Please follow the instructions in the email to validate your account.",
+    },
+    emailValidation: {
+      success: {
+        title: "Your email has been Validated" ,
+        description: "Click {} to login.",
+        loginLink: "HERE",
+      },
+      failure: {
+        title: "Email validation failed.",
+        description: "Your link is invalid.",
+      },
+    },
   },
   footer: {
     main: {

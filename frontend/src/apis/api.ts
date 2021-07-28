@@ -13,7 +13,6 @@ import * as updateArticle from "yaarxiv-api/api/article/update";
 import * as uploadArticle from "yaarxiv-api/api/article/upload";
 import * as uploadPDF from "yaarxiv-api/api/article/uploadPDF";
 import * as login from "yaarxiv-api/api/auth/login";
-import * as register from "yaarxiv-api/api/auth/register";
 import * as requestPasswordReset from "yaarxiv-api/api/auth/requestPasswordReset";
 import * as resetPassword from "yaarxiv-api/api/auth/resetPassword";
 import * as validatePasswordResetToken from "yaarxiv-api/api/auth/validatePasswordResetToken";
@@ -22,6 +21,8 @@ import * as changePassword from "yaarxiv-api/api/dashboard/changePassword";
 import * as changeProfile from "yaarxiv-api/api/dashboard/changeProfile";
 import * as userGetArticleInfo from "yaarxiv-api/api/dashboard/getArticles";
 import * as dashboardGetProfile from "yaarxiv-api/api/dashboard/getProfile";
+import * as register from "yaarxiv-api/api/register/register";
+import * as validateEmail from "yaarxiv-api/api/register/validateEmail";
 
 export const realApi = {
   admin: {
@@ -41,7 +42,6 @@ export const realApi = {
   },
   auth: {
     login: fromApi(login.endpoint),
-    register: fromApi(register.endpoint),
     requestPasswordReset: fromApi(requestPasswordReset.endpoint),
     resetPassword: fromApi(resetPassword.endpoint),
     validatePasswordResetToken: fromApi(validatePasswordResetToken.endpoint),
@@ -52,5 +52,9 @@ export const realApi = {
     changeProfile: fromApi(changeProfile.endpoint),
     userGetArticleInfo: fromApi(userGetArticleInfo.endpoint),
     dashboardGetProfile: fromApi(dashboardGetProfile.endpoint),
+  },
+  register: {
+    register: fromApi(register.endpoint),
+    validateEmail: fromApi(validateEmail.endpoint),
   },
 };
