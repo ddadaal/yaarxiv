@@ -4,7 +4,6 @@ import React from "react";
 import { prefix } from "src/i18n";
 import { DashboardLayout } from "src/pageComponents/Dashboard/DashboardLayout";
 import { SectionTitle } from "src/pageComponents/Dashboard/SectionTitle";
-import { ChangePasswordForm } from "src/pageComponents/Dashboard/UserProfile/ChangePasswordForm";
 import { UserProfileForm } from "src/pageComponents/Dashboard/UserProfile/UserProfileForm";
 
 const root = prefix("pages.dashboard.information.");
@@ -18,8 +17,6 @@ export const ProfilePage = () => {
         <UserProfileForm />
       </Box>
       <Box margin={{ top: "large" }} flex>
-        <SectionTitle titleId={root("changePassword.title")} />
-        <ChangePasswordForm />
       </Box>
     </DashboardLayout>
   );

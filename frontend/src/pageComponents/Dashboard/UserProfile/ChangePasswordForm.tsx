@@ -7,7 +7,7 @@ import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
 
-const root = prefix("pages.dashboard.information.changePassword.");
+const root = prefix("pages.dashboard.changePassword.");
 
 const initial = {
   current: "",
