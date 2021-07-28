@@ -25,6 +25,7 @@ export const AuthErrors = {
   TokenError: createError("YAARXIV_TOKEN_INVALID", "The token provided is not valid.", 401),
   RoleError: createError("YAARXIV_BAD_ROLE", "Logged-in user does not have required role.", 403),
   UserNotExistError: createError("YAARXIV_USER_NOT_EXIST", "Specified User not exist.", 401),
+  UserNotValidatedError: createError("YAARXIV_USER_NOT_VALIDATED", "User is not validated.", 403),
 };
 
 export type AuthOption = false | UserRole[];
@@ -48,6 +49,10 @@ export const jwtAuthPlugin = fp(async (fastify) => {
 
       if (!opts.includes(user.role)) {
         throw new AuthErrors.RoleError();
+      }
+
+      if (user.role === UserRole.User && !user.validated) {
+        throw new AuthErrors.UserNotValidatedError();
       }
 
     } catch (err) {

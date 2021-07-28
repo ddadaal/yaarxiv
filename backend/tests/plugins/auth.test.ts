@@ -90,12 +90,12 @@ it("allows all accesses for unauthenticated routes", async () => {
   expect((await request()).statusCode).toBe(200);
 });
 
-// it("rejects not validated user", async () => {
+it("rejects not validated user", async () => {
 
-//   await prepare(async () => ({}));
-//   user.emailValidated = false;
-//   await server.orm.em.flush();
+  await prepare(async () => ({}));
+  user.validated = false;
+  await server.orm.em.flush();
 
-//   expect((await request(token)).statusCode).toBe(403);
+  expect((await request(token)).statusCode).toBe(403);
 
-// });
+});
