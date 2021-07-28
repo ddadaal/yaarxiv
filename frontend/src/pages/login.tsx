@@ -14,7 +14,8 @@ import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { queryToString } from "src/utils/querystring";
-import { UserRole } from "../../../api/api/auth/login";
+import { LoginSchema, UserRole } from "yaarxiv-api/api/auth/login";
+import { HttpError } from "src/apis/fetch";
 
 const root = prefix("login.");
 
@@ -61,11 +62,21 @@ const LoginForm: React.FC = () => {
         await jumpBackOrDefault("/");
       }
     } catch (e) {
-      console.log(e);
-      if (e.status === 401) {
+      const ex = e as HttpError;
+      if (ex.status === 401) {
         toast.error(
-          <Localized id={root("invalid")} />
+          <Localized id={root("error.invalid")} />
         );
+      } else if (ex.status === 403) {
+        if ((ex.data as LoginSchema["responses"]["403"]).emailSent) {
+          toast.error(
+            <Localized id={root("error.emailSent")} />
+          );
+        } else {
+          toast.error(
+            <Localized id={root("error.emailNotSent")} />
+          );
+        }
       } else {
         throw e;
       }

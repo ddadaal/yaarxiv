@@ -85,6 +85,11 @@ export default {
     invalid: "The email and password are invalid. Please check them and try again.",
     success: "Logged in successfully!",
     forget: "Forget Password",
+    error: {
+      invalid: "Your username and/or password is not valid.",
+      emailSent: "The user is not validated. A validation email has been sent to your email.",
+      emailNotSent: "The user is not validated. Check your email for validation email.",
+    },
   },
   forgetPassword: {
     title: "Forget password",

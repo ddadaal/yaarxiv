@@ -13,13 +13,6 @@ export const authApisMock: typeof realApi["auth"] = ({
       throw makeHttpError(401, {});
     }
   },
-  register: async ({ body: { email } }) => {
-    if (email === "c@c.com") {
-      throw makeHttpError(405, {});
-    } else {
-      return { token: email, name: email.split("@")[0], userId: 123 };
-    }
-  },
   requestPasswordReset: async () => {
     return null;
   },

@@ -78,9 +78,13 @@ export default {
     login: "登录",
     inProgress: "登录中",
     register: "注册",
-    invalid: "您的用户名和密码无效，请检查用户名和密码后重试。",
     success: "登录成功！",
     forget: "忘记密码",
+    error: {
+      invalid: "您的用户名和密码无效，请检查用户名和密码后重试。",
+      emailSent: "您的用户未验证。一封验证邮件已经发到您的邮箱。",
+      emailNotSent: "您的用户未验证。请检查您的邮件以查看验证邮件。",
+    },
   },
   forgetPassword: {
     title: "忘记密码",

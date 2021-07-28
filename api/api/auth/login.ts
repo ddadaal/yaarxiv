@@ -30,6 +30,19 @@ export interface LoginSchema {
     },
     /** Login failed. The username and password are not valid. */
     401: null;
+
+    /**
+     * Login success, but the user is not validated.
+     *
+     * If user's validation email has been timeout, and
+     *   System sends another validation email to the user
+     * Else
+     *   System will not send validation email
+     *
+    */
+    403: {
+      emailSent: boolean;
+    };
   }
 }
 

@@ -56,11 +56,25 @@
             "401": {
               "type": "null",
               "description": "Login failed. The username and password are not valid."
+            },
+            "403": {
+              "type": "object",
+              "properties": {
+                "emailSent": {
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "emailSent"
+              ],
+              "additionalProperties": false,
+              "description": "Login success, but the user is not validated.\n\nIf user's validation email has been timeout, and   System sends another validation email to the user Else   System will not send validation email"
             }
           },
           "required": [
             "200",
-            "401"
+            "401",
+            "403"
           ],
           "additionalProperties": false
         }
