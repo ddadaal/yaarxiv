@@ -19,8 +19,8 @@ import * as validatePasswordResetToken from "yaarxiv-api/api/auth/validatePasswo
 import * as changeAccountInfo from "yaarxiv-api/api/dashboard/changeAccountInfo";
 import * as changeArticleOwnerSetPublicity from "yaarxiv-api/api/dashboard/changeArticlePublicity";
 import * as changePassword from "yaarxiv-api/api/dashboard/changePassword";
+import * as getAccountInfo from "yaarxiv-api/api/dashboard/getAccountInfo";
 import * as userGetArticleInfo from "yaarxiv-api/api/dashboard/getArticles";
-import * as dashboardGetProfile from "yaarxiv-api/api/dashboard/getProfile";
 import * as register from "yaarxiv-api/api/register/register";
 import * as validateEmail from "yaarxiv-api/api/register/validateEmail";
 
@@ -50,8 +50,8 @@ export const realApi = {
     changeAccountInfo: fromApi(changeAccountInfo.endpoint),
     changeArticleOwnerSetPublicity: fromApi(changeArticleOwnerSetPublicity.endpoint),
     changePassword: fromApi(changePassword.endpoint),
+    getAccountInfo: fromApi(getAccountInfo.endpoint),
     userGetArticleInfo: fromApi(userGetArticleInfo.endpoint),
-    dashboardGetProfile: fromApi(dashboardGetProfile.endpoint),
   },
   register: {
     register: fromApi(register.endpoint),

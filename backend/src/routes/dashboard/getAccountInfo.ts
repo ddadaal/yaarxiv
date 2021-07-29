@@ -1,8 +1,8 @@
-import * as api from "yaarxiv-api/api/dashboard/getProfile";
+import * as api from "yaarxiv-api/api/dashboard/getAccountInfo";
 import { route } from "@/utils/route";
 
-export const getProfileRoute = route(
-  api, "DashboardGetProfileSchema",
+export const getAccountInfoRoute = route(
+  api, "GetAccountInfoSchema",
   async (req) => {
     const user = await req.dbUser();
 

@@ -1108,6 +1108,49 @@
       "additionalProperties": false,
       "description": "Change the password of the current logged in user."
     },
+    "GetAccountInfoSchema": {
+      "type": "object",
+      "properties": {
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "name": {
+                  "type": "string",
+                  "description": "The name of the user."
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email of the user."
+                },
+                "userId": {
+                  "$ref": "#/definitions/UserId",
+                  "description": "The id of the user."
+                }
+              },
+              "required": [
+                "name",
+                "email",
+                "userId"
+              ],
+              "additionalProperties": false,
+              "description": "Returns the profile of current logged in user."
+            }
+          },
+          "required": [
+            "200"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Get the profile of current logged in user."
+    },
     "UserGetArticleInfoSchema": {
       "type": "object",
       "properties": {
@@ -1163,49 +1206,6 @@
         "responses"
       ],
       "additionalProperties": false
-    },
-    "DashboardGetProfileSchema": {
-      "type": "object",
-      "properties": {
-        "responses": {
-          "type": "object",
-          "properties": {
-            "200": {
-              "type": "object",
-              "properties": {
-                "name": {
-                  "type": "string",
-                  "description": "The name of the user."
-                },
-                "email": {
-                  "type": "string",
-                  "description": "The email of the user."
-                },
-                "userId": {
-                  "$ref": "#/definitions/UserId",
-                  "description": "The id of the user."
-                }
-              },
-              "required": [
-                "name",
-                "email",
-                "userId"
-              ],
-              "additionalProperties": false,
-              "description": "Returns the profile of current logged in user."
-            }
-          },
-          "required": [
-            "200"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Get the profile of current logged in user."
     },
     "RegisterSchema": {
       "type": "object",

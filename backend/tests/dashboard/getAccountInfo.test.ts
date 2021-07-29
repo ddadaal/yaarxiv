@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify/types/instance";
-import * as api from "yaarxiv-api/api/dashboard/getProfile";
+import * as api from "yaarxiv-api/api/dashboard/getAccountInfo";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
-import { getProfileRoute } from "@/routes/dashboard/getProfile";
+import { getAccountInfoRoute } from "@/routes/dashboard/getAccountInfo";
 import { createMockUsers, MockUsers, reloadUsers } from "tests/utils/data";
 import { expectCodeAndJson } from "tests/utils/assertions";
 
@@ -29,7 +29,7 @@ it("return 401 if not logged in.", async () => {
 });
 
 it("return user profile", async () => {
-  const resp = await callRoute(server, getProfileRoute, {
+  const resp = await callRoute(server, getAccountInfoRoute, {
   }, users.normalUser1);
 
   expectCodeAndJson(resp, 200);

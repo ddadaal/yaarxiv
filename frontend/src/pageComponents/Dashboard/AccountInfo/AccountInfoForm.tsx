@@ -10,15 +10,15 @@ import { emailValidation } from "src/utils/validations/emailValidation";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
-import { Awaited } from "yaarxiv-api/api/utils/schema";
+import { GetAccountInfoSchema } from "yaarxiv-api/api/dashboard/getAccountInfo";
 
 const root = prefix("pages.dashboard.accountInfo.");
 
-const getProfile = () => api.dashboard.dashboardGetProfile({});
-
 interface Props {
-  profile: Awaited<ReturnType<typeof getProfile>>;
+  profile: GetAccountInfoSchema["responses"]["200"];
 }
+
+const getProfile = () => api.dashboard.getAccountInfo({});
 
 export const AccountInfoForm: React.FC<Props> = ({ profile }) => {
 

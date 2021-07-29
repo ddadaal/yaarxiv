@@ -8,12 +8,12 @@ import { DashboardLayout } from "src/pageComponents/Dashboard/DashboardLayout";
 import { SectionTitle } from "src/pageComponents/Dashboard/SectionTitle";
 import { AccountInfoForm } from "src/pageComponents/Dashboard/AccountInfo/AccountInfoForm";
 import { ssrPage } from "src/utils/ssr";
-import { DashboardGetProfileSchema } from "yaarxiv-api/api/dashboard/getProfile";
+import { GetAccountInfoSchema } from "yaarxiv-api/api/dashboard/getAccountInfo";
 
 const root = prefix("pages.dashboard.accountInfo.");
 
 interface Props {
-  profile: DashboardGetProfileSchema["responses"]["200"];
+  profile: GetAccountInfoSchema["responses"]["200"];
 }
 
 export const AccountInfoPage = ssrPage<Props>(({ profile }) => {
@@ -29,7 +29,7 @@ export const AccountInfoPage = ssrPage<Props>(({ profile }) => {
     </DashboardLayout>
   );
 }, async () => {
-  return await api.dashboard.dashboardGetProfile({})
+  return await api.dashboard.getAccountInfo({})
     .then((x) => ({ profile: x }));
 }, { authOptions: { roles: [UserRole.User]} });
 

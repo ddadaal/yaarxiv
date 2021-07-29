@@ -10,7 +10,7 @@ import { updateArticleRoute } from "./article/update";
 import { uploadPdfRoute } from "./article/uploadPdf";
 import { changePasswordRoute } from "./dashboard/changePassword";
 import { changeAccountInfoRoute } from "./dashboard/changeAccountInfo";
-import { getProfileRoute } from "./dashboard/getProfile";
+import { getAccountInfoRoute } from "./dashboard/getAccountInfo";
 import { requestPasswordResetRoute } from "./auth/requestPasswordReset";
 import { validatePasswordResetTokenRoute } from "./auth/validatePasswordResetToken";
 import { resetPasswordRoute } from "./auth/resetPassword";
@@ -41,7 +41,7 @@ export const routes = [
   uploadPdfRoute,
   changePasswordRoute,
   changeAccountInfoRoute,
-  getProfileRoute,
+  getAccountInfoRoute,
   changeArticleAdminSetPublicityRoute,
   changeArticleOwnerSetPublicityRoute,
 ];

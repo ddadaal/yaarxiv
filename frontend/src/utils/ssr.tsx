@@ -1,4 +1,5 @@
 import { NextPage, NextPageContext } from "next";
+import Router from "next/router";
 import React from "react";
 import { HttpError, makeHttpError } from "src/apis/fetch";
 import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
@@ -63,3 +64,7 @@ export const ssrPage = <TData,>
   return Page;
 };
 
+
+export function rerunGetInitialProps() {
+  Router.replace(Router.asPath);
+}

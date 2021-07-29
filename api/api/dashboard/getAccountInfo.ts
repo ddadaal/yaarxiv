@@ -5,7 +5,7 @@ import { UserId } from "../auth/models";
 
 
 /** Get the profile of current logged in user. */
-export interface DashboardGetProfileSchema {
+export interface GetAccountInfoSchema {
   responses: {
     /** Returns the profile of current logged in user. */
     200: {
@@ -25,6 +25,6 @@ export const props: ApiProps = {
 };
 
 export const endpoint = {
-  url: "/dashboard/profile",
+  url: "/dashboard/account",
   method: "GET",
-} as Endpoint<DashboardGetProfileSchema>;
+} as Endpoint<GetAccountInfoSchema>;
