@@ -227,6 +227,8 @@ export default {
         jobTitle: "Job Title",
         institution: "Institution",
         public: "Public",
+        academicKeywords: "Academic Keywords",
+        researchLabels: "Research Labels",
         confirm: "Change",
         confirming: "Changing...",
         reset: "Reset",

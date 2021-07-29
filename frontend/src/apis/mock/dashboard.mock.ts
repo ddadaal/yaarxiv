@@ -54,4 +54,17 @@ export const dashboardApisMock: typeof realApi["dashboard"] = ({
   changeAccountInfo: async () => null,
 
   changeArticleOwnerSetPublicity: async ({ body }) => ({ publicity: body.publicity }),
+
+  getProfile: async () => ({
+    honor: "Doctor",
+    honorPublic: true,
+    jobTitle: "Professor",
+    jobTitlePublic: true,
+    institution: "Peking University",
+    institutionPublic: false,
+    academicKeywords: ["Machine Learning", "Reinforcement Learning"],
+    researchLabels: ["Brute Force", "Trick"],
+  }),
+
+  changeProfile: async () => null,
 });

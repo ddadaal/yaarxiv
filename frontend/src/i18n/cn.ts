@@ -221,6 +221,8 @@ export default {
         honor: "头衔",
         jobTitle: "职称",
         institution: "单位",
+        academicKeywords: "学术关键词",
+        researchLabels: "研究标签",
         public: "公开",
         confirm: "确认修改",
         confirming: "修改中……",
