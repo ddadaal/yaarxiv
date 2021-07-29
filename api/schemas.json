@@ -956,6 +956,40 @@
       "additionalProperties": false,
       "description": "Validate a token (a link) for password reset."
     },
+    "ChangeAccountInfoSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "New name"
+            }
+          },
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "204": {
+              "type": "null",
+              "description": "The profile has been updated."
+            }
+          },
+          "required": [
+            "204"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Change the account info of the current logged in user."
+    },
     "ChangeArticleOwnerSetPublicitySchema": {
       "type": "object",
       "properties": {
@@ -1073,45 +1107,6 @@
       ],
       "additionalProperties": false,
       "description": "Change the password of the current logged in user."
-    },
-    "ChangeProfileSchema": {
-      "type": "object",
-      "properties": {
-        "body": {
-          "type": "object",
-          "properties": {
-            "name": {
-              "type": "string",
-              "description": "New name"
-            },
-            "email": {
-              "type": "string",
-              "description": "New email.",
-              "format": "email"
-            }
-          },
-          "additionalProperties": false
-        },
-        "responses": {
-          "type": "object",
-          "properties": {
-            "204": {
-              "type": "null",
-              "description": "The profile has been updated."
-            }
-          },
-          "required": [
-            "204"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "body",
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Change the profile of the current logged in user."
     },
     "UserGetArticleInfoSchema": {
       "type": "object",

@@ -2,7 +2,7 @@ import { FastifyInstance } from "fastify/types/instance";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, reloadUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
-import { changeProfileRoute } from "@/routes/dashboard/changeProfile";
+import { changeAccountInfoRoute } from "@/routes/dashboard/changeAccountInfo";
 import { expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
@@ -20,22 +20,22 @@ afterEach(async () => {
 });
 
 it("return 401 if not logged in.", async () => {
-  const resp = await callRoute(server, changeProfileRoute, { body: {} });
+  const resp = await callRoute(server, changeAccountInfoRoute, { body: {} });
 
   expectCodeAndJson(resp, 401);
 });
 
 it("change user profile", async () => {
 
-  const newEmail = "testupdated@test.com";
+  const newName = "newname";
 
-  const resp = await callRoute(server, changeProfileRoute, {
-    body: { email: newEmail },
+  const resp = await callRoute(server, changeAccountInfoRoute, {
+    body: { name: newName },
   }, users.normalUser1);
 
   expectCodeAndJson(resp, 204);
 
   await reloadUsers(users);
 
-  expect(users.normalUser1.email).toBe(newEmail);
+  expect(users.normalUser1.name).toBe(newName);
 });

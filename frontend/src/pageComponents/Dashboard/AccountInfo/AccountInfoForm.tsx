@@ -36,12 +36,7 @@ export const AccountInfoForm: React.FC<Props> = ({ profile }) => {
   });
 
   const submit = () => request(async ({ userStore }) => {
-    await api.dashboard.changeProfile({
-      body: {
-        email: form.email,
-        name: form.name,
-      },
-    })
+    await api.dashboard.changeAccountInfo({ body: { name: form.name } })
       .then(() => {
         toast.success(
           <Localized id={root("success")} />
@@ -67,11 +62,11 @@ export const AccountInfoForm: React.FC<Props> = ({ profile }) => {
           disabled label={<Localized id={root("id")} />}
           value={profile.userId}
         />
-        <FormField name="name" label={<Localized id={root("name")} />} />
         <FormField
           name="email" label={<Localized id={root("email")} />}
-          validate={emailValidation}
+          validate={emailValidation} disabled
         />
+        <FormField name="name" label={<Localized id={root("name")} />} />
         <Box direction="row" gap="medium" margin={{ top: "medium" }}>
           <Button
             type="submit"

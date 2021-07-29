@@ -3,17 +3,12 @@ import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 
 
-/** Change the profile of the current logged in user. */
-export interface ChangeProfileSchema {
+/** Change the account info of the current logged in user. */
+export interface ChangeAccountInfoSchema {
 
   body: {
     /** New name */
     name?: string;
-    /**
-     * New email.
-     * @format email
-     */
-    email?: string;
   };
   responses: {
     /** The profile has been updated. */
@@ -23,10 +18,10 @@ export interface ChangeProfileSchema {
 
 export const props: ApiProps = {
   requiredRoles: [UserRole.Admin, UserRole.User],
-  summary: "Change user's profile.",
+  summary: "Change user's account info.",
 };
 
 export const endpoint = {
-  url: "/dashboard/profile",
+  url: "/dashboard/account",
   method: "PATCH",
-} as Endpoint<ChangeProfileSchema>;
+} as Endpoint<ChangeAccountInfoSchema>;
