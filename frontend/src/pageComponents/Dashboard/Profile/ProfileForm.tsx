@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import { prefix } from "src/i18n";
 
 import { FormField, Box, Button } from "grommet";
@@ -19,6 +19,8 @@ interface Props {
 
 export const ProfileForm: React.FC<Props> = ({ profile }) => {
 
+  const lastSubmitted = useRef(profile);
+
   const [form, setForm] = useState(profile);
 
   const [loading, setLoading] = useState(false);
@@ -29,6 +31,7 @@ export const ProfileForm: React.FC<Props> = ({ profile }) => {
         toast.success(
           <Localized id={root("success")} />
         );
+        lastSubmitted.current = form;
       });
   });
 
@@ -37,7 +40,7 @@ export const ProfileForm: React.FC<Props> = ({ profile }) => {
       disableEnterToSubmit
       onSubmit={submit}
       validate="blur"
-      onReset={() => setForm(profile)}
+      onReset={() => setForm(lastSubmitted.current)}
     >
       <FormField
         label={<Localized id={root("honor")} />}
