@@ -38,9 +38,11 @@ export const TagInput: React.FC<Props> = ({
   };
 
   const onAddTag = (tag: string) => {
-    onAdd?.(commaToSplit
-      ? tag.split(",").map((x) => x.trim().substr(0, maxLength)).filter((x) => !!x)
-      : tag.trim());
+    onAdd?.(
+      commaToSplit
+        ? tag.split(/,|，/).map((x) => x.trim().substr(0, maxLength)).filter((x) => !!x)
+        : tag.trim()
+    );
   };
 
   const onEnter = () => {
@@ -50,7 +52,7 @@ export const TagInput: React.FC<Props> = ({
     }
   };
 
-  const renderValue = () =>
+  const renderTags = () =>
     value.map((v, index) => (
       <Tag
         disabled={disabled}
@@ -70,7 +72,7 @@ export const TagInput: React.FC<Props> = ({
         wrap
 
       >
-        {value.length > 0 && renderValue()}
+        {value.length > 0 && renderTags()}
         <Box flex style={{ minWidth: "120px" }}>
           <TextInput
             name={name}

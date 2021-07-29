@@ -9,8 +9,8 @@ export default {
       "file-invalid-type": "Invalid file type.",
     },
     tagInput: {
-      placeholder: "Press Enter to add one item." ,
-      commaToSplit: "Items splitted by comma will be added separately.",
+      placeholder: "Press Enter to add an item." ,
+      commaToSplit: "Items can be separated by comma.",
     },
     requireAuth: {
       title: "Not Authorized",
