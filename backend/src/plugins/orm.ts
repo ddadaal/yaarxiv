@@ -19,14 +19,14 @@ declare module "fastify" {
 
 export const ormPlugin = fp(async (fastify) => {
   // create the database if not exists.
-  const { dbName, dropSchema, highlight, connectTimeout, host, port, runMigrations, synchronize } = config.orm;
+  const { dbName, dropSchema, highlight, connectionTimeout, host, port, runMigrations, synchronize } = config.orm;
 
   fastify.log.info("Wait for db connection.");
 
   // wait for db to be alive
   await waitOn({
     resources: [`tcp:${host}:${port}`],
-    timeout: connectTimeout,
+    timeout: connectionTimeout,
   });
 
   fastify.log.info("db is started. Connecting to it.");
@@ -37,7 +37,7 @@ export const ormPlugin = fp(async (fastify) => {
     logger: (msg) => fastify.log.info(msg),
     entities,
     driverOptions: {
-      connectTimeout,
+      connectTimeout: connectionTimeout,
     },
   });
 

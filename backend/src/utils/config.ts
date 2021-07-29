@@ -16,7 +16,7 @@ export interface Config {
     runMigrations?: boolean;
     dropSchema?: boolean;
     highlight?: boolean;
-    connectTimeout?: number;
+    connectionTimeout?: number;
     synchronize?: boolean;
   };
   upload: {

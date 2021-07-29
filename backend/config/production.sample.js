@@ -1,8 +1,11 @@
-export default {
+// @ts-check
+
+/** @type {import("../src/utils/config").ConfigOverride} */
+const config = {
   orm: {
     host: "localhost",
     port: 3306,
-    username: "root",
+    user: "root",
     password: "dbfordev",
     dbName: "yaarxiv_prod",
   },
@@ -16,3 +19,5 @@ export default {
   },
   frontendUrl: "http://localhost:5000",
 };
+
+module.exports = config;

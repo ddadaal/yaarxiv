@@ -1,6 +1,7 @@
-import type { Config } from "@/utils/config";
+// @ts-check
 
-export default {
+/** @type {import("../src/utils/config").Config} */
+const config = {
   address: "0.0.0.0",
   pluginTimeout: 30000,
   port: 5000,
@@ -9,7 +10,6 @@ export default {
   logger: true,
   jwtSecret: "testsecret",
   orm: {
-    logging: true,
     connectionTimeout: 20000,
     type: "mysql",
     debug: true,
@@ -21,7 +21,6 @@ export default {
   staticPrefix: "static",
   bcryptSaltLength: 10,
   mail: {
-    pool: true,
     secure: true,
     from: "yaarxiv",
     ignoreError: true,
@@ -36,4 +35,6 @@ export default {
     timeoutSeconds: 120 * 60,
     sendIntervalSeconds: 30 * 60,
   },
-} as Config;
+};
+
+module.exports = config;

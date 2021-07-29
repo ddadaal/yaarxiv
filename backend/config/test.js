@@ -1,14 +1,13 @@
-import type { ConfigOverride } from "@/utils/config";
+// @ts-check
 
-export default {
-  port: 0,
-  loadSwagger: false,
+/** @type {import("../src/utils/config").ConfigOverride} */
+const config = {
   orm: {
     type: "mysql",
     host: "localhost",
     port: 3306,
     dbName: `yaarxiv_test_${process.env.JEST_WORKER_ID}`,
-    username: "root",
+    user: "root",
     password: "dbfordev",
     synchronize: true,
     dropSchema: true,
@@ -20,4 +19,6 @@ export default {
   upload: {
     path: "testupload",
   },
-} as ConfigOverride;
+};
+
+module.exports = config;

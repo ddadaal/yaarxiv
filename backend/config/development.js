@@ -1,11 +1,12 @@
-import type { ConfigOverride } from "@/utils/config";
+// @ts-check
 
-export default {
+/** @type {import("../src/utils/config").ConfigOverride} */
+const config = {
   loadSwagger: true,
   orm: {
     host: "localhost",
     port: 3306,
-    username: "root",
+    user: "root",
     password: "dbfordev",
     dbName: "yaarxiv_dev",
   },
@@ -14,4 +15,6 @@ export default {
     level: "trace",
     prettyPrint: true,
   },
-} as ConfigOverride;
+};
+
+module.exports = config;
