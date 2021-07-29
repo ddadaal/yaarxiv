@@ -37,7 +37,7 @@ export const dashboardApisMock: typeof realApi["dashboard"] = ({
       totalCount: articles.length,
     };
   },
-  dashboardGetProfile: async () => {
+  getAccountInfo: async () => {
     return {
       userId: 123,
       email: "123@123.com",
@@ -51,7 +51,7 @@ export const dashboardApisMock: typeof realApi["dashboard"] = ({
     }
     return null;
   },
-  changeProfile: async () => null,
+  changeAccountInfo: async () => null,
 
   changeArticleOwnerSetPublicity: async ({ body }) => ({ publicity: body.publicity }),
 });
