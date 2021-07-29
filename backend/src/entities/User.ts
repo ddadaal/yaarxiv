@@ -1,5 +1,5 @@
 import { Entity, Property, OneToMany, PrimaryKey, Enum, Collection,
-  IdentifiedReference, OneToOne, ArrayType } from "@mikro-orm/core";
+  IdentifiedReference, OneToOne } from "@mikro-orm/core";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
 import { encrypt, compare } from "@/utils/bcrypt";
@@ -60,10 +60,10 @@ export class User {
   @Property({ default: true })
   institutionPublic: boolean = true;
 
-  @Property({ type: ArrayType })
+  @Property({ type: "json" })
   academicKeywords: string[] = [];
 
-  @Property({ type: ArrayType })
+  @Property({ type: "json" })
   researchLabels: string[] = [];
 
   async setPassword(newPassword: string) {
