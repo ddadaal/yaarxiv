@@ -202,7 +202,7 @@ export default {
     },
     dashboard: {
       articles: {
-        title: "Articles I Published",
+        title: "Published Articles",
         articleId: "Article ID",
         articleTitle: "Article Title",
         createTime: "Create Time",
@@ -235,7 +235,7 @@ export default {
         success: "Profile updated successfully!",
       },
       accountInfo: {
-        title: "Account",
+        title: "Account Info",
         name: "Name",
         email: "Email",
         id: "Account ID",

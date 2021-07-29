@@ -230,7 +230,7 @@ export default {
         success: "修改成功！",
       },
       accountInfo: {
-        title: "账号",
+        title: "账号信息",
         name: "名字",
         email: "电子邮箱",
         id: "用户ID",
