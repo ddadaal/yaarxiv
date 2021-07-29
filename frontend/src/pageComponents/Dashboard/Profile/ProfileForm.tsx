@@ -34,6 +34,7 @@ export const ProfileForm: React.FC<Props> = ({ profile }) => {
 
   return (
     <Form
+      disableEnterToSubmit
       onSubmit={submit}
       validate="blur"
       onReset={() => setForm(profile)}

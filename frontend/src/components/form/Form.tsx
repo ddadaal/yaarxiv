@@ -3,7 +3,9 @@ import React, { useMemo } from "react";
 import { prefix, useI18n } from "src/i18n";
 
 type Props<T = unknown> =
-  FormProps<T> & Omit<JSX.IntrinsicElements["form"], "onChange" | "onSubmit">
+  FormProps<T> & Omit<JSX.IntrinsicElements["form"], "onChange" | "onSubmit"> & {
+    disableEnterToSubmit?: boolean;
+  }
 
 const root = prefix("components.form.validationError.");
 
@@ -18,7 +20,17 @@ export const Form = React.forwardRef<HTMLFormElement, Props>((props, ref)  => {
 
   return (
     <Box width={"large"}>
-      <GrommetForm {...props} ref={ref as any} messages={messages} />
+      <GrommetForm
+        ref={ref as any}
+        messages={messages}
+        onKeyPress={
+          props.disableEnterToSubmit
+            ? (e) => {
+              if (e.key === "Enter") { e.preventDefault(); }
+            } : undefined
+        }
+        {...props}
+      />
     </Box>
   );
 });
