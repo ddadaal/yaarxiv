@@ -1108,6 +1108,42 @@
       "additionalProperties": false,
       "description": "Change the password of the current logged in user."
     },
+    "ChangeProfileSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "profileChange": {
+              "$ref": "#/definitions/Partial%3CProfile%3E"
+            }
+          },
+          "required": [
+            "profileChange"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "204": {
+              "type": "null",
+              "description": "The profile has been updated."
+            }
+          },
+          "required": [
+            "204"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Change the profile of the current logged in user."
+    },
     "GetAccountInfoSchema": {
       "type": "object",
       "properties": {
@@ -1206,6 +1242,29 @@
         "responses"
       ],
       "additionalProperties": false
+    },
+    "GetProfileSchema": {
+      "type": "object",
+      "properties": {
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "$ref": "#/definitions/Profile",
+              "description": "Returns the profile of current logged in user."
+            }
+          },
+          "required": [
+            "200"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Get the profile of current logged in user."
     },
     "RegisterSchema": {
       "type": "object",
@@ -1689,6 +1748,104 @@
         "keywords",
         "category"
       ],
+      "additionalProperties": false
+    },
+    "Profile": {
+      "type": "object",
+      "properties": {
+        "honor": {
+          "type": "string",
+          "description": "Honor. 头衔"
+        },
+        "honorPublic": {
+          "type": "boolean",
+          "description": "is honor visible to other users?"
+        },
+        "jobTitle": {
+          "type": "string",
+          "description": "Job Title. 职称"
+        },
+        "jobTitlePublic": {
+          "type": "boolean",
+          "description": "is job title visible to other users?"
+        },
+        "institution": {
+          "type": "string",
+          "description": "Institution"
+        },
+        "institutionPublic": {
+          "type": "boolean",
+          "description": "is institution visible to other users"
+        },
+        "academicKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Academic keywords. 学术关键词"
+        },
+        "researchLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Research Labels. 研究标签"
+        }
+      },
+      "required": [
+        "honor",
+        "honorPublic",
+        "jobTitle",
+        "jobTitlePublic",
+        "institution",
+        "institutionPublic",
+        "academicKeywords",
+        "researchLabels"
+      ],
+      "additionalProperties": false
+    },
+    "Partial%3CProfile%3E": {
+      "type": "object",
+      "properties": {
+        "honor": {
+          "type": "string",
+          "description": "Honor. 头衔"
+        },
+        "honorPublic": {
+          "type": "boolean",
+          "description": "is honor visible to other users?"
+        },
+        "jobTitle": {
+          "type": "string",
+          "description": "Job Title. 职称"
+        },
+        "jobTitlePublic": {
+          "type": "boolean",
+          "description": "is job title visible to other users?"
+        },
+        "institution": {
+          "type": "string",
+          "description": "Institution"
+        },
+        "institutionPublic": {
+          "type": "boolean",
+          "description": "is institution visible to other users"
+        },
+        "academicKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Academic keywords. 学术关键词"
+        },
+        "researchLabels": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Research Labels. 研究标签"
+        }
+      },
       "additionalProperties": false
     },
     "DashboardArticleInfo": {

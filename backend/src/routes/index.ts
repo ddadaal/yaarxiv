@@ -20,6 +20,8 @@ import { changeArticleAdminSetPublicityRoute } from "./admin/changeArticlePublic
 import { changeArticleOwnerSetPublicityRoute } from "./dashboard/changeArticlePublicity";
 import { getArticleFileRoute } from "./article/getFile";
 import { validateEmailRoute } from "@/routes/register/validateEmail";
+import { changeProfileRoute } from "@/routes/dashboard/changeProfile";
+import { getProfileRoute } from "@/routes/dashboard/getProfile";
 
 export const routes = [
   loginRoute,
@@ -44,5 +46,7 @@ export const routes = [
   getAccountInfoRoute,
   changeArticleAdminSetPublicityRoute,
   changeArticleOwnerSetPublicityRoute,
+  changeProfileRoute,
+  getProfileRoute,
 ];
 

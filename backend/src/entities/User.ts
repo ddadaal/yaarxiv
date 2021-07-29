@@ -1,5 +1,5 @@
 import { Entity, Property, OneToMany, PrimaryKey, Enum, Collection,
-  IdentifiedReference, OneToOne } from "@mikro-orm/core";
+  IdentifiedReference, OneToOne, ArrayType } from "@mikro-orm/core";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
 import { encrypt, compare } from "@/utils/bcrypt";
@@ -41,6 +41,30 @@ export class User {
 
   @OneToOne(() => EmailValidationToken, (e) => e.user, { wrappedReference: true })
   emailValidation?: IdentifiedReference<EmailValidationToken>;
+
+  @Property({ default: "" })
+  honor: string = "";
+
+  @Property({ default: true })
+  honorPublic: boolean = true;
+
+  @Property({ default: "" })
+  jobTitle: string = "";
+
+  @Property({ default: true })
+  jobTitlePublic: boolean = true;
+
+  @Property({ default: "" })
+  institution: string = "";
+
+  @Property({ default: true })
+  institutionPublic: boolean = true;
+
+  @Property({ type: ArrayType })
+  academicKeywords: string[] = [];
+
+  @Property({ type: ArrayType })
+  researchLabels: string[] = [];
 
   async setPassword(newPassword: string) {
     this.password = await encrypt(newPassword);
