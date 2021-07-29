@@ -6,23 +6,23 @@ import { prefix } from "src/i18n";
 import { UserRole } from "src/models/User";
 import { DashboardLayout } from "src/pageComponents/Dashboard/DashboardLayout";
 import { SectionTitle } from "src/pageComponents/Dashboard/SectionTitle";
-import { UserProfileForm } from "src/pageComponents/Dashboard/UserProfile/UserProfileForm";
+import { AccountInfoForm } from "src/pageComponents/Dashboard/AccountInfo/AccountInfoForm";
 import { ssrPage } from "src/utils/ssr";
 import { DashboardGetProfileSchema } from "yaarxiv-api/api/dashboard/getProfile";
 
-const root = prefix("pages.dashboard.information.");
+const root = prefix("pages.dashboard.accountInfo.");
 
 interface Props {
   profile: DashboardGetProfileSchema["responses"]["200"];
 }
 
-export const ProfilePage = ssrPage<Props>(({ profile }) => {
+export const AccountInfoPage = ssrPage<Props>(({ profile }) => {
 
   return (
     <DashboardLayout>
       <Box flex>
-        <SectionTitle titleId={root("account.title")} />
-        <UserProfileForm profile={profile} />
+        <SectionTitle titleId={root("title")} />
+        <AccountInfoForm profile={profile} />
       </Box>
       <Box margin={{ top: "large" }} flex>
       </Box>
@@ -33,4 +33,4 @@ export const ProfilePage = ssrPage<Props>(({ profile }) => {
     .then((x) => ({ profile: x }));
 }, { authOptions: { roles: [UserRole.User]} });
 
-export default ProfilePage;
+export default AccountInfoPage;

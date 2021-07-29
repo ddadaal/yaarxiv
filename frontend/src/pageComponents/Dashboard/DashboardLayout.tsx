@@ -5,7 +5,7 @@ const root = prefix("pages.dashboard.");
 
 const links = [
   { textId: root("articles.title"), to: "articles" },
-  { textId: root("information.title"), to: "profile" },
+  { textId: root("accountInfo.title"), to: "account" },
   { textId: root("changePassword.title"), to: "changePassword" },
 ];
 

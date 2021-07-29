@@ -12,7 +12,7 @@ import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
 import { Awaited } from "yaarxiv-api/api/utils/schema";
 
-const root = prefix("pages.dashboard.information.");
+const root = prefix("pages.dashboard.accountInfo.");
 
 const getProfile = () => api.dashboard.dashboardGetProfile({});
 
@@ -20,7 +20,7 @@ interface Props {
   profile: Awaited<ReturnType<typeof getProfile>>;
 }
 
-export const UserProfileForm: React.FC<Props> = ({ profile }) => {
+export const AccountInfoForm: React.FC<Props> = ({ profile }) => {
 
   const [form, setForm] = useState(profile);
 
@@ -64,12 +64,12 @@ export const UserProfileForm: React.FC<Props> = ({ profile }) => {
         onReset={() => setForm(data ?? profile)}
       >
         <FormField
-          disabled label={<Localized id={root("account.id")} />}
+          disabled label={<Localized id={root("id")} />}
           value={profile.userId}
         />
-        <FormField name="name" label={<Localized id={root("account.name")} />} />
+        <FormField name="name" label={<Localized id={root("name")} />} />
         <FormField
-          name="email" label={<Localized id={root("account.email")} />}
+          name="email" label={<Localized id={root("email")} />}
           validate={emailValidation}
         />
         <Box direction="row" gap="medium" margin={{ top: "medium" }}>
