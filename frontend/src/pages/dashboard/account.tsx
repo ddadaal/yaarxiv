@@ -24,8 +24,6 @@ export const AccountInfoPage = ssrPage<Props>(({ profile }) => {
         <SectionTitle titleId={root("title")} />
         <AccountInfoForm profile={profile} />
       </Box>
-      <Box margin={{ top: "large" }} flex>
-      </Box>
     </DashboardLayout>
   );
 }, async () => {
