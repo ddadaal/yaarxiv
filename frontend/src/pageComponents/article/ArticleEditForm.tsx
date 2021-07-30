@@ -12,7 +12,7 @@ import {
   ACCEPTABLE_CODE_SITES,
   getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
-import { ArticleId, ArticleInfoMultiLangPart } from "yaarxiv-api/api/article/models";
+import { ArticleId, ArticleInfoMultiLangPart, TITLE_MAX_LENGTH } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
 import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
@@ -159,11 +159,15 @@ export const ArticleEditForm: React.FC<Props> = ({
             validate="blur"
           >
             <FormField
-              label={<Localized id={root("info.articleTitleCn")} args={[100]} />}
+              label={(
+                <Localized
+                  id={root("info.articleTitleCn")}
+                  args={[TITLE_MAX_LENGTH]}
+                />)}
               name="cnTitle"
               value={info.cnTitle}
               disabled={disabled}
-              maxLength={100}
+              maxLength={TITLE_MAX_LENGTH}
               onChange={(e) => setInfo({ ...info, cnTitle: e.target.value })}
             />
             <FormField

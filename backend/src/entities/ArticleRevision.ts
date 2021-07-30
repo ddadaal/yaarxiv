@@ -2,7 +2,7 @@ import { EntityOrRef, toRef } from "@/utils/orm";
 import {
   Property, ManyToOne, PrimaryKey,
   Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
-import { ArticleInfoMultiLangPart, Author } from "yaarxiv-api/api/article/models";
+import { ArticleInfoMultiLangPart, Author, TITLE_MAX_LENGTH } from "yaarxiv-api/api/article/models";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
@@ -21,13 +21,13 @@ export class ArticleRevision {
   @Property({ type: "json" })
   authors: Author[];
 
-  @Property({ nullable: true })
+  @Property({ nullable: true, length: TITLE_MAX_LENGTH })
   cnTitle?: string;
 
   @Property({ type: "json", nullable: true })
   cnKeywords?: string[];
 
-  @Property({ nullable: true })
+  @Property({ nullable: true, length: TITLE_MAX_LENGTH })
   enTitle?: string;
 
   @Property({ type: "json", nullable: true })

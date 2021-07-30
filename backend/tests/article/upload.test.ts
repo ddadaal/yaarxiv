@@ -1,6 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { Article } from "../../src/entities/Article";
-import * as api from "yaarxiv-api/api/article/upload";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { Reference } from "@mikro-orm/core";
@@ -13,12 +12,25 @@ const articleCount = 12;
 
 let server: FastifyInstance;
 let users: MockUsers;
+let pdfId: number;
+let payload;
 
 beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
   await createMockArticles(server, articleCount, users);
+
+  pdfId = await insertPdf();
+
+  payload = {
+    abstract: "123",
+    authors: [{ name: "author" }],
+    cnKeywords: ["k1", "k2"],
+    cnTitle: "123",
+    pdfToken: pdfId,
+    codeLink: "https://github.com/test/test",
+  };
 });
 
 afterEach(async () => {
@@ -31,20 +43,8 @@ async function insertPdf() {
   return pdf.id;
 }
 
+
 it("upload an article.", async () => {
-
-  // upload a pdf and get token
-
-  const id = await insertPdf();
-
-  const payload: api.UploadArticleSchema["body"] = {
-    abstract: "123",
-    authors: ["author"],
-    keywords: ["k1", "k2"],
-    pdfToken: id,
-    title: "123",
-    codeLink: "https://github.com/test/test",
-  };
 
   const resp = await callRoute(server, uploadArticleRoute, {
     body: payload,
@@ -62,59 +62,30 @@ it("upload an article.", async () => {
 
   const rev = article.latestRevision.get();
   expect(rev.abstract).toBe(payload.abstract);
-  expect(rev.title).toBe(payload.title);
+  expect(rev.cnTitle).toBe(payload.cnTitle);
+  expect(rev.cnKeywords).toEqual(payload.cnKeywords);
   expect(rev.codeLink).toBe(payload.codeLink);
 });
 
 it("fails if pdf token is invalid.", async () => {
-  const payload: api.UploadArticleSchema["body"] = {
-    abstract: "123",
-    authors: ["author"],
-    keywords: ["k1", "k2"],
-    pdfToken: 12315125,
-    title: "123",
-  };
-
   const resp = await callRoute(server, uploadArticleRoute, {
-    body: payload,
+    body: { ...payload, pdfToken: 12312431451 },
   }, users.normalUser1);
 
   expectCodeAndJson(resp, 400);
 });
 
 it("fails if the title is too long", async () => {
-  const id = await insertPdf();
-
-  const payload: api.UploadArticleSchema["body"] = {
-    abstract: "123",
-    authors: ["author"],
-    keywords: ["k1", "k2"],
-    pdfToken: id,
-    title: "a".repeat(120), // the limit is 100
-  };
-
   const resp = await callRoute(server, uploadArticleRoute, {
-    body: payload,
+    body: { ...payload, cnTitle: "a".repeat(120) },
   }, users.normalUser1);
 
   expectCodeAndJson(resp, 400);
 });
 
 it("fails if code link is bad", async () => {
-  // upload a pdf and get token
-  const id = await insertPdf();
-
-  const payload: api.UploadArticleSchema["body"] = {
-    abstract: "123",
-    authors: ["author"],
-    keywords: ["k1", "k2"],
-    pdfToken: id,
-    title: "a".repeat(120), // the limit is 100
-    codeLink: "https://github.com/ddadaal",
-  };
-
   const resp = await callRoute(server, uploadArticleRoute, {
-    body: payload,
+    body: { ...payload, codeLink: "https://github.com/ddadaal" },
   }, users.normalUser1);
 
   expectCodeAndJson(resp, 400);

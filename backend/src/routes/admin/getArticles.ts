@@ -12,7 +12,13 @@ export const adminGetArticlesRoute = route(
 
     const [articles, count] = await req.em.findAndCount(Article,
       searchWord
-        ? { latestRevision: { title: { $like: `%${searchWord}%` } } }
+        ? { latestRevision: {
+          $or: [
+            { cnTitle: { $like: `%${searchWord}%` } },
+            { enTitle: { $like: `%${searchWord}%` } },
+          ],
+        },
+        }
         : {},
       {
         populate: ["revisions", "latestRevision", "owner"],
@@ -27,7 +33,8 @@ export const adminGetArticlesRoute = route(
           createTime: x.createTime.toISOString(),
           lastUpdatedTime: x.lastUpdateTime.toISOString(),
           revisionCount: x.revisions.length,
-          title: x.latestRevision.getEntity().title,
+          cnTitle: x.latestRevision.getEntity().cnTitle!,
+          enTitle: x.latestRevision.getEntity().enTitle!,
           ownerSetPublicity: x.ownerSetPublicity,
           adminSetPublicity: x.adminSetPublicity,
           owner: {

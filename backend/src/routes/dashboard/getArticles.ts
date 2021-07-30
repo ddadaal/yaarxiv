@@ -20,15 +20,21 @@ export const dashboardGetArticlesRoute = route(
 
     return {
       200: {
-        articles: articles.map((x) => ({
-          id: x.id,
-          createTime: x.createTime.toISOString(),
-          lastUpdatedTime: x.lastUpdateTime.toISOString(),
-          revisionCount: x.revisions.length,
-          ownerSetPublicity: x.ownerSetPublicity,
-          adminSetPublicity: x.adminSetPublicity,
-          title: x.latestRevision.getEntity().title,
-        })),
+        articles: articles.map((x) => {
+          const rev = x.latestRevision.getEntity();
+          return {
+            id: x.id,
+            createTime: x.createTime.toISOString(),
+            lastUpdatedTime: x.lastUpdateTime.toISOString(),
+            revisionCount: x.revisions.length,
+            ownerSetPublicity: x.ownerSetPublicity,
+            adminSetPublicity: x.adminSetPublicity,
+            cnTitle: rev.cnTitle!,
+            enTitle: rev.enTitle!,
+            cnKeywords: rev.cnKeywords!,
+            enKeywords: rev.enKeywords!,
+          };
+        }),
         totalCount: count,
       },
     };

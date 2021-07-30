@@ -1,19 +1,20 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
-import { ArticleId } from "../article/models";
+import { ArticleId, ArticleInfoMultiLangPart } from "../article/models";
 
 
 /** Get the articles this user is the owner of. */
-export interface DashboardArticleInfo {
+export type DashboardArticleInfo = {
   /** The article id. */
   id: ArticleId;
-  /** The article title of the latest revision. */
-  title: string;
+
   /** The time the article is first created. */
   createTime: string;
+
   /** Last updated time */
   lastUpdatedTime: string;
+
   /**
    * The number of revisions this article has.
    * @type {integer}
@@ -27,7 +28,7 @@ export interface DashboardArticleInfo {
    * Whether the article is public set by admin.
    */
   adminSetPublicity: boolean;
-}
+} & ArticleInfoMultiLangPart;
 
 export interface UserGetArticleInfoSchema {
   querystring: {

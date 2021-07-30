@@ -5,7 +5,7 @@ import { ArticleId } from "../article/models";
 import { UserId } from "../auth/models";
 
 
-export interface AdminGetArticlesResult {
+export type AdminGetArticlesResult = {
   /** The article id. */
   id: ArticleId;
   /** Thw article owner. */
@@ -15,8 +15,6 @@ export interface AdminGetArticlesResult {
     /** The owner name. */
     name: string;
   }
-  /** The article title of the latest revision. */
-  title: string;
   /** The time the article is first created. */
   createTime: string;
   /** Last updated time */
@@ -34,7 +32,7 @@ export interface AdminGetArticlesResult {
    * Whether the article is public set by admin.
    */
   adminSetPublicity: boolean;
-}
+} & ({ cnTitle: string; } | { enTitle: string })
 
 export interface AdminGetArticlesSchema {
   querystring: {

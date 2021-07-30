@@ -35,8 +35,10 @@ export const getArticleRoute = route(
             abstract: targetRevision.abstract,
             authors: targetRevision.authors,
             category: targetRevision.category,
-            keywords: targetRevision.keywords,
-            title: targetRevision.title,
+            cnKeywords: targetRevision.cnKeywords!,
+            cnTitle: targetRevision.cnTitle!,
+            enKeywords: targetRevision.enKeywords!,
+            enTitle: targetRevision.enTitle!,
             codeLink: targetRevision.codeLink,
           },
           revisions: article.revisions.getItems().map((x) => ({

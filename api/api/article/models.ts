@@ -10,10 +10,38 @@ export interface Author {
   affiliation?: string;
 }
 
+export const TITLE_MAX_LENGTH = 100;
+
+export interface CnInfo {
+  /**
+   * Chinese Title
+   * @maxLength 100
+   */
+  cnTitle: string;
+
+  /**
+   * Chinese Keywords
+   */
+  cnKeywords: string[];
+}
+
+export interface EnInfo {
+  /**
+   * Chinese Title
+   * @maxLength 100
+   */
+  enTitle: string;
+
+  /**
+   * Chinese Keywords
+   */
+  enKeywords: string[];
+}
+
 export type ArticleInfoMultiLangPart =
-  | { cnTitle: string; cnKeywords: string[]; }
-  | { enTitle: string; enKeywords: string[]; }
-  | { cnTitle: string; cnKeywords: string[]; enTitle: string; enKeywords: string[]};
+  | CnInfo
+  | EnInfo
+  | CnInfo & EnInfo;
 
 export type ArticleInfo = {
 

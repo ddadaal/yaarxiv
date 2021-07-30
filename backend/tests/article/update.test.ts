@@ -26,8 +26,10 @@ afterEach(async () => {
 
 const payload: api.UpdateArticleSchema["body"] = {
   abstract: "123",
-  keywords: ["k1", "k2"],
+  cnKeywords: ["k1", "k2"],
   codeLink: "https://github.com/test/test",
+  authors: [{ name: "author" }],
+  cnTitle: "123",
 };
 
 it("should reject bad code link", async () => {

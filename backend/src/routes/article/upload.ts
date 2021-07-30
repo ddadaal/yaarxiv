@@ -13,13 +13,16 @@ export const uploadArticleRoute = route(
   async (req) => {
     // validate the pdfToken first.
     const pdfRepo = req.em.getRepository(UploadedFile);
-    const pdf = await pdfRepo.findOne(req.body.pdfToken);
+
+    const { pdfToken, codeLink, ...rest } = req.body;
+
+    const pdf = await pdfRepo.findOne(pdfToken);
     if (!pdf) {
       throw createError(400, "PDF token is invalid.");
     }
 
     // validate the repo link
-    if (req.body.codeLink) {
+    if (codeLink) {
       validateCodeLink(req.body.codeLink);
     }
 
@@ -32,16 +35,13 @@ export const uploadArticleRoute = route(
     });
 
     const rev = new ArticleRevision({
-      abstract: req.body.abstract,
-      authors: req.body.authors.map((x) => ({ name: x })),
-      category: "",
-      keywords: req.body.keywords,
       pdf: Reference.create(pdf),
-      revisionNumber: 1,
-      title: req.body.title,
-      time: createTime,
-      codeLink: req.body.codeLink,
       article,
+      codeLink,
+      revisionNumber: 1,
+      category: "",
+      time: createTime,
+      ...rest,
     });
 
     article.revisions.add(rev);
