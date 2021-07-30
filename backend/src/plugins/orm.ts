@@ -36,6 +36,7 @@ export const ormPlugin = fp(async (fastify) => {
     highlighter: highlight ? new SqlHighlighter() : undefined,
     logger: (msg) => fastify.log.info(msg),
     entities,
+    forceUndefined: true,
     driverOptions: {
       connectTimeout: connectionTimeout,
     },
