@@ -2,7 +2,7 @@ import { EntityOrRef, toRef } from "@/utils/orm";
 import {
   Property, ManyToOne, PrimaryKey,
   Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
-import { Author } from "yaarxiv-api/api/article/models";
+import { ArticleInfoMultiLangPart, Author } from "yaarxiv-api/api/article/models";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
@@ -18,14 +18,20 @@ export class ArticleRevision {
   @Property()
   time: Date;
 
-  @Property()
-  title: string;
-
   @Property({ type: "json" })
   authors: Author[];
 
-  @Property({ type: "json" })
-  keywords: string[];
+  @Property({ nullable: true })
+  cnTitle?: string;
+
+  @Property({ type: "json", nullable: true })
+  cnKeywords?: string[];
+
+  @Property({ nullable: true })
+  enTitle?: string;
+
+  @Property({ type: "json", nullable: true })
+  enKeywords?: string[];
 
   @Property({ length: ARTICLE_ABSTRACT_LENGTH_LIMIT })
   abstract: string
@@ -50,21 +56,23 @@ export class ArticleRevision {
     id?: number;
     revisionNumber: number,
     time: Date,
-    title: string,
     authors: Author[],
-    keywords: string[],
     abstract: string,
     category: string,
     pdf: EntityOrRef<UploadedFile>,
     article: EntityOrRef<Article>,
-    codeLink?: string,
-  }) {
+    codeLink?: string;
+  } & ArticleInfoMultiLangPart) {
     if (init.id) this.id = init.id;
+    ["cnTitle", "cnKeywords", "enTitle", "enKeywords"]
+      .forEach((x) => {
+        if (x in init) {
+          this[x] = init[x];
+        }
+      });
     this.revisionNumber = init.revisionNumber;
     this.time = init.time;
-    this.title = init.title;
     this.authors = init.authors;
-    this.keywords = init.keywords;
     this.abstract = init.abstract;
     this.category = init.category;
     this.pdf = toRef(init.pdf);

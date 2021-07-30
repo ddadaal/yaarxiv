@@ -37,7 +37,7 @@ export const ArticlePage = ssrPage<Props>((props) => {
 
   const [articleId, revision] = getParams(context.query);
 
-  if (!articleId) {
+  if (articleId === undefined) {
     return { status: "badArticleId" };
   }
 

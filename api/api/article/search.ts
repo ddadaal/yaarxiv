@@ -2,7 +2,7 @@ import { Endpoint } from "../utils/schema";
 import { ArticleId, ArticleInfo } from "./models";
 
 /** A preview information of the article. */
-export interface ArticleSearchResult extends Omit<ArticleInfo, "pdfLink"> {
+export type ArticleSearchResult = ArticleInfo & {
 
   /** The id of the article. */
   articleId: ArticleId;

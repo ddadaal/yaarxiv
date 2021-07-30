@@ -34,6 +34,7 @@ export const ArticleUpdatePage = ssrPage<Props>(
     const submit = useCallback((file: File | undefined, form: ArticleForm) => {
       request(async () => {
         let pdfToken: number | undefined = undefined;
+
         if (file) {
           // user wants to update the pdf. so upload it first.
           const data = new FormData();
@@ -41,9 +42,16 @@ export const ArticleUpdatePage = ssrPage<Props>(
           const fileResp = await api.article.uploadPDF({ body: data as any });
           pdfToken = fileResp.token;
         }
+
+        const { authors, ...rest } = form;
+
         const resp = await api.article.updateArticle({
           path: { articleId: props.article.id },
-          body: { pdfToken, ...form },
+          body: {
+            pdfToken,
+            authors: authors.map((x) => ({ name: x })),
+            ...rest,
+          },
         });
         await router.push("/articles/[id]", `/articles/${props.article.id}`);
         toast.success(
@@ -55,10 +63,6 @@ export const ArticleUpdatePage = ssrPage<Props>(
       });
     }, [props.article.id]);
 
-    if ("error" in props) {
-
-    }
-
     const { ...rest } = props.article.currentRevision;
 
     return (
@@ -66,7 +70,15 @@ export const ArticleUpdatePage = ssrPage<Props>(
         <ArticleEditForm
           disabled={submitting}
           articleId={props.article.id}
-          initial={{ ...rest, authors: rest.authors.map((x) => x.name) }}
+          initial={{
+            abstract: rest.abstract,
+            cnKeywords: "cnKeywords" in rest ? rest.cnKeywords : [],
+            cnTitle: "cnTitle" in rest? rest.cnTitle : "",
+            enKeywords: "enKeywords" in rest ? rest.enKeywords : [],
+            enTitle: "enTitle" in rest? rest.enTitle : "",
+            codeLink: rest.codeLink ?? "",
+            authors: rest.authors.map((x) => x.name),
+          }}
           onSubmit={submit}
         />
       </LimitedWidthPage>
@@ -76,7 +88,7 @@ export const ArticleUpdatePage = ssrPage<Props>(
 
     const articleId = queryToIntOrDefault(ctx.query.id);
 
-    if (!articleId) {
+    if (articleId === undefined) {
       return ssrError(400);
     }
 
@@ -104,7 +116,7 @@ export const ArticleUpdatePage = ssrPage<Props>(
       <UnifiedErrorPage
         error={err}
         customComponents={{
-          403:(
+          403: (err) => (
             <Forbidden
               description={(
                 <Localized

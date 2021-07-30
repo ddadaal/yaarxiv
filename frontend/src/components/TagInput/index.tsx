@@ -11,7 +11,7 @@ const root = prefix("components.tagInput.");
 interface Props {
   name: string;
   value: string[];
-  onAdd: (str: string | string[]) => void;
+  onAdd: (tags: string[]) => void;
   onChange?: (currentInput: string) => void;
   onRemove: (str: string) => void;
   disabled?: boolean;
@@ -41,7 +41,7 @@ export const TagInput: React.FC<Props> = ({
     onAdd?.(
       commaToSplit
         ? tag.split(/,|，/).map((x) => x.trim().substr(0, maxLength)).filter((x) => !!x)
-        : tag.trim()
+        : [tag.trim()]
     );
   };
 

@@ -2,7 +2,7 @@ import {
   Anchor, Box, Button, FormField,
   Heading, Paragraph, TextArea,
 } from "grommet";
-import React, { useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Localized, prefix } from "src/i18n";
 import { FileUploader } from "src/components/FileUploader";
 import { Form } from "src/components/form/Form";
@@ -12,26 +12,43 @@ import {
   ACCEPTABLE_CODE_SITES,
   getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
-import { ArticleId } from "yaarxiv-api/api/article/models";
+import { ArticleId, ArticleInfoMultiLangPart } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
 import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
+import { removeNullOrUndefinedKey } from "src/utils/array";
 
 const root = prefix("pages.upload.");
 
-export interface ArticleForm {
-  title: string;
+type ArticleFormInternal = {
   authors: string[];
-  keywords: string[];
   abstract: string;
-  codeLink?: string;
-}
+  codeLink: string;
+  cnTitle: string;
+  enTitle: string;
+  cnKeywords: string[];
+  enKeywords: string[];
+};
+
+export type ArticleForm = {
+  authors: string[];
+  abstract: string;
+  codeLink: string | undefined;
+} & ArticleInfoMultiLangPart;
 
 interface Props {
   articleId: ArticleId | undefined;
   initial: ArticleForm;
   disabled: boolean;
   onSubmit: (file: File | undefined, form: ArticleForm) => void;
+}
+
+function filled(title: string, keywords: string[]) {
+  return title !== "" && keywords.length > 0;
+}
+
+function notFilled(title: string, keywords: string[]) {
+  return title === "" && keywords.length === 0;
 }
 
 export const ArticleEditForm: React.FC<Props> = ({
@@ -41,14 +58,34 @@ export const ArticleEditForm: React.FC<Props> = ({
   onSubmit,
 }) => {
 
+  const initialInternal = useMemo(() => ({
+    abstract: initial.abstract,
+    authors: initial.authors,
+    codeLink: initial.codeLink || "",
+    cnKeywords: "cnKeywords" in initial ? initial.cnKeywords : [],
+    cnTitle: "cnTitle" in initial ? initial.cnTitle : "",
+    enKeywords: "enKeywords" in initial ? initial.enKeywords : [],
+    enTitle: "enTitle" in initial ? initial.enTitle : "",
+  }), [initial]);
+
   const [file, setFile] = useState<File | undefined>(undefined);
-  const [info, setInfo] = useState(initial);
+  const [info, setInfo] = useState<ArticleFormInternal>(initialInternal);
+
+  const cnFilled = filled(info.cnTitle, info.cnKeywords);
+  const enFilled = filled(info.enTitle, info.enKeywords);
+  const cnNotFilled = notFilled(info.cnTitle, info.cnKeywords);
+  const enNotFilled = notFilled(info.enTitle, info.enKeywords);
 
   const submittable =
     (articleId !== undefined || file !== undefined)
-    && info.title !== ""
+    && (
+      (
+        cnFilled && (enFilled || enNotFilled)
+      ) || (
+        enFilled && (cnNotFilled)
+      )
+    )
     && info.authors.length > 0
-    && info.keywords.length > 0
     && (!info.codeLink || getCodeLinkInfo(info.codeLink) !== undefined)
     && info.abstract !== "";
 
@@ -100,30 +137,83 @@ export const ArticleEditForm: React.FC<Props> = ({
         <Heading level="2" size="small" margin="none">
           <Localized id={root("info.title")} />
         </Heading>
+        <Box align="center" pad="medium">
+          <Localized id={root("info.prompt")} />
+        </Box>
         <Box margin={{ vertical: "small" }}>
           <Form
             disableEnterToSubmit
-            onReset={() => setInfo(initial)}
+            onReset={() => setInfo(initialInternal)}
             value={info}
             onSubmit={() => {
-              // if code link is "", make it undefined.
-              if (!info.codeLink) {
-                info.codeLink = undefined;
-              }
-              onSubmit(file, info);
+              onSubmit(file, removeNullOrUndefinedKey({
+                abstract: info.abstract,
+                authors: info.authors,
+                codeLink: info.codeLink || undefined,
+                cnKeywords: info.cnKeywords.length === 0 ? undefined : info.cnKeywords,
+                enKeywords: info.enKeywords.length === 0 ? undefined : info.enKeywords,
+                cnTitle: info.cnTitle || undefined,
+                enTitle: info.enTitle || undefined,
+              }) as any);
             }}
             validate="blur"
           >
             <FormField
-              label={<Localized id={root("info.articleTitle")} args={[100]} />}
-              name="title"
-              value={info.title}
+              label={<Localized id={root("info.articleTitleCn")} args={[100]} />}
+              name="cnTitle"
+              value={info.cnTitle}
               disabled={disabled}
               maxLength={100}
-              onChange={(e) => setInfo({ ...info, title: e.target.value })}
-              required
+              onChange={(e) => setInfo({ ...info, cnTitle: e.target.value })}
             />
-
+            <FormField
+              label={<Localized id={root("info.keywordsCn")} args={[50]} />}
+              name="cnKeywords"
+            >
+              <TagInput
+                disabled={disabled}
+                name="cnKeywords"
+                value={info.cnKeywords || []}
+                maxLength={50}
+                onAdd={(v) => setInfo({
+                  ...info,
+                  cnKeywords: info.cnKeywords.concat(v),
+                })}
+                onRemove={(val) => setInfo({
+                  ...info,
+                  cnKeywords: info.cnKeywords.filter((x) => x !== val),
+                })}
+                commaToSplit={true}
+              />
+            </FormField>
+            <FormField
+              label={<Localized id={root("info.articleTitleEn")} args={[100]} />}
+              name="enTitle"
+              value={info.enTitle}
+              disabled={disabled}
+              maxLength={100}
+              onChange={(e) => setInfo({ ...info, enTitle: e.target.value })}
+            />
+            <FormField
+              label={<Localized id={root("info.keywordsEn")} args={[50]} />}
+              name="enKeywords"
+            >
+              <TagInput
+                disabled={disabled}
+                name="enKeywords"
+                value={info.enKeywords || []}
+                maxLength={50}
+                onAdd={(v) => setInfo({
+                  ...info,
+                  enKeywords: info.enKeywords.concat(v),
+                })}
+                onRemove={(val) => setInfo({
+                  ...info,
+                  enKeywords: info.enKeywords.filter((x) => x !== val),
+                })}
+                commaToSplit={true}
+              />
+            </FormField>
             <FormField
               label={<Localized id={root("info.authors")} args={[50]} />}
               name="authors"
@@ -139,24 +229,6 @@ export const ArticleEditForm: React.FC<Props> = ({
                   authors: info.authors.filter((x) => x !== val),
                 })}
                 maxLength={50}
-              />
-            </FormField>
-            <FormField
-              label={<Localized id={root("info.keywords")} args={[50]} />}
-              name="keywords"
-              required
-            >
-              <TagInput
-                disabled={disabled}
-                name="keywords"
-                value={info.keywords}
-                maxLength={50}
-                onAdd={(val) => setInfo({ ...info, keywords: info.keywords.concat(val) })}
-                onRemove={(val) => setInfo({
-                  ...info,
-                  keywords: info.keywords.filter((x) => x !== val),
-                })}
-                commaToSplit={true}
               />
             </FormField>
             <FormField

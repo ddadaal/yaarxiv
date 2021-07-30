@@ -9,7 +9,7 @@ import { ServerError } from "./ServerError";
 
 interface Props {
   error: HttpError;
-  customComponents?: { [code: number]: React.ReactElement };
+  customComponents?: { [code: number]: (err: HttpError) => React.ReactElement };
 }
 
 export const UnifiedErrorPage: React.FC<Props> = ({
@@ -21,15 +21,15 @@ export const UnifiedErrorPage: React.FC<Props> = ({
 
   switch (error.status) {
   case 400:
-    return customComponents[400] ?? <BadRequest />;
+    return customComponents[400]?.(error) ?? <BadRequest />;
   case 401:
     invalidTokenHandler();
-    return customComponents[401] ?? <NotAuthorized />;
+    return customComponents[401]?.(error) ?? <NotAuthorized />;
   case 403:
-    return customComponents[403] ?? <Forbidden />;
+    return customComponents[403]?.(error) ?? <Forbidden />;
   case 404:
-    return customComponents[404] ?? <NotFound />;
+    return customComponents[404]?.(error) ?? <NotFound />;
   default:
-    return customComponents[error.status] ?? <ServerError error={error} />;
+    return customComponents[error.status]?.(error) ?? <ServerError error={error} />;
   }
 };

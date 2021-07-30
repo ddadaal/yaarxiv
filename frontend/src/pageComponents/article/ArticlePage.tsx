@@ -6,10 +6,11 @@ import { formatDateTime } from "src/utils/datetime";
 import { TitledSection } from "src/components/TitledSection";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
-import { prefix } from "src/i18n";
+import { prefix, useI18n } from "src/i18n";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { DownloadPdfLink } from "./DownloadPdfLink";
+import { articleInfoMultiLangPartToLangMap } from "src/models/Article";
 
 const root = prefix("pages.article.");
 
@@ -21,12 +22,21 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
 
   const { currentRevision } = article;
 
+  const map = articleInfoMultiLangPartToLangMap(currentRevision);
+
+  const i18n = useI18n();
+
+  const localizedInfo: { title: string; keywords: string[]; } =
+    map[i18n.currentLanguage.id]
+      ?? (map.cn ? map.cn : map.en);
+
+
   return (
     <TwoColumnLayout
       left={(
         <Section>
           <Heading margin="none" level="1" size="small">
-            {currentRevision.title}
+            {localizedInfo.title}
           </Heading>
           <ArticleAuthors authors={currentRevision.authors} />
           <Box>
@@ -35,7 +45,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
             </Paragraph>
           </Box>
           <Box wrap direction="row" gap="small">
-            {currentRevision.keywords.map((k, i) => (
+            {localizedInfo.keywords.map((k, i) => (
               <Box key={i} border="all"
                 margin={{ horizontal: "none", vertical: "xsmall" }} pad="xsmall"
               >

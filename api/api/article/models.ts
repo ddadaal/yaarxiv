@@ -10,25 +10,29 @@ export interface Author {
   affiliation?: string;
 }
 
-/** The brief info of an revision of an article. */
-export interface ArticleInfo {
-  /** The title of the article. */
-  title: string;
+export type ArticleInfoMultiLangPart =
+  | { cnTitle: string; cnKeywords: string[]; }
+  | { enTitle: string; enKeywords: string[]; }
+  | { cnTitle: string; cnKeywords: string[]; enTitle: string; enKeywords: string[]};
+
+export type ArticleInfo = {
+
   /** The authors of the article. */
   authors: Author[];
-  /** The abstract. */
+
+  /**
+   * The abstract.
+   */
   abstract: string;
-  /** The keywords of the article. */
-  keywords: string[];
-  /** The category of the article. */
-  category: string;
+
   /**
    * Link to code.
    * Should pass validation from utils/codeLink.ts
    * @format uri
    */
   codeLink?: string;
-}
+
+} & ArticleInfoMultiLangPart;
 
 export interface ArticleRevision {
   /** The number of the revision starting from 1. */

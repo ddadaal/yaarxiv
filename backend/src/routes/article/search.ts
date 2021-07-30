@@ -26,14 +26,20 @@ export const searchArticleRoute = route(
     }
 
     if (searchText) {
-      builder.andWhere({ "l.title": { $like: `%${searchText}%` } });
+      builder.andWhere({ $or: {
+        "l.cnTitle": { $like: `%${searchText}%` },
+        "l.enTitle": { $like: `%${searchText}%` },
+      } });
     }
 
     // ALL of specified keywords
     // Allows search part of keyword ("Computer" -> "Computer Science")
     if (keywords) {
       keywords.forEach((k) => {
-        builder.andWhere( { "l.keywords": { $like:`%${k}%` } });
+        builder.andWhere({ $or: {
+          "l.cnKeywords": { $like:`%${k}%` },
+          "l.enKeywords": { $like:`%${k}%` },
+        } });
       });
     }
 
@@ -62,16 +68,18 @@ export const searchArticleRoute = route(
           const rev = x.latestRevision.getEntity();
           return {
             articleId: x.id,
-            title: rev.title,
+            cnTitle: rev.cnTitle,
+            enTitle: rev.enTitle,
+            cnKeywords: rev.cnKeywords,
+            enKeywords: rev.enKeywords,
             createTime: x.createTime.toISOString(),
             lastUpdateTime: x.lastUpdateTime.toISOString(),
             abstract: rev.abstract,
             authors: rev.authors,
-            keywords: rev.keywords,
             category: rev.category,
             codeLink: rev.codeLink,
             commentCount: 0,
-          };
+          } as any;
         }),
       },
     };

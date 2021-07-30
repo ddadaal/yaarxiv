@@ -13,7 +13,7 @@ export function queryToIntOrDefault(
 ) {
   const i = queryToString(input);
   const n = Number.parseInt(i);
-  return (!Number.isNaN(n) && n > 0) ? n : defaultValue;
+  return (!Number.isNaN(n)) ? n : defaultValue;
 }
 
 export function queryToArray(input: QueryValue): string[] {

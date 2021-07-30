@@ -48,17 +48,15 @@ export const updateArticleRoute = route(
 
     const revNumber = latestRev.revisionNumber + 1;
 
+    const { pdfToken: _, ...rest } = req.body;
+
     const rev = new ArticleRevision({
-      abstract: req.body.abstract ?? latestRev.abstract,
-      authors: req.body.authors?.map((x) => ({ name: x })) ?? latestRev.authors,
       article,
       category: "",
-      keywords: req.body.keywords ?? latestRev.keywords,
       pdf: pdf ?? latestRev.pdf,
       revisionNumber: revNumber,
-      title: req.body.title ?? latestRev.title,
       time: time,
-      codeLink: req.body.codeLink ?? latestRev.codeLink,
+      ...rest,
     });
 
     req.em.persist(rev);

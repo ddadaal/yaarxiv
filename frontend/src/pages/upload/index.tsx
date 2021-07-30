@@ -9,9 +9,12 @@ import { UserRole } from "src/models/User";
 import { LimitedWidthPage } from "src/layouts/LimitedWidthPage";
 
 const initialState ={
-  title: "",
+  cnTitle: "",
+  cnKeywords: [],
+  enTitle: "",
+  enKeywords: [],
+  codeLink: "",
   authors: [] as string[],
-  keywords: [] as string[],
   abstract: "",
 };
 
@@ -21,7 +24,7 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
 
   const request = useHttpRequest(setSubmitting);
 
-  const submit = async (file: File, info: ArticleForm) => {
+  const submit = async (file: File, { authors, ...rest }: ArticleForm) => {
     request(async () => {
       // 1. upload the PDF and get the token
       const data = new FormData();
@@ -33,7 +36,8 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
       const resp = await api.article.uploadArticle({
         body: {
           pdfToken: pdfResp.token,
-          ...info,
+          authors: authors.map((x) => ({ name: x })),
+          ...rest,
         },
       });
 

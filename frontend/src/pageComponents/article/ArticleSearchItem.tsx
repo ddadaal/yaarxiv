@@ -6,6 +6,8 @@ import { Author } from "yaarxiv-api/api/article/models";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { HighlightedText, Mark } from "src/components/HighlightedText";
+import { articleInfoMultiLangPartToLangMap } from "src/models/Article";
+import { useI18n } from "src/i18n";
 
 
 interface Props {
@@ -60,17 +62,24 @@ export const ArticleSearchItem: React.FC<Props> = ({
   onKeywordClicked,
 }) => {
   const {
-    title,
     authors,
-    keywords, abstract, articleId, lastUpdateTime, createTime,
+    abstract, articleId, lastUpdateTime, createTime,
     codeLink,
   } = article;
+
+  const map = articleInfoMultiLangPartToLangMap(article);
+
+  const i18n = useI18n();
+
+  const localizedInfo: { title: string; keywords: string[]; } =
+    map[i18n.currentLanguage.id]
+      ?? (map.cn ? map.cn : map.en);
 
   return (
     <Box gap="small" >
       <Heading level={2} size="small" margin="0">
         <AnchorLink href={"/articles/[id]"} as={`/articles/${article.articleId}`}>
-          <HighlightedText text={title} highlights={[searchText]} />
+          <HighlightedText text={localizedInfo.title} highlights={[searchText]} />
         </AnchorLink>
       </Heading>
       <ArticleAuthors
@@ -83,7 +92,7 @@ export const ArticleSearchItem: React.FC<Props> = ({
         abstract={abstract}
       />
       <Box direction="row" wrap>
-        {keywords.map((k) => (
+        {localizedInfo.keywords.map((k) => (
           <Keyword
             highlight={searchKeywords.some((x) => k.includes(x))}
             key={k} name={k} onKeywordClicked={onKeywordClicked}

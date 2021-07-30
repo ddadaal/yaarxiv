@@ -4,7 +4,7 @@ import { range } from "@/utils/array";
 import { Author } from "yaarxiv-api/api/article/models";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { MockUsers } from "tests/utils/data";
-import { IdentifiedReference, Reference } from "@mikro-orm/core";
+import { IdentifiedReference } from "@mikro-orm/core";
 import { User } from "@/entities/User";
 import { FastifyInstance } from "fastify";
 import { toRef } from "@/utils/orm";
@@ -20,8 +20,11 @@ export const commonKeyword = "commonKeyword";
 
 const genRevision = (article: Article, revisionId: number, pdf: UploadedFile) => {
   const title = `Article ${article.id} Revision ${revisionId}`;
+  const keywords = [commonKeyword, article.id+""];
+
   const rev = new ArticleRevision({
-    title,
+    cnTitle: title,
+    cnKeywords: keywords,
     revisionNumber: revisionId,
     authors: authors[revisionId % 2],
     abstract: title + " Abstract",
@@ -29,7 +32,6 @@ const genRevision = (article: Article, revisionId: number, pdf: UploadedFile) =>
     pdf,
     category: title + "Category",
     article: article,
-    keywords: [commonKeyword, article.id+""],
   });
 
   return rev;
