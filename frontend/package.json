@@ -34,7 +34,7 @@
   },
   "devDependencies": {
     "@types/luxon": "^1.27.1",
-    "@types/node": "^16.4.7",
+    "@types/node": "^16.4.10",
     "@types/nprogress": "^0.2.0",
     "@types/react": "17.0.15",
     "@types/styled-components": "^5.1.11",
@@ -43,7 +43,7 @@
     "@typescript-eslint/parser": "^4.28.5",
     "babel-plugin-styled-components": "^1.13.2",
     "cross-env": "^7.0.3",
-    "eslint": "^7.31.0",
+    "eslint": "^7.32.0",
     "eslint-plugin-react": "^7.24.0",
     "imagemin-svgo": "^9.0.0",
     "next-compose-plugins": "^2.2.1",
