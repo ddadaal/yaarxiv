@@ -26,20 +26,20 @@ export const searchArticleRoute = route(
     }
 
     if (searchText) {
-      builder.andWhere({ $or: {
-        "l.cnTitle": { $like: `%${searchText}%` },
-        "l.enTitle": { $like: `%${searchText}%` },
-      } });
+      builder.andWhere({ $or: [
+        { "l.cnTitle": { $like: `%${searchText}%` } },
+        { "l.enTitle": { $like: `%${searchText}%` } },
+      ]});
     }
 
     // ALL of specified keywords
     // Allows search part of keyword ("Computer" -> "Computer Science")
     if (keywords) {
       keywords.forEach((k) => {
-        builder.andWhere({ $or: {
-          "l.cnKeywords": { $like:`%${k}%` },
-          "l.enKeywords": { $like:`%${k}%` },
-        } });
+        builder.andWhere({ $or: [
+          { "l.cnKeywords": { $like:`%${k}%` } },
+          { "l.enKeywords": { $like:`%${k}%` } },
+        ]});
       });
     }
 

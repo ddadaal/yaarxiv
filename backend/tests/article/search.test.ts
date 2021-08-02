@@ -89,7 +89,7 @@ it("should return the articles with ALL of specified keyword", async () => {
     query: { keywords: [commonKeyword, "1"]},
   });
 
-  const data = resp.json<200>();
+  const data = expectCodeAndJson(resp, 200);
 
   expect(data.totalCount).toBe(4);
   expect(data.results.map((x) => x.articleId)).toEqual([1,10,11,12].reverse());
@@ -112,7 +112,7 @@ it("should return articls with ALL of specified authors", async () => {
     query: { authorNames: ["CJD", "CX"]},
   });
 
-  const data = resp.json<200>();
+  const data = expectCodeAndJson(resp, 200);
 
   expect(data.totalCount).toBe(6);
   expect(data.results.map((x) => x.articleId)).toEqual(range(2, 14, 2).reverse());
@@ -126,7 +126,7 @@ it("should not return admin set private articles", async () => {
 
   const resp = await callRoute(server, searchArticleRoute, { query: {} });
 
-  const data= resp.json<200>();
+  const data = expectCodeAndJson(resp, 200);
   expect(data.totalCount).toBe(articleCount - 1);
 });
 
@@ -138,6 +138,6 @@ it("should not return owner set private articles", async () => {
 
   const resp = await callRoute(server, searchArticleRoute, { query: {} });
 
-  const data= resp.json<200>();
+  const data = expectCodeAndJson(resp, 200);
   expect(data.totalCount).toBe(articleCount - 1);
 });

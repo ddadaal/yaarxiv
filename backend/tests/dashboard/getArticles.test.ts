@@ -34,8 +34,7 @@ it("return 401 if not logged in.", async () => {
 it("return the first page of articles whose owner is the logged in user.", async () => {
   const resp = await callRoute(server, dashboardGetArticlesRoute, { query: { } }, users.normalUser1);
 
-  expectCodeAndJson(resp, 200);
-  const payload = resp.json<200>();
+  const payload = expectCodeAndJson(resp, 200);
   expect(payload.articles).toHaveLength(10);
 
   expect(payload.articles.map((x) => x.id % 2 === 1)).toEqual(range(0, 10).map(() => true));
@@ -47,8 +46,7 @@ it("return the second page of articles with query.", async () => {
     query: { page: 2 },
   }, users.normalUser1);
 
-  expectCodeAndJson(resp, 200);
-  const payload = resp.json<200>();
+  const payload = expectCodeAndJson(resp, 200);
 
   expect(payload.articles).toHaveLength(2);
   expect(payload.totalCount).toBe(12);
@@ -59,8 +57,7 @@ it("return empty if a user has no article", async () => {
     query: {},
   }, users.adminUser);
 
-  expectCodeAndJson(resp, 200);
-  const payload = resp.json<200>();
+  const payload = expectCodeAndJson(resp, 200);
 
   expect(payload.articles).toHaveLength(0);
   expect(payload.totalCount).toBe(0);
