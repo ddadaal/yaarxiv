@@ -9,6 +9,7 @@ const config = {
     user: "root",
     password: "dbfordev",
     dbName: "yaarxiv_dev",
+    synchronize: true,
   },
   mail: false,
   logger: {
