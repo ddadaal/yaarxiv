@@ -72,11 +72,11 @@ export const ArticleUpdatePage = ssrPage<Props>(
           articleId={props.article.id}
           initial={{
             abstract: rest.abstract,
-            cnKeywords: "cnKeywords" in rest ? rest.cnKeywords : [],
-            cnTitle: "cnTitle" in rest? rest.cnTitle : "",
-            enKeywords: "enKeywords" in rest ? rest.enKeywords : [],
-            enTitle: "enTitle" in rest? rest.enTitle : "",
-            codeLink: rest.codeLink ?? "",
+            cnKeywords:  rest.cnKeywords,
+            cnTitle:  rest.cnTitle,
+            enKeywords:  rest.enKeywords,
+            enTitle:  rest.enTitle,
+            codeLink: rest.codeLink,
             authors: rest.authors.map((x) => x.name),
           }}
           onSubmit={submit}
