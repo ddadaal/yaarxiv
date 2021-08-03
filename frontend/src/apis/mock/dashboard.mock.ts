@@ -7,7 +7,7 @@ import { makeHttpError } from "../fetch";
 const base: DashboardArticleInfo[] = [
   {
     id: 12312412,
-    title: "AcademyCloud: A education-oriented IaaS cloud built on OpenStack",
+    cnTitle: "AcademyCloud: A education-oriented IaaS cloud built on OpenStack",
     lastUpdatedTime: "2020-08-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
     revisionCount: 3,
@@ -16,7 +16,7 @@ const base: DashboardArticleInfo[] = [
   },
   {
     id: 123123123,
-    title: "Understanding the interleaving-space overlap across inputs and software versions",
+    cnTitle: "Understanding the interleaving-space overlap across inputs and software versions",
     lastUpdatedTime: "2020-07-06T01:16:41+00:00",
     createTime: "2020-08-06T01:16:41+00:00",
     revisionCount: 3,

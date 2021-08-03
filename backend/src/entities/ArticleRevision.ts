@@ -2,7 +2,7 @@ import { EntityOrRef, toRef } from "@/utils/orm";
 import {
   Property, ManyToOne, PrimaryKey,
   Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
-import { ArticleInfoMultiLangPart, Author, TITLE_MAX_LENGTH } from "yaarxiv-api/api/article/models";
+import { Author, TITLE_MAX_LENGTH } from "yaarxiv-api/api/article/models";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 import { Article } from "./Article";
 import { UploadedFile } from "./UploadedFile";
@@ -62,22 +62,23 @@ export class ArticleRevision {
     pdf: EntityOrRef<UploadedFile>,
     article: EntityOrRef<Article>,
     codeLink?: string;
-  } & ArticleInfoMultiLangPart) {
+    cnTitle?: string;
+    enTitle?: string;
+    cnKeywords?: string[];
+    enKeywords?: string[];
+  }) {
     if (init.id) this.id = init.id;
-    ["cnTitle", "cnKeywords", "enTitle", "enKeywords"]
-      .forEach((x) => {
-        if (x in init) {
-          this[x] = init[x];
-        }
-      });
     this.revisionNumber = init.revisionNumber;
     this.time = init.time;
     this.authors = init.authors;
     this.abstract = init.abstract;
     this.category = init.category;
+    this.cnKeywords = init.cnKeywords;
+    this.cnTitle = init.cnTitle;
+    this.enKeywords = init.enKeywords;
+    this.enKeywords = init.enKeywords;
+    this.codeLink = init.codeLink;
     this.pdf = toRef(init.pdf);
     this.article = toRef(init.article);
-    this.codeLink = init.codeLink;
-
   }
 }

@@ -33,8 +33,8 @@ export const adminGetArticlesRoute = route(
           createTime: x.createTime.toISOString(),
           lastUpdatedTime: x.lastUpdateTime.toISOString(),
           revisionCount: x.revisions.length,
-          cnTitle: x.latestRevision.getEntity().cnTitle!,
-          enTitle: x.latestRevision.getEntity().enTitle!,
+          cnTitle: x.latestRevision.getEntity().cnTitle,
+          enTitle: x.latestRevision.getEntity().enTitle,
           ownerSetPublicity: x.ownerSetPublicity,
           adminSetPublicity: x.adminSetPublicity,
           owner: {

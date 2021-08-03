@@ -12,7 +12,7 @@ import {
   ACCEPTABLE_CODE_SITES,
   getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
-import { ArticleId, ArticleInfoMultiLangPart, TITLE_MAX_LENGTH } from "yaarxiv-api/api/article/models";
+import { ArticleId, TITLE_MAX_LENGTH } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
 import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
@@ -33,8 +33,12 @@ type ArticleFormInternal = {
 export type ArticleForm = {
   authors: string[];
   abstract: string;
-  codeLink: string | undefined;
-} & ArticleInfoMultiLangPart;
+  codeLink?: string;
+  cnTitle?: string;
+  enTitle?: string;
+  cnKeywords?: string[];
+  enKeywords?: string[];
+};
 
 interface Props {
   articleId: ArticleId | undefined;
@@ -62,10 +66,10 @@ export const ArticleEditForm: React.FC<Props> = ({
     abstract: initial.abstract,
     authors: initial.authors,
     codeLink: initial.codeLink || "",
-    cnKeywords: "cnKeywords" in initial ? initial.cnKeywords : [],
-    cnTitle: "cnTitle" in initial ? initial.cnTitle : "",
-    enKeywords: "enKeywords" in initial ? initial.enKeywords : [],
-    enTitle: "enTitle" in initial ? initial.enTitle : "",
+    cnKeywords: initial.cnKeywords || [],
+    cnTitle: initial.cnTitle || "",
+    enKeywords: initial.enKeywords || [],
+    enTitle: initial.enTitle || "",
   }), [initial]);
 
   const [file, setFile] = useState<File | undefined>(undefined);

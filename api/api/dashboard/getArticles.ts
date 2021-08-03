@@ -1,7 +1,7 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
-import { ArticleId, ArticleInfoMultiLangPart } from "../article/models";
+import { ArticleId } from "../article/models";
 
 
 /** Get the articles this user is the owner of. */
@@ -28,7 +28,29 @@ export type DashboardArticleInfo = {
    * Whether the article is public set by admin.
    */
   adminSetPublicity: boolean;
-} & ArticleInfoMultiLangPart;
+
+  /**
+   * Chinese Title
+   * @maxLength 100
+   */
+  cnTitle?: string;
+
+  /**
+  * Chinese Keywords
+  */
+  cnKeywords?: string[];
+
+  /**
+  * English Title
+  * @maxLength 100
+  */
+  enTitle?: string;
+
+  /**
+  * Chinese Keywords
+  */
+  enKeywords?: string[];
+};
 
 export interface UserGetArticleInfoSchema {
   querystring: {

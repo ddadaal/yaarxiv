@@ -73,8 +73,8 @@ it("return articles with their owner", async () => {
     searchWord: "12",
   } }, users.adminUser);
 
-  expectCodeAndJson(resp, 200);
-  const payload = resp.json<200>();
+  const payload = expectCodeAndJson(resp, 200);
+
   // 12
   expect(payload.articles).toHaveLength(1);
   const article = payload.articles[0];

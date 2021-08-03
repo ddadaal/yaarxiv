@@ -32,7 +32,19 @@ export type AdminGetArticlesResult = {
    * Whether the article is public set by admin.
    */
   adminSetPublicity: boolean;
-} & ({ cnTitle: string; } | { enTitle: string })
+
+  /**
+   * Chinese Title
+   * @maxLength 100
+   */
+  cnTitle?: string;
+
+  /**
+  * English Title
+  * @maxLength 100
+  */
+  enTitle?: string;
+};
 
 export interface AdminGetArticlesSchema {
   querystring: {

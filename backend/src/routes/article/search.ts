@@ -68,10 +68,10 @@ export const searchArticleRoute = route(
           const rev = x.latestRevision.getEntity();
           return {
             articleId: x.id,
-            cnTitle: rev.cnTitle!,
-            enTitle: rev.enTitle!,
-            cnKeywords: rev.cnKeywords!,
-            enKeywords: rev.enKeywords!,
+            cnTitle: rev.cnTitle,
+            enTitle: rev.enTitle,
+            cnKeywords: rev.cnKeywords,
+            enKeywords: rev.enKeywords,
             createTime: x.createTime.toISOString(),
             lastUpdateTime: x.lastUpdateTime.toISOString(),
             abstract: rev.abstract,

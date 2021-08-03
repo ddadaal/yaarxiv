@@ -10,8 +10,11 @@ export const updateArticleRoute = route(
   api, "UpdateArticleSchema",
   async (req) => {
     // validate the pdfToken first.
+    const { pdfToken, ...rest } = req.body;
+
     let pdf: UploadedFile | null = null;
-    if (req.body.pdfToken) {
+
+    if (pdfToken) {
       const pdfRepo = req.em.getRepository(UploadedFile);
       pdf = await pdfRepo.findOne({ id: req.body.pdfToken });
       if (!pdf) {
@@ -47,8 +50,6 @@ export const updateArticleRoute = route(
     await req.em.flush();
 
     const revNumber = latestRev.revisionNumber + 1;
-
-    const { pdfToken: _, ...rest } = req.body;
 
     const rev = new ArticleRevision({
       article,

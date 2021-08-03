@@ -12,37 +12,6 @@ export interface Author {
 
 export const TITLE_MAX_LENGTH = 100;
 
-export interface CnInfo {
-  /**
-   * Chinese Title
-   * @maxLength 100
-   */
-  cnTitle: string;
-
-  /**
-   * Chinese Keywords
-   */
-  cnKeywords: string[];
-}
-
-export interface EnInfo {
-  /**
-   * Chinese Title
-   * @maxLength 100
-   */
-  enTitle: string;
-
-  /**
-   * Chinese Keywords
-   */
-  enKeywords: string[];
-}
-
-export type ArticleInfoMultiLangPart =
-  | CnInfo
-  | EnInfo
-  | CnInfo & EnInfo;
-
 export type ArticleInfo = {
 
   /** The authors of the article. */
@@ -60,7 +29,29 @@ export type ArticleInfo = {
    */
   codeLink?: string;
 
-} & ArticleInfoMultiLangPart;
+  /**
+   * Chinese Title
+   * @maxLength 100
+   */
+  cnTitle?: string;
+
+  /**
+   * Chinese Keywords
+   */
+  cnKeywords?: string[];
+
+  /**
+   * English Title
+   * @maxLength 100
+   */
+  enTitle?: string;
+
+  /**
+   * Chinese Keywords
+   */
+  enKeywords?: string[];
+
+};
 
 export interface ArticleRevision {
   /** The number of the revision starting from 1. */
