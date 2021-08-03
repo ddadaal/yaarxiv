@@ -1,10 +1,11 @@
 import "reflect-metadata";
-import fastify, { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from "fastify";
+import fastify, { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback, FastifyServerOptions } from "fastify";
 import { routes }  from "./routes";
 import { models } from "@/utils/schemas";
 import { plugins } from "./plugins";
 import { config } from "@/utils/config";
 import { registerRoute } from "./utils/route";
+import { Options as FJSOptions }  from "fast-json-stringify";
 
 type Plugin = FastifyPluginAsync | FastifyPluginCallback;
 type PluginOverrides = Map<Plugin, Plugin>;
@@ -19,15 +20,22 @@ function applyPlugins(server: FastifyInstance, pluginOverrides?: PluginOverrides
 
 export function buildApp(pluginOverrides?: PluginOverrides) {
 
-  const server = fastify({
+  const options: FastifyServerOptions & { serializerOpts: FJSOptions } = {
     logger: config.logger,
+    serializerOpts: {
+      ajv: {
+        missingRefs: "ignore",
+      },
+    },
     ajv: {
       customOptions: {
         coerceTypes: "array",
       },
     },
     pluginTimeout: config.pluginTimeout,
-  });
+  };
+
+  const server = fastify(options);
 
   server.log.info(`Loaded config: \n${JSON.stringify(config, null, 2)}`);
 
