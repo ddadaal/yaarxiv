@@ -84,6 +84,6 @@ it("update an article.", async () => {
   expect(latestRevision.abstract).toBe(payload.abstract);
   expect(latestRevision.codeLink).toBe(payload.codeLink);
 
-  expect(prevLatestRev.latestRevisionOf).toBeNull();
+  expect(prevLatestRev.latestRevisionOf).toBeUndefined();
 
 });
