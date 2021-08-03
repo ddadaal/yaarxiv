@@ -14,6 +14,7 @@ import {
 } from "src/utils/validations/codeLink";
 import {
   ArticleId,
+  ArticleInfoI18nPart,
   TITLE_MAX_LENGTH,
   validateArticleInfoI18nConstraints,
 } from "yaarxiv-api/api/article/models";
@@ -38,11 +39,7 @@ export type ArticleForm = {
   authors: string[];
   abstract: string;
   codeLink?: string;
-  cnTitle?: string;
-  enTitle?: string;
-  cnKeywords?: string[];
-  enKeywords?: string[];
-};
+} & ArticleInfoI18nPart;
 
 interface Props {
   articleId: ArticleId | undefined;
