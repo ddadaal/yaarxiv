@@ -12,23 +12,7 @@ export interface Author {
 
 export const TITLE_MAX_LENGTH = 100;
 
-export type ArticleInfo = {
-
-  /** The authors of the article. */
-  authors: Author[];
-
-  /**
-   * The abstract.
-   */
-  abstract: string;
-
-  /**
-   * Link to code.
-   * Should pass validation from utils/codeLink.ts
-   * @format uri
-   */
-  codeLink?: string;
-
+export interface ArticleInfoI18nPart {
   /**
    * Chinese Title
    * @maxLength 100
@@ -51,7 +35,25 @@ export type ArticleInfo = {
    */
   enKeywords?: string[];
 
-};
+}
+
+export type ArticleInfo = {
+
+  /** The authors of the article. */
+  authors: Author[];
+
+  /**
+   * The abstract.
+   */
+  abstract: string;
+
+  /**
+   * Link to code.
+   * Should pass validation from utils/codeLink.ts
+   * @format uri
+   */
+  codeLink?: string;
+} & ArticleInfoI18nPart;
 
 export interface ArticleRevision {
   /** The number of the revision starting from 1. */
@@ -107,3 +109,39 @@ export interface ArticleComment {
   /** Content */
   content: string;
 }
+
+
+
+export function validateArticleInfoI18nConstraints(info: ArticleInfoI18nPart) {
+  function filled(title?: string, keywords?: string[]) {
+    return title && (keywords && keywords.length > 0);
+  }
+
+  function notFilled(title?: string, keywords?: string[]) {
+    return !title && (!keywords || keywords.length == 0);
+  }
+
+  const cnFilled = filled(info.cnTitle, info.cnKeywords);
+  const enFilled = filled(info.enTitle, info.enKeywords);
+  const cnNotFilled = notFilled(info.cnTitle, info.cnKeywords);
+  const enNotFilled = notFilled(info.enTitle, info.enKeywords);
+
+  return (
+    cnFilled && (enFilled || enNotFilled)
+  ) || (
+    enFilled && (cnNotFilled)
+  );
+
+}
+
+export const articleInfoI18nConstraintsFailedCases = [
+  { cnTitle: "123" },
+  { cnTitle: "123", cnKeywords: []},
+  { cnKeywords: ["123"]},
+  { cnTitle: "", cnKeywords: ["123"]},
+  { enTitle: "123" },
+  { enKeywords: ["123"]},
+  { cnTitle: "123", enKeywords: ["123"]},
+  { cnTitle: "123", cnKeywords: ["123"], enTitle: "123" },
+  { cnTitle: "123", cnKeywords: ["123"], enTitle: "123", enKeywords: []},
+];

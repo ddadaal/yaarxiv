@@ -3,23 +3,21 @@ import { ArticleRevision } from "@/entities/ArticleRevision";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { route } from "@/utils/route";
 import * as api from "yaarxiv-api/api/article/update";
-import createError from "http-errors";
-import { validateCodeLink } from "@/utils/codeLink";
+import { validateCodeLink } from "@/utils/validations/codeLink";
+import { validateArticleInfoI18nConstraints } from "@/utils/validations/articleInfo";
+import { validateFileToken } from "@/utils/validations/fileToken";
 
 export const updateArticleRoute = route(
   api, "UpdateArticleSchema",
   async (req) => {
-    // validate the pdfToken first.
     const { pdfToken, ...rest } = req.body;
+
+    validateArticleInfoI18nConstraints(rest);
 
     let pdf: UploadedFile | null = null;
 
     if (pdfToken) {
-      const pdfRepo = req.em.getRepository(UploadedFile);
-      pdf = await pdfRepo.findOne({ id: req.body.pdfToken });
-      if (!pdf) {
-        throw createError(400, "PDF token is invalid.");
-      }
+      pdf = await validateFileToken(req.em, pdfToken);
     }
 
     if (req.body.codeLink) {

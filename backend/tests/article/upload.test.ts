@@ -6,7 +6,9 @@ import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { uploadArticleRoute } from "@/routes/article/upload";
 import { createMockArticles, generatePdf } from "./utils/generateArticles";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
+import { ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
+import { articleInfoI18nConstraintsFailedCases } from "yaarxiv-api/api/article/models";
 
 const articleCount = 12;
 
@@ -89,4 +91,19 @@ it("fails if code link is bad", async () => {
   }, users.normalUser1);
 
   expectCodeAndJson(resp, 400);
+});
+
+it("rejects bad title and keywords input", async () => {
+
+  const { cnTitle, cnKeywords, ...rest } = payload;
+
+  const test = async (info: ArticleInfoI18nPart) => {
+    const resp = await callRoute(server, uploadArticleRoute, {
+      body: { ...rest, ...info },
+    }, users.normalUser1);
+
+    expectCode(resp, 400, JSON.stringify(info));
+  };
+
+  await Promise.all(articleInfoI18nConstraintsFailedCases.map(test));
 });

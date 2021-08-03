@@ -1,25 +1,21 @@
 import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
-import { UploadedFile } from "@/entities/UploadedFile";
 import { route } from "@/utils/route";
 import * as api from "yaarxiv-api/api/article/upload";
-import createError from "http-errors";
-import { validateCodeLink } from "@/utils/codeLink";
+import { validateCodeLink } from "@/utils/validations/codeLink";
 import { Reference } from "@mikro-orm/core";
 import { toRef } from "@/utils/orm";
+import { validateFileToken } from "@/utils/validations/fileToken";
+import { validateArticleInfoI18nConstraints } from "@/utils/validations/articleInfo";
 
 export const uploadArticleRoute = route(
   api, "UploadArticleSchema",
   async (req) => {
-    // validate the pdfToken first.
-    const pdfRepo = req.em.getRepository(UploadedFile);
-
     const { pdfToken, codeLink, ...rest } = req.body;
 
-    const pdf = await pdfRepo.findOne(pdfToken);
-    if (!pdf) {
-      throw createError(400, "PDF token is invalid.");
-    }
+    validateArticleInfoI18nConstraints(rest);
+
+    const pdf = await validateFileToken(req.em, pdfToken);
 
     // validate the repo link
     if (codeLink) {

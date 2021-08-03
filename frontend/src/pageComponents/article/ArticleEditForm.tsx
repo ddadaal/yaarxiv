@@ -12,7 +12,11 @@ import {
   ACCEPTABLE_CODE_SITES,
   getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
-import { ArticleId, TITLE_MAX_LENGTH } from "yaarxiv-api/api/article/models";
+import {
+  ArticleId,
+  TITLE_MAX_LENGTH,
+  validateArticleInfoI18nConstraints,
+} from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
 import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
@@ -47,14 +51,6 @@ interface Props {
   onSubmit: (file: File | undefined, form: ArticleForm) => void;
 }
 
-function filled(title: string, keywords: string[]) {
-  return title !== "" && keywords.length > 0;
-}
-
-function notFilled(title: string, keywords: string[]) {
-  return title === "" && keywords.length === 0;
-}
-
 export const ArticleEditForm: React.FC<Props> = ({
   articleId,
   initial,
@@ -75,20 +71,9 @@ export const ArticleEditForm: React.FC<Props> = ({
   const [file, setFile] = useState<File | undefined>(undefined);
   const [info, setInfo] = useState<ArticleFormInternal>(initialInternal);
 
-  const cnFilled = filled(info.cnTitle, info.cnKeywords);
-  const enFilled = filled(info.enTitle, info.enKeywords);
-  const cnNotFilled = notFilled(info.cnTitle, info.cnKeywords);
-  const enNotFilled = notFilled(info.enTitle, info.enKeywords);
-
   const submittable =
     (articleId !== undefined || file !== undefined)
-    && (
-      (
-        cnFilled && (enFilled || enNotFilled)
-      ) || (
-        enFilled && (cnNotFilled)
-      )
-    )
+    && validateArticleInfoI18nConstraints(info)
     && info.authors.length > 0
     && (!info.codeLink || getCodeLinkInfo(info.codeLink) !== undefined)
     && info.abstract !== "";
