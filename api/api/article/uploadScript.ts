@@ -6,10 +6,10 @@ import { UploadedFileId } from "./models";
 export const PDF_SIZE_LIMIT_MB = 30;
 
 /**
- * Upload a PDF into the platform.
+ * Upload a script into the platform.
  * Expect Content-Type to be multipart/form-data.
  */
-export interface UploadPDFSchema {
+export interface UploadScriptSchema {
   body: {
     /**
      * The file object.
@@ -35,6 +35,6 @@ export const props: ApiProps = {
 };
 
 export const endpoint = {
-  url: "/articles/pdf",
+  url: "/articles/script",
   method: "POST",
-} as Endpoint<UploadPDFSchema>;
+} as Endpoint<UploadScriptSchema>;

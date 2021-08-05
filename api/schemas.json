@@ -806,53 +806,6 @@
       "additionalProperties": false,
       "description": "Upload an new article into the platform."
     },
-    "UploadPDFSchema": {
-      "type": "object",
-      "properties": {
-        "body": {
-          "type": "object",
-          "properties": {
-            "file": {
-              "type": "object",
-              "description": "The file object. 1 PDF per request."
-            }
-          },
-          "required": [
-            "file"
-          ],
-          "additionalProperties": false
-        },
-        "responses": {
-          "type": "object",
-          "properties": {
-            "201": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "$ref": "#/definitions/UploadedFileId",
-                  "description": "The token for the upload. It is used to upload the following content of the article."
-                }
-              },
-              "required": [
-                "token"
-              ],
-              "additionalProperties": false,
-              "description": "The upload is successful."
-            }
-          },
-          "required": [
-            "201"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "body",
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Upload a PDF into the platform. Expect Content-Type to be multipart/form-data."
-    },
     "RequestPasswordResetSchema": {
       "type": "object",
       "properties": {
@@ -1800,6 +1753,53 @@
         "lastUpdateTime"
       ],
       "description": "A preview information of the article."
+    },
+    "UploadScriptchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "object",
+              "description": "The file object. 1 PDF per request."
+            }
+          },
+          "required": [
+            "file"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "$ref": "#/definitions/UploadedFileId",
+                  "description": "The token for the upload. It is used to upload the following content of the article."
+                }
+              },
+              "required": [
+                "token"
+              ],
+              "additionalProperties": false,
+              "description": "The upload is successful."
+            }
+          },
+          "required": [
+            "201"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Upload a script into the platform. Expect Content-Type to be multipart/form-data."
     },
     "Profile": {
       "type": "object",
