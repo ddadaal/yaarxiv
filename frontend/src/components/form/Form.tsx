@@ -11,6 +11,8 @@ const root = prefix("components.form.validationError.");
 
 export const Form = React.forwardRef<HTMLFormElement, Props>((props, ref)  => {
 
+  const { disableEnterToSubmit, ...rest } = props;
+
   const i18nStore = useI18n();
 
   const messages = useMemo(() => ({
@@ -24,12 +26,12 @@ export const Form = React.forwardRef<HTMLFormElement, Props>((props, ref)  => {
         ref={ref as any}
         messages={messages}
         onKeyPress={
-          props.disableEnterToSubmit
+          disableEnterToSubmit
             ? (e) => {
               if (e.key === "Enter") { e.preventDefault(); }
             } : undefined
         }
-        {...props}
+        {...rest}
       />
     </Box>
   );

@@ -10,18 +10,16 @@ import { TagInput } from "src/components/TagInput";
 import {
   codeLinkValidation,
   ACCEPTABLE_CODE_SITES,
-  getCodeLinkInfo,
 } from "src/utils/validations/codeLink";
 import {
   ArticleId,
   ArticleInfoI18nPart,
   TITLE_MAX_LENGTH,
-  validateArticleInfoI18nConstraints,
 } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
 import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
-import { removeNullOrUndefinedKey } from "src/utils/array";
+import { FormFieldMessage } from "src/components/form/FormFieldMessage";
 
 const root = prefix("pages.upload.");
 
@@ -33,6 +31,7 @@ type ArticleFormInternal = {
   enTitle: string;
   cnKeywords: string[];
   enKeywords: string[];
+  file: File | undefined;
 };
 
 export type ArticleForm = {
@@ -63,87 +62,93 @@ export const ArticleEditForm: React.FC<Props> = ({
     cnTitle: initial.cnTitle || "",
     enKeywords: initial.enKeywords || [],
     enTitle: initial.enTitle || "",
+    file: undefined,
   }), [initial]);
 
-  const [file, setFile] = useState<File | undefined>(undefined);
   const [info, setInfo] = useState<ArticleFormInternal>(initialInternal);
 
-  const submittable =
-    (articleId !== undefined || file !== undefined)
-    && validateArticleInfoI18nConstraints(info)
-    && info.authors.length > 0
-    && (!info.codeLink || getCodeLinkInfo(info.codeLink) !== undefined)
-    && info.abstract !== "";
+  const updateInfo = (newInfo: Partial<ArticleFormInternal>) =>
+    setInfo({ ...info, ...newInfo });
 
   const pdfSizeLimit = PDF_SIZE_LIMIT_MB;
 
   return (
     <Box gap="large">
-      <Box>
-        <Heading level="2" size="small" margin="none">
-          <Localized id={root("pdf.title")}/>
-        </Heading>
-        <Paragraph fill>
-          <Localized
-            id={root("pdf.description")}
-            args={[pdfSizeLimit]}
-          />
-        </Paragraph>
-        { articleId
-          ? (
-            <Paragraph>
-              <Localized id={root("pdf.existing")} args={[
-                <DownloadPdfLink articleId={articleId} key="download">
-                  {(downloadLink) => (
-                    <Anchor
-                      target="__blank"
-                      onClick={downloadLink}
-                    >
-                      <Localized id={root("pdf.here")} />
-                    </Anchor>
-                  )}
-                </DownloadPdfLink>,
-              ]}
-              />
-            </Paragraph>
-          ) : undefined
-        }
-        <FileUploader
-          options={{
-            accept: ".pdf",
-            multiple: false,
-            maxSize: pdfSizeLimit * 1024 * 1024,
-          }}
-          files={file ? [file] : []}
-          onFileRemoved={() => setFile(undefined)}
-          onFilesAccepted={(f) => setFile(f[0])}
-        />
-      </Box>
-      <Box>
-        <Heading level="2" size="small" margin="none">
-          <Localized id={root("info.title")} />
-        </Heading>
-        <Box align="center" pad="medium">
-          <Localized id={root("info.prompt")} />
-        </Box>
-        <Box margin={{ vertical: "small" }}>
-          <Form
-            disableEnterToSubmit
-            onReset={() => setInfo(initialInternal)}
-            value={info}
-            onSubmit={() => {
-              onSubmit(file, removeNullOrUndefinedKey({
-                abstract: info.abstract,
-                authors: info.authors,
-                codeLink: info.codeLink || undefined,
-                cnKeywords: info.cnKeywords.length === 0 ? undefined : info.cnKeywords,
-                enKeywords: info.enKeywords.length === 0 ? undefined : info.enKeywords,
-                cnTitle: info.cnTitle || undefined,
-                enTitle: info.enTitle || undefined,
-              }) as any);
+      <Form
+        disableEnterToSubmit
+        onReset={() => setInfo(initialInternal)}
+        value={info}
+        onSubmit={() => {
+          onSubmit(info.file, {
+            abstract: info.abstract,
+            authors: info.authors,
+            codeLink: info.codeLink || undefined,
+            cnKeywords: info.cnKeywords.length === 0 ? undefined : info.cnKeywords,
+            enKeywords: info.enKeywords.length === 0 ? undefined : info.enKeywords,
+            cnTitle: info.cnTitle || undefined,
+            enTitle: info.enTitle || undefined,
+          });
+        }}
+        validate="change"
+      >
+        <Box>
+          <Heading level="2" size="small" margin="none">
+            <Localized id={root("pdf.title")}/>
+          </Heading>
+          <Paragraph fill>
+            <Localized
+              id={root("pdf.description")}
+              args={[pdfSizeLimit]}
+            />
+          </Paragraph>
+          { articleId
+            ? (
+              <Paragraph>
+                <Localized id={root("pdf.existing")} args={[
+                  <DownloadPdfLink articleId={articleId} key="download">
+                    {(downloadLink) => (
+                      <Anchor
+                        target="__blank"
+                        onClick={downloadLink}
+                      >
+                        <Localized id={root("pdf.here")} />
+                      </Anchor>
+                    )}
+                  </DownloadPdfLink>,
+                ]}
+                />
+              </Paragraph>
+            ) : undefined
+          }
+          <FormField
+            name="file"
+            validate={(value) => {
+              if (!articleId && !value) {
+                return <FormFieldMessage id={root("pdf.prompt")} />;
+              }
             }}
-            validate="blur"
+            contentProps={{ border: undefined }}
           >
+            <FileUploader
+              options={{
+                accept: ".pdf",
+                multiple: false,
+                maxSize: pdfSizeLimit * 1024 * 1024,
+              }}
+              files={info.file ? [info.file] : []}
+              onFileRemoved={() => updateInfo({ file: undefined })}
+              onFilesAccepted={(f) => updateInfo({ file: f[0] })}
+            />
+          </FormField>
+        </Box>
+        <Box>
+          <Heading level="2" size="small" margin={{ top: "small" }}>
+            <Localized id={root("info.title")} />
+          </Heading>
+          <Box align="center" pad="medium" border>
+            <Localized id={root("info.prompt")} />
+          </Box>
+          <Box margin={{ vertical: "small" }}>
             <FormField
               label={(
                 <Localized
@@ -154,25 +159,45 @@ export const ArticleEditForm: React.FC<Props> = ({
               value={info.cnTitle}
               disabled={disabled}
               maxLength={TITLE_MAX_LENGTH}
-              onChange={(e) => setInfo({ ...info, cnTitle: e.target.value })}
+              onChange={(e) => updateInfo({ cnTitle: e.target.value })}
+              validate={(value: string, values: ArticleFormInternal) => {
+                if (values.cnKeywords.length > 0 && !value) {
+                  return (
+                    <FormFieldMessage id={root("info.fillOrDelete")} args={[
+                      <Localized key="keywordsCn" id={root("info.keywordsCn")} />,
+                    ]}
+                    />
+                  );
+                }
+                if (!values.cnTitle && !values.enTitle) {
+                  return (
+                    <FormFieldMessage id={root("info.oneLanguageRequired")} />
+                  );
+                }
+              }}
             />
             <FormField
               label={<Localized id={root("info.keywordsCn")} args={[50]} />}
               name="cnKeywords"
+              validate={(value: string[], values: ArticleFormInternal) => {
+                if (values.cnTitle && value.length === 0) {
+                  return (
+                    <FormFieldMessage id={root("info.fillOrDelete")} args={[
+                      <Localized key="titleCn" id={root("info.articleTitleCn")} />,
+                    ]}
+                    />
+                  );
+                }
+              }}
             >
               <TagInput
-                disabled={disabled}
                 name="cnKeywords"
+                disabled={disabled}
                 value={info.cnKeywords || []}
                 maxLength={50}
-                onAdd={(v) => setInfo({
-                  ...info,
-                  cnKeywords: info.cnKeywords.concat(v),
-                })}
-                onRemove={(val) => setInfo({
-                  ...info,
-                  cnKeywords: info.cnKeywords.filter((x) => x !== val),
-                })}
+                onAdd={(v) => updateInfo({ cnKeywords: info.cnKeywords.concat(v) })}
+                onRemove={(val) =>
+                  updateInfo({ cnKeywords: info.cnKeywords.filter((x) => x !== val) })}
                 commaToSplit={true}
               />
             </FormField>
@@ -182,38 +207,62 @@ export const ArticleEditForm: React.FC<Props> = ({
               value={info.enTitle}
               disabled={disabled}
               maxLength={100}
-              onChange={(e) => setInfo({ ...info, enTitle: e.target.value })}
+              onChange={(e) => updateInfo({ enTitle: e.target.value })}
+              validate={(value: string, values: ArticleFormInternal) => {
+                if (values.enKeywords.length > 0 && !value) {
+                  return (
+                    <FormFieldMessage id={root("info.fillOrDelete")} args={[
+                      <Localized key="keywordsEn" id={root("info.keywordsEn")} />,
+                    ]}
+                    />
+                  );
+                }
+                if (!values.cnTitle && !values.enTitle) {
+                  return (
+                    <FormFieldMessage id={root("info.oneLanguageRequired")} />
+                  );
+                }
+              }}
             />
             <FormField
               label={<Localized id={root("info.keywordsEn")} args={[50]} />}
               name="enKeywords"
+              validate={(value: string[], values: ArticleFormInternal) => {
+                if (values.enTitle && value.length === 0) {
+                  return (
+                    <FormFieldMessage id={root("info.fillOrDelete")} args={[
+                      <Localized key="titleEn" id={root("info.articleTitleEn")} />,
+                    ]}
+                    />
+                  );
+                }
+              }}
             >
               <TagInput
-                disabled={disabled}
                 name="enKeywords"
+                disabled={disabled}
                 value={info.enKeywords || []}
                 maxLength={50}
-                onAdd={(v) => setInfo({
-                  ...info,
-                  enKeywords: info.enKeywords.concat(v),
-                })}
-                onRemove={(val) => setInfo({
-                  ...info,
-                  enKeywords: info.enKeywords.filter((x) => x !== val),
-                })}
+                onAdd={(v) => updateInfo({ enKeywords: info.enKeywords.concat(v) })}
+                onRemove={(val) =>
+                  updateInfo({ enKeywords: info.enKeywords.filter((x) => x !== val) })}
                 commaToSplit={true}
               />
             </FormField>
             <FormField
               label={<Localized id={root("info.authors")} args={[50]} />}
               name="authors"
-              required
+              validate={(authors: string[]) => {
+                if (authors.length === 0) {
+                  return <FormFieldMessage id={root("info.authorsRequired")} />;
+                }
+              }}
             >
               <TagInput
-                name="authors"
+                name="authorss"
                 value={info.authors}
                 disabled={disabled}
-                onAdd={(val) => setInfo({ ...info, authors: info.authors.concat(val) })}
+                onAdd={(val) => updateInfo({ authors: info.authors.concat(val) })}
                 onRemove={(val) => setInfo({
                   ...info,
                   authors: info.authors.filter((x) => x !== val),
@@ -235,7 +284,7 @@ export const ArticleEditForm: React.FC<Props> = ({
                 disabled={disabled}
                 name="abstract"
                 value={info.abstract}
-                onChange={(e) => setInfo({ ...info, abstract: e.target.value })}
+                onChange={(e) => updateInfo({ abstract: e.target.value })}
                 maxLength={2000}
                 rows={15}
               />
@@ -247,12 +296,12 @@ export const ArticleEditForm: React.FC<Props> = ({
                   args={[Object.values(ACCEPTABLE_CODE_SITES).join(", ")]}
                 />
               }
-              validate={(value) => !value || codeLinkValidation(value)}
+              validate={codeLinkValidation}
               name="codeLink"
               value={info.codeLink}
               disabled={disabled}
               maxLength={100}
-              onChange={(e) => setInfo({ ...info, codeLink: e.target.value })}
+              onChange={(e) => updateInfo({ codeLink: e.target.value })}
             />
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
               <Button
@@ -264,12 +313,12 @@ export const ArticleEditForm: React.FC<Props> = ({
                 type="submit"
                 label={<Localized id={root("info.upload")} />}
                 primary
-                disabled={!submittable || disabled}
+                disabled={disabled}
               />
             </Box>
-          </Form>
+          </Box>
         </Box>
-      </Box>
+      </Form>
     </Box>
   );
 };
