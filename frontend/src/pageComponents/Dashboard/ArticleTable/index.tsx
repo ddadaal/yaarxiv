@@ -1,5 +1,4 @@
 import { Box, ColumnConfig, DataTable } from "grommet";
-import { Edit } from "grommet-icons";
 import React, { useMemo } from "react";
 import { Localized } from "src/i18n";
 import { prefix } from "src/i18n";
@@ -15,6 +14,7 @@ import { PublicityText } from "../../PublicityText";
 import { PublicitySelect } from "../../PublicitySelect";
 import { api } from "src/apis";
 import { UrlObject } from "url";
+import { ArticleTitleOfLang } from "src/components/ArticleTitleOfLang";
 
 const root = prefix("pages.dashboard.articles.");
 
@@ -35,6 +35,7 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   {
     property: "title",
     header: <Localized id={root("articleTitle")} />,
+    render: (d) => <ArticleTitleOfLang info={d} />,
   },
   {
     property: "createTime",
@@ -96,9 +97,8 @@ export const ArticleTable: React.FC<Props> = ({ page, data, getUrlOfPage, reload
       property: "actions",
       header: <Localized id={root("actions")} />,
       render: (d) => (
-        <Box direction="row" gap="medium">
+        <Box direction="row" gap="small">
           <AnchorLink
-            icon={<Edit />}
             label={<Localized id={root("update")} />}
             href="/articles/[id]/update" as={`/articles/${d.id}/update`}
           />

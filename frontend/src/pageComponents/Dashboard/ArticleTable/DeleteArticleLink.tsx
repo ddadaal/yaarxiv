@@ -1,5 +1,4 @@
 import { Button } from "grommet";
-import { Trash } from "grommet-icons";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Localized, prefix } from "src/i18n";
@@ -39,7 +38,6 @@ export const DeleteArticleLink: React.FC<Props> = ({
   return (
     <>
       <AnchorLink
-        icon={<Trash />}
         label={<Localized id={root("delete.button")} />}
         onClick={() => setOpen(true)}
       />

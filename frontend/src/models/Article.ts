@@ -1,8 +1,11 @@
 import { ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 
-export function articleInfoMultiLangPartToLangMap(info: ArticleInfoI18nPart) {
+export function articleInfoMultiLangPartToLangMap({
+  cnKeywords, cnTitle,
+  enKeywords, enTitle,
+}: ArticleInfoI18nPart) {
   return {
-    cn: { title: info.cnTitle, keywords: info.cnKeywords },
-    en: { title: info.enTitle, keywords: info.enKeywords },
+    cn: cnTitle ? { title: cnTitle ?? "", keywords: cnKeywords ?? []} : undefined,
+    en: enTitle ? { title: enTitle, keywords: enKeywords ?? []} : undefined,
   };
 }

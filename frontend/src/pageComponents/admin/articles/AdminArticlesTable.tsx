@@ -12,6 +12,7 @@ import { AdminGetArticlesResult } from "yaarxiv-api/api/admin/getArticles";
 import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
 import { ArticleId } from "../../../../../api/api/article/models";
 import { DeleteArticleLink } from "../../Dashboard/ArticleTable/DeleteArticleLink";
+import { ArticleTitleOfLang } from "src/components/ArticleTitleOfLang";
 
 const root = prefix("pages.admin.articles.");
 
@@ -32,6 +33,7 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   {
     property: "title",
     header: <Localized id={root("articleTitle")} />,
+    render: (d) => <ArticleTitleOfLang info={d} />,
   },
   {
     property: "createTime",
