@@ -31,7 +31,7 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
       const data = new FormData();
       data.append("file", file);
 
-      const pdfResp = await api.article.uploadPDF({ body: data as any });
+      const pdfResp = await api.article.uploadScript({ body: data as any });
 
       // 2. upload the rest information
       const resp = await api.article.uploadArticle({

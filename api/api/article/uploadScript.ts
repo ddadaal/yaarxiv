@@ -3,11 +3,14 @@ import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 import { UploadedFileId } from "./models";
 
-export const PDF_SIZE_LIMIT_MB = 30;
+export const SCRIPT_SIZE_LIMIT_MB = 30;
+
+export const ALLOWED_SCRIPT_FORMAT = ["txt", "pdf", "docx", "doc"];
 
 /**
  * Upload a script into the platform.
  * Expect Content-Type to be multipart/form-data.
+ * Only accepts txt, pdf, docx, doc
  */
 export interface UploadScriptSchema {
   body: {
@@ -25,7 +28,7 @@ export interface UploadScriptSchema {
        * It is used to upload the following content of the article.
        */
       token: UploadedFileId;
-    }
+    };
   }
 }
 

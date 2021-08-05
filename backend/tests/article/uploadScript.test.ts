@@ -1,11 +1,11 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { UploadedFile } from "../../src/entities/UploadedFile";
-import * as api from "yaarxiv-api/api/article/uploadPDF";
+import * as api from "yaarxiv-api/api/article/uploadScript";
 import { mockFileForm } from "./utils/mockFileForm";
 import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
-import { uploadPdfRoute } from "@/routes/article/uploadPdf";
+import { uploadScriptRoute } from "@/routes/article/uploadScript";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { expectFile, removeUploadDir } from "tests/utils/fs";
 
@@ -24,12 +24,12 @@ afterEach(async () => {
   await removeUploadDir();
 });
 
-it("upload an PDF to the system.", async () => {
+it("upload a file to the system.", async () => {
 
-  const fileSize = api.PDF_SIZE_LIMIT_MB * 1024 * 1024 - 100;
+  const fileSize = api.SCRIPT_SIZE_LIMIT_MB * 1024 * 1024 - 100;
   const formData = mockFileForm(fileSize);
 
-  const resp = await callRoute(server, uploadPdfRoute, {
+  const resp = await callRoute(server, uploadScriptRoute, {
     body: formData as any,
   }, users.normalUser1, formData.getHeaders());
 
@@ -46,11 +46,42 @@ it("upload an PDF to the system.", async () => {
   expect(f.size).toBe(fileSize);
 });
 
+it("checks for format", async () => {
+
+  const test = async (filename: string, success: boolean) => {
+    const fileSize = api.SCRIPT_SIZE_LIMIT_MB * 1024 * 1024 - 100;
+    const formData = mockFileForm(fileSize, filename);
+
+    const resp = await callRoute(server, uploadScriptRoute, {
+      body: formData as any,
+    }, users.normalUser1, formData.getHeaders());
+
+    if (success) {
+      expectCode(resp, 201, filename);
+    } else {
+      const json = expectCodeAndJson(resp, 400, filename) as any;
+      expect(json.code).toBe("YAARXIV_SCRIPT_FORMAT_ERROR");
+    }
+  };
+
+  await Promise.all([
+    test("test.pdf", true),
+    test("test.txt", true),
+    test("test.doc", true),
+    test("test.docx", true),
+    test("test.mp4", false),
+    test("test.mp3", false),
+  ]);
+
+
+
+});
+
 it("fails if the file size is too big.", async () => {
-  const fileSize = api.PDF_SIZE_LIMIT_MB * 1024 * 1024 + 100;
+  const fileSize = api.SCRIPT_SIZE_LIMIT_MB * 1024 * 1024 + 100;
   const formData = mockFileForm(fileSize);
 
-  const resp = await callRoute(server, uploadPdfRoute, {
+  const resp = await callRoute(server, uploadScriptRoute, {
     body: formData as any,
   }, users.normalUser1, formData.getHeaders());
 

@@ -17,7 +17,10 @@ import {
   TITLE_MAX_LENGTH,
 } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
-import { PDF_SIZE_LIMIT_MB } from "yaarxiv-api/api/article/uploadPDF";
+import {
+  ALLOWED_SCRIPT_FORMAT,
+  SCRIPT_SIZE_LIMIT_MB,
+} from "yaarxiv-api/api/article/uploadScript";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 import { FormFieldMessage } from "src/components/form/FormFieldMessage";
 
@@ -73,7 +76,7 @@ export const ArticleEditForm: React.FC<Props> = ({
   const updateInfo = (newInfo: Partial<ArticleFormInternal>) =>
     setInfo({ ...info, ...newInfo });
 
-  const pdfSizeLimit = PDF_SIZE_LIMIT_MB;
+  const pdfSizeLimit = SCRIPT_SIZE_LIMIT_MB;
 
   return (
     <Box gap="large">
@@ -102,7 +105,7 @@ export const ArticleEditForm: React.FC<Props> = ({
           <Paragraph fill>
             <Localized
               id={root("pdf.description")}
-              args={[pdfSizeLimit]}
+              args={[pdfSizeLimit, ALLOWED_SCRIPT_FORMAT.join(", ")]}
             />
           </Paragraph>
           { articleId
@@ -135,7 +138,7 @@ export const ArticleEditForm: React.FC<Props> = ({
           >
             <FileUploader
               options={{
-                accept: ".pdf",
+                accept: [".pdf", ".docx", ".doc", ".txt"],
                 multiple: false,
                 maxSize: pdfSizeLimit * 1024 * 1024,
               }}

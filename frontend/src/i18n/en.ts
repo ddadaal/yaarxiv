@@ -164,9 +164,9 @@ export default {
   pages: {
     upload: {
       pdf: {
-        title: "1. Upload PDF",
-        description: "Please upload your PDF first. The system will automatically fill some of the information based on your PDF. You can always change the information manually. File size limit: {} MB.",
-        existing: "Click {} to download current PDF file",
+        title: "1. Upload Script",
+        description: "Please upload your script first. Max size: {} MB; Supported format: {}",
+        existing: "Click {} to download current script",
         prompt: "Please select a file",
         here: "here",
       },

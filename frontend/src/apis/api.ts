@@ -11,7 +11,7 @@ import * as getArticleFile from "yaarxiv-api/api/article/getFile";
 import * as searchArticle from "yaarxiv-api/api/article/search";
 import * as updateArticle from "yaarxiv-api/api/article/update";
 import * as uploadArticle from "yaarxiv-api/api/article/upload";
-import * as uploadPDF from "yaarxiv-api/api/article/uploadPDF";
+import * as uploadScript from "yaarxiv-api/api/article/uploadScript";
 import * as login from "yaarxiv-api/api/auth/login";
 import * as requestPasswordReset from "yaarxiv-api/api/auth/requestPasswordReset";
 import * as resetPassword from "yaarxiv-api/api/auth/resetPassword";
@@ -40,7 +40,7 @@ export const realApi = {
     searchArticle: fromApi(searchArticle.endpoint),
     updateArticle: fromApi(updateArticle.endpoint),
     uploadArticle: fromApi(uploadArticle.endpoint),
-    uploadPDF: fromApi(uploadPDF.endpoint),
+    uploadScript: fromApi(uploadScript.endpoint),
   },
   auth: {
     login: fromApi(login.endpoint),

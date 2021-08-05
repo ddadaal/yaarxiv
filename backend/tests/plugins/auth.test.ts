@@ -5,7 +5,6 @@ import { AuthOption, signUser } from "@/plugins/auth";
 import { RouteHandlerMethod } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
-import { expectCode } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 

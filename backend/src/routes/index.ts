@@ -7,7 +7,7 @@ import { dashboardGetArticlesRoute } from "./dashboard/getArticles";
 import { adminGetArticlesRoute } from "./admin/getArticles";
 import { uploadArticleRoute } from "./article/upload";
 import { updateArticleRoute } from "./article/update";
-import { uploadPdfRoute } from "./article/uploadPdf";
+import { uploadScriptRoute } from "./article/uploadScript";
 import { changePasswordRoute } from "./dashboard/changePassword";
 import { changeAccountInfoRoute } from "./dashboard/changeAccountInfo";
 import { getAccountInfoRoute } from "./dashboard/getAccountInfo";
@@ -40,7 +40,7 @@ export const routes = [
   adminDeleteUserRoute,
   uploadArticleRoute,
   updateArticleRoute,
-  uploadPdfRoute,
+  uploadScriptRoute,
   changePasswordRoute,
   changeAccountInfoRoute,
   getAccountInfoRoute,

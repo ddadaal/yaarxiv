@@ -27,7 +27,7 @@ export function expectCode<
 export function expectCodeAndJson<
   TSchema extends GeneralSchema,
   Code extends (number & keyof TSchema["responses"] | CommonErrorCode)
->(resp: CallRouteResponse<TSchema>, code: Code) {
-  expectCode(resp, code);
+>(resp: CallRouteResponse<TSchema>, code: Code, extraInfo?: any) {
+  expectCode(resp, code, extraInfo);
   return resp.json<Code>();
 }
