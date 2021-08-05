@@ -5,6 +5,7 @@ import { AuthOption, signUser } from "@/plugins/auth";
 import { RouteHandlerMethod } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
+import { expectCode } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 
@@ -59,23 +60,6 @@ it("gets the user entity", async () => {
   expect((await request(token)).json().email).toBe(user.email);
 });
 
-it("returns 403 for bad user id", async () => {
-  await prepare(async (req) => {
-    const userRef = req.dbUserRef();
-    return { id: userRef.id };
-  });
-
-  const test = async (id: any, code: number) => {
-    expect((await request(signUser(server, id))).statusCode).toBe(code);
-  };
-
-  await Promise.all([
-    test(1000, 401),
-    test("1000123" as any, 401),
-  ]);
-});
-
-
 it("rejects requests without proper role", async () => {
   await prepare(async () => ({}));
 
@@ -88,14 +72,4 @@ it("allows all accesses for unauthenticated routes", async () => {
   await prepare(async () => ({}), false);
   expect((await request(token)).statusCode).toBe(200);
   expect((await request()).statusCode).toBe(200);
-});
-
-it("rejects not validated user", async () => {
-
-  await prepare(async () => ({}));
-  user.validated = false;
-  await server.orm.em.flush();
-
-  expect((await request(token)).statusCode).toBe(403);
-
 });
