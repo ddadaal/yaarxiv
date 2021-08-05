@@ -183,6 +183,7 @@ export default {
         authorsRequired: "Input at least one author.",
         abstract: "Abstract (max chars: {})",
         codeLink: "Link to Code (Optional. Link to repos from {} are accepted.)",
+        doi: "DOI (Optional)",
         reset: "Reset",
         upload: "Upload",
       },
@@ -205,6 +206,7 @@ export default {
         lastUpdateTime: "Last Update Time",
         revisionCount: "Revision Count",
         codeLink: "Link to Code",
+        doi: "DOI",
       },
     },
     dashboard: {

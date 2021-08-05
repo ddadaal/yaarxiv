@@ -34,7 +34,7 @@ export class ArticleRevision {
   enKeywords?: string[];
 
   @Property({ length: ARTICLE_ABSTRACT_LENGTH_LIMIT })
-  abstract: string
+  abstract: string;
 
   @Property()
   category: string;
@@ -52,6 +52,9 @@ export class ArticleRevision {
   @Property({ nullable: true })
   codeLink?: string = undefined;
 
+  @Property({ nullable: true })
+  doi?: string;
+
   constructor(init: {
     id?: number;
     revisionNumber: number,
@@ -66,6 +69,7 @@ export class ArticleRevision {
     enTitle?: string;
     cnKeywords?: string[];
     enKeywords?: string[];
+    doi?: string;
   }) {
     if (init.id) this.id = init.id;
     this.revisionNumber = init.revisionNumber;
@@ -80,5 +84,6 @@ export class ArticleRevision {
     this.codeLink = init.codeLink;
     this.pdf = toRef(init.pdf);
     this.article = toRef(init.article);
+    this.doi = init.doi;
   }
 }

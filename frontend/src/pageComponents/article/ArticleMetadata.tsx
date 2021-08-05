@@ -7,6 +7,7 @@ import { prefix, useI18n } from "src/i18n";
 import { getCodeLinkInfo } from "src/utils/validations/codeLink";
 import { formatDateTime } from "src/utils/datetime";
 import { ArticleId } from "yaarxiv-api/api/article/models";
+import { DoiIcon } from "src/components/icons/Doi";
 
 const root = prefix("pages.search.item.");
 
@@ -38,11 +39,13 @@ export const ArticleMetadata: React.FC<{
   createTime: string;
   lastUpdateTime?: string;
   codeLink?: string;
+  doi?: string;
 }> = ({
   articleId,
   lastUpdateTime,
   createTime,
   codeLink,
+  doi,
 }) => {
 
   const codeLinkObj = codeLink ? getCodeLinkInfo(codeLink) : undefined;
@@ -82,6 +85,19 @@ export const ArticleMetadata: React.FC<{
             )}
           />
         ) : undefined
+      }
+      { doi
+        ? (
+          <MetadataItem
+            Icon={DoiIcon}
+            title={i18n.translate(root("doi")) as string}
+            data={(
+              <AnchorLink target="blank" href={`https://doi.org/${doi}`}>
+                {doi}
+              </AnchorLink>
+            )}
+          />
+        ): undefined
       }
     </MetadataContainer>
   );

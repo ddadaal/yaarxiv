@@ -178,6 +178,7 @@ export default {
         authorsRequired: "请输入作者",
         abstract: "摘要（字符数上限：{}）",
         codeLink: "代码链接（可选，接受以下网站的仓库的链接：{}）",
+        doi: "DOI（可选）",
         reset: "重置",
         upload: "上传",
       },
@@ -200,6 +201,7 @@ export default {
         lastUpdateTime: "最新一次更新时间",
         revisionCount: "更新次数",
         codeLink: "代码链接：{}",
+        doi: "DOI",
       },
     },
     dashboard: {

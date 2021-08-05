@@ -64,7 +64,7 @@ export const ArticleSearchItem: React.FC<Props> = ({
   const {
     authors,
     abstract, articleId, lastUpdateTime, createTime,
-    codeLink,
+    codeLink, doi,
   } = article;
 
   const map = articleInfoMultiLangPartToLangMap(article);
@@ -104,6 +104,7 @@ export const ArticleSearchItem: React.FC<Props> = ({
         lastUpdateTime={lastUpdateTime}
         createTime={createTime}
         codeLink={codeLink}
+        doi={doi}
       />
     </Box>
   );

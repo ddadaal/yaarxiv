@@ -40,6 +40,7 @@ export const getArticleRoute = route(
             enKeywords: targetRevision.enKeywords,
             enTitle: targetRevision.enTitle,
             codeLink: targetRevision.codeLink,
+            doi: targetRevision.doi,
           },
           revisions: article.revisions.getItems().map((x) => ({
             time: x.time.toISOString(),

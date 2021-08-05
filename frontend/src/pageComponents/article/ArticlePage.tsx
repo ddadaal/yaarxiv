@@ -57,6 +57,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
             articleId={article.id}
             createTime={article.createTime}
             codeLink={article.currentRevision.codeLink}
+            doi={article.currentRevision.doi}
           />
         </Section>
       )}

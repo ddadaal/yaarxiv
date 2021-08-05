@@ -78,6 +78,7 @@ export const searchArticleRoute = route(
             authors: rev.authors,
             category: rev.category,
             codeLink: rev.codeLink,
+            doi: rev.doi,
             commentCount: 0,
           };
         }),

@@ -32,12 +32,14 @@ type ArticleFormInternal = {
   cnKeywords: string[];
   enKeywords: string[];
   file: File | undefined;
+  doi?: string;
 };
 
 export type ArticleForm = {
   authors: string[];
   abstract: string;
   codeLink?: string;
+  doi?: string;
 } & ArticleInfoI18nPart;
 
 interface Props {
@@ -63,6 +65,7 @@ export const ArticleEditForm: React.FC<Props> = ({
     enKeywords: initial.enKeywords || [],
     enTitle: initial.enTitle || "",
     file: undefined,
+    doi: initial.doi || "",
   }), [initial]);
 
   const [info, setInfo] = useState<ArticleFormInternal>(initialInternal);
@@ -87,6 +90,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             enKeywords: info.enKeywords.length === 0 ? undefined : info.enKeywords,
             cnTitle: info.cnTitle || undefined,
             enTitle: info.enTitle || undefined,
+            doi: info.doi || undefined,
           });
         }}
         validate="change"
@@ -259,7 +263,7 @@ export const ArticleEditForm: React.FC<Props> = ({
               }}
             >
               <TagInput
-                name="authorss"
+                name="authors"
                 value={info.authors}
                 disabled={disabled}
                 onAdd={(val) => updateInfo({ authors: info.authors.concat(val) })}
@@ -302,6 +306,16 @@ export const ArticleEditForm: React.FC<Props> = ({
               disabled={disabled}
               maxLength={100}
               onChange={(e) => updateInfo({ codeLink: e.target.value })}
+            />
+            <FormField
+              label={
+                <Localized id={root("info.doi")} />
+              }
+              name="doi"
+              value={info.doi}
+              disabled={disabled}
+              maxLength={20}
+              onChange={(e) => updateInfo({ doi: e.target.value })}
             />
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
               <Button

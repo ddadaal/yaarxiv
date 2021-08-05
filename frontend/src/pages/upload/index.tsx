@@ -16,6 +16,7 @@ const initialState ={
   codeLink: "",
   authors: [] as string[],
   abstract: "",
+  doi: "",
 };
 
 export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() => {

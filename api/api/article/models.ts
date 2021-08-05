@@ -53,6 +53,12 @@ export type ArticleInfo = {
    * @format uri
    */
   codeLink?: string;
+
+  /**
+   * DOI number
+   */
+  doi?: string;
+
 } & ArticleInfoI18nPart;
 
 export interface ArticleRevision {

@@ -78,6 +78,7 @@ export const ArticleUpdatePage = ssrPage<Props>(
             enTitle:  rest.enTitle,
             codeLink: rest.codeLink,
             authors: rest.authors.map((x) => x.name),
+            doi: rest.doi,
           }}
           onSubmit={submit}
         />
