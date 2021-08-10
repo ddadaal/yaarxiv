@@ -31,7 +31,7 @@ export default {
         description: "Your request is invalid. Please check your URL.",
       },
       forbidden: {
-        title: "Forbiddden",
+        title: "Forbidden",
         description: "You can't access this page. Please login as required user and retry.",
       },
       notFound: {
@@ -273,7 +273,8 @@ export default {
     updateArticle: {
       success: "Article updated successfully. New revision number: {}.",
       loading: "Loading current revision of article {}...",
-      forbidden: "You cannot update article {}.",
+      notAuthor: "You cannot update article {}.",
+      retracted: "Article {} has been retracted. No more update is allowed.",
     },
     admin: {
       articles: {

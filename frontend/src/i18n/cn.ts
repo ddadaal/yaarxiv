@@ -27,7 +27,7 @@ export default {
         description: "您的请求无效，请检查URL是否正确",
       },
       forbidden: {
-        title: "无权限",
+        title: "禁止操作",
         description: "您没有权限访问本页面。请以要求的权限的用户登录后再尝试。",
       },
       notFound: {
@@ -268,7 +268,8 @@ export default {
     updateArticle: {
       success: "更新文章成功。新版本编号：{}",
       loading: "正在加载文章{}的当前版本……",
-      forbidden: "您没有权限修改文章{}。",
+      notAuthor: "您没有权限修改文章{}。",
+      retracted: "文章{}已经被撤稿，不能继续修改。",
     },
     admin: {
       articles: {

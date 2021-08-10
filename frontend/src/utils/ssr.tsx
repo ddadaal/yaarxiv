@@ -8,7 +8,7 @@ import { AuthOptions, requireAuth } from "./requireAuth";
 
 export type SSRPageProps<TData> = TData | { error: HttpError };
 
-export const ssrError = (statusCode: number, data?: string | object) => {
+export const ssrError = <T,>(statusCode: number, data?: T) => {
   return { error: makeHttpError(statusCode, data) };
 };
 

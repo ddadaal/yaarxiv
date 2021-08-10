@@ -5,7 +5,7 @@ import { prefix } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
 import { queryToIntOrDefault } from "src/utils/querystring";
 import { useHttpRequest } from "src/utils/http";
-import { Article } from "yaarxiv-api/api/article/models";
+import { Article, ArticleId } from "yaarxiv-api/api/article/models";
 import { getCurrentUserInCookie } from "src/stores/UserStore";
 import { HttpError } from "src/apis/fetch";
 import { Forbidden } from "src/components/errors/Forbidden";
@@ -99,8 +99,11 @@ export const ArticleUpdatePage = ssrPage<Props>(
         query: {},
       })
         .then((x) => {
+          if (x.article.retractTime) {
+            return ssrError<SSR403Error>(403, { reason: "retracted", articleId });
+          }
           if (x.article.ownerId !== user.id) {
-            return ssrError(403, { articleId });
+            return ssrError<SSR403Error>(403, { reason: "notAuthor", articleId });
           } else {
             return x;
           }
@@ -117,11 +120,11 @@ export const ArticleUpdatePage = ssrPage<Props>(
       <UnifiedErrorPage
         error={err}
         customComponents={{
-          403: (err) => (
+          403: (err: HttpError<SSR403Error>) => (
             <Forbidden
               description={(
                 <Localized
-                  id={root("forbidden")}
+                  id={root(err.data.reason)}
                   args={[err.data.articleId]}
                 />
               )}
@@ -131,5 +134,10 @@ export const ArticleUpdatePage = ssrPage<Props>(
       />
     ),
   });
+
+interface SSR403Error {
+  reason: "notAuthor" | "retracted";
+  articleId: ArticleId;
+}
 
 export default ArticleUpdatePage;
