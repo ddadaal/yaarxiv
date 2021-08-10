@@ -11,7 +11,7 @@ import { UrlObject } from "url";
 import { AdminGetArticlesResult } from "yaarxiv-api/api/admin/getArticles";
 import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
 import { ArticleId } from "../../../../../api/api/article/models";
-import { DeleteArticleLink } from "../../Dashboard/ArticleTable/DeleteArticleLink";
+import { RetractArticleLink } from "../../Dashboard/ArticleTable/RetractArticleLink";
 import { ArticleTitleOfLang } from "src/components/ArticleTitleOfLang";
 
 const root = prefix("pages.admin.articles.");
@@ -99,9 +99,9 @@ export const AdminArticleTable: React.FC<Props> = ({
       header: <Localized id={root("actions")} />,
       render: (d) => (
         <Box direction="row" gap="medium">
-          <DeleteArticleLink
+          <RetractArticleLink
             articleId={d.id}
-            deleteArticle={deleteArticle}
+            retractArticle={deleteArticle}
             reload={() => reload(page)}
           />
         </Box>

@@ -223,10 +223,11 @@ export default {
         ownerSetPublicity: "Publicity by Owner",
         adminSetPublicity: "Publicity by Admin",
         update: "Update",
-        delete: {
-          button: "Withdraw",
-          title: "Confirm to withdraw the article?",
-          content: "Are you sure to withdraw the article {}? All your revisions will be removed from our platform.",
+        retract: {
+          button: "Retract",
+          title: "Confirm to retract the article?",
+          content1: "Are you sure to retract the article {}?",
+          content2: "The article will be marked as Retracted, and all files will be deleted.",
           confirm: "Confirm",
           cancel: "Cancel",
           success: "Article {} has been removed successfully!",

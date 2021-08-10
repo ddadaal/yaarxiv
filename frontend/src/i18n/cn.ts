@@ -218,10 +218,11 @@ export default {
         revisionCount: "更新次数",
         actions: "操作",
         update: "更新",
-        delete: {
+        retract: {
           button: "撤回",
           title: "撤回文章确认",
-          content: "确定要从系统上撤回文章{}？所有版本将会被从系统上删除。",
+          content1: "确定要从系统上撤回文章{}？",
+          content2: "文章将会被标记已撤回，文章的相关文件将会被删除",
           confirm: "确认",
           cancel: "取消",
           success: "撤回文章{}成功！",

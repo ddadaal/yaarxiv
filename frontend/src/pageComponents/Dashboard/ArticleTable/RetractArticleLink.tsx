@@ -1,4 +1,4 @@
-import { Button } from "grommet";
+import { Box, Button, Paragraph } from "grommet";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Localized, prefix } from "src/i18n";
@@ -7,29 +7,29 @@ import { Modal } from "src/components/modals/Modal";
 import { useHttpRequest } from "src/utils/http";
 import { ArticleId } from "yaarxiv-api/api/article/models";
 
-const root = prefix("pages.dashboard.articles.");
+const root = prefix("pages.dashboard.articles.retract.");
 
 interface Props {
   articleId: ArticleId;
-  deleteArticle: (articleId: ArticleId) => Promise<any>;
+  retractArticle: (articleId: ArticleId) => Promise<any>;
   reload: () => void;
 }
 
-export const DeleteArticleLink: React.FC<Props> = ({
+export const RetractArticleLink: React.FC<Props> = ({
   articleId,
-  deleteArticle,
+  retractArticle,
   reload,
 }) => {
   const [open, setOpen] = useState(false);
   const [confirming, setConfirming] = useState(false);
   const request = useHttpRequest(setConfirming);
 
-  const onDelete = async () => {
+  const onOk = async () => {
     request(async () => {
-      await deleteArticle(articleId);
+      await retractArticle(articleId);
       setOpen(false);
       toast.success(
-        <Localized id={root("delete.success")} args={[articleId]} />
+        <Localized id={root("success")} args={[articleId]} />
       );
       reload();
     });
@@ -38,25 +38,31 @@ export const DeleteArticleLink: React.FC<Props> = ({
   return (
     <>
       <AnchorLink
-        label={<Localized id={root("delete.button")} />}
+        label={<Localized id={root("button")} />}
         onClick={() => setOpen(true)}
       />
       <Modal
         open={open}
-        title={<Localized id={root("delete.title")} />}
-        content={<Localized id={root("delete.content")} args={[articleId]}/>}
+        title={<Localized id={root("title")} />}
+        content={(
+          <>
+            <Localized id={root("content1")} args={[articleId]}/>
+            <br />
+            <Localized id={root("content2")} />
+          </>
+        )}
         footer={[
           <Button
             key="confirm"
             primary
             disabled={confirming}
-            label={<Localized id={root("delete.confirm")} />}
-            onClick={onDelete}
+            label={<Localized id={root("confirm")} />}
+            onClick={onOk}
           />,
           <Button
             key="cancel"
             disabled={confirming}
-            label={<Localized id={root("delete.cancel")} />}
+            label={<Localized id={root("cancel")} />}
             onClick={() => setOpen(false)}
           />,
         ]}

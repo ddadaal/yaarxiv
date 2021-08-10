@@ -9,7 +9,7 @@ import type {
 } from "yaarxiv-api/api/dashboard/getArticles";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Pagination } from "src/components/Pagination";
-import { DeleteArticleLink } from "./DeleteArticleLink";
+import { RetractArticleLink } from "./RetractArticleLink";
 import { PublicityText } from "../../PublicityText";
 import { PublicitySelect } from "../../PublicitySelect";
 import { api } from "src/apis";
@@ -102,9 +102,9 @@ export const ArticleTable: React.FC<Props> = ({ page, data, getUrlOfPage, reload
             label={<Localized id={root("update")} />}
             href="/articles/[id]/update" as={`/articles/${d.id}/update`}
           />
-          <DeleteArticleLink
+          <RetractArticleLink
             articleId={d.id}
-            deleteArticle={deleteArticle}
+            retractArticle={deleteArticle}
             reload={reload}
           />
         </Box>
