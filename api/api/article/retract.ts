@@ -7,27 +7,33 @@ import { ArticleId } from "./models";
  * Delete an article and all of its revisions.
  * Only the owner and admin can do it.
  */
-export interface DeleteArticleSchema {
+export interface RetractArticleSchema {
   path: {
     /** The ID of the article to be deleted. */
     articleId: ArticleId;
   },
   responses: {
-    /** The article and all is deleted. */
+    /** The article ihas been retracted */
     204: null;
     /** The article is not found. */
     404: null;
-    /** Only admin can delete an article. */
-    403: null;
+
+    /**
+     * retracted: the article has already been retracted
+     * noAccess: only the author and admin can retract the article
+     */
+    403: {
+      reason: "retracted" | "noAccess";
+    };
   }
 }
 
 export const props: ApiProps = {
-  summary: "Delete an article from the platform.",
+  summary: "Retract an article.",
   requiredRoles: [UserRole.Admin],
 };
 
 export const endpoint = {
-  url: "/articles/:articleId",
-  method: "DELETE",
-} as Endpoint<DeleteArticleSchema>;
+  url: "/articles/:articleId/retraction",
+  method: "POST",
+} as Endpoint<RetractArticleSchema>;

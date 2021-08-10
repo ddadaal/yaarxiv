@@ -1,4 +1,4 @@
-import { Box, Button, Paragraph } from "grommet";
+import { Button } from "grommet";
 import React, { useState } from "react";
 import { toast } from "react-toastify";
 import { Localized, prefix } from "src/i18n";
@@ -6,18 +6,17 @@ import { AnchorLink } from "src/components/AnchorLink";
 import { Modal } from "src/components/modals/Modal";
 import { useHttpRequest } from "src/utils/http";
 import { ArticleId } from "yaarxiv-api/api/article/models";
+import { api } from "src/apis";
 
 const root = prefix("pages.dashboard.articles.retract.");
 
 interface Props {
   articleId: ArticleId;
-  retractArticle: (articleId: ArticleId) => Promise<any>;
   reload: () => void;
 }
 
 export const RetractArticleLink: React.FC<Props> = ({
   articleId,
-  retractArticle,
   reload,
 }) => {
   const [open, setOpen] = useState(false);
@@ -26,7 +25,7 @@ export const RetractArticleLink: React.FC<Props> = ({
 
   const onOk = async () => {
     request(async () => {
-      await retractArticle(articleId);
+      await api.article.retractArticle({ path: { articleId } });
       setOpen(false);
       toast.success(
         <Localized id={root("success")} args={[articleId]} />

@@ -53,8 +53,6 @@ export const columns: ColumnConfig<DashboardArticleInfo>[] = [
   },
 ];
 
-const deleteArticle = (articleId: number) =>
-  api.article.deleteArticle({ path: { articleId } });
 
 const changeOwnerSetArticlePublicity = async (articleId: number, publicity: boolean) => {
   const resp = await api.dashboard.changeArticleOwnerSetPublicity({
@@ -108,13 +106,12 @@ export const ArticleTable: React.FC<Props> = ({ page, data, getUrlOfPage, reload
           />
           <RetractArticleLink
             articleId={d.id}
-            retractArticle={deleteArticle}
             reload={reload}
           />
         </Box>
       ),
     },
-  ], [page, reload, deleteArticle]);
+  ], [page, reload]);
 
   return (
     <Box>
