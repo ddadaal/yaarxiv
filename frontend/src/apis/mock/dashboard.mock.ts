@@ -22,6 +22,7 @@ const base: DashboardArticleInfo[] = [
     revisionCount: 3,
     adminSetPublicity: false,
     ownerSetPublicity: true,
+    retractTime: "2020-08-06T01:16:41+00:00",
   },
 ];
 

@@ -1,7 +1,7 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
-import { ArticleId } from "../article/models";
+import { ArticleId, ArticleInfoI18nPart } from "../article/models";
 
 
 /** Get the articles this user is the owner of. */
@@ -30,27 +30,12 @@ export type DashboardArticleInfo = {
   adminSetPublicity: boolean;
 
   /**
-   * Chinese Title
-   * @maxLength 100
-   */
-  cnTitle?: string;
+   * the time the article is retracted, if retracted
+   * @format date-time
+    */
+  retractTime?: string;
 
-  /**
-  * Chinese Keywords
-  */
-  cnKeywords?: string[];
-
-  /**
-  * English Title
-  * @maxLength 100
-  */
-  enTitle?: string;
-
-  /**
-  * Chinese Keywords
-  */
-  enKeywords?: string[];
-};
+} & ArticleInfoI18nPart;
 
 export interface UserGetArticleInfoSchema {
   querystring: {

@@ -223,6 +223,7 @@ export default {
         ownerSetPublicity: "Publicity by Owner",
         adminSetPublicity: "Publicity by Admin",
         update: "Update",
+        retracted: "Retracted",
         retract: {
           button: "Retract",
           title: "Confirm to retract the article?",

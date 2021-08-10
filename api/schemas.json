@@ -1917,7 +1917,32 @@
     },
     "DashboardArticleInfo": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
+        "cnTitle": {
+          "type": "string",
+          "description": "Chinese Title",
+          "maxLength": 100
+        },
+        "cnKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Chinese Keywords"
+        },
+        "enTitle": {
+          "type": "string",
+          "description": "English Title",
+          "maxLength": 100
+        },
+        "enKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Chinese Keywords"
+        },
         "id": {
           "$ref": "#/definitions/ArticleId",
           "description": "The article id."
@@ -1942,40 +1967,20 @@
           "type": "boolean",
           "description": "Whether the article is public set by admin."
         },
-        "cnTitle": {
+        "retractTime": {
           "type": "string",
-          "description": "Chinese Title",
-          "maxLength": 100
-        },
-        "cnKeywords": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Chinese Keywords"
-        },
-        "enTitle": {
-          "type": "string",
-          "description": "English Title",
-          "maxLength": 100
-        },
-        "enKeywords": {
-          "type": "array",
-          "items": {
-            "type": "string"
-          },
-          "description": "Chinese Keywords"
+          "description": "the time the article is retracted, if retracted",
+          "format": "date-time"
         }
       },
       "required": [
-        "id",
+        "adminSetPublicity",
         "createTime",
+        "id",
         "lastUpdatedTime",
-        "revisionCount",
         "ownerSetPublicity",
-        "adminSetPublicity"
+        "revisionCount"
       ],
-      "additionalProperties": false,
       "description": "Get the articles this user is the owner of."
     }
   }

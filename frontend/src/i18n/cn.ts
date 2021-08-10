@@ -218,6 +218,7 @@ export default {
         revisionCount: "更新次数",
         actions: "操作",
         update: "更新",
+        retracted: "已撤回",
         retract: {
           button: "撤回",
           title: "撤回文章确认",

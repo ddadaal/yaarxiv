@@ -1,4 +1,4 @@
-import { Box, ColumnConfig, DataTable } from "grommet";
+import { Box, ColumnConfig, DataTable, Text } from "grommet";
 import React, { useMemo } from "react";
 import { Localized } from "src/i18n";
 import { prefix } from "src/i18n";
@@ -96,7 +96,11 @@ export const ArticleTable: React.FC<Props> = ({ page, data, getUrlOfPage, reload
     {
       property: "actions",
       header: <Localized id={root("actions")} />,
-      render: (d) => (
+      render: (d) => d.retractTime ? (
+        <Text color="status-critical">
+          <Localized id={root("retracted")} />
+        </Text>
+      ) : (
         <Box direction="row" gap="small">
           <AnchorLink
             label={<Localized id={root("update")} />}
