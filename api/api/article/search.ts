@@ -19,6 +19,12 @@ export type ArticleSearchResult = ArticleInfo & {
    * Must be a valid datetime string.
    */
   lastUpdateTime: string;
+
+  /**
+   * the time the article is retracted, if retracted
+   * @format date-time
+   */
+  retractTime?: string;
 }
 
 export const summary = "Search article.";

@@ -21,6 +21,11 @@ export interface GetArticleFileSchema {
   responses: {
     200: any;
 
+    /**
+     * The article has been retracted
+     */
+    403: null;
+
     404: {
       notFound: "article" | "revision";
     }

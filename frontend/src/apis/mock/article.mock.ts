@@ -1,6 +1,7 @@
 /* eslint-disable max-len */
 import type { Article, ArticleId } from "yaarxiv-api/api/article/models";
 import { realApi } from "../api";
+import { ArticleSearchResult } from "yaarxiv-api/api/article/search";
 
 const pdfLink = "https://docs.microsoft.com/en-us/dotnet/opbuildpdf/core/toc.pdf?branch=live";
 
@@ -52,12 +53,13 @@ const mockResult = [
       { "name":"林官明","affiliation":"Alcatel-Lucent" },
     ],
     abstract: "大型建筑的设计必须考虑风载荷,计算机和计算技术的发展已使形状复杂的建筑外空气流动载荷由计算来求得。本文介绍应用商品软件计算一个新型建筑外部流动的方法和结果。所得与风洞试验相比的一致性表明,这类风工程所需的气动参数可单靠数值计算来得到。",
-    category: "Computer science",
+    // category: "Computer science",
     createTime: "2020-08-06T01:16:41+00:00",
     lastUpdateTime: "2020-08-06T01:16:41+00:00",
     codeLink: "https://github.com/ddadaal/yaarxiv",
+    retractTime: "2020-08-06T01:16:41+00:00",
   },
-];
+] as ArticleSearchResult[];
 
 const mockArticle = (id: ArticleId, revision: number | undefined): Article => ({
   id,
@@ -83,6 +85,7 @@ const mockArticle = (id: ArticleId, revision: number | undefined): Article => ({
   },
   ownerId: 1,
   createTime:"2011-10-05T14:48:00.000Z",
+  retractTime: id === 3 ? "2011-10-05T14:48:00.000Z" : undefined,
 });
 
 export const articleApisMock: typeof realApi["article"] = ({

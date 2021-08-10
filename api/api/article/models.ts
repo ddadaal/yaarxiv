@@ -91,8 +91,16 @@ export interface Article {
   /**
    * The time when the article is first uploaded to the platform.
    * Must be a valid datetime string.
+   *
+   * @format date-time
    */
   createTime: string;
+
+  /**
+   * the time the article is retracted, if retracted
+   * @format date-time
+   */
+  retractTime?: string;
 }
 
 /** The comment to an article. */

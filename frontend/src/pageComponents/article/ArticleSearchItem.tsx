@@ -7,7 +7,7 @@ import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { HighlightedText, Mark } from "src/components/HighlightedText";
 import { articleInfoMultiLangPartToLangMap } from "src/models/Article";
-import { useI18n } from "src/i18n";
+import { Localized, prefix, useI18n } from "src/i18n";
 
 
 interface Props {
@@ -53,6 +53,8 @@ const AbstractBox: React.FC<{
   );
 };
 
+const root = prefix("pages.search.item.");
+
 export const ArticleSearchItem: React.FC<Props> = ({
   searchText,
   searchKeywords,
@@ -64,7 +66,7 @@ export const ArticleSearchItem: React.FC<Props> = ({
   const {
     authors,
     abstract, articleId, lastUpdateTime, createTime,
-    codeLink, doi,
+    codeLink, doi, retractTime,
   } = article;
 
   const map = articleInfoMultiLangPartToLangMap(article);
@@ -77,11 +79,22 @@ export const ArticleSearchItem: React.FC<Props> = ({
 
   return (
     <Box gap="small" >
-      <Heading level={2} size="small" margin="0">
-        <AnchorLink href={"/articles/[id]"} as={`/articles/${article.articleId}`}>
-          <HighlightedText text={localizedInfo.title} highlights={[searchText]} />
-        </AnchorLink>
-      </Heading>
+      <Box direction="row" align="center">
+        {
+          retractTime ? (
+            <Box margin={{ right: "small" }}>
+              <Text color="status-critical" weight="bold" size="large">
+                <Localized id={root("retracted")} />
+              </Text>
+            </Box>
+          ): undefined
+        }
+        <Heading level={2} size="small" margin="0">
+          <AnchorLink href={"/articles/[id]"} as={`/articles/${article.articleId}`}>
+            <HighlightedText text={localizedInfo.title} highlights={[searchText]} />
+          </AnchorLink>
+        </Heading>
+      </Box>
       <ArticleAuthors
         authors={authors}
         highlightNames={searchAuthors}

@@ -189,6 +189,7 @@ export default {
     },
     article: {
       revisions: "版本",
+      retracted: "撤稿",
       download: "下载",
     },
     search: {
@@ -197,6 +198,7 @@ export default {
       authors: "包含作者",
       item: {
         id: "文章ID",
+        retracted: "已撤稿",
         createTime: "提交时间",
         lastUpdateTime: "最新一次更新时间",
         revisionCount: "更新次数",

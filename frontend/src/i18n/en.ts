@@ -194,6 +194,7 @@ export default {
     },
     article: {
       revisions: "Revisions",
+      retracted: "Retracted",
       download: "Download",
     },
     search: {
@@ -202,6 +203,7 @@ export default {
       authors: "Includes Authors",
       item: {
         id: "Article ID",
+        retracted: "Retracted",
         createTime: "Create Time",
         lastUpdateTime: "Last Update Time",
         revisionCount: "Revision Count",

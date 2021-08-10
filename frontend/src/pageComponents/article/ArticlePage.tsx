@@ -6,7 +6,7 @@ import { formatDateTime } from "src/utils/datetime";
 import { TitledSection } from "src/components/TitledSection";
 import { Section } from "src/components/Section";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
-import { prefix, useI18n } from "src/i18n";
+import { Localized, prefix, useI18n } from "src/i18n";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { DownloadPdfLink } from "./DownloadPdfLink";
@@ -82,20 +82,32 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
                   </AnchorLink>
                 </Box>
               ))}
+              {
+                article.retractTime ? (
+                  <Text weight="normal" color="status-critical">
+                    <Localized id={root("retracted")} />&nbsp;
+                    ({formatDateTime(article.retractTime)})
+                  </Text>
+                ) : undefined
+              }
             </Box>
           </TitledSection>
-          <TitledSection titleId={root("download")}>
-            <DownloadPdfLink articleId={article.id} revision={article.revisionNumber}>
-              {(downloadLink) => (
-                <Anchor
-                  onClick={downloadLink}
-                  target="__blank"
-                >
+          {
+            article.retractTime ? undefined : (
+              <TitledSection titleId={root("download")}>
+                <DownloadPdfLink articleId={article.id} revision={article.revisionNumber}>
+                  {(downloadLink) => (
+                    <Anchor
+                      onClick={downloadLink}
+                      target="__blank"
+                    >
                   PDF
-                </Anchor>
-              )}
-            </DownloadPdfLink>
-          </TitledSection>
+                    </Anchor>
+                  )}
+                </DownloadPdfLink>
+              </TitledSection>
+            )
+          }
         </Box>
         )}
     />

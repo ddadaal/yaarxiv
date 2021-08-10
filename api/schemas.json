@@ -483,6 +483,10 @@
           "type": "object",
           "properties": {
             "200": {},
+            "403": {
+              "type": "null",
+              "description": "The article has been retracted"
+            },
             "404": {
               "type": "object",
               "properties": {
@@ -502,6 +506,7 @@
           },
           "required": [
             "200",
+            "403",
             "404"
           ],
           "additionalProperties": false
@@ -805,6 +810,53 @@
       ],
       "additionalProperties": false,
       "description": "Upload an new article into the platform."
+    },
+    "UploadScriptSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "file": {
+              "type": "object",
+              "description": "The file object. 1 PDF per request."
+            }
+          },
+          "required": [
+            "file"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "201": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "$ref": "#/definitions/UploadedFileId",
+                  "description": "The token for the upload. It is used to upload the following content of the article."
+                }
+              },
+              "required": [
+                "token"
+              ],
+              "additionalProperties": false,
+              "description": "The upload is successful."
+            }
+          },
+          "required": [
+            "201"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Upload a script into the platform. Expect Content-Type to be multipart/form-data. Only accepts txt, pdf, docx, doc"
     },
     "RequestPasswordResetSchema": {
       "type": "object",
@@ -1509,7 +1561,13 @@
         },
         "createTime": {
           "type": "string",
-          "description": "The time when the article is first uploaded to the platform. Must be a valid datetime string."
+          "description": "The time when the article is first uploaded to the platform. Must be a valid datetime string.",
+          "format": "date-time"
+        },
+        "retractTime": {
+          "type": "string",
+          "description": "the time the article is retracted, if retracted",
+          "format": "date-time"
         }
       },
       "required": [
@@ -1699,6 +1757,11 @@
           "type": "string",
           "description": "The time when the article is last updated. Must be a valid datetime string."
         },
+        "retractTime": {
+          "type": "string",
+          "description": "the time the article is retracted, if retracted",
+          "format": "date-time"
+        },
         "cnTitle": {
           "type": "string",
           "description": "Chinese Title",
@@ -1753,53 +1816,6 @@
         "lastUpdateTime"
       ],
       "description": "A preview information of the article."
-    },
-    "UploadScriptchema": {
-      "type": "object",
-      "properties": {
-        "body": {
-          "type": "object",
-          "properties": {
-            "file": {
-              "type": "object",
-              "description": "The file object. 1 PDF per request."
-            }
-          },
-          "required": [
-            "file"
-          ],
-          "additionalProperties": false
-        },
-        "responses": {
-          "type": "object",
-          "properties": {
-            "201": {
-              "type": "object",
-              "properties": {
-                "token": {
-                  "$ref": "#/definitions/UploadedFileId",
-                  "description": "The token for the upload. It is used to upload the following content of the article."
-                }
-              },
-              "required": [
-                "token"
-              ],
-              "additionalProperties": false,
-              "description": "The upload is successful."
-            }
-          },
-          "required": [
-            "201"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "body",
-        "responses"
-      ],
-      "additionalProperties": false,
-      "description": "Upload a script into the platform. Expect Content-Type to be multipart/form-data."
     },
     "Profile": {
       "type": "object",
