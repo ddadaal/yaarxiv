@@ -20,9 +20,7 @@ type SearchQuery =Partial<AdminGetArticlesSchema["querystring"]>;
 
 const getArticles = ([query]: [SearchQuery]) =>
   api.admin.adminGetArticles({ query });
-const deleteArticle = async (articleId: ArticleId) => {
-  await api.article.deleteArticle({ path: { articleId } });
-};
+
 const changeArticleAdminSetPublicity =
  async (articleId: ArticleId, publicity: boolean) => {
    return await api.admin.changeArticleAdminSetPublicity({
@@ -84,7 +82,6 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: [UserRole.Admin]
         isLoading={isLoading}
         reload={searchWithArgs}
         page={page ?? 1}
-        deleteArticle={deleteArticle}
         changeArticleAdminSetPublicity={changeArticleAdminSetPublicity}
       />
     </Box>

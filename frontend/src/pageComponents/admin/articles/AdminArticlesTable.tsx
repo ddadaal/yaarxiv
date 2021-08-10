@@ -62,7 +62,6 @@ interface Props {
   articles: AdminGetArticlesResult[];
   isLoading: boolean;
   reload: (page: number) => void;
-  deleteArticle: (articleId: ArticleId) => Promise<any>;
   page: number;
   totalCount: number;
   getPageUrl: (page: number) => string | UrlObject;
@@ -76,7 +75,6 @@ export const AdminArticleTable: React.FC<Props> = ({
   articles,
   isLoading,
   reload,
-  deleteArticle,
   page,
   totalCount,
   getPageUrl,
@@ -101,13 +99,12 @@ export const AdminArticleTable: React.FC<Props> = ({
         <Box direction="row" gap="medium">
           <RetractArticleLink
             articleId={d.id}
-            retractArticle={deleteArticle}
             reload={() => reload(page)}
           />
         </Box>
       ),
     },
-  ], [page, reload, deleteArticle]);
+  ], [page, reload]);
 
   return (
     <OverlayLoading loading={isLoading}>
