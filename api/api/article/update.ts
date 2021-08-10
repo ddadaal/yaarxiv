@@ -25,8 +25,13 @@ export interface UpdateArticleSchema {
     },
     /** Not logged in. */
     401: null;
-    /** The user is not the owner. */
-    403: null;
+
+    /**
+     * notAuthor: Not the author of the article
+     * retracted: the article has been retracted.
+     */
+    403: { reason: "notAuthor" | "retracted"};
+
     /** The article is not found. */
     404: null;
   }

@@ -694,8 +694,21 @@
               "description": "Not logged in."
             },
             "403": {
-              "type": "null",
-              "description": "The user is not the owner."
+              "type": "object",
+              "properties": {
+                "reason": {
+                  "type": "string",
+                  "enum": [
+                    "notAuthor",
+                    "retracted"
+                  ]
+                }
+              },
+              "required": [
+                "reason"
+              ],
+              "additionalProperties": false,
+              "description": "notAuthor: Not the author of the article retracted: the article has been retracted."
             },
             "404": {
               "type": "null",
