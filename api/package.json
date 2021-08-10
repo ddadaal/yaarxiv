@@ -4,7 +4,7 @@
   "description": "",
   "sideEffects": false,
   "scripts": {
-    "api": "ts-node -T ./generateSchemas.ts",
+    "schema": "ts-node -T ./generateSchemas.ts",
     "client": "ts-node -T ./generateClients.ts"
   },
   "author": "",
