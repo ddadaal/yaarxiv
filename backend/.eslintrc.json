@@ -32,12 +32,6 @@
       "error",
       "always-multiline"
     ],
-    // "object-curly-newline": [
-    //   "error",
-    //   {
-    //     "multiline": true
-    //   }
-    // ],
     "object-curly-spacing": [
       "error",
       "always",
