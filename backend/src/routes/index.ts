@@ -22,6 +22,7 @@ import { getArticleFileRoute } from "./article/getFile";
 import { validateEmailRoute } from "@/routes/register/validateEmail";
 import { changeProfileRoute } from "@/routes/dashboard/changeProfile";
 import { getProfileRoute } from "@/routes/dashboard/getProfile";
+import { retractArticleRoute } from "@/routes/article/retract";
 
 export const routes = [
   loginRoute,
@@ -48,5 +49,6 @@ export const routes = [
   changeArticleOwnerSetPublicityRoute,
   changeProfileRoute,
   getProfileRoute,
+  retractArticleRoute,
 ];
 

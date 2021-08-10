@@ -16,6 +16,10 @@ export const getArticleFileRoute = route(
       return { 404: { notFound: "article" } as const };
     }
 
+    if (article.retractTime) {
+      return { 403: null };
+    }
+
     const targetRevision = revision
       ? article.revisions.getItems().find((r) => r.revisionNumber === revision)
       : article.latestRevision.getEntity();

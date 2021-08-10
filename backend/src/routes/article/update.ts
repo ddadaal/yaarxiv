@@ -36,8 +36,12 @@ export const updateArticleRoute = route(
       return { 404: null };
     }
 
+    if (article.retractTime) {
+      return { 403: { reason: "retracted" as const } };
+    }
+
     if (article.owner.id !== req.userId()) {
-      return { 403: null };
+      return { 403: { reason: "notAuthor" as const } };
     }
 
     const time = new Date();

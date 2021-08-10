@@ -55,9 +55,25 @@ it("return 403 if not the owner.", async () => {
     body: payload,
   }, users.normalUser2);
 
-  expectCodeAndJson(resp, 403);
-
+  const { reason } = expectCodeAndJson(resp, 403);
+  expect(reason).toBe("notAuthor");
 });
+
+it("return 403 if retracted.", async () => {
+
+  const article = articles[0];
+  article.retractTime = new Date();
+  await server.orm.em.flush();
+
+  const resp = await callRoute(server, updateArticleRoute, {
+    path: { articleId: article.id },
+    body: payload,
+  }, article.owner.getEntity());
+
+  const { reason } = expectCodeAndJson(resp, 403);
+  expect(reason).toBe("retracted");
+});
+
 it("update an article.", async () => {
 
   const article = articles[1];
@@ -91,7 +107,7 @@ it("update an article.", async () => {
 
 it("rejects bad title and keywords input", async () => {
 
-  const { cnTitle, cnKeywords, ...rest } = payload;
+  const { cnTitle: _, cnKeywords: __, ...rest } = payload;
 
   const test = async (info: ArticleInfoI18nPart) => {
     const resp = await callRoute(server, updateArticleRoute, {

@@ -44,28 +44,12 @@ it("delete the article and all revisions as admin", async () => {
   expect(await em.findOne(User, { id: article.owner.id })).not.toBeNull();
 });
 
-it("delete the article and all revisions as owner", async () => {
-  const article = articles[0];
-
-  const resp = await callRoute(server, deleteArticleRoute, {
-    path: { articleId: article.id },
-  }, users.normalUser1);
-
-  expectCodeAndJson(resp, 204);
-  const em = server.orm.em.fork();
-  expect(await em.getRepository(Article).count()).toBe(1);
-  expect(await em.getRepository(ArticleRevision).count()).toBe(2);
-
-  // Should not delete the user
-  expect(await em.findOne(User, { id: article.owner.id })).not.toBeNull();
-});
-
-it("cannot delete the article and all revisions as neither owner nor admin",  async () => {
+it("cannot delete the article and all revisions as non admin",  async () => {
   const article = articles[1];
 
   const resp = await callRoute(server, deleteArticleRoute, {
     path: { articleId: article.id },
-  }, users.normalUser1);
+  }, users.normalUser2);
 
   expectCodeAndJson(resp, 403);
 
@@ -77,7 +61,7 @@ it("cannot delete the article and all revisions as neither owner nor admin",  as
 it("cannot delete non-existent article",  async () => {
   const resp = await callRoute(server, deleteArticleRoute, {
     path: { articleId: 12124 },
-  }, users.normalUser1);
+  }, users.adminUser);
 
   expectCodeAndJson(resp, 404);
 

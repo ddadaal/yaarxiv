@@ -33,6 +33,7 @@ export const dashboardGetArticlesRoute = route(
             enTitle: rev.enTitle!,
             cnKeywords: rev.cnKeywords!,
             enKeywords: rev.enKeywords!,
+            retractTime: x.retractTime?.toISOString(),
           };
         }),
         totalCount: count,

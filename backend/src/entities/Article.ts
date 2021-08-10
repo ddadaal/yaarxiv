@@ -33,6 +33,9 @@ export class Article {
   @ManyToOne(() => User, { wrappedReference: true, onDelete: "CASCADE" })
   owner: IdentifiedReference<User>;
 
+  @Property({ nullable: true })
+  retractTime?: Date;
+
   // if the logged in user is the owner or an admin,
   // then it can get the article even if the article is not public,
   checkAccessibility(user: User | undefined) {
@@ -51,10 +54,12 @@ export class Article {
     owner: EntityOrRef<User>,
     latestRevision?: EntityOrRef<ArticleRevision>,
     revisions?: EntityOrRef<ArticleRevision>[],
+    retractTime?: Date,
   }) {
     if (init.id) this.id = init.id;
     this.createTime = init.createTime;
     this.lastUpdateTime = init.lastUpdateTime;
+    this.retractTime = init.retractTime;
     if (init.latestRevision) this.latestRevision = toRef(init.latestRevision);
     this.owner = toRef(init.owner);
     if(init.revisions) {

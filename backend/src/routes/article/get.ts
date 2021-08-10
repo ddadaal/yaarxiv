@@ -42,6 +42,7 @@ export const getArticleRoute = route(
             codeLink: targetRevision.codeLink,
             doi: targetRevision.doi,
           },
+          retractTime: article.retractTime?.toISOString(),
           revisions: article.revisions.getItems().map((x) => ({
             time: x.time.toISOString(),
             number: x.revisionNumber,

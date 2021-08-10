@@ -91,6 +91,19 @@ it("returns 404 if revision is not found", async () => {
   expect(json.notFound).toBe("revision");
 });
 
+it("returns 403 if the article is retracted", async () => {
+
+  article.retractTime = new Date();
+  await server.orm.em.flush();
+
+  const resp = await callRoute(server, getArticleFileRoute, {
+    path: { articleId: article.id },
+    query: { revision: 3 },
+  }, users.normalUser1);
+
+  expectCode(resp, 403);
+});
+
 it("returns file if article is not public but the user is either admin or owner", async () => {
 
   article.adminSetPublicity = false;

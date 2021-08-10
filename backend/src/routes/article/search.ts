@@ -80,6 +80,7 @@ export const searchArticleRoute = route(
             codeLink: rev.codeLink,
             doi: rev.doi,
             commentCount: 0,
+            retractTime: x.retractTime?.toISOString(),
           };
         }),
       },
