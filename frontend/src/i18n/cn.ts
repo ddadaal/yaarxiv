@@ -175,7 +175,7 @@ export default {
         fillOrDelete: "请填写此字段，或删除{}",
         oneLanguageRequired: "至少填写一种语言的标题和关键词",
         authors:{
-          field: "作者（带*的为通讯作者）",
+          field: "作者（*：通讯作者）",
           required: "请添加至少一个作者",
           duplicated: "已存在相同的作者",
           add: "添加作者",

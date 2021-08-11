@@ -14,6 +14,7 @@ interface Props extends Omit<AnchorProps, "href" | "as"> {
   as?: string | UrlObject;
   onClick?: () => void;
   target?: string;
+  title?: string;
 }
 
 export const AnchorLink: React.FC<Props> = ({
