@@ -12,8 +12,14 @@ import { toRef } from "@/utils/orm";
 const articleTime = new Date();
 
 const authors: Author[][] = [
-  [{ name: "CJD", affiliation: "NJU" }, { name: "CX", affiliation: "NJU" }, { name: "CST", affiliation: "NJU" }],
-  [{ name: "CJY" }, { name: "CJD", affiliation: "NJU" }],
+  [
+    { name: "CJD", affiliation: "NJU", correspondingAuthor: false },
+    { name: "CX", affiliation: "NJU", correspondingAuthor: true },
+    { name: "CST", affiliation: "NJU", correspondingAuthor: false },
+  ], [
+    { name: "CJY", affiliation: "NJU", correspondingAuthor: false },
+    { name: "CJD", affiliation: "NJU", correspondingAuthor: true },
+  ],
 ];
 
 export const commonKeyword = "commonKeyword";

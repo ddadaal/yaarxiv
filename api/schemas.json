@@ -1493,10 +1493,16 @@
         "affiliation": {
           "type": "string",
           "description": "The affiliation of the author"
+        },
+        "correspondingAuthor": {
+          "type": "boolean",
+          "description": "Is the author corresponding author?"
         }
       },
       "required": [
-        "name"
+        "name",
+        "affiliation",
+        "correspondingAuthor"
       ],
       "additionalProperties": false,
       "description": "The author information."

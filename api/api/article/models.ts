@@ -6,8 +6,10 @@ export type UploadedFileId = number;
 export interface Author {
   /** The name of author. */
   name: string;
+
   /** The affiliation of the author */
-  affiliation?: string;
+  affiliation: string;
+
   /** Is the author corresponding author? */
   correspondingAuthor: boolean;
 }

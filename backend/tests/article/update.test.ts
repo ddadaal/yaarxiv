@@ -29,7 +29,7 @@ const payload: api.UpdateArticleSchema["body"] = {
   abstract: "123",
   cnKeywords: ["k1", "k2"],
   codeLink: "https://github.com/test/test",
-  authors: [{ name: "author" }],
+  authors: [{ name: "author", affiliation: "test", correspondingAuthor: false }],
   cnTitle: "123",
 };
 
