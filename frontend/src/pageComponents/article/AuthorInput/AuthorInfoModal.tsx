@@ -1,7 +1,7 @@
-import { Button, FormField, TextInput } from "grommet";
+import { Button, FormField, TextInput, CheckBox } from "grommet";
 import React, { useState } from "react";
 import { Author } from "yaarxiv-api/api/article/models";
-import { Modal, ModalFooter } from "src/components/modals/Modal";
+import { Modal } from "src/components/modals/Modal";
 import { Localized, prefix } from "src/i18n";
 import { Form } from "src/components/form/Form";
 
@@ -16,6 +16,7 @@ interface Props {
 const defaultValue: Author = {
   name: "",
   affiliation: "",
+  correspondingAuthor: false,
 };
 
 export const AuthorInfoModal: React.FC<Props> = ({
@@ -71,8 +72,10 @@ export const AuthorInfoModal: React.FC<Props> = ({
         >
           <TextInput name="affiliation"/>
         </FormField>
-        <ModalFooter>
-        </ModalFooter>
+        <CheckBox
+          name="correspondingAuthor"
+          label={<Localized id={root("correspondingAuthor")} />}
+        />
       </Form>
     </Modal>
   );

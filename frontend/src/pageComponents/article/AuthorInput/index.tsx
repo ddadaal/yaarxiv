@@ -32,7 +32,7 @@ export const AuthorInput: React.FC<Props> = ({
     <Box
       direction="row"
       align="center"
-      pad={{ horizontal: "xsmall" }}
+      pad={{ vertical: "xsmall" }}
       wrap
     >
       {
@@ -42,7 +42,7 @@ export const AuthorInput: React.FC<Props> = ({
             key={`${v}${index + 0}`}
             onRemove={() => onRemove(v)}
           >
-            {v.name} ({v.affiliation})
+            {v.name} ({v.affiliation}) {v.correspondingAuthor ? "*" : undefined}
           </Tag>
         ))
       }

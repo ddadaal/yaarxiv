@@ -42,7 +42,6 @@ export const DeleteUserLink: React.FC<{
       <Modal
         open={open}
         title={<Localized id={root("title")} />}
-        content={<Localized id={root("content")} args={[username, userId]}/>}
         footer={[
           <Button
             key="confirm"
@@ -59,7 +58,9 @@ export const DeleteUserLink: React.FC<{
           />,
         ]}
         onClose={() => setOpen(false)}
-      />
+      >
+        <Localized id={root("content")} args={[username, userId]}/>
+      </Modal>
     </>
   );
 };

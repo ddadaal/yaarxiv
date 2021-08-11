@@ -43,13 +43,6 @@ export const RetractArticleLink: React.FC<Props> = ({
       <Modal
         open={open}
         title={<Localized id={root("title")} />}
-        content={(
-          <>
-            <Localized id={root("content1")} args={[articleId]}/>
-            <br />
-            <Localized id={root("content2")} />
-          </>
-        )}
         footer={[
           <Button
             key="confirm"
@@ -66,7 +59,11 @@ export const RetractArticleLink: React.FC<Props> = ({
           />,
         ]}
         onClose={() => setOpen(false)}
-      />
+      >
+        <Localized id={root("content1")} args={[articleId]}/>
+        <br />
+        <Localized id={root("content2")} />
+      </Modal>
     </>
   );
 };

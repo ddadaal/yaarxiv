@@ -1,13 +1,19 @@
-import { Box, Text, Button } from "grommet";
+import { Box, Text, Button, BoxProps } from "grommet";
 import { FormClose } from "grommet-icons";
 import React from "react";
 
 interface Props {
   onRemove?: () => void;
   disabled?: boolean;
+  boxProps?: BoxProps;
 }
 
-export const Tag: React.FC<Props> = ({ children, onRemove, disabled = false  }) => {
+export const Tag: React.FC<Props> = ({
+  children,
+  onRemove,
+  disabled = false,
+  boxProps,
+}) => {
   const tag = (
     <Box
       direction="row"
@@ -16,6 +22,7 @@ export const Tag: React.FC<Props> = ({ children, onRemove, disabled = false  }) 
       pad={"xsmall"}
       margin={"xsmall"}
       round="small"
+      {...boxProps}
     >
       <Text size="small" margin={{ right: "xsmall" }}>
         {children}

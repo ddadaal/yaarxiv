@@ -8,6 +8,8 @@ export interface Author {
   name: string;
   /** The affiliation of the author */
   affiliation?: string;
+  /** Is the author corresponding author? */
+  correspondingAuthor: boolean;
 }
 
 export const TITLE_MAX_LENGTH = 100;
