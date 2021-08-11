@@ -1,18 +1,9 @@
-# This Dockerfile is intended to be run at the root dir of whole project,
-# not at the frontend dir,
-# because build needs api project.
+# Install dependencies only when needed
+FROM node:lts-alpine AS builder
+COPY frontend/ /app/frontend
+COPY api/ /app/api
 
-FROM node:lts-alpine
-
-# Copy API project. Don't need build
-COPY api /src/api
-
-# Change WORKDIR
-WORKDIR /src/frontend
-
-# Copy package.json and install all dependencies
-COPY frontend/package.json .
-COPY frontend/package-lock.json .
+WORKDIR /app/frontend
 RUN npm ci
 
 # Build args
@@ -20,9 +11,32 @@ ARG USE_MOCK=0
 
 # Build image
 ENV NEXT_PUBLIC_USE_MOCK=$USE_MOCK
-COPY frontend .
+
 RUN npm run build
 
-# Run with env
+# Remove devDependencies
+RUN npm prune --production
+
+# Production image, copy all the files and run next
+FROM node:lts-alpine AS runner
+WORKDIR /app/frontend
+
+ENV NODE_ENV production
+
+# You only need to copy next.config.js if you are NOT using the default configuration
+COPY --from=builder /app/frontend/next.config.js ./
+COPY --from=builder /app/frontend/public ./public
+COPY --from=builder /app/frontend/.next ./.next
+COPY --from=builder /app/frontend/node_modules ./node_modules
+COPY --from=builder /app/frontend/package.json ./package.json
+COPY --from=builder /app/api/ ../api
+
+
 EXPOSE 3000
-CMD npm run start
+
+# Next.js collects completely anonymous telemetry data about general usage.
+# Learn more here: https://nextjs.org/telemetry
+# Uncomment the following line in case you want to disable telemetry.
+# ENV NEXT_TELEMETRY_DISABLED 1
+
+CMD ["npm", "start"]
