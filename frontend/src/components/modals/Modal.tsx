@@ -31,7 +31,10 @@ export const Modal: React.FC<Props> = ({
 }) => {
   if (open) {
     return (
-      <Layer position="center" onClickOutside={onClose} onEsc={onClose}>
+      <Layer
+        position="center" onClickOutside={onClose} onEsc={onClose}
+        responsive={false}
+      >
         <Box pad="medium" gap="small" width="medium">
           <Heading level={3} margin="none">
             {title}
