@@ -24,7 +24,7 @@ export const ArticleAuthors: React.FC<Props> = ({
               (highlightNames && highlightNames.includes(author.name))
                 ? <Mark>{author.name}</Mark>
                 : author.name
-            }
+            } {author.affiliation ? `(${author.affiliation})` : undefined}
           </AnchorLink>
         </Text>
       ))}

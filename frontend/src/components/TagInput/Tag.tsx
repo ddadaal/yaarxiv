@@ -13,11 +13,11 @@ export const Tag: React.FC<Props> = ({ children, onRemove, disabled = false  }) 
       direction="row"
       align="center"
       background="brand"
-      pad={{ horizontal: "xsmall", vertical: "xxsmall" }}
-      margin={"xxsmall"}
-      round="medium"
+      pad={"xsmall"}
+      margin={"xsmall"}
+      round="small"
     >
-      <Text size="xsmall" margin={{ right: "xxsmall" }}>
+      <Text size="small" margin={{ right: "xsmall" }}>
         {children}
       </Text>
       {onRemove && <FormClose size="small" color="white" />}

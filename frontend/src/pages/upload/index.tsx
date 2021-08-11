@@ -14,10 +14,10 @@ const initialState ={
   enTitle: "",
   enKeywords: [],
   codeLink: "",
-  authors: [] as string[],
+  authors: [],
   abstract: "",
   doi: "",
-};
+} as ArticleForm;
 
 export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() => {
 
@@ -25,7 +25,7 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
 
   const request = useHttpRequest(setSubmitting);
 
-  const submit = async (file: File, { authors, ...rest }: ArticleForm) => {
+  const submit = async (file: File, form: ArticleForm) => {
     request(async () => {
       // 1. upload the PDF and get the token
       const data = new FormData();
@@ -37,8 +37,7 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
       const resp = await api.article.uploadArticle({
         body: {
           pdfToken: pdfResp.token,
-          authors: authors.map((x) => ({ name: x })),
-          ...rest,
+          ...form,
         },
       });
 

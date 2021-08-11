@@ -1,18 +1,30 @@
-import { Layer, Box, Heading, Button, Text } from "grommet";
+import { Layer, Box, Heading } from "grommet";
 import React from "react";
 
 interface Props {
   open?: boolean;
   title?: React.ReactNode;
-  content?: React.ReactNode;
   footer?: React.ReactNode[];
   onClose?: () => void;
 }
 
+export const ModalFooter: React.FC = ({ children }) => (
+  <Box
+    as="footer"
+    gap="small"
+    direction="row"
+    align="center"
+    justify="end"
+    pad={{ top: "medium", bottom: "small" }}
+  >
+    {children}
+  </Box>
+);
+
 export const Modal: React.FC<Props> = ({
   open = false,
   title,
-  content,
+  children,
   footer,
   // eslint-disable-next-line @typescript-eslint/no-empty-function
   onClose = () => {},
@@ -24,19 +36,12 @@ export const Modal: React.FC<Props> = ({
           <Heading level={3} margin="none">
             {title}
           </Heading>
-          <Text>
-            {content}
-          </Text>
-          <Box
-            as="footer"
-            gap="small"
-            direction="row"
-            align="center"
-            justify="end"
-            pad={{ top: "medium", bottom: "small" }}
-          >
-            {footer}
-          </Box>
+          {children}
+          {
+            footer ? (
+              <ModalFooter>{footer}</ModalFooter>
+            ) : undefined
+          }
         </Box>
       </Layer>
     );

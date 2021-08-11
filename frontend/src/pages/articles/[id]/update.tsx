@@ -43,14 +43,11 @@ export const ArticleUpdatePage = ssrPage<Props>(
           pdfToken = fileResp.token;
         }
 
-        const { authors, ...rest } = form;
-
         const resp = await api.article.updateArticle({
           path: { articleId: props.article.id },
           body: {
             pdfToken,
-            authors: authors.map((x) => ({ name: x })),
-            ...rest,
+            ...form,
           },
         });
         await router.push("/articles/[id]", `/articles/${props.article.id}`);
@@ -77,7 +74,7 @@ export const ArticleUpdatePage = ssrPage<Props>(
             enKeywords:  rest.enKeywords,
             enTitle:  rest.enTitle,
             codeLink: rest.codeLink,
-            authors: rest.authors.map((x) => x.name),
+            authors: rest.authors,
             doi: rest.doi,
           }}
           onSubmit={submit}

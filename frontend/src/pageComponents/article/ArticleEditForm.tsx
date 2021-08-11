@@ -14,6 +14,7 @@ import {
 import {
   ArticleId,
   ArticleInfoI18nPart,
+  Author,
   TITLE_MAX_LENGTH,
 } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
@@ -23,11 +24,13 @@ import {
 } from "yaarxiv-api/api/article/uploadScript";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 import { FormFieldMessage } from "src/components/form/FormFieldMessage";
+import { AuthorInput } from "src/pageComponents/article/AuthorInput";
+import { authorEquals } from "src/models/Article";
 
 const root = prefix("pages.upload.");
 
 type ArticleFormInternal = {
-  authors: string[];
+  authors: Author[];
   abstract: string;
   codeLink: string;
   cnTitle: string;
@@ -39,7 +42,7 @@ type ArticleFormInternal = {
 };
 
 export type ArticleForm = {
-  authors: string[];
+  authors: Author[];
   abstract: string;
   codeLink?: string;
   doi?: string;
@@ -257,24 +260,22 @@ export const ArticleEditForm: React.FC<Props> = ({
               />
             </FormField>
             <FormField
-              label={<Localized id={root("info.authors")} args={[50]} />}
+              label={<Localized id={root("info.authors.field")} args={[50]} />}
               name="authors"
+              contentProps={{ border: undefined }}
               validate={(authors: string[]) => {
                 if (authors.length === 0) {
-                  return <FormFieldMessage id={root("info.authorsRequired")} />;
+                  return <FormFieldMessage id={root("info.authors.required")} />;
                 }
               }}
             >
-              <TagInput
-                name="authors"
+              <AuthorInput
                 value={info.authors}
                 disabled={disabled}
                 onAdd={(val) => updateInfo({ authors: info.authors.concat(val) })}
-                onRemove={(val) => setInfo({
-                  ...info,
-                  authors: info.authors.filter((x) => x !== val),
+                onRemove={(val) => updateInfo({
+                  authors: info.authors.filter((x) => !authorEquals(x, val)),
                 })}
-                maxLength={50}
               />
             </FormField>
             <FormField
