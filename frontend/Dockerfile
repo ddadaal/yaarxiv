@@ -17,6 +17,11 @@ RUN npm run build
 # Remove devDependencies
 RUN npm prune --production
 
+# Remove devDependencies in api
+WORKDIR /app/api
+RUN npm prune --production
+
+
 # Production image, copy all the files and run next
 FROM node:lts-alpine AS runner
 WORKDIR /app/frontend
