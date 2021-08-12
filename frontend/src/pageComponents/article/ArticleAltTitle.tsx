@@ -14,9 +14,9 @@ export const ArticleAltTitle: React.FC<Props> = ({
 
   return (
     <Box direction="row">
-      <Text>
+      <Text margin={{ right: "xsmall" }}>
         <Localized id="pages.search.altTitle.label" args={[languageName]} />
-        {": "}
+        :
       </Text>
       <Text weight="bold">
         {altInfo.title}

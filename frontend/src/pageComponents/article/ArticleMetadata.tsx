@@ -17,7 +17,6 @@ export const MetadataItem: React.FC<{
   data: string | React.ReactNode;
 }> = ({ title, Icon, data }) => (
   <Box
-    margin="xsmall"
     title={title}
     direction="row" align="center" gap="xsmall"
   >

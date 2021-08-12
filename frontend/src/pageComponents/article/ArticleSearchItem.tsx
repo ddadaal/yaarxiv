@@ -30,8 +30,8 @@ const Keyword: React.FC<{
   highlight,
 }) => (
   <Box
-    margin="xsmall"
     pad="xsmall"
+    margin={{ right: "xsmall", bottom: "xsmall" }}
     border={{ color: undefined, side: "all", size: "small" }}
     onClick={() => onKeywordClicked(name)}
   >
@@ -95,10 +95,12 @@ export const ArticleSearchItem: React.FC<Props> = ({
         highlightNames={searchAuthors}
         onAuthorClicked={onAuthorClicked}
       />
-      <AbstractBox
-        searchText={searchText}
-        abstract={abstract}
-      />
+      <Box margin={{ vertical: "xsmall" }}>
+        <AbstractBox
+          searchText={searchText}
+          abstract={abstract}
+        />
+      </Box>
       <Box direction="row" wrap>
         {main.keywords.map((k) => (
           <Keyword
