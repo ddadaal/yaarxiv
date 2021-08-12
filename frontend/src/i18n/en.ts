@@ -219,6 +219,9 @@ export default {
         codeLink: "Link to Code",
         doi: "DOI",
       },
+      altTitle: {
+        label: "{}标题",
+      },
     },
     dashboard: {
       articles: {

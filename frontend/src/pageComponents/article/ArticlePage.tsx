@@ -1,16 +1,16 @@
+import { Anchor, Box, Heading, Paragraph, Text } from "grommet";
 import React from "react";
-import { Box, Heading, Text, Paragraph, Anchor } from "grommet";
-import { Article } from "yaarxiv-api/api/article/models";
 import { AnchorLink } from "src/components/AnchorLink";
-import { formatDateTime } from "src/utils/datetime";
-import { TitledSection } from "src/components/TitledSection";
 import { Section } from "src/components/Section";
+import { TitledSection } from "src/components/TitledSection";
+import { Localized, prefix } from "src/i18n";
 import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
-import { Localized, prefix, useI18n } from "src/i18n";
-import { ArticleMetadata } from "./ArticleMetadata";
+import { useLocalizedArticleInfo } from "src/models/Article";
+import { formatDateTime } from "src/utils/datetime";
+import { Article } from "yaarxiv-api/api/article/models";
 import { ArticleAuthors } from "./ArticleAuthors";
+import { ArticleMetadata } from "./ArticleMetadata";
 import { DownloadPdfLink } from "./DownloadPdfLink";
-import { articleInfoMultiLangPartToLangMap } from "src/models/Article";
 
 const root = prefix("pages.article.");
 
@@ -22,22 +22,16 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
 
   const { currentRevision } = article;
 
-  const map = articleInfoMultiLangPartToLangMap(currentRevision);
-
-  const i18n = useI18n();
-
-  const localizedInfo: { title: string; keywords: string[]; } =
-    map[i18n.currentLanguage.id]
-      ?? (map.cn ? map.cn : map.en);
-
+  const { main, alt } = useLocalizedArticleInfo(currentRevision);
 
   return (
     <TwoColumnLayout
       left={(
         <Section>
           <Heading margin="none" level="1" size="small">
-            {localizedInfo.title}
+            {main.title}
           </Heading>
+          {alt?.title}
           <ArticleAuthors authors={currentRevision.authors} />
           <Box>
             <Paragraph fill>
@@ -45,7 +39,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
             </Paragraph>
           </Box>
           <Box wrap direction="row" gap="small">
-            {localizedInfo.keywords.map((k, i) => (
+            {main.keywords.map((k, i) => (
               <Box key={i} border="all"
                 margin={{ horizontal: "none", vertical: "xsmall" }} pad="xsmall"
               >
