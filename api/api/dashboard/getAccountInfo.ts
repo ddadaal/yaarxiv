@@ -25,6 +25,6 @@ export const props: ApiProps = {
 };
 
 export const endpoint = {
-  url: "/dashboard/account",
+  url: "/user/account",
   method: "GET",
 } as Endpoint<GetAccountInfoSchema>;

@@ -47,6 +47,6 @@ export interface LoginSchema {
 }
 
 export const endpoint = {
-  url: "/user/auth",
+  url: "/auth",
   method: "GET" ,
 } as Endpoint<LoginSchema>;

@@ -26,6 +26,6 @@ export const props: ApiProps = {
 };
 
 export const endpoint = {
-  url: "/dashboard/profile/password",
+  url: "/user/password",
   method: "PATCH",
 } as Endpoint<ChangePasswordSchema>;

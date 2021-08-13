@@ -22,6 +22,6 @@ export const props: ApiProps = {
 };
 
 export const endpoint = {
-  url: "/dashboard/account",
+  url: "/user/account",
   method: "PATCH",
 } as Endpoint<ChangeAccountInfoSchema>;

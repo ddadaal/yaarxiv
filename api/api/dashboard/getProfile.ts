@@ -18,6 +18,6 @@ export const props: ApiProps = {
 };
 
 export const endpoint = {
-  url: "/dashboard/profile",
+  url: "/user/profile",
   method: "GET",
 } as Endpoint<GetProfileSchema>;
