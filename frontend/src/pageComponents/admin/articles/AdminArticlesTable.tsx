@@ -10,9 +10,10 @@ import { formatDateTime } from "src/utils/datetime";
 import { UrlObject } from "url";
 import { AdminGetArticlesResult } from "yaarxiv-api/api/admin/getArticles";
 import { DashboardArticleInfo } from "yaarxiv-api/api/dashboard/getArticles";
-import { ArticleId } from "../../../../../api/api/article/models";
+import { ArticleId } from "yaarxiv-api/api/article/models";
 import { RetractArticleLink } from "../../Dashboard/ArticleTable/RetractArticleLink";
 import { ArticleTitleOfLang } from "src/components/ArticleTitleOfLang";
+import { DeleteArticleLink } from "src/pageComponents/admin/articles/DeleteArticleLink";
 
 const root = prefix("pages.admin.articles.");
 
@@ -98,6 +99,10 @@ export const AdminArticleTable: React.FC<Props> = ({
       render: (d) => (
         <Box direction="row" gap="medium">
           <RetractArticleLink
+            articleId={d.id}
+            reload={() => reload(page)}
+          />
+          <DeleteArticleLink
             articleId={d.id}
             reload={() => reload(page)}
           />

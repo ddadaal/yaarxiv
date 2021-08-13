@@ -305,12 +305,12 @@ export default {
         adminSetPublicity: "管理员是否公开",
         actions: "操作",
         delete: {
-          button: "撤回",
-          title: "撤回文章确认",
-          content: "确定要从系统上撤回文章{}？所有版本将会被从系统上删除。",
+          button: "删除",
+          title: "删除文章确认",
+          content: "确定要从系统上删除文章{}？所有版本将会被从系统上删除。",
           confirm: "确认",
           cancel: "取消",
-          success: "撤回文章{}成功！",
+          success: "删除文章{}成功！",
         },
       },
       users: {

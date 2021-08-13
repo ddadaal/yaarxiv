@@ -310,9 +310,9 @@ export default {
         adminSetPublicity: "Publicity by Admin",
         actions: "Actions",
         delete: {
-          button: "Withdraw",
-          title: "Confirm to withdraw the article?",
-          content: "Are you sure to withdraw the article {}? All your revisions will be removed from our platform.",
+          button: "Delete",
+          title: "Confirm to delete the article?",
+          content: "Are you sure to delete the article {}? All your revisions will be removed.",
           confirm: "Confirm",
           cancel: "Cancel",
           success: "Article {} has been removed successfully!",
