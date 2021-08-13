@@ -36,6 +36,7 @@ it("retracts the article as admin", async () => {
   expectCodeAndJson(resp, 204);
 
   await reloadEntity(article);
+  expect(article.retractedBy?.id).toBe(users.adminUser.id);
   expect(article.retractTime).toBeDefined();
 });
 
@@ -51,6 +52,8 @@ it("retracts the article as owner", async () => {
   expectCodeAndJson(resp, 204);
 
   await reloadEntity(article);
+
+  expect(article.retractedBy?.id).toBe(article.owner.id);
   expect(article.retractTime).toBeDefined();
 });
 

@@ -24,7 +24,7 @@ export const retractArticleRoute = route(
       return { 403: { reason: "noAccess" as const } };
     }
 
-    article.retractTime = new Date();
+    article.retract(user, new Date());
 
     await req.em.flush();
 

@@ -33,8 +33,20 @@ export class Article {
   @ManyToOne(() => User, { wrappedReference: true, onDelete: "CASCADE" })
   owner: IdentifiedReference<User>;
 
+  @ManyToOne(() => User, { nullable: true, wrappedReference: true, onDelete: "CASCADE" })
+  retractedBy?: IdentifiedReference<User>;
+
   @Property({ nullable: true })
   retractTime?: Date;
+
+  get isRetracted() {
+    return this.retractTime !== undefined;
+  }
+
+  retract(by: EntityOrRef<User>, time: Date) {
+    this.retractedBy = toRef(by);
+    this.retractTime = time;
+  }
 
   // if the logged in user is the owner or an admin,
   // then it can get the article even if the article is not public,
