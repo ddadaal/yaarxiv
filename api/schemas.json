@@ -1472,6 +1472,77 @@
       ],
       "additionalProperties": false,
       "description": "Validate a email with a token."
+    },
+    "QueryIfSetupSchema": {
+      "type": "object",
+      "properties": {
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "setup": {
+                  "type": "boolean",
+                  "description": "Has the system been setup/"
+                }
+              },
+              "required": [
+                "setup"
+              ],
+              "additionalProperties": false
+            }
+          },
+          "required": [
+            "200"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "responses"
+      ],
+      "additionalProperties": false
+    },
+    "SetupSchema": {
+      "type": "object",
+      "properties": {
+        "body": {
+          "type": "object",
+          "properties": {
+            "admin": {
+              "$ref": "#/definitions/NewAdminInfo"
+            }
+          },
+          "required": [
+            "admin"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "204": {
+              "type": "null"
+            },
+            "409": {
+              "type": "null",
+              "description": "The system has been setup."
+            }
+          },
+          "required": [
+            "204",
+            "409"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "body",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Setup the system."
     }
   },
   "models": {
@@ -2066,6 +2137,25 @@
         "revisionCount"
       ],
       "description": "Get the articles this user is the owner of."
+    },
+    "NewAdminInfo": {
+      "type": "object",
+      "properties": {
+        "password": {
+          "type": "string",
+          "description": "The password for the first admin."
+        },
+        "email": {
+          "type": "string",
+          "description": "The email for the first addmin.",
+          "format": "email"
+        }
+      },
+      "required": [
+        "password",
+        "email"
+      ],
+      "additionalProperties": false
     }
   }
 }

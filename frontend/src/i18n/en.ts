@@ -162,6 +162,15 @@ export default {
   },
 
   pages: {
+    setup: {
+      description: "Fill the email and password of an admin. The email and password can be used to login the system.",
+      email: "Email",
+      password: "Password",
+      submit: "Submit",
+      title: "Initialization",
+      success: "System initialization successful.",
+      conflict: "System has already initialized.",
+    },
     upload: {
       pdf: {
         title: "1. Upload Script",

@@ -157,6 +157,15 @@ export default {
 
   },
   pages: {
+    setup: {
+      description: "请填写一位管理员的邮箱和密码。管理员将可以使用这个信息登录系统。",
+      email: "Email",
+      password: "密码",
+      submit: "提交",
+      title: "初始化",
+      success: "系统初始化成功。",
+      conflict: "系统已经初始化。",
+    },
     upload: {
       pdf: {
         title: "1. 上传手稿",

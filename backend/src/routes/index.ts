@@ -23,6 +23,8 @@ import { validateEmailRoute } from "@/routes/register/validateEmail";
 import { changeProfileRoute } from "@/routes/dashboard/changeProfile";
 import { getProfileRoute } from "@/routes/dashboard/getProfile";
 import { retractArticleRoute } from "@/routes/article/retract";
+import { queryIfSetupRoute } from "@/routes/setup/queryIfSetup";
+import { setupRoute } from "@/routes/setup/setup";
 
 export const routes = [
   loginRoute,
@@ -50,5 +52,7 @@ export const routes = [
   changeProfileRoute,
   getProfileRoute,
   retractArticleRoute,
+  queryIfSetupRoute,
+  setupRoute,
 ];
 

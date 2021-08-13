@@ -26,6 +26,8 @@ import * as userGetArticleInfo from "yaarxiv-api/api/dashboard/getArticles";
 import * as getProfile from "yaarxiv-api/api/dashboard/getProfile";
 import * as register from "yaarxiv-api/api/register/register";
 import * as validateEmail from "yaarxiv-api/api/register/validateEmail";
+import * as queryIfSetup from "yaarxiv-api/api/setup/queryIfSetup";
+import * as setup from "yaarxiv-api/api/setup/setup";
 
 export const realApi = {
   admin: {
@@ -62,5 +64,9 @@ export const realApi = {
   register: {
     register: fromApi(register.endpoint),
     validateEmail: fromApi(validateEmail.endpoint),
+  },
+  setup: {
+    queryIfSetup: fromApi(queryIfSetup.endpoint),
+    setup: fromApi(setup.endpoint),
   },
 };

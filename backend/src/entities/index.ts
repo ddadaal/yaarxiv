@@ -4,6 +4,7 @@ import { UploadedFile } from "./UploadedFile";
 import { User } from "./User";
 import { ResetPasswordToken } from "./ResetPasswordToken";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
+import { Metadata } from "@/entities/Metadata";
 
 export const entities = [
   Article,
@@ -12,4 +13,5 @@ export const entities = [
   User,
   ResetPasswordToken,
   EmailValidationToken,
+  Metadata,
 ];
