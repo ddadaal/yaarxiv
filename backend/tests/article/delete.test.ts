@@ -36,6 +36,18 @@ it("delete the article and all revisions and files as admin", async () => {
   const files = getAllFilesOfArticle(article);
   await Promise.all(files.map((x) => touchFile(x)));
 
+  // create file for another article
+  const another = articles[0];
+  const anotherFile = "another.test.pdf";
+
+  another.revisions.getItems().forEach((rev) => {
+    rev.pdf.getEntity().filename = anotherFile;
+  });
+
+  await server.orm.em.flush();
+  const anotherFilePath = another.revisions[0].pdf.getEntity().filePath;
+  await touchFile(anotherFilePath);
+
   const resp = await callRoute(server, deleteArticleRoute, {
     path: { articleId: article.id },
   }, users.adminUser);
@@ -49,8 +61,11 @@ it("delete the article and all revisions and files as admin", async () => {
   // Should not delete the user
   expect(await em.findOne(User, { id: article.owner.id })).not.toBeNull();
 
-  // should delete all files
+  // should delete all files of the article
   await Promise.all(files.map((x) => expectFile(x, false)));
+
+  // should not delete files of another article
+  await expectFile(anotherFilePath, true);
 
 });
 
