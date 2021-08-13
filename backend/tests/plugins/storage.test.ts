@@ -3,8 +3,7 @@ import { InjectOptions, RouteHandlerMethod } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { mockFileForm } from "tests/article/utils/mockFileForm";
 import { expectCode } from "tests/utils/assertions";
-import { createUploadDir, expectFile, getActualFilePath, removeUploadDir } from "tests/utils/fs";
-import fs from "fs";
+import { createUploadDir, expectFile, removeUploadDir, touchFile } from "tests/utils/fs";
 
 let server: FastifyInstance;
 
@@ -66,8 +65,7 @@ it("removes file", async () => {
   // create the file
   const filePath = "testremove.txt";
 
-  const actualFile = getActualFilePath(filePath);
-  await (await fs.promises.open(actualFile, "w")).close();
+  await touchFile(filePath);
 
   await expectFile(filePath, true);
 

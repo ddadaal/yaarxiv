@@ -10,7 +10,9 @@ export const retractArticleRoute = route(
 
     const user = await req.dbUser();
 
-    const article = await req.em.findOne(Article, { id: articleId });
+    const article = await req.em.findOne(Article, { id: articleId }, {
+      populate: ["revisions.pdf"],
+    });
 
     if (!article) {
       return { 404: null };

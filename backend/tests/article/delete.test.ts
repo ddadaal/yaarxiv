@@ -8,6 +8,8 @@ import { callRoute } from "@/utils/callRoute";
 import { deleteArticleRoute } from "@/routes/article/delete";
 import { User } from "@/entities/User";
 import { expectCodeAndJson } from "tests/utils/assertions";
+import { getAllFilesOfArticle } from "@/services/removeArticleFiles";
+import { expectFile, removeUploadDir, touchFile } from "tests/utils/fs";
 
 let server: FastifyInstance;
 
@@ -22,13 +24,17 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+  await removeUploadDir();
   await server.close();
 });
 
-
-it("delete the article and all revisions as admin", async () => {
+it("delete the article and all revisions and files as admin", async () => {
 
   const article = articles[1];
+
+  // create file
+  const files = getAllFilesOfArticle(article);
+  await Promise.all(files.map((x) => touchFile(x)));
 
   const resp = await callRoute(server, deleteArticleRoute, {
     path: { articleId: article.id },
@@ -42,6 +48,10 @@ it("delete the article and all revisions as admin", async () => {
 
   // Should not delete the user
   expect(await em.findOne(User, { id: article.owner.id })).not.toBeNull();
+
+  // should delete all files
+  await Promise.all(files.map((x) => expectFile(x, false)));
+
 });
 
 it("cannot delete the article and all revisions as non admin",  async () => {

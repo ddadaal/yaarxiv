@@ -64,13 +64,20 @@ export const generateArticle = (id: number, users: MockUsers) => {
 
 export function generatePdf(owner: IdentifiedReference<User>) {
 
-  const pdf = new UploadedFile({ user: owner, filename: "test.pdf" });
+  const filename = "test.pdf";
+
+  const pdf = new UploadedFile({ user: owner, filename });
   pdf.user = owner;
   pdf.filename = "test";
+
   return pdf;
 }
 
-export async function createMockArticles(fastify: FastifyInstance, articleCount: number, users: MockUsers) {
+export async function createMockArticles(
+  fastify: FastifyInstance,
+  articleCount: number,
+  users: MockUsers,
+) {
   // insert pdf
   // const pdfRepo = getRepository(PdfUpload);
   // const pdf = generatePdf();

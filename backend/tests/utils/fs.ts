@@ -24,3 +24,11 @@ export async function removeUploadDir() {
 export async function createUploadDir() {
   await fs.promises.mkdir(config.upload.path, { recursive: true });
 }
+
+export async function touchFile(filePath: string) {
+  const actualPath = getActualFilePath(filePath);
+
+  await fs.promises.mkdir(path.dirname(actualPath), { recursive: true });
+
+  await (await fs.promises.open(getActualFilePath(filePath), "w")).close();
+}
