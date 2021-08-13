@@ -220,7 +220,7 @@ export default {
         doi: "DOI",
       },
       altTitle: {
-        label: "{}标题",
+        label: "{} Title",
       },
     },
     dashboard: {

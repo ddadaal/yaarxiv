@@ -535,12 +535,16 @@
           ],
           "additionalProperties": false
         },
+        "body": {
+          "type": "object",
+          "additionalProperties": false
+        },
         "responses": {
           "type": "object",
           "properties": {
             "204": {
               "type": "null",
-              "description": "The article ihas been retracted"
+              "description": "The article has been retracted"
             },
             "403": {
               "type": "object",
@@ -574,6 +578,7 @@
       },
       "required": [
         "path",
+        "body",
         "responses"
       ],
       "additionalProperties": false,

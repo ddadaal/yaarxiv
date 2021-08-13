@@ -79,6 +79,7 @@ export class ArticleRevision {
     this.category = init.category;
     this.cnKeywords = init.cnKeywords;
     this.cnTitle = init.cnTitle;
+    this.enTitle = init.enTitle;
     this.enKeywords = init.enKeywords;
     this.enKeywords = init.enKeywords;
     this.codeLink = init.codeLink;

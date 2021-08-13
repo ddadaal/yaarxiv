@@ -25,7 +25,7 @@ export const RetractArticleLink: React.FC<Props> = ({
 
   const onOk = async () => {
     request(async () => {
-      await api.article.retractArticle({ path: { articleId } });
+      await api.article.retractArticle({ path: { articleId }, body: {} });
       setOpen(false);
       toast.success(
         <Localized id={root("success")} args={[articleId]} />

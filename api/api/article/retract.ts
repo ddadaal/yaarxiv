@@ -12,8 +12,9 @@ export interface RetractArticleSchema {
     /** The ID of the article to be deleted. */
     articleId: ArticleId;
   },
+  body: {},
   responses: {
-    /** The article ihas been retracted */
+    /** The article has been retracted */
     204: null;
     /** The article is not found. */
     404: null;
@@ -30,7 +31,7 @@ export interface RetractArticleSchema {
 
 export const props: ApiProps = {
   summary: "Retract an article.",
-  requiredRoles: [UserRole.Admin],
+  requiredRoles: [UserRole.Admin, UserRole.User],
 };
 
 export const endpoint = {
