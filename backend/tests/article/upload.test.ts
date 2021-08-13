@@ -9,13 +9,14 @@ import { createMockArticles, generatePdf } from "./utils/generateArticles";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 import { articleInfoI18nConstraintsFailedCases } from "yaarxiv-api/api/article/models";
+import { UploadArticleSchema } from "yaarxiv-api/api/article/upload";
 
 const articleCount = 12;
 
 let server: FastifyInstance;
 let users: MockUsers;
 let pdfId: number;
-let payload;
+let payload: UploadArticleSchema["body"];
 
 beforeEach(async () => {
   server = await createTestServer();
@@ -27,7 +28,7 @@ beforeEach(async () => {
 
   payload = {
     abstract: "123",
-    authors: [{ name: "author" }],
+    authors: [{ name: "author", affiliation: "!23", correspondingAuthor: true }],
     cnKeywords: ["k1", "k2"],
     cnTitle: "123",
     pdfToken: pdfId,
