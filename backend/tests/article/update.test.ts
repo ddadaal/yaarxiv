@@ -107,7 +107,7 @@ it("update an article with pdf", async () => {
   expect(prevLatestRev.latestRevisionOf).toBeUndefined();
 
   // expect the file to be equal
-  expect(prevLatestRev.pdf.id).toBe(latestRevision.pdf.id);
+  expect(prevLatestRev.script.id).toBe(latestRevision.script.id);
 });
 
 it("updates file info", async () => {
@@ -146,9 +146,9 @@ it("updates file info", async () => {
 
   expect(prevLatestRev.latestRevisionOf).toBeUndefined();
 
-  expect(prevLatestRev.pdf.id).not.toBe(latestRevision.pdf.id);
-  expect(latestRevision.pdf.id).toBe(pdf.id);
-  expect(prevLatestRev.pdf.getEntity().filePath).not.toBe(pdf.filePath);
+  expect(prevLatestRev.script.id).not.toBe(latestRevision.script.id);
+  expect(latestRevision.script.id).toBe(pdf.id);
+  expect(prevLatestRev.script.getEntity().filePath).not.toBe(pdf.filePath);
   expect(pdf.filePath).toBe(getPathForArticleFile(article, filename));
   await expectFile(`${user.id}/temp/${filename}`, false);
   await expectFile(getPathForArticleFile(article, filename), true);

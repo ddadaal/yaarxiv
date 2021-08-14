@@ -29,7 +29,7 @@ export const getArticleFileRoute = route(
     }
 
     // load pdf link
-    const path = (await targetRevision.pdf.load()).filePath;
+    const path = (await targetRevision.script.load()).filePath;
 
     return { 200: new SendFileResponse(path) };
   });

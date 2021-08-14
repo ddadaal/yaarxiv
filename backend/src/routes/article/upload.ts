@@ -37,7 +37,7 @@ export const uploadArticleRoute = route(
     });
 
     const rev = new ArticleRevision({
-      pdf: Reference.create(pdf),
+      script: Reference.create(pdf),
       article,
       codeLink,
       revisionNumber: 1,

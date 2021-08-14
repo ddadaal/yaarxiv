@@ -34,7 +34,7 @@ const genRevision = (article: Article, revisionId: number, pdf: UploadedFile) =>
     authors: authors[revisionId % 2],
     abstract: title + " Abstract",
     time: articleTime,
-    pdf,
+    script: pdf,
     category: title + "Category",
     article: article,
   });

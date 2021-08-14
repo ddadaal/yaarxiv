@@ -40,7 +40,7 @@ export class ArticleRevision {
   category: string;
 
   @ManyToOne(() => UploadedFile, { nullable: false, wrappedReference: true })
-  pdf: IdentifiedReference<UploadedFile>;
+  script: IdentifiedReference<UploadedFile>;
 
   @ManyToOne(() => Article, { nullable: false, wrappedReference: true, onDelete: "CASCADE" })
   article: IdentifiedReference<Article>;
@@ -62,7 +62,7 @@ export class ArticleRevision {
     authors: Author[],
     abstract: string,
     category: string,
-    pdf: EntityOrRef<UploadedFile>,
+    script: EntityOrRef<UploadedFile>,
     article: EntityOrRef<Article>,
     codeLink?: string;
     cnTitle?: string;
@@ -83,7 +83,7 @@ export class ArticleRevision {
     this.enKeywords = init.enKeywords;
     this.enKeywords = init.enKeywords;
     this.codeLink = init.codeLink;
-    this.pdf = toRef(init.pdf);
+    this.script = toRef(init.script);
     this.article = toRef(init.article);
     this.doi = init.doi;
   }

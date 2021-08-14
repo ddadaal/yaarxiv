@@ -72,7 +72,7 @@ it("upload an article.", async () => {
 
   const article = await em.findOneOrFail(Article, {
     id,
-  }, { populate: [ "revisions", "latestRevision.pdf" ]});
+  }, { populate: [ "revisions", "latestRevision.script" ]});
 
   const rev = article.latestRevision.getEntity();
   expect(rev.abstract).toBe(payload.abstract);
@@ -81,7 +81,7 @@ it("upload an article.", async () => {
   expect(rev.codeLink).toBe(payload.codeLink);
 
   const scriptFilePath = getPathForArticleFile(article, filename);
-  expect(rev.pdf.getEntity().filePath).toBe(scriptFilePath);
+  expect(rev.script.getEntity().filePath).toBe(scriptFilePath);
 
   await expectFile(`${user.id}/temp/${filename}`, false);
   await expectFile(scriptFilePath, true);

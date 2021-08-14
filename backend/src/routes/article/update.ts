@@ -31,7 +31,7 @@ export const updateArticleRoute = route(
     const article = await articleRepo.findOne({
       id: req.params.articleId,
     }, {
-      populate: ["latestRevision", "latestRevision.pdf"],
+      populate: ["latestRevision.script"],
     });
 
     if (!article) {
@@ -59,7 +59,7 @@ export const updateArticleRoute = route(
     const rev = new ArticleRevision({
       article,
       category: "",
-      pdf: pdf ?? latestRev.pdf,
+      script: pdf ?? latestRev.script,
       revisionNumber: revNumber,
       time: time,
       ...rest,
@@ -73,7 +73,7 @@ export const updateArticleRoute = route(
 
     // move the uploaded file if file is updated
     // move the file to /{user.id}/{article.id}/
-    if (pdf && pdf.id !== latestRev.pdf.id) {
+    if (pdf && pdf.id !== latestRev.script.id) {
       const filename = path.basename(pdf.filePath);
 
       const newPath = getPathForArticleFile(article, filename);

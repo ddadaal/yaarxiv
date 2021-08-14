@@ -36,7 +36,7 @@ beforeEach(async () => {
     const size = pdfSize(i);
 
     const filePath = getPathForArticleFile(article, filename);
-    revisions[i].pdf.getEntity().filePath = filePath;
+    revisions[i].script.getEntity().filePath = filePath;
 
     await createFile(size, filePath);
   }));

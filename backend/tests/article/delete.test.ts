@@ -29,7 +29,7 @@ afterEach(async () => {
 });
 
 function getFilesOfArticle(article: Article) {
-  return article.revisions.getItems().map((x) => x.pdf.getEntity().filePath);
+  return article.revisions.getItems().map((x) => x.script.getEntity().filePath);
 }
 
 it("delete the article and all revisions and files as admin", async () => {
@@ -47,7 +47,7 @@ it("delete the article and all revisions and files as admin", async () => {
 
   await Promise.all(another.revisions.getItems().map(async (rev) => {
     const filePath = getPathForArticleFile(another, anotherFile);
-    rev.pdf.getEntity().filePath = filePath;
+    rev.script.getEntity().filePath = filePath;
     await touchFile(filePath);
   }));
 

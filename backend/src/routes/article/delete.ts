@@ -9,7 +9,7 @@ export const deleteArticleRoute = route(
     const { articleId } = req.params;
 
     const article = await req.em.findOne(Article, { id: articleId }, {
-      populate: ["revisions.pdf"],
+      populate: ["revisions.script"],
     });
 
     if (!article) {

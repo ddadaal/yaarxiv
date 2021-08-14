@@ -15,7 +15,7 @@ export class UploadedFile {
   @Property()
   filePath: string;
 
-  @OneToMany(() => ArticleRevision, (r) => r.pdf)
+  @OneToMany(() => ArticleRevision, (r) => r.script)
   articleRevisions = new Collection<ArticleRevision>(this);
 
   constructor(init: {
