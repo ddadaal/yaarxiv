@@ -10,6 +10,7 @@ export interface Storage {
   saveFile: (path: string, data: NodeJS.ReadableStream) => Promise<void>;
   removeFile: (path: string) => Promise<void>;
   moveFile: (from: string, to: string) => Promise<void>;
+  rmdir: (dir: string) => Promise<void>;
 }
 
 declare module "fastify" {
@@ -66,10 +67,21 @@ export const storagePlugin = fp(async (fastify) => {
     fastify.log.info(`File ${from} has been moved to ${to}.`);
   };
 
+  const rmdir: Storage["rmdir"] = async (path) => {
+    fastify.log.info(`Starting rmdir ${path}.`);
+
+    const toPath = getActualPath(path);
+
+    await fs.promises.rmdir(toPath, { recursive: true });
+
+    fastify.log.info(`Dir ${path} has been removed.`);
+  };
+
   fastify.decorate("storage", {
     saveFile,
     removeFile,
     moveFile,
+    rmdir,
   });
 
 });

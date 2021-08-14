@@ -119,3 +119,24 @@ it("moves file",async () => {
   await expectFile(fromPath, false);
   await expectFile(toPath, true);
 });
+
+
+it("rmdir",async () => {
+
+  // create files
+  const files = ["1/1/test.txt", "1/1/test1.txt", "1/2/test.txt"];
+
+  await Promise.all(files.map((x) => touchFile(x)));
+
+
+  const call = await prepare(async () => {
+    await server.storage.rmdir("1");
+    return {};
+  });
+
+  const resp = await call({});
+
+  expectCode(resp, 200);
+
+  await expectFile("1", false);
+});
