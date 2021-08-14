@@ -4,14 +4,13 @@ import { FastifyInstance } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createFile } from "./utils/mockFileForm";
-import { config } from "@/utils/config";
-import path from "path";
 import { createMockArticles } from "./utils/generateArticles";
 import { Article } from "@/entities/Article";
 import { getArticleFileRoute } from "@/routes/article/getFile";
 import { range } from "@/utils/array";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { removeUploadDir } from "tests/utils/fs";
+import { getPathForArticleFile } from "@/services/articleFiles";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -36,9 +35,10 @@ beforeEach(async () => {
     const filename = pdfFilename(i);
     const size = pdfSize(i);
 
-    revisions[i].pdf.getEntity().filename = filename;
+    const filePath = getPathForArticleFile(article, filename);
+    revisions[i].pdf.getEntity().filePath = filePath;
 
-    await createFile(size, path.join(config.upload.path, article.owner.id + "", filename));
+    await createFile(size, filePath);
   }));
 
   await server.orm.em.flush();

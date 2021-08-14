@@ -4,10 +4,9 @@ import { range } from "@/utils/array";
 import { Author } from "yaarxiv-api/api/article/models";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { MockUsers } from "tests/utils/data";
-import { IdentifiedReference } from "@mikro-orm/core";
-import { User } from "@/entities/User";
 import { FastifyInstance } from "fastify";
 import { toRef } from "@/utils/orm";
+import { getPathForArticleFile } from "@/services/articleFiles";
 
 const articleTime = new Date();
 
@@ -54,7 +53,7 @@ export const generateArticle = (id: number, users: MockUsers) => {
     lastUpdateTime: createTime,
   });
 
-  const revisions = range(1, id+1).map((i) => genRevision(article, i, generatePdf(article.owner)));
+  const revisions = range(1, id+1).map((i) => genRevision(article, i, generatePdf(article)));
 
   article.latestRevision = toRef(revisions[revisions.length-1]);
   article.revisions.add(...revisions);
@@ -62,13 +61,14 @@ export const generateArticle = (id: number, users: MockUsers) => {
   return article;
 };
 
-export function generatePdf(owner: IdentifiedReference<User>) {
+export function generatePdf(article: Article) {
 
   const filename = "test.pdf";
 
-  const pdf = new UploadedFile({ user: owner, filename });
-  pdf.user = owner;
-  pdf.filename = "test";
+  const pdf = new UploadedFile({
+    user: article.owner,
+    filePath: getPathForArticleFile(article, filename),
+  });
 
   return pdf;
 }

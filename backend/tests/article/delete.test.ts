@@ -8,8 +8,8 @@ import { callRoute } from "@/utils/callRoute";
 import { deleteArticleRoute } from "@/routes/article/delete";
 import { User } from "@/entities/User";
 import { expectCodeAndJson } from "tests/utils/assertions";
-import { getAllFilesOfArticle } from "@/services/removeArticleFiles";
 import { expectFile, removeUploadDir, touchFile } from "tests/utils/fs";
+import { getArticleBasePath, getPathForArticleFile } from "@/services/articleFiles";
 
 let server: FastifyInstance;
 
@@ -28,25 +28,30 @@ afterEach(async () => {
   await server.close();
 });
 
+function getFilesOfArticle(article: Article) {
+  return article.revisions.getItems().map((x) => x.pdf.getEntity().filePath);
+}
+
 it("delete the article and all revisions and files as admin", async () => {
 
   const article = articles[1];
 
   // create file
-  const files = getAllFilesOfArticle(article);
+  const files = getFilesOfArticle(article);
   await Promise.all(files.map((x) => touchFile(x)));
 
   // create file for another article
   const another = articles[0];
   const anotherFile = "another.test.pdf";
 
-  another.revisions.getItems().forEach((rev) => {
-    rev.pdf.getEntity().filename = anotherFile;
-  });
+
+  await Promise.all(another.revisions.getItems().map(async (rev) => {
+    const filePath = getPathForArticleFile(another, anotherFile);
+    rev.pdf.getEntity().filePath = filePath;
+    await touchFile(filePath);
+  }));
 
   await server.orm.em.flush();
-  const anotherFilePath = another.revisions[0].pdf.getEntity().filePath;
-  await touchFile(anotherFilePath);
 
   const resp = await callRoute(server, deleteArticleRoute, {
     path: { articleId: article.id },
@@ -65,8 +70,7 @@ it("delete the article and all revisions and files as admin", async () => {
   await Promise.all(files.map((x) => expectFile(x, false)));
 
   // should not delete files of another article
-  await expectFile(anotherFilePath, true);
-
+  await expectFile(getArticleBasePath(another), true);
 });
 
 it("cannot delete the article and all revisions as non admin",  async () => {

@@ -1,6 +1,7 @@
 import fs from "fs";
 import path from "path";
 import FormData from "form-data";
+import { getActualFilePath } from "tests/utils/fs";
 
 export function mockFileForm(size: number, filename: string = "test.pdf") {
   const formData = new FormData();
@@ -13,9 +14,12 @@ export function mockFileForm(size: number, filename: string = "test.pdf") {
 }
 
 export async function createFile(size: number, filePath: string) {
-  await fs.promises.mkdir(path.dirname(filePath), { recursive: true });
+
+  const fullPath = getActualFilePath(filePath);
+
+  await fs.promises.mkdir(path.dirname(fullPath), { recursive: true });
   await fs.promises.writeFile(
-    filePath,
+    fullPath,
     Buffer.alloc(size),
   );
 }

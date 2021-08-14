@@ -7,6 +7,9 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute"; import { updateArticleRoute } from "@/routes/article/update";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { articleInfoI18nConstraintsFailedCases, ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
+import { expectFile, touchFile } from "tests/utils/fs";
+import { UploadedFile } from "@/entities/UploadedFile";
+import { getPathForArticleFile } from "@/services/articleFiles";
 
 const articleCount = 2;
 
@@ -74,7 +77,7 @@ it("return 403 if retracted.", async () => {
   expect(reason).toBe("retracted");
 });
 
-it("update an article.", async () => {
+it("update an article with pdf", async () => {
 
   const article = articles[1];
   const prevLatestRev = article.latestRevision.getEntity();
@@ -102,6 +105,53 @@ it("update an article.", async () => {
   expect(latestRevision.codeLink).toBe(payload.codeLink);
 
   expect(prevLatestRev.latestRevisionOf).toBeUndefined();
+
+  // expect the file to be equal
+  expect(prevLatestRev.pdf.id).toBe(latestRevision.pdf.id);
+});
+
+it("updates file info", async () => {
+
+  // create and upload a file
+  const user = users.normalUser2;
+  const filename = "test2.pdf";
+
+  const pdf = new UploadedFile({ user, filePath: `${user.id}/temp/${filename}` });
+  await server.orm.em.persistAndFlush(pdf);
+
+  await touchFile(pdf.filePath);
+
+  const article = articles[1];
+  const prevLatestRev = article.latestRevision.getEntity();
+
+  const resp = await callRoute(server, updateArticleRoute, {
+    path: { articleId: article.id },
+    body: { ...payload, pdfToken: pdf.id },
+  }, user);
+
+  const json = expectCodeAndJson(resp, 201);
+
+  expect(json.revisionNumber).toBe(3);
+
+  await reloadEntity(prevLatestRev);
+  await reloadEntity(article);
+  await reloadEntity(pdf);
+
+  const latestRevision = await article.latestRevision.load();
+
+  expect(latestRevision.revisionNumber).toBe(3);
+  expect(await article.revisions.loadCount(true)).toBe(3);
+  expect(latestRevision.abstract).toBe(payload.abstract);
+  expect(latestRevision.codeLink).toBe(payload.codeLink);
+
+  expect(prevLatestRev.latestRevisionOf).toBeUndefined();
+
+  expect(prevLatestRev.pdf.id).not.toBe(latestRevision.pdf.id);
+  expect(latestRevision.pdf.id).toBe(pdf.id);
+  expect(prevLatestRev.pdf.getEntity().filePath).not.toBe(pdf.filePath);
+  expect(pdf.filePath).toBe(getPathForArticleFile(article, filename));
+  await expectFile(`${user.id}/temp/${filename}`, false);
+  await expectFile(getPathForArticleFile(article, filename), true);
 
 });
 

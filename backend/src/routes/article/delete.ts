@@ -1,7 +1,7 @@
 import { route } from "@/utils/route";
 import * as api from "yaarxiv-api/api/article/delete";
 import { Article } from "@/entities/Article";
-import { removeArticleFiles } from "@/services/removeArticleFiles";
+import { getArticleBasePath } from "@/services/articleFiles";
 
 export const deleteArticleRoute = route(
   api, "DeleteArticleSchema",
@@ -16,11 +16,10 @@ export const deleteArticleRoute = route(
       return { 404: null };
     }
 
-    const remove = removeArticleFiles(article);
-
     await req.em.removeAndFlush(article);
 
-    await remove(fastify);
+    // delete the /{user.id}/{article.id} folder
+    await fastify.storage.rmdir(getArticleBasePath(article));
 
     return { 204: null };
   },

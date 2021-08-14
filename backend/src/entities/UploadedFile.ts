@@ -13,11 +13,7 @@ export class UploadedFile {
   user: IdentifiedReference<User>;
 
   @Property()
-  filename: string;
-
-  get filePath() {
-    return [this.user.id, this.filename].join("/");
-  }
+  filePath: string;
 
   @OneToMany(() => ArticleRevision, (r) => r.pdf)
   articleRevisions = new Collection<ArticleRevision>(this);
@@ -25,12 +21,12 @@ export class UploadedFile {
   constructor(init: {
     id?: number;
     user: EntityOrRef<User>,
-    filename: string,
+    filePath: string,
   }) {
     if (init.id) {
       this.id = init.id;
     }
     this.user = toRef(init.user);
-    this.filename = init.filename;
+    this.filePath = init.filePath;
   }
 }

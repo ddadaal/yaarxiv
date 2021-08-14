@@ -6,10 +6,12 @@ import * as api from "yaarxiv-api/api/article/update";
 import { validateCodeLink } from "@/utils/validations/codeLink";
 import { validateArticleInfoI18nConstraints } from "@/utils/validations/articleInfo";
 import { validateFileToken } from "@/utils/validations/fileToken";
+import path from "path";
+import { getPathForArticleFile } from "@/services/articleFiles";
 
 export const updateArticleRoute = route(
   api, "UpdateArticleSchema",
-  async (req) => {
+  async (req, fastify) => {
     const { pdfToken, ...rest } = req.body;
 
     validateArticleInfoI18nConstraints(rest);
@@ -53,6 +55,7 @@ export const updateArticleRoute = route(
 
     const revNumber = latestRev.revisionNumber + 1;
 
+
     const rev = new ArticleRevision({
       article,
       category: "",
@@ -64,10 +67,23 @@ export const updateArticleRoute = route(
 
     req.em.persist(rev);
 
-
     rev.latestRevisionOf = rev.article;
 
     await req.em.flush();
+
+    // move the uploaded file if file is updated
+    // move the file to /{user.id}/{article.id}/
+    if (pdf && pdf.id !== latestRev.pdf.id) {
+      const filename = path.basename(pdf.filePath);
+
+      const newPath = getPathForArticleFile(article, filename);
+
+      await fastify.storage.moveFile(pdf.filePath, newPath);
+
+      pdf.filePath = newPath;
+
+      await req.em.flush();
+    }
 
     return { 201: { revisionNumber: revNumber } };
 

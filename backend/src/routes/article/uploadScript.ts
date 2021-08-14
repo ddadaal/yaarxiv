@@ -9,7 +9,8 @@ const ScriptFormatError = createError(
   `Only ${api.ALLOWED_SCRIPT_FORMAT.join(", ")} are allowed`,
   400);
 
-// Save uploaded file to /{userId}/{current date}_{filename}
+// Save uploaded file to /{userId}/temp/{current timestamp}_{filename}
+// The uploaded file will be moved to corresponding folder by routes
 export const uploadScriptRoute = route(
   api, undefined,
   async (req, fastify) => {
@@ -25,20 +26,17 @@ export const uploadScriptRoute = route(
       throw new ScriptFormatError();
     }
 
-    const filename =`${Date.now()}_${data.filename}`;
-
-
     const user = req.dbUserRef();
-
+    const filePath =`${user.id}/temp/${Date.now()}_${data.filename}`;
 
     const pdf = new UploadedFile({
-      user, filename,
+      user, filePath,
     });
 
-    const filePath = pdf.filePath;
     req.log.info(`
       Received file ${data.filename} from ${user.id}. Saving it to ${filePath}.
     `);
+
     await fastify.storage.saveFile(filePath, data.file);
 
     await req.em.persistAndFlush(pdf);

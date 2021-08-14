@@ -42,7 +42,7 @@ it("upload a file to the system.", async () => {
   expect(upload.user.id).toBe(users.normalUser1.id);
 
   // expect file
-  const f = await expectFile(upload.filePath);
+  const f = await expectFile(upload.filePath, true);
   expect(f.size).toBe(fileSize);
 });
 
