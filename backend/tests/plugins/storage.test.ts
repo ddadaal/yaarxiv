@@ -63,7 +63,7 @@ it("saves file", async () => {
 it("removes file", async () => {
 
   // create the file
-  const filePath = "testremove.txt";
+  const filePath = "plugintestremove.txt";
 
   await touchFile(filePath);
 
@@ -124,7 +124,7 @@ it("moves file",async () => {
 it("rmdir",async () => {
 
   // create files
-  const files = ["1/1/test.txt", "1/1/test1.txt", "1/2/test.txt"];
+  const files = ["test1/1/test.txt", "test1/1/test1.txt", "test1/2/test.txt"];
 
   await Promise.all(files.map((x) => touchFile(x)));
 
