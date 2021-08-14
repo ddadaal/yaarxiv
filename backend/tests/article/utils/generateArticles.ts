@@ -68,6 +68,7 @@ export function generatePdf(article: Article) {
   const pdf = new UploadedFile({
     user: article.owner,
     filePath: getPathForArticleFile(article, filename),
+    time: new Date(),
   });
 
   return pdf;

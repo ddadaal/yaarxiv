@@ -18,15 +18,20 @@ export class UploadedFile {
   @OneToMany(() => ArticleRevision, (r) => r.script)
   articleRevisions = new Collection<ArticleRevision>(this);
 
+  @Property()
+  time: Date;
+
   constructor(init: {
     id?: number;
     user: EntityOrRef<User>,
     filePath: string,
+    time: Date,
   }) {
     if (init.id) {
       this.id = init.id;
     }
     this.user = toRef(init.user);
     this.filePath = init.filePath;
+    this.time = init.time;
   }
 }

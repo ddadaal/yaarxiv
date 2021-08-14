@@ -116,7 +116,7 @@ it("updates file info", async () => {
   const user = users.normalUser2;
   const filename = "test2.pdf";
 
-  const pdf = new UploadedFile({ user, filePath: `${user.id}/temp/${filename}` });
+  const pdf = new UploadedFile({ user, filePath: `${user.id}/temp/${filename}`, time: new Date() });
   await server.orm.em.persistAndFlush(pdf);
 
   await touchFile(pdf.filePath);

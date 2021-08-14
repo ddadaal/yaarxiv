@@ -49,7 +49,7 @@ afterEach(async () => {
 });
 
 async function insertPdf() {
-  const pdf = new UploadedFile({ user, filePath: `${user.id}/temp/${filename}` });
+  const pdf = new UploadedFile({ user, filePath: `${user.id}/temp/${filename}`, time: new Date() });
   await server.orm.em.persistAndFlush(pdf);
 
   await touchFile(pdf.filePath);

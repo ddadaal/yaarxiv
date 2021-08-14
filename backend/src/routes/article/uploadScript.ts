@@ -30,7 +30,7 @@ export const uploadScriptRoute = route(
     const filePath =`${user.id}/temp/${Date.now()}_${data.filename}`;
 
     const pdf = new UploadedFile({
-      user, filePath,
+      user, filePath, time: new Date(),
     });
 
     req.log.info(`
