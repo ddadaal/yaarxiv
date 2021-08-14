@@ -1,5 +1,5 @@
 import * as api from "yaarxiv-api/api/admin/deleteUser";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import { User } from "@/entities/User";
 
 export const adminDeleteUserRoute = route(

@@ -12,7 +12,7 @@ import { UploadArticleSchema } from "yaarxiv-api/api/article/upload";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { expectFile, touchFile } from "tests/utils/fs";
 import { User } from "@/entities/User";
-import { getPathForArticleFile } from "@/services/articleFiles";
+import { getPathForArticleFile } from "@/utils/articleFiles";
 
 const articleCount = 12;
 

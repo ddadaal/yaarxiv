@@ -10,7 +10,7 @@ import { getArticleFileRoute } from "@/routes/article/getFile";
 import { range } from "@/utils/array";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { removeUploadDir } from "tests/utils/fs";
-import { getPathForArticleFile } from "@/services/articleFiles";
+import { getPathForArticleFile } from "@/utils/articleFiles";
 
 let server: FastifyInstance;
 let users: MockUsers;

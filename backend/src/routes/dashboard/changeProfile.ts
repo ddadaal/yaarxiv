@@ -1,5 +1,5 @@
 import * as api from "yaarxiv-api/api/dashboard/changeProfile";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 
 export const changeProfileRoute = route(
   api, "ChangeProfileSchema",

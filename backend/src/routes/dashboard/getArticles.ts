@@ -1,7 +1,7 @@
 import * as api from "yaarxiv-api/api/dashboard/getArticles";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
-import { paginationProps } from "@/utils/pagination";
+import { paginationProps } from "@/utils/orm";
 
 export const dashboardGetArticlesRoute = route(
   api, "UserGetArticleInfoSchema",

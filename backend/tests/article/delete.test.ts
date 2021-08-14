@@ -9,7 +9,7 @@ import { deleteArticleRoute } from "@/routes/article/delete";
 import { User } from "@/entities/User";
 import { expectCodeAndJson } from "tests/utils/assertions";
 import { expectFile, removeUploadDir, touchFile } from "tests/utils/fs";
-import { getArticleBasePath, getPathForArticleFile } from "@/services/articleFiles";
+import { getArticleBasePath, getPathForArticleFile } from "@/utils/articleFiles";
 
 let server: FastifyInstance;
 

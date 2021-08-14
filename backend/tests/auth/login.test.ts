@@ -5,11 +5,11 @@ import { callRoute } from "@/utils/callRoute";
 import { loginRoute } from "@/routes/auth/login";
 import { expectCodeAndJson } from "tests/utils/assertions";
 import { User } from "@/entities/User";
-jest.mock("@/services/sendEmailValidation");
-import * as sendEmailValidation from "@/services/sendEmailValidation";
+jest.mock("@/utils/sendEmailValidation");
+import * as sendEmailValidation from "@/utils/sendEmailValidation";
 import { toRef } from "@/utils/orm";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import MockDate from "mockdate";
 
 let server: FastifyInstance;

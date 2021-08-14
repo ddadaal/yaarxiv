@@ -5,7 +5,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
 import { validateEmailRoute } from "@/routes/register/validateEmail";
 import MockDate from "mockdate";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 
 let server: FastifyInstance;
 let user: User;

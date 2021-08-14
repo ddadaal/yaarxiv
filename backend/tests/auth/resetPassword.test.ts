@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { Reference } from "@mikro-orm/core";

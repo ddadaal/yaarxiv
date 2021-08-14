@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify/types/instance";
 import { createTestAccount, TestAccount } from "nodemailer";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";

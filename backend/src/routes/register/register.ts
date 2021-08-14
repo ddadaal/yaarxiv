@@ -1,9 +1,9 @@
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/register/register";
 import { User, UserRole } from "@/entities/User";
 import { UniqueConstraintViolationException } from "@mikro-orm/core";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
-import { sendEmailValidation } from "@/services/sendEmailValidation";
+import { sendEmailValidation } from "@/utils/sendEmailValidation";
 
 export const registerUserRoute = route(
   api, "RegisterSchema",

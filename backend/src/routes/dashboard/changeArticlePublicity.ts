@@ -1,5 +1,5 @@
 import * as api from "yaarxiv-api/api/dashboard/changeArticlePublicity";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
 
 export const changeArticleOwnerSetPublicityRoute = route(

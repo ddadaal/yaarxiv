@@ -3,7 +3,7 @@ import FastifyJwt from "fastify-jwt";
 import { FastifyRequest, FastifyReply, FastifyInstance } from "fastify";
 import { User } from "@/entities/User";
 import createError from "fastify-error";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { UserRole } from "yaarxiv-api/api/auth/login";
 import { IdentifiedReference } from "@mikro-orm/core";
 

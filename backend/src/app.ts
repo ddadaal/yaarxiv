@@ -1,10 +1,10 @@
 import "reflect-metadata";
 import fastify, { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback, FastifyServerOptions } from "fastify";
 import { routes }  from "./routes";
-import { models } from "@/utils/schemas";
+import { models } from "@/core/schemas";
 import { plugins } from "./plugins";
-import { config } from "@/utils/config";
-import { registerRoute } from "./utils/route";
+import { config } from "@/core/config";
+import { registerRoute } from "./core/route";
 import { Options as FJSOptions }  from "fast-json-stringify";
 
 type Plugin = FastifyPluginAsync | FastifyPluginCallback;

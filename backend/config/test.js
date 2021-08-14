@@ -1,6 +1,6 @@
 // @ts-check
 
-/** @type {import("../src/utils/config").ConfigOverride} */
+/** @type {import("../src/core/config").ConfigOverride} */
 const config = {
   orm: {
     type: "mysql",

@@ -1,5 +1,5 @@
 import { FastifyInstance } from "fastify/types/instance";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { genId } from "@/utils/genId";
 import { createTestServer } from "tests/utils/createTestServer";

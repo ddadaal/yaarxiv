@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import fs from "fs";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { dirname, join, resolve } from "path";
 import { pipeline } from "stream";
 import util from "util";

@@ -9,7 +9,7 @@ import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { articleInfoI18nConstraintsFailedCases, ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 import { expectFile, touchFile } from "tests/utils/fs";
 import { UploadedFile } from "@/entities/UploadedFile";
-import { getPathForArticleFile } from "@/services/articleFiles";
+import { getPathForArticleFile } from "@/utils/articleFiles";
 
 const articleCount = 2;
 

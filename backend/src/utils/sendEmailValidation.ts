@@ -1,4 +1,4 @@
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { getUrlFromTemplate } from "@/utils/url";
 import { FastifyInstance } from "fastify";
 

@@ -2,7 +2,7 @@ import fp from "fastify-plugin";
 import fastifyStatic from "fastify-static";
 import path from "path";
 import fs from "fs";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 
 export const staticPlugin = fp(async (fastify) => {
 

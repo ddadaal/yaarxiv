@@ -1,5 +1,5 @@
 import fp from "fastify-plugin";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import fastifySwagger from "fastify-swagger";
 
 export const swaggerPlugin = fp(async (fastify) => {

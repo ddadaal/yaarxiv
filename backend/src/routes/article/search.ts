@@ -1,8 +1,8 @@
 import * as api from "yaarxiv-api/api/article/search";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
 import { QueryOrder } from "@mikro-orm/core";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 
 // Must add async
 export const searchArticleRoute = route(

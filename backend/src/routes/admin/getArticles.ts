@@ -1,8 +1,8 @@
 import * as api from "yaarxiv-api/api/admin/getArticles";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
 import { QueryOrder } from "@mikro-orm/core";
-import { paginationProps } from "@/utils/pagination";
+import { paginationProps } from "@/utils/orm";
 
 export const adminGetArticlesRoute = route(
   api, "AdminGetArticlesSchema",

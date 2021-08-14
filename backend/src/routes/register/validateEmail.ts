@@ -1,4 +1,4 @@
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/register/validateEmail";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
 

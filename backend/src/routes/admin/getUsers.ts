@@ -1,7 +1,7 @@
 import * as api from "yaarxiv-api/api/admin/getUsers";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import { User } from "@/entities/User";
-import { paginationProps } from "@/utils/pagination";
+import { paginationProps } from "@/utils/orm";
 
 export const adminGetUsersRoute = route(
   api, "AdminGetUsersSchema",

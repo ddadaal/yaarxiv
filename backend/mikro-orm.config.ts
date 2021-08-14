@@ -1,4 +1,4 @@
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { entities } from "@/entities";
 
 export default {

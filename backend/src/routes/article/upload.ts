@@ -1,6 +1,6 @@
 import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/article/upload";
 import { validateCodeLink } from "@/utils/validations/codeLink";
 import { Reference } from "@mikro-orm/core";
@@ -8,7 +8,7 @@ import { toRef } from "@/utils/orm";
 import { validateFileToken } from "@/utils/validations/fileToken";
 import { validateArticleInfoI18nConstraints } from "@/utils/validations/articleInfo";
 import path from "path";
-import { getPathForArticleFile } from "@/services/articleFiles";
+import { getPathForArticleFile } from "@/utils/articleFiles";
 
 export const uploadArticleRoute = route(
   api, "UploadArticleSchema",

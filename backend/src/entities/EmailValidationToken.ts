@@ -1,4 +1,4 @@
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { genToken } from "@/utils/genId";
 import { dateColumnType, EntityOrRef, toRef } from "@/utils/orm";
 import { Entity, IdentifiedReference, PrimaryKey, Property } from "@mikro-orm/core";

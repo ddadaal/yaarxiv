@@ -1,7 +1,7 @@
 import fp from "fastify-plugin";
 import { createTransport } from "nodemailer";
 import Mail from "nodemailer/lib/mailer";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { MailOptions } from "nodemailer/lib/json-transport";
 
 declare module "fastify" {

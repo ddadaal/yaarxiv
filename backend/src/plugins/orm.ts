@@ -1,6 +1,6 @@
 import fp from "fastify-plugin";
 import { entities } from "@/entities";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { EntityManager } from "@mikro-orm/mysql";
 import { MikroORM } from "@mikro-orm/core";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";

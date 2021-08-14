@@ -1,6 +1,6 @@
 import { Metadata, MetadataKey } from "@/entities/Metadata";
 import { User, UserRole } from "@/entities/User";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/setup/setup";
 
 export const setupRoute = route(

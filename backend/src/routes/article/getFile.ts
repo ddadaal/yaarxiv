@@ -1,5 +1,5 @@
 import * as api from "yaarxiv-api/api/article/getFile";
-import { route, SendFileResponse } from "@/utils/route";
+import { route, SendFileResponse } from "@/core/route";
 import { Article } from "@/entities/Article";
 
 export const getArticleFileRoute = route(

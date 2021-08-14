@@ -1,9 +1,9 @@
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/auth/requestPasswordReset";
 import { User } from "@/entities/User";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { genId } from "@/utils/genId";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { Reference } from "@mikro-orm/core";
 
 export const requestPasswordResetRoute = route(

@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 import { replacePathArgs } from "yaarxiv-api/api/utils/replacePathArgs";
 import { RequestArgs } from "yaarxiv-api/api/utils/request";
 import { Awaited, GeneralSchema } from "yaarxiv-api/api/utils/schema";
-import { Route } from "@/utils/route";
+import { Route } from "@/core/route";
 
 export async function callRoute<TSchema extends GeneralSchema>(
   server: FastifyInstance,

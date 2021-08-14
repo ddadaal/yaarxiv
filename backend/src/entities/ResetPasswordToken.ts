@@ -1,5 +1,5 @@
 import { PrimaryKey, Property, Entity, OneToOne, IdentifiedReference } from "@mikro-orm/core";
-import { config } from "@/utils/config";
+import { config } from "@/core/config";
 import { User } from "./User";
 import { EntityOrRef, toRef } from "@/utils/orm";
 

@@ -1,5 +1,5 @@
 import * as api from "yaarxiv-api/api/dashboard/changeAccountInfo";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 
 export const changeAccountInfoRoute = route(
   api, "ChangeAccountInfoSchema",

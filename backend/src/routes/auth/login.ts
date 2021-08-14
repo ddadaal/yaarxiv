@@ -1,11 +1,11 @@
 import * as api from "yaarxiv-api/api/auth/login";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import { User } from "@/entities/User";
 import { signUser } from "@/plugins/auth";
 import { toRef } from "@/utils/orm";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
 import { genToken } from "@/utils/genId";
-import { sendEmailValidation } from "@/services/sendEmailValidation";
+import { sendEmailValidation } from "@/utils/sendEmailValidation";
 
 export const loginRoute = route(
   api, "LoginSchema",

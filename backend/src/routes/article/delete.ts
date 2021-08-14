@@ -1,7 +1,7 @@
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/article/delete";
 import { Article } from "@/entities/Article";
-import { getArticleBasePath } from "@/services/articleFiles";
+import { getArticleBasePath } from "@/utils/articleFiles";
 
 export const deleteArticleRoute = route(
   api, "DeleteArticleSchema",

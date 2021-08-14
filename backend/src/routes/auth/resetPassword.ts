@@ -1,4 +1,4 @@
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/auth/resetPassword";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 

@@ -6,7 +6,7 @@ import { UploadedFile } from "@/entities/UploadedFile";
 import { MockUsers } from "tests/utils/data";
 import { FastifyInstance } from "fastify";
 import { toRef } from "@/utils/orm";
-import { getPathForArticleFile } from "@/services/articleFiles";
+import { getPathForArticleFile } from "@/utils/articleFiles";
 
 const articleTime = new Date();
 

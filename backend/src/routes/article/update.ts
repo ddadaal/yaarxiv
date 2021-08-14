@@ -1,13 +1,13 @@
 import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { UploadedFile } from "@/entities/UploadedFile";
-import { route } from "@/utils/route";
+import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/article/update";
 import { validateCodeLink } from "@/utils/validations/codeLink";
 import { validateArticleInfoI18nConstraints } from "@/utils/validations/articleInfo";
 import { validateFileToken } from "@/utils/validations/fileToken";
 import path from "path";
-import { getPathForArticleFile } from "@/services/articleFiles";
+import { getPathForArticleFile } from "@/utils/articleFiles";
 
 export const updateArticleRoute = route(
   api, "UpdateArticleSchema",
