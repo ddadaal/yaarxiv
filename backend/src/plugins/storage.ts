@@ -9,6 +9,7 @@ const pump = util.promisify(pipeline);
 export interface Storage {
   saveFile: (path: string, data: NodeJS.ReadableStream) => Promise<void>;
   removeFile: (path: string) => Promise<void>;
+  moveFile: (from: string, to: string) => Promise<void>;
 }
 
 declare module "fastify" {
@@ -23,7 +24,7 @@ export const storagePlugin = fp(async (fastify) => {
   const uploadPath = resolve(config.upload.path);
 
   // create the root upload path
-  fastify.log.info("Creating root storage path");
+  fastify.log.info(`Creating root storage path ${uploadPath}`);
   await fs.promises.mkdir(uploadPath, { recursive: true });
   fastify.log.info("Root storage path are created.");
 
@@ -53,9 +54,22 @@ export const storagePlugin = fp(async (fastify) => {
     fastify.log.info(`File ${path} has been deleted.`);
   };
 
+  const moveFile: Storage["moveFile"] = async (from, to) => {
+    fastify.log.info(`Starting moving filr from ${from} to ${to}.`);
+
+    const toPath = getActualPath(to);
+
+    await fs.promises.mkdir(dirname(toPath), { recursive: true });
+
+    await fs.promises.rename(getActualPath(from), toPath);
+
+    fastify.log.info(`File ${from} has been moved to ${to}.`);
+  };
+
   fastify.decorate("storage", {
     saveFile,
     removeFile,
+    moveFile,
   });
 
 });

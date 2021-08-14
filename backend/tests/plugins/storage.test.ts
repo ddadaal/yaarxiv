@@ -82,7 +82,6 @@ it("removes file", async () => {
 
 it("causes error when removing file if not exist", async () => {
 
-  // create the file
   const filePath = "test.txt";
 
   await expectFile(filePath, false);
@@ -95,4 +94,28 @@ it("causes error when removing file if not exist", async () => {
   const resp = await call({});
 
   expectCode(resp, 500);
+});
+
+it("moves file",async () => {
+
+  // create the file
+  const fromPath = "test.txt";
+  const toPath = "test/ok.ls";
+
+  await touchFile(fromPath);
+
+  await expectFile(fromPath, true);
+  await expectFile(toPath, false);
+
+  const call = await prepare(async () => {
+    await server.storage.moveFile(fromPath, toPath);
+    return {};
+  });
+
+  const resp = await call({});
+
+  expectCode(resp, 200);
+
+  await expectFile(fromPath, false);
+  await expectFile(toPath, true);
 });
