@@ -3,7 +3,7 @@ services:
 
   nginx:
     image: nginx:stable-alpine
-    container_name: nginx
+    container_name: yaarxiv_nginx
     volumes:
       - ./nginx/nginx.conf:/etc/nginx/conf.d/default.conf
       - ./static:/static/
@@ -12,11 +12,10 @@ services:
     depends_on:
       - frontend
       - backend
-      - grafana
-      - loki
 
   db:
     image: mysql:8
+    container_name: yaarxiv_db
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
@@ -25,7 +24,8 @@ services:
       - 3306:3306
 
   frontend:
-    image: frontend
+    image: yaarxiv/frontend
+    container_name: yaarxiv_frontend
     build:
       context: .
       dockerfile: frontend/Dockerfile
@@ -40,7 +40,8 @@ services:
       - STATIC_FILE_ROOT="/static"
 
   backend:
-    image: backend
+    image: yaarxiv/backend
+    container_name: yaarxiv_backend
     build:
       context: .
       dockerfile: backend/Dockerfile
