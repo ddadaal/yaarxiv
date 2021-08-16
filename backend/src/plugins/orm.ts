@@ -1,7 +1,7 @@
 import fp from "fastify-plugin";
 import { entities } from "@/entities";
 import { config } from "@/core/config";
-import { EntityManager } from "@mikro-orm/mysql";
+import { EntityManager, MySqlDriver } from "@mikro-orm/mysql";
 import { MikroORM } from "@mikro-orm/core";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
 import waitOn from "wait-on";
@@ -19,7 +19,11 @@ declare module "fastify" {
 
 export const ormPlugin = fp(async (fastify) => {
   // create the database if not exists.
-  const { dbName, dropSchema, highlight, connectionTimeout, host, port, runMigrations, synchronize } = config.orm;
+  const { dbName, dropSchema,
+    highlight, connectionTimeout,
+    host, port, runMigrations, synchronize,
+    user, password, debug,
+  } = config.orm;
 
   fastify.log.info("Wait for db connection.");
 
@@ -31,8 +35,14 @@ export const ormPlugin = fp(async (fastify) => {
 
   fastify.log.info("db is started. Connecting to it.");
 
-  const dbConnection = await MikroORM.init({
-    ...config.orm,
+  const dbConnection = await MikroORM.init<MySqlDriver>({
+    host,
+    port,
+    user,
+    password,
+    debug,
+    dbName,
+    type: "mysql",
     highlighter: highlight ? new SqlHighlighter() : undefined,
     logger: (msg) => fastify.log.info(msg),
     entities,

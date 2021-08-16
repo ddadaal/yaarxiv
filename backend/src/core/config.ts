@@ -1,5 +1,3 @@
-import type { Options } from "@mikro-orm/core";
-import type { MySqlDriver } from "@mikro-orm/mysql";
 import config from "config";
 import type { FastifyServerOptions } from "fastify";
 import type SMTPConnection from "nodemailer/lib/smtp-connection";
@@ -12,7 +10,13 @@ export interface Config {
   jwtSecret: string;
   pluginTimeout: number;
   defaultPageSize: number;
-  orm: Options<MySqlDriver> & {
+  orm: {
+    host: string;
+    port: number;
+    user: string;
+    password: string;
+    debug?: boolean;
+    dbName: string;
     runMigrations?: boolean;
     dropSchema?: boolean;
     highlight?: boolean;
