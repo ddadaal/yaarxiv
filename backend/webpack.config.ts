@@ -12,7 +12,7 @@ export default {
   },
   target: "node",
   externals: [
-    nodeExternals({ allowlist: [/yaarxiv\-api.*/]}),
+    nodeExternals({ allowlist: [/yaarxiv\-api.*/]}) as any,
   ],
   module: {
     rules: [

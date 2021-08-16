@@ -50,54 +50,5 @@ See `config/default.js` for default config.
 
 # Deployment
 
-## Build
+For env consistency, we recommend testing production build with docker only.
 
-We use `webpack` to bundle the backend for simpler build and deployment and freedom from building API project separately.
-
-```bash
-# Clone the project (with the api project on the parent)
-
-# Install dependencies
-npm install
-
-# Build
-npm run build
-```
-
-## Built Assets
-
-`dist` contains the following files which should be deployed to the production env.
-
-```
-.
-├── config
-│   ├── default.json
-│   ├── production.json
-├── migrations
-├── ormconfig.js
-├── out
-│   └── bundle.js
-├── package.json
-├── package-lock.json
-└── tsconfig.json
-```
-
-`scripts/copyAssets.ts` will copy the files above to the `dist` folder when building. The configuration files in `config`
-
-## Serve
-
-On the folder with built assets shown above,
-
-```bash
-# Only install production dependencies
-npm ci --only=production
-
-# Copy `config/production.sample.json` to `config/production.json` and change the configs
-# Or use symlink or docker mount to mount a predefined production.json to the config directory
-cp config/production.sample.json config/production.json
-vim config/production.json
-
-# Run!
-npm run serve
-
-```

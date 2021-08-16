@@ -1,6 +1,6 @@
 // @ts-check
 
-/** @type {import("../src/utils/config").Config} */
+/** @type {import("../src/core/config").Config} */
 const config = {
   address: "0.0.0.0",
   pluginTimeout: 30000,

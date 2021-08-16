@@ -6,9 +6,8 @@
   "scripts": {
     "dev": "cross-env NODE_ENV=development nodemon --watch src --watch ../api -e ts,tsx --exec ts-node -r tsconfig-paths/register src/index.ts",
     "lint": "eslint \"src/**/*.{js,ts}\" --quiet --fix",
-    "serve": "cross-env NODE_ENV=production node out/bundle.js",
     "copyAssets": "ts-node scripts/copyAssets.ts",
-    "build": "npm run lint && cross-env NODE_ENV=production webpack && npm run copyAssets",
+    "build": "npm run lint && cross-env NODE_ENV=production webpack",
     "start": "npm run dev",
     "devenv": "docker-compose -f devenv.yml up -d",
     "devenv:stop": "docker-compose -f devenv.yml down",
@@ -24,7 +23,6 @@
     "@mikro-orm/sql-highlighter": "^1.0.1",
     "bcryptjs": "^2.4.3",
     "config": "^3.3.6",
-    "cross-env": "^7.0.3",
     "fastify": "^3.20.1",
     "fastify-cors": "^6.0.2",
     "fastify-error": "^0.3.1",
@@ -73,6 +71,7 @@
     "webpack": "^5.50.0",
     "webpack-cli": "^4.7.2",
     "webpack-node-externals": "^3.0.0",
+    "cross-env": "^7.0.3",
     "yaarxiv-api": "file:../api"
   },
   "mikro-orm": {

@@ -20,18 +20,28 @@ RUN npm ci
 COPY backend .
 RUN npm run build
 
+# Prune non-production dependency
+RUN npm prune --production
+
 # 2. Run
-FROM node:lts-alpine
+FROM node:lts-alpine as runner
 
-# Copy the package.json and run production install
-COPY --from=builder /backend/dist/package.json /dist/
-COPY --from=builder /backend/dist/package-lock.json /dist/
+# Copy the package.json, lock and node_modules
 WORKDIR /dist
-RUN npm ci --only=production
 
-# Copy the rest dist
-COPY --from=builder /backend/dist .
+COPY --from=builder /backend/package.json .
+COPY --from=builder /backend/package-lock.json .
+COPY --from=builder /backend/out/bundle.js index.js
+COPY --from=builder /backend/migrations/ ./migrations
+COPY --from=builder /backend/config/ ./config
+COPY --from=builder /backend/mikro-orm.config.ts ./
+COPY --from=builder /backend/node_modules/ ./node_modules
+
+
+
+# Set NODE_ENV to run command in container
+ENV NODE_ENV production
 
 # Serve
 EXPOSE 5000
-CMD npm run serve
+CMD node index.js

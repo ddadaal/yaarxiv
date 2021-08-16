@@ -78,8 +78,8 @@ docker build . -f backend/Dockerfile \
 # Run the backend at 5000
 # with mappings to production conf and upload folder
 # -it to ctrl+c to kill the container
-docker run -p 5000:3000 -it \
-    -v $PWD/backend/config/production.ts:/dist/config/production.ts \
+docker run -p 5000:5000 -it \
+    -v $PWD/backend/config/production.js:/dist/config/production.js \
     -v $PWD/upload:/dist/upload \
     backend
 

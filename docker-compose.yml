@@ -50,4 +50,4 @@ services:
       - "./backend/distdb:/dist/db"
       - "./backend/distupload:/dist/upload"
     ports:
-      - "5000:3000"
+      - "5000:5000"
