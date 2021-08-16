@@ -27,7 +27,7 @@ export const mailPlugin = fp(async (fastify) => {
         subject: `${subject} - yaarxiv`,
         ...rest,
       }).catch((e) => {
-        fastify.log.error(`Error sending email to $${rest.to}. Error is`);
+        fastify.log.error(`Error sending email to ${rest.to}. Error is`);
         fastify.log.error(e);
 
         const shouldIgnoreError =
