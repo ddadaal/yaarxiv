@@ -5,7 +5,7 @@ import { signUser } from "@/plugins/auth";
 import { toRef } from "@/utils/orm";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
 import { genToken } from "@/utils/genId";
-import { sendEmailValidation } from "@/utils/sendEmailValidation";
+import { sendEmailValidation } from "@/emails/emailValidation";
 
 export const loginRoute = route(
   api, "LoginSchema",
@@ -43,7 +43,7 @@ export const loginRoute = route(
       await req.em.flush();
 
       if (send) {
-        await sendEmailValidation(fastify, user.email, user.emailValidation!.getProperty("token"));
+        sendEmailValidation(fastify, user.email, user.emailValidation!.getProperty("token"));
       }
 
       return { 403: { emailSent: send } };

@@ -3,7 +3,7 @@ import * as api from "yaarxiv-api/api/register/register";
 import { User, UserRole } from "@/entities/User";
 import { UniqueConstraintViolationException } from "@mikro-orm/core";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
-import { sendEmailValidation } from "@/utils/sendEmailValidation";
+import { sendEmailValidation } from "@/emails/emailValidation";
 
 export const registerUserRoute = route(
   api, "RegisterSchema",
@@ -31,7 +31,7 @@ export const registerUserRoute = route(
     }
 
     // send activation email
-    await sendEmailValidation(fastify, req.body.email, validation.token);
+    sendEmailValidation(fastify, req.body.email, validation.token);
 
     return { 201: {} };
   },

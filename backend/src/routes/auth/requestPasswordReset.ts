@@ -3,8 +3,8 @@ import * as api from "yaarxiv-api/api/auth/requestPasswordReset";
 import { User } from "@/entities/User";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
 import { genId } from "@/utils/genId";
-import { config } from "@/core/config";
 import { Reference } from "@mikro-orm/core";
+import { sendResetPassword } from "@/emails/resetPassword";
 
 export const requestPasswordResetRoute = route(
   api, "RequestPasswordResetSchema",
@@ -30,21 +30,8 @@ export const requestPasswordResetRoute = route(
     await req.em.persistAndFlush(token);
 
     // parse the template
-    const template = config.resetPassword.resetPagePathnameTemplate;
-    const url = template.replace("{}", token.id);
 
-    // send the email with token.
-    // most email service requires from to be the same as the login user.
-    await fastify.sendMail({
-      to: email,
-      subject: "Yaarxiv Password Reset",
-      text: `
-          Click the following link to reset your password.
-          This link will be invalid after ${config.resetPassword.tokenValidTimeSeconds / 60} minutes.
-
-          ${url}
-        `,
-    });
+    sendResetPassword(fastify, email, token.id);
 
     return { 201: null };
 

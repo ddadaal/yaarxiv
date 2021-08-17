@@ -6,7 +6,7 @@ import { loginRoute } from "@/routes/auth/login";
 import { expectCodeAndJson } from "tests/utils/assertions";
 import { User } from "@/entities/User";
 jest.mock("@/utils/sendEmailValidation");
-import * as sendEmailValidation from "@/utils/sendEmailValidation";
+import * as sendEmailValidation from "@/emails/emailValidation";
 import { toRef } from "@/utils/orm";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
 import { config } from "@/core/config";
