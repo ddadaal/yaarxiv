@@ -1,5 +1,5 @@
 upload/
 testupload/
-config/production.js
+config/production.json
 dist/
 db/
