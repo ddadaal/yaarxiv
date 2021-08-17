@@ -3,13 +3,14 @@ import * as api from "yaarxiv-api/api/article/uploadScript";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { extname } from "path";
 import createError from "fastify-error";
+import { genId } from "@/utils/genId";
 
 const ScriptFormatError = createError(
   "YAARXIV_SCRIPT_FORMAT_ERROR",
   `Only ${api.ALLOWED_SCRIPT_FORMAT.join(", ")} are allowed`,
   400);
 
-// Save uploaded file to /{userId}/temp/{current timestamp}_{filename}
+// Save uploaded file to /{userId}/temp/{a random id}.{ext}
 // The uploaded file will be moved to corresponding folder by routes
 export const uploadScriptRoute = route(
   api, undefined,
@@ -21,13 +22,14 @@ export const uploadScriptRoute = route(
       },
     });
 
+    const ext = extname(data.filename);
     // extname returns .pdf. substr removes .
-    if (!api.ALLOWED_SCRIPT_FORMAT.includes(extname(data.filename).substr(1))) {
+    if (!api.ALLOWED_SCRIPT_FORMAT.includes(ext.substr(1))) {
       throw new ScriptFormatError();
     }
 
     const user = req.dbUserRef();
-    const filePath =`${user.id}/temp/${Date.now()}_${data.filename}`;
+    const filePath =`${user.id}/temp/${genId()}.${ext}`;
 
     const pdf = new UploadedFile({
       user, filePath, time: new Date(),
