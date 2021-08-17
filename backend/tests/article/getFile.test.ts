@@ -11,6 +11,7 @@ import { range } from "@/utils/array";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { removeUploadDir } from "tests/utils/fs";
 import { getPathForArticleFile } from "@/utils/articleFiles";
+import { SCRIPT_FILE_TYPE_HEADER_KEY } from "yaarxiv-api/api/article/getFile";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -58,6 +59,7 @@ it("returns file of latest revision", async () => {
   expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(pdfSize(1));
   expect(resp.headers["content-type"]).toBe("application/pdf");
+  expect(resp.headers[SCRIPT_FILE_TYPE_HEADER_KEY]).toBe("pdf");
 });
 
 it("returns file of specific revision", async () => {
@@ -69,6 +71,7 @@ it("returns file of specific revision", async () => {
   expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(pdfSize(0));
   expect(resp.headers["content-type"]).toBe("application/pdf");
+  expect(resp.headers[SCRIPT_FILE_TYPE_HEADER_KEY]).toBe("pdf");
 });
 
 it("returns 404 if article is not found", async () => {

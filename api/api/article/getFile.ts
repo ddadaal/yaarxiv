@@ -3,6 +3,12 @@ import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 import { ArticleId } from "./models";
 
+export const SCRIPT_FILE_TYPE_HEADER_KEY = "x-yaarxiv-filetype";
+
+/**
+ * 200 responses has a header x-yaarxiv-filetype
+ * Possble values are ALLOWED_SCRIPT_FORMAT
+ */
 export interface GetArticleFileSchema {
   path: {
     /**

@@ -8,6 +8,7 @@ import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { useLocalizedArticleInfo } from "src/models/Article";
 import { formatDateTime } from "src/utils/datetime";
 import { Article } from "yaarxiv-api/api/article/models";
+import { SCRIPT_FILE_TYPE_HEADER_KEY } from "yaarxiv-api/api/article/getFile";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { DownloadPdfLink } from "./DownloadPdfLink";
@@ -89,7 +90,14 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
           {
             article.retractTime ? undefined : (
               <TitledSection titleId={root("download")}>
-                <DownloadPdfLink articleId={article.id} revision={article.revisionNumber}>
+                <DownloadPdfLink
+                  articleId={article.id}
+                  revision={article.revisionNumber}
+                  filename={(resp) => {
+                    const ext = resp.headers.get(SCRIPT_FILE_TYPE_HEADER_KEY) ?? "pdf";
+                    return `yaarxiv-${article.id}-rev-${article.currentRevision}.${ext}`;
+                  }}
+                >
                   {(downloadLink) => (
                     <Anchor
                       onClick={downloadLink}

@@ -7,7 +7,7 @@ import { ArticleId } from "yaarxiv-api/api/article/models";
 interface Props {
   articleId: ArticleId;
   revision?: number;
-  filename?: string;
+  filename?: string | ((resp: Response) => string);
   children: (onClick: () => void) => ReturnType<React.FC>;
 }
 
@@ -112,7 +112,11 @@ export const DownloadPdfLink: React.FC<Props> = ({
           const anchor = document.createElement("a");
           document.body.appendChild(anchor);
           anchor.href = objectUrl;
-          anchor.download = filename ?? "xx.pdf";
+          anchor.download = filename
+            ? typeof filename === "string"
+              ? filename
+              : filename(e)
+            : "xx.pdf";
           anchor.click();
           window.URL.revokeObjectURL(objectUrl);
         }
