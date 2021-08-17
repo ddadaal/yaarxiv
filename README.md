@@ -35,7 +35,7 @@ More commands can be found in `frontend/README.md` and `backend/README.md`.
 # Deployment
 
 1. Configure db initial password in `.env`
-1. Create and modify `backend/config/production.js` based on `backend/config/production.sample.js`
+1. Create and modify `backend/config/production.json` based on `backend/config/production.sample.json`
 2. `docker-compose up`
 
 Default configs are provided in `docker-compose.yml`. The following can be changed.
