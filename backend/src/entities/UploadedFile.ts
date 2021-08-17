@@ -1,4 +1,4 @@
-import { EntityOrRef, toRef } from "@/utils/orm";
+import { DATETIME_TYPE, EntityOrRef, toRef } from "@/utils/orm";
 import { Entity, Property, OneToMany,
   ManyToOne, PrimaryKey, IdentifiedReference, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
@@ -18,7 +18,7 @@ export class UploadedFile {
   @OneToMany(() => ArticleRevision, (r) => r.script)
   articleRevisions = new Collection<ArticleRevision>(this);
 
-  @Property()
+  @Property({ columnType: DATETIME_TYPE })
   time: Date;
 
   constructor(init: {

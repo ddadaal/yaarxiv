@@ -1,4 +1,4 @@
-import { EntityOrRef, toRef } from "@/utils/orm";
+import { DATETIME_TYPE, EntityOrRef, toRef } from "@/utils/orm";
 import {
   Property, ManyToOne, PrimaryKey,
   Entity, IdentifiedReference, OneToOne } from "@mikro-orm/core";
@@ -15,7 +15,7 @@ export class ArticleRevision {
   @Property()
   revisionNumber: number;
 
-  @Property()
+  @Property({ columnType: DATETIME_TYPE })
   time: Date;
 
   @Property({ type: "json" })

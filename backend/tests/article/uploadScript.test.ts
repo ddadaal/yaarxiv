@@ -8,6 +8,7 @@ import { callRoute } from "@/utils/callRoute";
 import { uploadScriptRoute } from "@/routes/article/uploadScript";
 import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { expectFile, removeUploadDir } from "tests/utils/fs";
+import MockDate from "mockdate";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -20,11 +21,16 @@ beforeEach(async () => {
 
 
 afterEach(async () => {
+  MockDate.reset();
   await server.close();
   await removeUploadDir();
 });
 
 it("upload a file to the system.", async () => {
+
+  const now = new Date();
+
+  MockDate.set(now);
 
   const fileSize = api.SCRIPT_SIZE_LIMIT_MB * 1024 * 1024 - 100;
   const formData = mockFileForm(fileSize);
@@ -44,6 +50,8 @@ it("upload a file to the system.", async () => {
   // expect file
   const f = await expectFile(upload.filePath, true);
   expect(f.size).toBe(fileSize);
+
+  expect(upload.time).toEqual(now);
 });
 
 it("checks for format", async () => {

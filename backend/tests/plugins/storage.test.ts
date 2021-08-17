@@ -44,7 +44,7 @@ it("saves file", async () => {
     return {};
   });
 
-  const filename = "test.pdf";
+  const filename = "testsavefile.pdf";
   const size = 10 * 1024;
   const form = mockFileForm(size, filename);
   const resp = await call({
@@ -63,7 +63,7 @@ it("saves file", async () => {
 it("removes file", async () => {
 
   // create the file
-  const filePath = "plugintestremove.txt";
+  const filePath = "testremovefile.txt";
 
   await touchFile(filePath);
 
@@ -82,7 +82,7 @@ it("removes file", async () => {
 
 it("causes error when removing file if not exist", async () => {
 
-  const filePath = "test.txt";
+  const filePath = "testremovefilenotexist.txt";
 
   await expectFile(filePath, false);
 
@@ -99,8 +99,8 @@ it("causes error when removing file if not exist", async () => {
 it("moves file",async () => {
 
   // create the file
-  const fromPath = "test.txt";
-  const toPath = "test/ok.ls";
+  const fromPath = "testmovefile.txt";
+  const toPath = "test/testmovefiletarget.ls";
 
   await touchFile(fromPath);
 

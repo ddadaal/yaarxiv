@@ -1,6 +1,6 @@
 import { config } from "@/core/config";
 import { genToken } from "@/utils/genId";
-import { dateColumnType, EntityOrRef, toRef } from "@/utils/orm";
+import { DATETIME_TYPE, EntityOrRef, toRef } from "@/utils/orm";
 import { Entity, IdentifiedReference, PrimaryKey, Property } from "@mikro-orm/core";
 import { OneToOne } from "@mikro-orm/core/decorators";
 import { User } from "./User";
@@ -13,10 +13,10 @@ export class EmailValidationToken {
   @Property()
   token: string;
 
-  @Property({ columnType: dateColumnType })
+  @Property({ columnType: DATETIME_TYPE })
   time: Date;
 
-  @Property({ columnType: dateColumnType })
+  @Property({ columnType: DATETIME_TYPE })
   lastSent: Date;
 
   @OneToOne(() => User, (u) => u.emailValidation, { owner: true, wrappedReference: true })

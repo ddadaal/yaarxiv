@@ -10,6 +10,7 @@ import { articleInfoI18nConstraintsFailedCases, ArticleInfoI18nPart } from "yaar
 import { expectFile, touchFile } from "tests/utils/fs";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { getPathForArticleFile } from "@/utils/articleFiles";
+import MockDate from "mockdate";
 
 const articleCount = 2;
 
@@ -25,6 +26,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+  MockDate.reset();
   await server.close();
 });
 
@@ -78,6 +80,9 @@ it("return 403 if retracted.", async () => {
 });
 
 it("update an article with pdf", async () => {
+  const now = new Date();
+  MockDate.set(now);
+
 
   const article = articles[1];
   const prevLatestRev = article.latestRevision.getEntity();
@@ -103,6 +108,7 @@ it("update an article with pdf", async () => {
   expect(await article.revisions.loadCount(true)).toBe(3);
   expect(latestRevision.abstract).toBe(payload.abstract);
   expect(latestRevision.codeLink).toBe(payload.codeLink);
+  expect(article.lastUpdateTime).toEqual(now);
 
   expect(prevLatestRev.latestRevisionOf).toBeUndefined();
 

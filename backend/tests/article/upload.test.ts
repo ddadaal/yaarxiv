@@ -14,6 +14,8 @@ import { expectFile, touchFile } from "tests/utils/fs";
 import { User } from "@/entities/User";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 
+import MockDate from "mockdate";
+
 const articleCount = 12;
 
 let server: FastifyInstance;
@@ -45,6 +47,7 @@ beforeEach(async () => {
 });
 
 afterEach(async () => {
+  MockDate.reset();
   await server.close();
 });
 
@@ -59,6 +62,9 @@ async function insertPdf() {
 
 
 it("upload an article.", async () => {
+
+  const now = new Date();
+  MockDate.set(now);
 
   const resp = await callRoute(server, uploadArticleRoute, {
     body: payload,
@@ -79,12 +85,17 @@ it("upload an article.", async () => {
   expect(rev.cnTitle).toBe(payload.cnTitle);
   expect(rev.cnKeywords).toEqual(payload.cnKeywords);
   expect(rev.codeLink).toBe(payload.codeLink);
+  expect(rev.time).toEqual(now);
+
+  expect(article.createTime).toEqual(now);
+  expect(article.lastUpdateTime).toEqual(now);
 
   const scriptFilePath = getPathForArticleFile(article, filename);
   expect(rev.script.getEntity().filePath).toBe(scriptFilePath);
 
   await expectFile(`${user.id}/temp/${filename}`, false);
   await expectFile(scriptFilePath, true);
+
 });
 
 it("fails if pdf token is invalid.", async () => {

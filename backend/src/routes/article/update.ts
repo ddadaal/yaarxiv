@@ -68,6 +68,7 @@ export const updateArticleRoute = route(
     req.em.persist(rev);
 
     rev.latestRevisionOf = rev.article;
+    article.lastUpdateTime = time;
 
     await req.em.flush();
 

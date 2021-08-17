@@ -1,4 +1,4 @@
-import { EntityOrRef, toRef } from "@/utils/orm";
+import { DATETIME_TYPE, EntityOrRef, toRef } from "@/utils/orm";
 import {
   Entity, Property, OneToMany, ManyToOne,
   PrimaryKey, OneToOne, IdentifiedReference, Collection } from "@mikro-orm/core";
@@ -14,10 +14,10 @@ export class Article {
   @OneToMany(() => ArticleRevision, (r) => r.article)
   revisions = new Collection<ArticleRevision>(this);
 
-  @Property()
+  @Property({ columnType: DATETIME_TYPE })
   createTime: Date;
 
-  @Property()
+  @Property({ columnType: DATETIME_TYPE })
   lastUpdateTime: Date;
 
   @OneToOne(() => ArticleRevision, (r) => r.latestRevisionOf, {
@@ -36,7 +36,7 @@ export class Article {
   @ManyToOne(() => User, { nullable: true, wrappedReference: true, onDelete: "CASCADE" })
   retractedBy?: IdentifiedReference<User>;
 
-  @Property({ nullable: true })
+  @Property({ columnType: DATETIME_TYPE, nullable: true })
   retractTime?: Date;
 
   get isRetracted() {
