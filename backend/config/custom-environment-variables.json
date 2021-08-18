@@ -1,0 +1,5 @@
+{
+  "orm": {
+    "password": "MYSQL_ROOT_PASSWORD"
+  }
+}
