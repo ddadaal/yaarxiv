@@ -5,6 +5,7 @@ import { callRoute } from "@/utils/callRoute";
 import { FastifyInstance } from "fastify";
 import { SetupSchema } from "yaarxiv-api/api/setup/setup";
 import { createTestServer } from "tests/utils/createTestServer";
+import { expectErrorResponse } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 
@@ -25,7 +26,7 @@ const info: SetupSchema["body"] = {
 
 it("sets up the system", async () => {
   const resp = await callRoute(server, setupRoute, { body: info });
-  expect(resp.statusCode).toBe(201);
+  expect(resp.statusCode).toBe(204);
 
   const em = server.orm.em.fork();
 
@@ -44,5 +45,6 @@ it("returns 409 if already setup", async () => {
   await server.orm.em.persistAndFlush(metadata);
 
   const resp = await callRoute(server, setupRoute, { body: info });
-  expect(resp.statusCode).toBe(409);
+
+  expectErrorResponse(resp, 409, "SYSTEM_ALREADY_SETUP");
 });

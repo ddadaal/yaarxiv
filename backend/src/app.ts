@@ -1,11 +1,11 @@
 import "reflect-metadata";
-import fastify, { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback, FastifyServerOptions } from "fastify";
+import fastify, { FastifyInstance, FastifyPluginAsync, FastifyPluginCallback } from "fastify";
 import { routes }  from "./routes";
 import { models } from "@/core/schemas";
 import { plugins } from "./plugins";
 import { config } from "@/core/config";
 import { registerRoute } from "./core/route";
-import { Options as FJSOptions }  from "fast-json-stringify";
+import createError from "fastify-error";
 
 type Plugin = FastifyPluginAsync | FastifyPluginCallback;
 type PluginOverrides = Map<Plugin, Plugin>;
@@ -18,24 +18,22 @@ function applyPlugins(server: FastifyInstance, pluginOverrides?: PluginOverrides
   });
 }
 
+const ValidationError = createError("VALIDATION_ERROR", "Errors occurred when validating %s. Errors are \n%o", 400);
+
 export function buildApp(pluginOverrides?: PluginOverrides) {
 
-  const options: FastifyServerOptions & { serializerOpts: FJSOptions } = {
+  const server = fastify({
     logger: config.logger,
-    serializerOpts: {
-      ajv: {
-        missingRefs: "ignore",
-      },
-    },
     ajv: {
       customOptions: {
         coerceTypes: "array",
       },
     },
+    schemaErrorFormatter: (errors, dataVar) => {
+      return new ValidationError(dataVar, errors);
+    },
     pluginTimeout: config.pluginTimeout,
-  };
-
-  const server = fastify(options);
+  });
 
   server.log.info(`Loaded config: \n${JSON.stringify(config, null, 2)}`);
 

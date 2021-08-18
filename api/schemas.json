@@ -54,20 +54,11 @@
               "description": "Logged in successfully. Returns user info."
             },
             "401": {
-              "type": "null",
+              "$ref": "#/definitions/ErrorResponse%3C%22CREDENTIAL_NOT_VALID%22%3E",
               "description": "Login failed. The username and password are not valid."
             },
             "403": {
-              "type": "object",
-              "properties": {
-                "emailSent": {
-                  "type": "boolean"
-                }
-              },
-              "required": [
-                "emailSent"
-              ],
-              "additionalProperties": false,
+              "$ref": "#/definitions/ErrorResponse%3C(%22USER_NOT_VALIDATED_EMAIL_SENT%22%7C%22USER_NOT_VALIDATED_EMAIL_NOT_SENT%22)%3E",
               "description": "Login success, but the user is not validated.\n\nIf user's validation email has been timeout, and   System sends another validation email to the user Else   System will not send validation email"
             }
           },
@@ -132,19 +123,14 @@
               "additionalProperties": false,
               "description": "The publicity has been successfully changed. Returns the new publicity."
             },
-            "403": {
-              "type": "null",
-              "description": "Only admin can change the admin set publicity of an article."
-            },
             "404": {
-              "type": "null",
+              "$ref": "#/definitions/ArticleNotFoundResponse",
               "description": "The article is not found."
             }
           },
           "required": [
             "200",
-            "404",
-            "403"
+            "404"
           ],
           "additionalProperties": false
         }
@@ -181,7 +167,7 @@
               "description": "The user and all related is deleted."
             },
             "404": {
-              "type": "null",
+              "$ref": "#/definitions/UserNotFoundResponse",
               "description": "The user is not found."
             }
           },
@@ -240,20 +226,10 @@
                 "totalCount"
               ],
               "additionalProperties": false
-            },
-            "401": {
-              "type": "null",
-              "description": "Not login"
-            },
-            "403": {
-              "type": "null",
-              "description": "Not admin."
             }
           },
           "required": [
-            "200",
-            "403",
-            "401"
+            "200"
           ],
           "additionalProperties": false
         }
@@ -305,20 +281,10 @@
                 "totalCount"
               ],
               "additionalProperties": false
-            },
-            "401": {
-              "type": "null",
-              "description": "Not login"
-            },
-            "403": {
-              "type": "null",
-              "description": "Not admin."
             }
           },
           "required": [
-            "200",
-            "403",
-            "401"
+            "200"
           ],
           "additionalProperties": false
         }
@@ -353,19 +319,13 @@
               "type": "null",
               "description": "The article and all is deleted."
             },
-            "403": {
-              "type": "null",
-              "description": "Only admin can delete an article."
-            },
             "404": {
-              "type": "null",
-              "description": "The article is not found."
+              "$ref": "#/definitions/ArticleNotFoundResponse"
             }
           },
           "required": [
             "204",
-            "404",
-            "403"
+            "404"
           ],
           "additionalProperties": false
         }
@@ -421,20 +381,7 @@
               "description": "Returns the latest revision of an article."
             },
             "404": {
-              "type": "object",
-              "properties": {
-                "notFound": {
-                  "type": "string",
-                  "enum": [
-                    "article",
-                    "revision"
-                  ]
-                }
-              },
-              "required": [
-                "notFound"
-              ],
-              "additionalProperties": false,
+              "$ref": "#/definitions/ErrorResponse%3C(%22ARTICLE_NOT_FOUND%22%7C%22REVISION_NOT_FOUND%22)%3E",
               "description": "The article or specified revision is not found."
             }
           },
@@ -484,24 +431,11 @@
           "properties": {
             "200": {},
             "403": {
-              "type": "null",
+              "$ref": "#/definitions/ErrorResponse%3C%22ARTICLE_RETRACTED%22%3E",
               "description": "The article has been retracted"
             },
             "404": {
-              "type": "object",
-              "properties": {
-                "notFound": {
-                  "type": "string",
-                  "enum": [
-                    "article",
-                    "revision"
-                  ]
-                }
-              },
-              "required": [
-                "notFound"
-              ],
-              "additionalProperties": false
+              "$ref": "#/definitions/ErrorResponse%3C(%22ARTICLE_NOT_FOUND%22%7C%22REVISION_NOT_FOUND%22)%3E"
             }
           },
           "required": [
@@ -517,7 +451,8 @@
         "querystring",
         "responses"
       ],
-      "additionalProperties": false
+      "additionalProperties": false,
+      "description": "200 responses has a header x-yaarxiv-filetype Possble values are ALLOWED_SCRIPT_FORMAT"
     },
     "RetractArticleSchema": {
       "type": "object",
@@ -547,24 +482,11 @@
               "description": "The article has been retracted"
             },
             "403": {
-              "type": "object",
-              "properties": {
-                "reason": {
-                  "type": "string",
-                  "enum": [
-                    "retracted",
-                    "noAccess"
-                  ]
-                }
-              },
-              "required": [
-                "reason"
-              ],
-              "additionalProperties": false,
+              "$ref": "#/definitions/ErrorResponse%3C(%22ARTICLE_RETRACTED%22%7C%22NOT_AUTHOR_OR_ADMIN%22)%3E",
               "description": "retracted: the article has already been retracted noAccess: only the author and admin can retract the article"
             },
             "404": {
-              "type": "null",
+              "$ref": "#/definitions/ArticleNotFoundResponse",
               "description": "The article is not found."
             }
           },
@@ -754,35 +676,21 @@
               "additionalProperties": false,
               "description": "The update is successful."
             },
-            "401": {
-              "type": "null",
-              "description": "Not logged in."
+            "400": {
+              "$ref": "#/definitions/ErrorResponse%3C(%22ARTICLEINFO_I18N_CONSTRAINTS%22%7C%22CODE_LINK_INVALID%22%7C%22FILE_TOKEN_INVALID%22)%3E"
             },
             "403": {
-              "type": "object",
-              "properties": {
-                "reason": {
-                  "type": "string",
-                  "enum": [
-                    "notAuthor",
-                    "retracted"
-                  ]
-                }
-              },
-              "required": [
-                "reason"
-              ],
-              "additionalProperties": false,
+              "$ref": "#/definitions/ErrorResponse%3C(%22NOT_AUTHOR%22%7C%22ARTICLE_RETRACTED%22)%3E",
               "description": "notAuthor: Not the author of the article retracted: the article has been retracted."
             },
             "404": {
-              "type": "null",
+              "$ref": "#/definitions/ArticleNotFoundResponse",
               "description": "The article is not found."
             }
           },
           "required": [
             "201",
-            "401",
+            "400",
             "403",
             "404"
           ],
@@ -874,10 +782,14 @@
               ],
               "additionalProperties": false,
               "description": "The upload is successful."
+            },
+            "400": {
+              "$ref": "#/definitions/ErrorResponse%3C(%22ARTICLEINFO_I18N_CONSTRAINTS%22%7C%22CODE_LINK_INVALID%22%7C%22FILE_TOKEN_INVALID%22)%3E"
             }
           },
           "required": [
-            "201"
+            "201",
+            "400"
           ],
           "additionalProperties": false
         }
@@ -921,10 +833,14 @@
               ],
               "additionalProperties": false,
               "description": "The upload is successful."
+            },
+            "400": {
+              "$ref": "#/definitions/ErrorResponse%3C%22SCRIPT_FORMAT_ERROR%22%3E"
             }
           },
           "required": [
-            "201"
+            "201",
+            "400"
           ],
           "additionalProperties": false
         }
@@ -960,8 +876,8 @@
               "description": "Email reset mail has been sent."
             },
             "404": {
-              "type": "null",
-              "description": "Account does not exist."
+              "$ref": "#/definitions/UserNotFoundResponse",
+              "description": "User does not exist."
             }
           },
           "required": [
@@ -1007,13 +923,13 @@
               "description": "Password is reset."
             },
             "403": {
-              "type": "null",
+              "$ref": "#/definitions/ErrorResponse%3C%22TOKEN_NOT_VALID%22%3E",
               "description": "The reset password token is invalid."
             }
           },
           "required": [
-            "403",
-            "201"
+            "201",
+            "403"
           ],
           "additionalProperties": false
         }
@@ -1152,11 +1068,11 @@
               "description": "The publicity has been successfully changed. Returns the new publicity."
             },
             "403": {
-              "type": "null",
+              "$ref": "#/definitions/ErrorResponse%3C%22NOT_OWNER%22%3E",
               "description": "Only the owner can change the owner set publicity of an article."
             },
             "404": {
-              "type": "null",
+              "$ref": "#/definitions/ArticleNotFoundResponse",
               "description": "The article is not found."
             }
           },
@@ -1205,7 +1121,7 @@
               "description": "The password has been changed."
             },
             "403": {
-              "type": "null",
+              "$ref": "#/definitions/ErrorResponse%3C%22BAD_CURRENT_PASSWORD%22%3E",
               "description": "The current password is not correct."
             }
           },
@@ -1339,15 +1255,10 @@
                 "totalCount"
               ],
               "additionalProperties": false
-            },
-            "401": {
-              "type": "null",
-              "description": "The request is not authenticated."
             }
           },
           "required": [
-            "200",
-            "401"
+            "200"
           ],
           "additionalProperties": false
         }
@@ -1412,7 +1323,7 @@
               "description": "Register completed."
             },
             "405": {
-              "type": "null",
+              "$ref": "#/definitions/ErrorResponse%3C%22EMAIL_ALREADY_EXISTS%22%3E",
               "description": "The email already exists."
             }
           },
@@ -1454,8 +1365,7 @@
               "description": "Email has been validated."
             },
             "403": {
-              "type": "object",
-              "additionalProperties": false,
+              "$ref": "#/definitions/ErrorResponse%3C%22TOKEN_NOT_VALID%22%3E",
               "description": "Token is not valid."
             }
           },
@@ -1526,7 +1436,7 @@
               "type": "null"
             },
             "409": {
-              "type": "null",
+              "$ref": "#/definitions/ErrorResponse%3C%22SYSTEM_ALREADY_SETUP%22%3E",
               "description": "The system has been setup."
             }
           },
@@ -1555,6 +1465,43 @@
         "User",
         "Admin"
       ]
+    },
+    "ErrorResponse%3C%22CREDENTIAL_NOT_VALID%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "CREDENTIAL_NOT_VALID"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C(%22USER_NOT_VALIDATED_EMAIL_SENT%22%7C%22USER_NOT_VALIDATED_EMAIL_NOT_SENT%22)%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "USER_NOT_VALIDATED_EMAIL_SENT",
+            "USER_NOT_VALIDATED_EMAIL_NOT_SENT"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
     },
     "UploadedFileId": {
       "type": "number"
@@ -1791,6 +1738,46 @@
       ],
       "additionalProperties": false
     },
+    "ArticleNotFoundResponse": {
+      "$ref": "#/definitions/ErrorResponse%3C%22ARTICLE_NOT_FOUND%22%3E"
+    },
+    "ErrorResponse%3C%22ARTICLE_NOT_FOUND%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "ARTICLE_NOT_FOUND"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "UserNotFoundResponse": {
+      "$ref": "#/definitions/ErrorResponse%3C%22USER_NOT_FOUND%22%3E"
+    },
+    "ErrorResponse%3C%22USER_NOT_FOUND%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "USER_NOT_FOUND"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
     "AdminGetArticlesResult": {
       "type": "object",
       "properties": {
@@ -1892,6 +1879,63 @@
       ],
       "additionalProperties": false
     },
+    "ErrorResponse%3C(%22ARTICLE_NOT_FOUND%22%7C%22REVISION_NOT_FOUND%22)%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "ARTICLE_NOT_FOUND",
+            "REVISION_NOT_FOUND"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C%22ARTICLE_RETRACTED%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "ARTICLE_RETRACTED"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C(%22ARTICLE_RETRACTED%22%7C%22NOT_AUTHOR_OR_ADMIN%22)%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "ARTICLE_RETRACTED",
+            "NOT_AUTHOR_OR_ADMIN"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
     "ArticleSearchResult": {
       "type": "object",
       "additionalProperties": false,
@@ -1971,6 +2015,115 @@
         "lastUpdateTime"
       ],
       "description": "A preview information of the article."
+    },
+    "ErrorResponse%3C(%22ARTICLEINFO_I18N_CONSTRAINTS%22%7C%22CODE_LINK_INVALID%22%7C%22FILE_TOKEN_INVALID%22)%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "ARTICLEINFO_I18N_CONSTRAINTS",
+            "CODE_LINK_INVALID",
+            "FILE_TOKEN_INVALID"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C(%22NOT_AUTHOR%22%7C%22ARTICLE_RETRACTED%22)%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "NOT_AUTHOR",
+            "ARTICLE_RETRACTED"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C%22SCRIPT_FORMAT_ERROR%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "SCRIPT_FORMAT_ERROR"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C%22TOKEN_NOT_VALID%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "TOKEN_NOT_VALID"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C%22NOT_OWNER%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "NOT_OWNER"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C%22BAD_CURRENT_PASSWORD%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "BAD_CURRENT_PASSWORD"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
     },
     "Profile": {
       "type": "object",
@@ -2138,6 +2291,23 @@
       ],
       "description": "Get the articles this user is the owner of."
     },
+    "ErrorResponse%3C%22EMAIL_ALREADY_EXISTS%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "EMAIL_ALREADY_EXISTS"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
     "NewAdminInfo": {
       "type": "object",
       "properties": {
@@ -2156,6 +2326,23 @@
         "email"
       ],
       "additionalProperties": false
+    },
+    "ErrorResponse%3C%22SYSTEM_ALREADY_SETUP%22%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "const": "SYSTEM_ALREADY_SETUP"
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
     }
   }
 }

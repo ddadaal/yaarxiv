@@ -6,7 +6,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadScriptRoute } from "@/routes/article/uploadScript";
-import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { expectFile, removeUploadDir } from "tests/utils/fs";
 import MockDate from "mockdate";
 
@@ -67,8 +67,7 @@ it("checks for format", async () => {
     if (success) {
       expectCode(resp, 201, filename);
     } else {
-      const json = expectCodeAndJson(resp, 400, filename) as any;
-      expect(json.code).toBe("YAARXIV_SCRIPT_FORMAT_ERROR");
+      expectErrorResponse(resp, 400, "SCRIPT_FORMAT_ERROR");
     }
   };
 

@@ -11,10 +11,10 @@ export async function createTestServer(build?: (server: FastifyInstance) => void
 
   // update the config to `yaarxiv_test_${env.JEST_WORKER_ID}`
   config.orm.dbName = `yaarxiv_test_${process.env.JEST_WORKER_ID}`;
+  config.upload.path = `testupload/${process.env.JEST_WORKER_ID}`;
 
   const server = buildApp(pluginOverrides);
 
-  // fails the process if there is error
   server.setErrorHandler((e, req, rep) => {
     // attach the stacktrace
     e.message = JSON.stringify({

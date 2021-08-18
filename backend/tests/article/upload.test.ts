@@ -5,7 +5,7 @@ import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadArticleRoute } from "@/routes/article/upload";
 import { createMockArticles } from "./utils/generateArticles";
-import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 import { articleInfoI18nConstraintsFailedCases } from "yaarxiv-api/api/article/models";
 import { UploadArticleSchema } from "yaarxiv-api/api/article/upload";
@@ -98,12 +98,12 @@ it("upload an article.", async () => {
 
 });
 
-it("fails if pdf token is invalid.", async () => {
+it("fails if file token is invalid.", async () => {
   const resp = await callRoute(server, uploadArticleRoute, {
     body: { ...payload, pdfToken: 12312431451 },
   }, user);
 
-  expectCodeAndJson(resp, 400);
+  expectErrorResponse(resp, 400, "FILE_TOKEN_INVALID");
 });
 
 it("fails if the title is too long", async () => {
@@ -119,7 +119,7 @@ it("fails if code link is bad", async () => {
     body: { ...payload, codeLink: "https://github.com/ddadaal" },
   }, user);
 
-  expectCodeAndJson(resp, 400);
+  expectErrorResponse(resp, 400, "CODE_LINK_INVALID");
 });
 
 it("rejects bad title and keywords input", async () => {
@@ -131,7 +131,7 @@ it("rejects bad title and keywords input", async () => {
       body: { ...rest, ...info },
     }, user);
 
-    expectCode(resp, 400, JSON.stringify(info));
+    expectErrorResponse(resp, 400, "ARTICLEINFO_I18N_CONSTRAINTS", JSON.stringify(info));
   };
 
   await Promise.all(articleInfoI18nConstraintsFailedCases.map(test));

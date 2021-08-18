@@ -16,7 +16,7 @@ export const uploadArticleRoute = route(
     const { pdfToken, codeLink, ...rest } = req.body;
 
     if (!validateArticleInfoI18nConstraints(rest)) {
-      return { "400": { code: "ARTICLEINFO_I18N_CONSTRAINTS" } } as const;
+      return { 400: { code: "ARTICLEINFO_I18N_CONSTRAINTS" } } as const;
     }
 
     if (codeLink && !getCodeLinkInfo(codeLink)) {
@@ -26,7 +26,7 @@ export const uploadArticleRoute = route(
     const pdf = await validateFileToken(req.em, pdfToken);
 
     if (!pdf) {
-      return { "400": { code: "FILE_TOKEN_INVALID" } } as const;
+      return { 400: { code: "FILE_TOKEN_INVALID" } } as const;
     }
 
     const user = req.dbUserRef();
