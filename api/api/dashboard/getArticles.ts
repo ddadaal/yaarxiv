@@ -56,8 +56,6 @@ export interface UserGetArticleInfoSchema {
        */
       totalCount: number;
     },
-    /** The request is not authenticated. */
-    401: null;
   }
 }
 

@@ -1,5 +1,6 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
+import { ArticleNotFoundResponse, ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { ArticleId } from "./models";
 
@@ -16,16 +17,15 @@ export interface RetractArticleSchema {
   responses: {
     /** The article has been retracted */
     204: null;
+
     /** The article is not found. */
-    404: null;
+    404: ArticleNotFoundResponse;
 
     /**
      * retracted: the article has already been retracted
      * noAccess: only the author and admin can retract the article
      */
-    403: {
-      reason: "retracted" | "noAccess";
-    };
+    403: ErrorResponse<"ARTICLE_RETRACTED" | "NOT_AUTHOR_OR_ADMIN">;
   }
 }
 

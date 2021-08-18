@@ -8,15 +8,13 @@ export const adminDeleteUserRoute = route(
 
     const { userId } = req.params;
 
-    const repo = req.em.getRepository(User);
-
-    const user = await repo.findOne({ id: userId });
+    const user = await req.em.findOne(User, { id: userId });
 
     if (!user) {
-      return { 404: null };
+      return { "404": { code: "USER_NOT_FOUND" } } as const;
     }
 
-    await repo.removeAndFlush(user);
+    await req.em.removeAndFlush(user);
 
-    return { 204 : null };
+    return { 204: null };
   });

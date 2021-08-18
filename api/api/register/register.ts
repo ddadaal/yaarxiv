@@ -1,4 +1,5 @@
 import { ApiProps } from "../utils/apiProps";
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 
 /** Register */
@@ -17,7 +18,7 @@ export interface RegisterSchema {
     /** Register completed. */
     201: {},
     /** The email already exists. */
-    405: null;
+    405: ErrorResponse<"EMAIL_ALREADY_EXISTS">;
   }
 }
 

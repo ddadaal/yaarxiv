@@ -1,3 +1,4 @@
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { UserId } from "./models";
 
@@ -29,7 +30,7 @@ export interface LoginSchema {
       userId: UserId;
     },
     /** Login failed. The username and password are not valid. */
-    401: null;
+    401: ErrorResponse<"CREDENTIAL_NOT_VALID">;
 
     /**
      * Login success, but the user is not validated.
@@ -40,9 +41,7 @@ export interface LoginSchema {
      *   System will not send validation email
      *
     */
-    403: {
-      emailSent: boolean;
-    };
+    403: ErrorResponse<"USER_NOT_VALIDATED_EMAIL_SENT" | "USER_NOT_VALIDATED_EMAIL_NOT_SENT">;
   }
 }
 

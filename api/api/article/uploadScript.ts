@@ -1,5 +1,6 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { UploadedFileId } from "./models";
 
@@ -29,6 +30,8 @@ export interface UploadScriptSchema {
        */
       token: UploadedFileId;
     };
+
+    400: ErrorResponse<"SCRIPT_FORMAT_ERROR">;
   }
 }
 

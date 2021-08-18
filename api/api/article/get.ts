@@ -1,3 +1,4 @@
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { Article, ArticleId } from "./models";
 
@@ -22,9 +23,7 @@ export interface GetArticleSchema {
       article: Article;
     },
     /** The article or specified revision is not found. */
-    404: {
-      notFound: "article" | "revision";
-    }
+    404: ErrorResponse<"ARTICLE_NOT_FOUND" | "REVISION_NOT_FOUND">;
   }
 }
 

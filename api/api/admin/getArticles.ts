@@ -67,10 +67,6 @@ export interface AdminGetArticlesSchema {
        */
       totalCount: number;
     },
-    /** Not admin. */
-    403: null;
-    /** Not login */
-    401: null;
   }
 }
 

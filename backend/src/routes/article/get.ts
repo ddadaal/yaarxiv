@@ -13,7 +13,7 @@ export const getArticleRoute = route(
     });
 
     if (!article || !article.checkAccessibility(await req.tryGetUser())) {
-      return { 404: { notFound: "article" } as const };
+      return { "404": { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 
     const targetRevision = revision
@@ -21,7 +21,7 @@ export const getArticleRoute = route(
       : article.latestRevision.getEntity();
 
     if (!targetRevision) {
-      return { 404: { notFound: "revision" } as const };
+      return { "404": { code: "REVISION_NOT_FOUND" } } as const;
     }
 
     await req.em.populate(targetRevision, ["script"]);

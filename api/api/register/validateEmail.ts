@@ -1,4 +1,5 @@
 import { ApiProps } from "../utils/apiProps";
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 
 /** Validate a email with a token. */
@@ -10,7 +11,7 @@ export interface ValidateEmailSchema {
     /** Email has been validated. */
     201: {};
     /** Token is not valid. */
-    403: {};
+    403: ErrorResponse<"TOKEN_NOT_VALID">;
   }
 }
 

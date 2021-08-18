@@ -14,11 +14,11 @@ export const getArticleFileRoute = route(
     });
 
     if (!article || !article.checkAccessibility(await req.tryGetUser())) {
-      return { 404: { notFound: "article" } as const };
+      return { "404": { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 
     if (article.retractTime) {
-      return { 403: null };
+      return { "403": { code: "ARTICLE_RETRACTED" } } as const;
     }
 
     const targetRevision = revision
@@ -26,7 +26,7 @@ export const getArticleFileRoute = route(
       : article.latestRevision.getEntity();
 
     if (!targetRevision) {
-      return { 404: { notFound: "revision" } as const };
+      return { "404": { code: "REVISION_NOT_FOUND" } } as const;
     }
 
     // load pdf link

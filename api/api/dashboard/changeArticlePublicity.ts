@@ -2,6 +2,7 @@ import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 import { ArticleId } from "../article/models";
+import { ArticleNotFoundResponse, ErrorResponse } from "../utils/error";
 
 /** Change the owner set publicity of an article. */
 export interface ChangeArticleOwnerSetPublicitySchema {
@@ -22,10 +23,12 @@ export interface ChangeArticleOwnerSetPublicitySchema {
       /** The new publicity. */
       publicity: boolean;
     };
+
     /** The article is not found. */
-    404: null;
+    404: ArticleNotFoundResponse;
+
     /** Only the owner can change the owner set publicity of an article. */
-    403: null;
+    403: ErrorResponse<"NOT_OWNER">;
   }
 }
 

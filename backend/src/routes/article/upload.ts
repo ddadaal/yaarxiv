@@ -2,29 +2,32 @@ import { Article } from "@/entities/Article";
 import { ArticleRevision } from "@/entities/ArticleRevision";
 import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/article/upload";
-import { validateCodeLink } from "@/utils/validations/codeLink";
 import { Reference } from "@mikro-orm/core";
 import { toRef } from "@/utils/orm";
 import { validateFileToken } from "@/utils/validations/fileToken";
-import { validateArticleInfoI18nConstraints } from "@/utils/validations/articleInfo";
+import { validateArticleInfoI18nConstraints } from "yaarxiv-api/api/article/models";
 import path from "path";
 import { getPathForArticleFile } from "@/utils/articleFiles";
+import { getCodeLinkInfo } from "yaarxiv-api/api/utils/codeLink";
 
 export const uploadArticleRoute = route(
   api, "UploadArticleSchema",
   async (req, fastify) => {
     const { pdfToken, codeLink, ...rest } = req.body;
 
-    validateArticleInfoI18nConstraints(rest);
+    if (!validateArticleInfoI18nConstraints(rest)) {
+      return { "400": { code: "ARTICLEINFO_I18N_CONSTRAINTS" } } as const;
+    }
 
-    if (codeLink) {
-      validateCodeLink(req.body.codeLink);
+    if (codeLink && !getCodeLinkInfo(codeLink)) {
+      return { 400: { code: "CODE_LINK_INVALID" } } as const;
     }
 
     const pdf = await validateFileToken(req.em, pdfToken);
 
-    // validate the repo link
-
+    if (!pdf) {
+      return { "400": { code: "FILE_TOKEN_INVALID" } } as const;
+    }
 
     const user = req.dbUserRef();
 

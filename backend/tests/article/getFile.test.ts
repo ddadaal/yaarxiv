@@ -8,7 +8,7 @@ import { createMockArticles } from "./utils/generateArticles";
 import { Article } from "@/entities/Article";
 import { getArticleFileRoute } from "@/routes/article/getFile";
 import { range } from "@/utils/array";
-import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectErrorResponse } from "tests/utils/assertions";
 import { removeUploadDir } from "tests/utils/fs";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 import { SCRIPT_FILE_TYPE_HEADER_KEY } from "yaarxiv-api/api/article/getFile";
@@ -80,8 +80,7 @@ it("returns 404 if article is not found", async () => {
     query: {},
   }, users.normalUser1);
 
-  const json = expectCodeAndJson(resp, 404);
-  expect(json.notFound).toBe("article");
+  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
 });
 
 it("returns 404 if revision is not found", async () => {
@@ -90,8 +89,7 @@ it("returns 404 if revision is not found", async () => {
     query: { revision: 3 },
   }, users.normalUser1);
 
-  const json = expectCodeAndJson(resp, 404);
-  expect(json.notFound).toBe("revision");
+  expectErrorResponse(resp, 404, "REVISION_NOT_FOUND");
 });
 
 it("returns 403 if the article is retracted", async () => {
@@ -136,9 +134,7 @@ it("returns 404 if article is not public and the user is neither admin nor owner
     query: {},
   }, users.normalUser1);
 
-  const json = expectCodeAndJson(resp, 404);
-  expect(json.notFound).toBe("article");
-
+  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
 });
 
 // it("cannot download file from static folder", async () => {

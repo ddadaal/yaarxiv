@@ -132,7 +132,7 @@ export interface ArticleComment {
 
 export function validateArticleInfoI18nConstraints(info: ArticleInfoI18nPart) {
   function filled(title?: string, keywords?: string[]) {
-    return title && (keywords && keywords.length > 0);
+    return !!title && (keywords && keywords.length > 0);
   }
 
   function notFilled(title?: string, keywords?: string[]) {

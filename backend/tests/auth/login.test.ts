@@ -3,7 +3,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, normalUser1OriginalPassword, reloadEntity } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { loginRoute } from "@/routes/auth/login";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { User } from "@/entities/User";
 jest.mock("@/emails/emailValidation");
 import * as sendEmailValidation from "@/emails/emailValidation";
@@ -78,8 +78,7 @@ it("rejects not validated user, and sends validation email", async () => {
     query: { id: user.email, password },
   });
 
-  expect(resp.statusCode).toBe(403);
-  expect(resp.json<403>().emailSent).toBeTrue();
+  expectErrorResponse(resp, 403, "USER_NOT_VALIDATED_EMAIL_SENT");
 
   const em = server.orm.em.fork();
 
@@ -103,8 +102,8 @@ it("rejects not validated user, but sends no email if the interval to the last s
     query: { id: user.email, password },
   });
 
-  expect(resp.statusCode).toBe(403);
-  expect(resp.json<403>().emailSent).toBeFalse();
+
+  expectErrorResponse(resp, 403, "USER_NOT_VALIDATED_EMAIL_NOT_SENT");
 
   await reloadEntity(user);
 
@@ -127,8 +126,7 @@ it("rejects not validated user, sends email if the interval to the last sending 
     query: { id: user.email, password },
   });
 
-  expect(resp.statusCode).toBe(403);
-  expect(resp.json<403>().emailSent).toBeTrue();
+  expectErrorResponse(resp, 403, "USER_NOT_VALIDATED_EMAIL_SENT");
 
   const em = server.orm.em.fork();
 
@@ -154,8 +152,7 @@ it("rejects not validated user, creates a new validation if the previous one is 
     query: { id: user.email, password },
   });
 
-  expect(resp.statusCode).toBe(403);
-  expect(resp.json<403>().emailSent).toBeTrue();
+  expectErrorResponse(resp, 403, "USER_NOT_VALIDATED_EMAIL_SENT");
 
   const em = server.orm.em.fork();
 

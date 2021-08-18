@@ -6,7 +6,7 @@ import createError from "fastify-error";
 import { genId } from "@/utils/genId";
 
 const ScriptFormatError = createError(
-  "YAARXIV_SCRIPT_FORMAT_ERROR",
+  "SCRIPT_FORMAT_ERROR",
   `Only ${api.ALLOWED_SCRIPT_FORMAT.join(", ")} are allowed`,
   400);
 

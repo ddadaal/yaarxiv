@@ -13,7 +13,7 @@ export const deleteArticleRoute = route(
     });
 
     if (!article) {
-      return { 404: null };
+      return { "404": { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 
     await req.em.removeAndFlush(article);

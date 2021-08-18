@@ -1,3 +1,4 @@
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 
 /** Reset password with a password reset token. */
@@ -10,10 +11,10 @@ export interface ResetPasswordSchema {
   };
   /**  */
   responses: {
-    /** The reset password token is invalid. */
-    403: null;
     /** Password is reset. */
     201: null;
+    /** The reset password token is invalid. */
+    403: ErrorResponse<"TOKEN_NOT_VALID">;
   }
 }
 

@@ -16,7 +16,7 @@ export const resetPasswordRoute = route(
 
     if (tokenEntity === null || tokenEntity.isTimeout) {
       await req.em.flush();
-      return { 403 : null };
+      return { "403": { code: "TOKEN_NOT_VALID" } } as const;
     }
 
     const user = await tokenEntity.user.load();
@@ -24,7 +24,7 @@ export const resetPasswordRoute = route(
 
     if (!user) {
       await req.em.flush();
-      return { 403: null };
+      return { "403": { code: "TOKEN_NOT_VALID" } } as const;
     }
 
     await user.setPassword(newPassword);

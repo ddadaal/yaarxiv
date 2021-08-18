@@ -10,14 +10,12 @@ export const changeArticleAdminSetPublicityRoute = route(
 
     const { publicity } = req.body;
 
-    const numId = Number(articleId);
-
     const repo = req.em.getRepository(Article);
 
-    const article = await repo.findOne(numId);
+    const article = await repo.findOne({ id: articleId });
 
     if (!article) {
-      return { 404: null };
+      return { "404": { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 
     article.adminSetPublicity = publicity;

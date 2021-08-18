@@ -1,5 +1,6 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
+import { ArticleNotFoundResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { ArticleId } from "./models";
 
@@ -15,10 +16,8 @@ export interface DeleteArticleSchema {
   responses: {
     /** The article and all is deleted. */
     204: null;
-    /** The article is not found. */
-    404: null;
-    /** Only admin can delete an article. */
-    403: null;
+
+    404: ArticleNotFoundResponse;
   }
 }
 

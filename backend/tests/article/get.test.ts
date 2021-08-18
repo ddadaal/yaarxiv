@@ -5,7 +5,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { getArticleRoute } from "@/routes/article/get";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 
 const articleCount = 12;
 
@@ -30,8 +30,7 @@ it("should return 404 if article doesn't exist", async () => {
     query: {},
   });
 
-  const json = expectCodeAndJson(resp, 404);
-  expect(json.notFound).toBe("article");
+  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
 });
 
 it("should return the latest revision of article if revision is not specified", async () => {
@@ -65,7 +64,7 @@ it("shoud return 404 if revision is not found.", async () => {
     query: { revision: 5 },
   });
 
-  expect(expectCodeAndJson(resp, 404).notFound).toBe("revision");
+  expectErrorResponse(resp, 404, "REVISION_NOT_FOUND");
 });
 
 async function changeArticleToPrivate(property: "admin" | "owner") {
@@ -87,9 +86,7 @@ it("should return 404 for admin set private articles", async () => {
     query: {},
   });
 
-  const json = expectCodeAndJson(resp, 404);
-  expect(json.notFound).toBe("article");
-
+  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
 });
 
 it("should return 404 for owner set private articles", async () => {
@@ -100,9 +97,7 @@ it("should return 404 for owner set private articles", async () => {
     query: {},
   });
 
-  const json = expectCodeAndJson(resp, 404);
-  expect(json.notFound).toBe("article");
-
+  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
 });
 
 it("return the private article if the logged in user is the owner", async () => {

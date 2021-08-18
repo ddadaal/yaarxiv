@@ -1,5 +1,6 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { ArticleInfo } from "./models";
 
@@ -19,6 +20,8 @@ export interface UploadArticleSchema {
       /** The id of the new article. */
       id: number;
     },
+
+    400: ErrorResponse<"ARTICLEINFO_I18N_CONSTRAINTS" | "CODE_LINK_INVALID" | "FILE_TOKEN_INVALID">;
   }
 }
 

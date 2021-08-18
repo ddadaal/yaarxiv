@@ -5,7 +5,7 @@ import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute"; import { updateArticleRoute } from "@/routes/article/update";
-import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { articleInfoI18nConstraintsFailedCases, ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 import { expectFile, touchFile } from "tests/utils/fs";
 import { UploadedFile } from "@/entities/UploadedFile";
@@ -60,8 +60,7 @@ it("return 403 if not the owner.", async () => {
     body: payload,
   }, users.normalUser2);
 
-  const { reason } = expectCodeAndJson(resp, 403);
-  expect(reason).toBe("notAuthor");
+  expectErrorResponse(resp, 403, "NOT_AUTHOR");
 });
 
 it("return 403 if retracted.", async () => {
@@ -75,8 +74,7 @@ it("return 403 if retracted.", async () => {
     body: payload,
   }, article.owner.getEntity());
 
-  const { reason } = expectCodeAndJson(resp, 403);
-  expect(reason).toBe("retracted");
+  expectErrorResponse(resp, 403, "ARTICLE_RETRACTED");
 });
 
 it("update an article with pdf", async () => {

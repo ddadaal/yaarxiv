@@ -31,3 +31,12 @@ export function expectCodeAndJson<
   expectCode(resp, code, extraInfo);
   return resp.json<Code>();
 }
+
+export function expectErrorResponse<
+  TSchema extends GeneralSchema,
+  StatusCode extends (number & keyof TSchema["responses"] | CommonErrorCode),
+  Code extends TSchema["responses"][StatusCode]["code"],
+>(resp: CallRouteResponse<TSchema>, statusCode: StatusCode, code: Code, extraInfo?: any) {
+  const json = expectCodeAndJson(resp, statusCode, extraInfo);
+  expect(json.code).toBe(code);
+}

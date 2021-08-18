@@ -1,5 +1,6 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 
 
@@ -16,7 +17,7 @@ export interface ChangePasswordSchema {
     /** The password has been changed. */
     204: null;
     /** The current password is not correct. */
-    403: null
+    403: ErrorResponse<"BAD_CURRENT_PASSWORD">;
   }
 }
 

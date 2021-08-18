@@ -6,6 +6,19 @@ import { toRef } from "@/utils/orm";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
 import { genToken } from "@/utils/genId";
 import { sendEmailValidation } from "@/emails/emailValidation";
+import createError from "fastify-error";
+
+const CredentialNotValidError = createError("CREDENTIAL_NOT_VALID", "The password is not correct.", 401);
+
+const UserNotValidatedEmailSentError = createError(
+  "USER_NOT_VALIDATED_EMAIL_SENT",
+  "The user is not validated. A new validation email has been sent.",
+  403);
+
+const UserNotValidatedEmailNotSentError = createError(
+  "USER_NOT_VALIDATED_EMAIL_NOT_SENT",
+  "The user is not validated. Check email for validation",
+  403);
 
 export const loginRoute = route(
   api, "LoginSchema",
@@ -15,7 +28,7 @@ export const loginRoute = route(
     const user = await req.em.findOne(User, { email: id });
 
     if (!user || !await user.passwordMatch(password)) {
-      return { 401: null };
+      throw new CredentialNotValidError();
     }
 
     const now = new Date();
@@ -44,9 +57,10 @@ export const loginRoute = route(
 
       if (send) {
         sendEmailValidation(fastify, user.email, user.emailValidation!.getProperty("token"));
+        throw new UserNotValidatedEmailSentError();
+      } else {
+        throw new UserNotValidatedEmailNotSentError();
       }
-
-      return { 403: { emailSent: send } };
     }
 
     return {

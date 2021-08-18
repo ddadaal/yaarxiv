@@ -1,4 +1,5 @@
 import { ApiProps } from "../utils/apiProps";
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 
 export interface NewAdminInfo {
@@ -21,7 +22,7 @@ export interface SetupSchema {
   responses: {
     204: null;
     /** The system has been setup. */
-    409: null;
+    409: ErrorResponse<"SYSTEM_ALREADY_SETUP">;
   }
 }
 

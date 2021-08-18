@@ -1,3 +1,4 @@
+import { UserNotFoundResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 
 /** Request to reset a password. */
@@ -9,8 +10,9 @@ export interface RequestPasswordResetSchema {
   responses: {
     /** Email reset mail has been sent. */
     201: null;
-    /** Account does not exist. */
-    404: null;
+
+    /** User does not exist. */
+    404: UserNotFoundResponse;
   }
 }
 

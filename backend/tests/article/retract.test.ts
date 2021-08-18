@@ -4,7 +4,7 @@ import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { retractArticleRoute } from "@/routes/article/retract";
 
 let server: FastifyInstance;
@@ -65,9 +65,7 @@ it("cannot retract the article and all revisions as non admin or non owner",  as
     body: {},
   }, users.normalUser1);
 
-  const { reason } = expectCodeAndJson(resp, 403);
-
-  expect(reason).toBe("noAccess");
+  expectErrorResponse(resp, 403, "NOT_AUTHOR_OR_ADMIN");
 
   await reloadEntity(article);
   expect(article.retractTime).toBeUndefined();
@@ -93,7 +91,5 @@ it("cannot retract already retracted article",  async () => {
     body: {},
   }, users.normalUser2);
 
-  const { reason } = expectCodeAndJson(resp, 403);
-
-  expect(reason).toBe("retracted");
+  expectErrorResponse(resp, 403, "ARTICLE_RETRACTED");
 });

@@ -14,4 +14,3 @@ export function genId(): string {
 export function genToken(): string {
   return nanoid();
 }
-

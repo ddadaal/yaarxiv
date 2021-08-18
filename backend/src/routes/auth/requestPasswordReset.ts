@@ -17,7 +17,7 @@ export const requestPasswordResetRoute = route(
     const user = await userRepo.findOne({ email });
 
     if (!user) {
-      return { 404: null };
+      return { 404: { code: "USER_NOT_FOUND" } } as const;
     }
 
     // generate ResetPasswordToken

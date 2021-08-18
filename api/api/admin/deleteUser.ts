@@ -2,6 +2,7 @@ import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { Endpoint } from "../utils/schema";
 import { UserId } from "../auth/models";
+import { UserNotFoundResponse } from "../utils/error";
 
 /**
  * Delete a user and all of related articles.
@@ -17,7 +18,7 @@ export interface AdminDeleteUserSchema {
     204: null;
 
     /** The user is not found. */
-    404: null;
+    404: UserNotFoundResponse;
   }
 }
 

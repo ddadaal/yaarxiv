@@ -15,15 +15,15 @@ export const retractArticleRoute = route(
     });
 
     if (!article) {
-      return { 404: null };
+      return { 404: { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 
     if (article.retractTime) {
-      return { 403: { reason: "retracted" as const } };
+      return { 403: { code: "ARTICLE_RETRACTED" } } as const;
     }
 
     if (article.owner.id !== user.id && user.role !== UserRole.Admin) {
-      return { 403: { reason: "noAccess" as const } };
+      return { 403: { code: "NOT_AUTHOR_OR_ADMIN" } } as const;
     }
 
     article.retract(user, new Date());

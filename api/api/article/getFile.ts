@@ -1,5 +1,6 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
+import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { ArticleId } from "./models";
 
@@ -30,11 +31,9 @@ export interface GetArticleFileSchema {
     /**
      * The article has been retracted
      */
-    403: null;
+    403: ErrorResponse<"ARTICLE_RETRACTED">;
 
-    404: {
-      notFound: "article" | "revision";
-    }
+    404: ErrorResponse<"ARTICLE_NOT_FOUND" | "REVISION_NOT_FOUND">;
   }
 }
 

@@ -9,7 +9,7 @@ export const changePasswordRoute = route(
     const { changed, current } = req.body;
 
     if (!await user.passwordMatch(current)) {
-      return { 403: null };
+      return { "403": { code: "BAD_CURRENT_PASSWORD" } } as const;
     }
 
     await user.setPassword(changed);

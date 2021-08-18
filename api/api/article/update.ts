@@ -1,5 +1,6 @@
 import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
+import { ArticleNotFoundResponse, ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { ArticleId, ArticleInfo } from "./models";
 
@@ -23,17 +24,17 @@ export interface UpdateArticleSchema {
        */
       revisionNumber: number;
     },
-    /** Not logged in. */
-    401: null;
+
+    400: ErrorResponse<"ARTICLEINFO_I18N_CONSTRAINTS" | "CODE_LINK_INVALID" | "FILE_TOKEN_INVALID">;
 
     /**
      * notAuthor: Not the author of the article
      * retracted: the article has been retracted.
      */
-    403: { reason: "notAuthor" | "retracted"};
+    403: ErrorResponse<"NOT_AUTHOR" | "ARTICLE_RETRACTED">;
 
     /** The article is not found. */
-    404: null;
+    404: ArticleNotFoundResponse;
   }
 }
 
