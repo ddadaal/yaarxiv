@@ -47,7 +47,7 @@ services:
       dockerfile: backend/Dockerfile
     volumes:
       - "./backend/config/production.json:/dist/config/production.json"
-      - "./backend/distdb:/dist/db"
-      - "./backend/distupload:/dist/upload"
+      - "./files/db:/dist/db"
+      - "./files/upload:/dist/upload"
     ports:
       - "5000:5000"
