@@ -13,7 +13,7 @@ const ScriptFormatError = createError(
 // Save uploaded file to /{userId}/temp/{a random id}.{ext}
 // The uploaded file will be moved to corresponding folder by routes
 export const uploadScriptRoute = route(
-  api, undefined,
+  api, "UploadScriptSchema",
   async (req, fastify) => {
 
     const data = await req.file({

@@ -37,9 +37,9 @@ export function buildApp(pluginOverrides?: PluginOverrides) {
 
   server.log.info(`Loaded config: \n${JSON.stringify(config, null, 2)}`);
 
-  Object.values(models).forEach((s) => server.addSchema(s));
-
   applyPlugins(server, pluginOverrides);
+
+  Object.values(models).forEach((s) => server.addSchema(s));
 
   routes.forEach((r) => registerRoute(server, r));
 

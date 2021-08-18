@@ -19,7 +19,7 @@ export interface UploadScriptSchema {
      * The file object.
      * 1 PDF per request.
      */
-    file: object;
+    file: File;
   },
   responses: {
     /** The upload is successful. */
