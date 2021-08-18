@@ -68,7 +68,8 @@ const LoginForm: React.FC = () => {
           <Localized id={root("error.invalid")} />
         );
       } else if (ex.status === 403) {
-        if ((ex.data as LoginSchema["responses"]["403"]).emailSent) {
+        const { code } = (ex.data as LoginSchema["responses"]["403"]);
+        if (code === "USER_NOT_VALIDATED_EMAIL_SENT") {
           toast.error(
             <Localized id={root("error.emailSent")} />
           );
