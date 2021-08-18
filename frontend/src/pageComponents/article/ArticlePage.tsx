@@ -95,7 +95,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
                   revision={article.revisionNumber}
                   filename={(resp) => {
                     const ext = resp.headers.get(SCRIPT_FILE_TYPE_HEADER_KEY) ?? "pdf";
-                    return `yaarxiv-${article.id}-rev-${article.currentRevision}.${ext}`;
+                    return `yaarxiv-${article.id}-rev-${article.revisionNumber}.${ext}`;
                   }}
                 >
                   {(downloadLink) => (
