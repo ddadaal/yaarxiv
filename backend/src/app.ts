@@ -18,7 +18,7 @@ function applyPlugins(server: FastifyInstance, pluginOverrides?: PluginOverrides
   });
 }
 
-const ValidationError = createError("VALIDATION_ERROR", "Errors occurred when validating %s. Errors are \n%o", 400);
+const ValidationError = createError("BAD_REQUEST", "Errors occurred when validating %s. Errors are \n%o", 400);
 
 export function buildApp(pluginOverrides?: PluginOverrides) {
 

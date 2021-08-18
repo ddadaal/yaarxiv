@@ -3,7 +3,6 @@ import { ArticleRevision } from "@/entities/ArticleRevision";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/article/update";
-import { validateFileToken } from "@/utils/validations/fileToken";
 import path from "path";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 import { getCodeLinkInfo } from "yaarxiv-api/api/utils/codeLink";
@@ -23,7 +22,7 @@ export const updateArticleRoute = route(
     let pdf: UploadedFile | null = null;
 
     if (pdfToken) {
-      pdf = await validateFileToken(req.em, pdfToken);
+      pdf = await req.em.findOne(UploadedFile, { id: pdfToken });
       if (!pdf) {
         return { 400: { code: "FILE_TOKEN_INVALID" } } as const;
       }

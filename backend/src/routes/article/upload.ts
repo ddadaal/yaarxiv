@@ -4,11 +4,11 @@ import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/article/upload";
 import { Reference } from "@mikro-orm/core";
 import { toRef } from "@/utils/orm";
-import { validateFileToken } from "@/utils/validations/fileToken";
 import { validateArticleInfoI18nConstraints } from "yaarxiv-api/api/article/models";
 import path from "path";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 import { getCodeLinkInfo } from "yaarxiv-api/api/utils/codeLink";
+import { UploadedFile } from "@/entities/UploadedFile";
 
 export const uploadArticleRoute = route(
   api, "UploadArticleSchema",
@@ -23,7 +23,7 @@ export const uploadArticleRoute = route(
       return { 400: { code: "CODE_LINK_INVALID" } } as const;
     }
 
-    const pdf = await validateFileToken(req.em, pdfToken);
+    const pdf = await req.em.findOne(UploadedFile, { id: pdfToken });
 
     if (!pdf) {
       return { 400: { code: "FILE_TOKEN_INVALID" } } as const;

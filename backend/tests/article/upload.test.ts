@@ -5,7 +5,7 @@ import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadArticleRoute } from "@/routes/article/upload";
 import { createMockArticles } from "./utils/generateArticles";
-import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
+import { expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 import { articleInfoI18nConstraintsFailedCases } from "yaarxiv-api/api/article/models";
 import { UploadArticleSchema } from "yaarxiv-api/api/article/upload";
@@ -111,7 +111,7 @@ it("fails if the title is too long", async () => {
     body: { ...payload, cnTitle: "a".repeat(120) },
   }, user);
 
-  expectCodeAndJson(resp, 400);
+  expectErrorResponse(resp, 400);
 });
 
 it("fails if code link is bad", async () => {
