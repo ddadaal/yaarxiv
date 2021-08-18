@@ -22,9 +22,9 @@ export const uploadScriptRoute = route(
       },
     });
 
-    const ext = extname(data.filename);
+    const ext = extname(data.filename).substr(1);
     // extname returns .pdf. substr removes .
-    if (!api.ALLOWED_SCRIPT_FORMAT.includes(ext.substr(1))) {
+    if (!api.ALLOWED_SCRIPT_FORMAT.includes(ext)) {
       throw new ScriptFormatError();
     }
 
