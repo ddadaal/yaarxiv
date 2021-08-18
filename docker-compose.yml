@@ -19,7 +19,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - "./db:/var/lib/mysql"
+      - "./files/db:/var/lib/mysql"
     ports:
       - 3306:3306
 
@@ -47,7 +47,6 @@ services:
       dockerfile: backend/Dockerfile
     volumes:
       - "./backend/config/production.json:/dist/config/production.json"
-      - "./files/db:/dist/db"
       - "./files/upload:/dist/upload"
     ports:
       - "5000:5000"
