@@ -3,11 +3,7 @@ import * as api from "yaarxiv-api/api/register/register";
 import { User, UserRole } from "@/entities/User";
 import { UniqueConstraintViolationException } from "@mikro-orm/core";
 import { EmailValidationToken } from "@/entities/EmailValidationToken";
-
 import { sendEmailValidation } from "@/emails/emailValidation";
-import createError from "fastify-error";
-
-const EmailAlreadyExistsError = createError("EMAIL_ALREADY_EXISTS", "The email already exists", 405);
 
 export const registerUserRoute = route(
   api, "RegisterSchema",
@@ -28,7 +24,7 @@ export const registerUserRoute = route(
     } catch (e) {
       if (e instanceof UniqueConstraintViolationException) {
         if (e.message.startsWith("insert into `user`")) {
-          throw new EmailAlreadyExistsError();
+          return { "405": { code: "EMAIL_ALREADY_EXISTS" } } as const;
         }
       }
       throw e;

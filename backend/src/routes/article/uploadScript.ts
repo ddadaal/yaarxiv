@@ -2,13 +2,7 @@ import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/article/uploadScript";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { extname } from "path";
-import createError from "fastify-error";
 import { genId } from "@/utils/genId";
-
-const ScriptFormatError = createError(
-  "SCRIPT_FORMAT_ERROR",
-  `Only ${api.ALLOWED_SCRIPT_FORMAT.join(", ")} are allowed`,
-  400);
 
 // Save uploaded file to /{userId}/temp/{a random id}.{ext}
 // The uploaded file will be moved to corresponding folder by routes
@@ -25,7 +19,7 @@ export const uploadScriptRoute = route(
     const ext = extname(data.filename).substr(1);
     // extname returns .pdf. substr removes .
     if (!api.ALLOWED_SCRIPT_FORMAT.includes(ext)) {
-      throw new ScriptFormatError();
+      return { 400: { code: "SCRIPT_FORMAT_ERROR" } } as const;
     }
 
     const user = req.dbUserRef();
