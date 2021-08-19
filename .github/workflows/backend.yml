@@ -19,7 +19,7 @@ jobs:
         working-directory: backend
       
       - name: Start docker container for db testing
-        run: docker-compose -f docker-compose.dev.yml up -d
+        run: npm run devenv
         working-directory: backend
 
       - name: Check running containers
@@ -61,5 +61,5 @@ jobs:
           url: ${{ secrets.DEPLOY_AGENT_URL }}
           method: POST
           contentType: "text/plain"
-          data: '"backend"'
+          # data: '"backend"'
           customHeaders: '{"x-deploy-agent-key": "${{ secrets.DEPLOY_AGENT_KEY }}"}'
