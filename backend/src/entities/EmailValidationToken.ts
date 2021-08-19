@@ -10,7 +10,7 @@ export class EmailValidationToken {
   @PrimaryKey()
   id: number;
 
-  @Property()
+  @Property({ unique: true })
   token: string;
 
   @Property({ columnType: DATETIME_TYPE })

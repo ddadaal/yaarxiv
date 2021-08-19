@@ -2,7 +2,7 @@ import { route } from "@/core/route";
 import * as api from "yaarxiv-api/api/auth/requestPasswordReset";
 import { User } from "@/entities/User";
 import { ResetPasswordToken } from "@/entities/ResetPasswordToken";
-import { genId } from "@/utils/genId";
+import { genToken } from "@/utils/genId";
 import { Reference } from "@mikro-orm/core";
 import { sendResetPassword } from "@/emails/resetPassword";
 
@@ -22,7 +22,7 @@ export const requestPasswordResetRoute = route(
 
     // generate ResetPasswordToken
     const token = new ResetPasswordToken({
-      id: genId(),
+      token: genToken(),
       time: new Date(),
       user: Reference.create(user),
     });
@@ -31,7 +31,7 @@ export const requestPasswordResetRoute = route(
 
     // parse the template
 
-    sendResetPassword(fastify, email, token.id);
+    sendResetPassword(fastify, email, token.token);
 
     return { 201: null };
 

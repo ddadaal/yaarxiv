@@ -1,6 +1,6 @@
 import { Migration } from '@mikro-orm/migrations';
 
-export class Migration20210819021810 extends Migration {
+export class Migration20210819030234 extends Migration {
 
   async up(): Promise<void> {
     this.addSql('create table `metadata` (`key` varchar(255) not null, `value` varchar(255) null) default character set utf8mb4 engine = InnoDB;');
@@ -9,12 +9,13 @@ export class Migration20210819021810 extends Migration {
     this.addSql('create table `user` (`id` int unsigned not null auto_increment primary key, `name` varchar(255) not null, `password` varchar(255) not null, `email` varchar(255) not null, `role` enum(\'User\', \'Admin\') not null, `validated` tinyint(1) not null, `honor` varchar(255) not null default \'\', `honor_public` tinyint(1) not null default true, `job_title` varchar(255) not null default \'\', `job_title_public` tinyint(1) not null default true, `institution` varchar(255) not null default \'\', `institution_public` tinyint(1) not null default true, `academic_keywords` json not null, `research_labels` json not null) default character set utf8mb4 engine = InnoDB;');
     this.addSql('alter table `user` add unique `user_email_unique`(`email`);');
 
-    this.addSql('create table `reset_password_token` (`id` varchar(255) not null, `user_id` int(11) unsigned not null, `time` DATETIME(6) not null) default character set utf8mb4 engine = InnoDB;');
-    this.addSql('alter table `reset_password_token` add primary key `reset_password_token_pkey`(`id`);');
+    this.addSql('create table `reset_password_token` (`id` int unsigned not null auto_increment primary key, `token` varchar(255) not null, `user_id` int(11) unsigned not null, `time` DATETIME(6) not null) default character set utf8mb4 engine = InnoDB;');
+    this.addSql('alter table `reset_password_token` add unique `reset_password_token_token_unique`(`token`);');
     this.addSql('alter table `reset_password_token` add index `reset_password_token_user_id_index`(`user_id`);');
     this.addSql('alter table `reset_password_token` add unique `reset_password_token_user_id_unique`(`user_id`);');
 
     this.addSql('create table `email_validation_token` (`id` int unsigned not null auto_increment primary key, `token` varchar(255) not null, `time` DATETIME(6) not null, `last_sent` DATETIME(6) not null, `user_id` int(11) unsigned not null) default character set utf8mb4 engine = InnoDB;');
+    this.addSql('alter table `email_validation_token` add unique `email_validation_token_token_unique`(`token`);');
     this.addSql('alter table `email_validation_token` add index `email_validation_token_user_id_index`(`user_id`);');
     this.addSql('alter table `email_validation_token` add unique `email_validation_token_user_id_unique`(`user_id`);');
 

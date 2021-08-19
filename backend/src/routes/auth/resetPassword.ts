@@ -7,7 +7,7 @@ export const resetPasswordRoute = route(
   async (req) => {
     const { token, newPassword } = req.body;
 
-    const tokenEntity = await req.em.findOne(ResetPasswordToken, { id: token });
+    const tokenEntity = await req.em.findOne(ResetPasswordToken, { token });
 
     // delete the entity
     if (tokenEntity) {

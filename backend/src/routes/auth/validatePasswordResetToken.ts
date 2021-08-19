@@ -7,7 +7,7 @@ export const validatePasswordResetTokenRoute = route(
   async (req) => {
     const { token } = req.query;
 
-    const entity = await req.em.findOne(ResetPasswordToken, { id: token });
+    const entity = await req.em.findOne(ResetPasswordToken, { token });
 
     return { 200: { valid: entity !== null && !entity.isTimeout } };
   },

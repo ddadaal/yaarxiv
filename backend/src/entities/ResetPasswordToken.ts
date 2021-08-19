@@ -6,7 +6,10 @@ import { DATETIME_TYPE, EntityOrRef, toRef } from "@/utils/orm";
 @Entity()
 export class ResetPasswordToken {
   @PrimaryKey()
-  id: string;
+  id: number;
+
+  @Property({ unique: true })
+  token: string;
 
   @OneToOne(() => User, (u) => u.resetPasswordToken, { owner: true, wrappedReference: true, onDelete: "CASCADE" })
   user: IdentifiedReference<User>;
@@ -19,11 +22,11 @@ export class ResetPasswordToken {
   }
 
   constructor(init: {
-    id: string,
+    token: string,
     user: EntityOrRef<User>,
     time: Date,
   }) {
-    this.id = init.id;
+    this.token = init.token;
     this.user = toRef(init.user);
     this.time = init.time;
   }

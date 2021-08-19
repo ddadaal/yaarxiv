@@ -17,14 +17,14 @@ let token2: ResetPasswordToken;
 async function insertData() {
   // token1 is valid
   token1 = new ResetPasswordToken({
-    id: "testid",
+    token: "testid",
     user: Reference.create(users.normalUser1),
     time: new Date(),
   });
 
   // token2 is timeout
   token2 = new ResetPasswordToken({
-    id : "testid2",
+    token: "testid2",
     user : Reference.create(users.normalUser2),
     time : new Date(),
   });
@@ -53,7 +53,7 @@ async function expectTokenDeleted(token: ResetPasswordToken) {
 it("returns 403 if token is timeout", async () => {
 
   const resp = await callRoute(server, resetPasswordRoute, {
-    body: { token: token2.id, newPassword: "123" },
+    body: { token: token2.token, newPassword: "123" },
   });
 
   expectCodeAndJson(resp, 403);
@@ -65,7 +65,7 @@ it("changes user's password if token is valid", async () => {
   const newPassword = "newpassword";
 
   const resp = await callRoute(server, resetPasswordRoute, {
-    body: { token: token1.id, newPassword },
+    body: { token: token1.token, newPassword },
   });
 
   expectCodeAndJson(resp, 201);

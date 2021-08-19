@@ -21,14 +21,14 @@ afterEach(async () => {
   await server.close();
 });
 
-async function insert(id: string, time: Date) {
-  const token = new ResetPasswordToken({
-    id: id,
+async function insert(token: string, time: Date) {
+  const tokenEntity = new ResetPasswordToken({
+    token,
     time: time,
     user: users.normalUser1,
   });
 
-  await server.orm.em.persistAndFlush(token);
+  await server.orm.em.persistAndFlush(tokenEntity);
 }
 
 it("returns invalid if token does not exist", async () => {
