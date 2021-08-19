@@ -31,11 +31,16 @@ WORKDIR /dist
 
 COPY --from=builder /backend/package.json .
 COPY --from=builder /backend/package-lock.json .
-COPY --from=builder /backend/out/bundle.js index.js
-COPY --from=builder /backend/migrations/ ./migrations
-COPY --from=builder /backend/config/ ./config
-COPY --from=builder /backend/mikro-orm.config.ts ./
 COPY --from=builder /backend/node_modules/ ./node_modules
+
+
+COPY --from=builder /backend/tsconfig.json ./
+COPY --from=builder /backend/mikro-orm.config.ts ./
+COPY --from=builder /backend/migrations/ ./migrations
+
+COPY --from=builder /backend/config/ ./config
+COPY --from=builder /backend/out/bundle.js index.js
+COPY --from=builder /backend/src/ ./src/
 
 
 

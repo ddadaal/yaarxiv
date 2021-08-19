@@ -52,3 +52,6 @@ See `config/default.json` for default config.
 
 For env consistency, we recommend testing production build with docker only.
 
+# Migrations
+
+In production, migration files are compiled into bundle, and can be configured to run at application start by setting `orm.runMigrations` to `true` in your config file.

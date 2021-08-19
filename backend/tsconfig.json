@@ -29,6 +29,7 @@
   "include": [
     "src/**/*",
     "tests/**/*",
+    "migrations/**/*",
     "mikro-orm.config.ts",
     "tests/globals.d.ts"
   ],

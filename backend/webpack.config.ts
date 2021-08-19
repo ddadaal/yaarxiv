@@ -21,6 +21,7 @@ export default {
         use: "ts-loader",
         include: [
           path.resolve(__dirname, "src"),
+          path.resolve(__dirname, "migrations"),
           path.resolve(__dirname, "..", "api"),
         ],
       },

@@ -35,20 +35,20 @@ More commands can be found in `frontend/README.md` and `backend/README.md`.
 # Deployment
 
 1. Configure db initial password in `.env`
-1. Create and modify `backend/config/production.json` based on `backend/config/production.sample.json`
-2. `docker-compose up`
+2. Create and modify `backend/config/production.json` based on `backend/config/production.sample.json`
+3. `docker-compose up`
 
 Default configs are provided in `docker-compose.yml`. The following can be changed.
 
-| config                     | default value                  | extra                            |
-| -------------------------- | ------------------------------ | -------------------------------- |
-| frontend port              | 3000                           | mapped from 3000                 |
-| backend port               | 5000                           | mapped from 3000                 |
-| frontend args (see below)  | USE_MOCK=0                     |                                  |
-| static files directory     | ./static                       |                                  |
-| backend configuration file | ./backend/config/production.js | Must be created before starting. |
-| backend db files           | ./backend/distdb               | MySQL                            |
-| backend upload dir         | ./backend/distupload           |                                  |
+| config                     | default value                    | extra                            |
+| -------------------------- | -------------------------------- | -------------------------------- |
+| frontend port              | 3000                             | mapped from 3000                 |
+| backend port               | 5000                             | mapped from 3000                 |
+| frontend args (see below)  | USE_MOCK=0                       |                                  |
+| static files directory     | ./static                         |                                  |
+| backend configuration file | ./backend/config/production.json | Must be created before starting. |
+| backend db files           | ./files/db                       | MySQL                            |
+| backend upload dir         | ./files/upload                   |                                  |
 
 Note: The default timeout for db connection is **20s**, which can be changed at the backend configuration file. Because of this connection timeout, there is no need to use `wait-for-it.sh` to wait for db connection.
 
