@@ -4,6 +4,7 @@
     "port": 3306,
     "user": "root",
     "dbName": "yaarxiv_prod",
+    "connectionTimeout": 60000,
     "runMigrations": true,
     "debug": false,
     "highlight": false
