@@ -116,6 +116,8 @@ export default {
   register: {
     email: "Email",
     password: "密码",
+    confirmPassword: "确认密码",
+    passwordNotMatch: "两个密码不匹配",
     remember: "记住我",
     inProgress: "注册中",
     register: "注册并登录",

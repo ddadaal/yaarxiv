@@ -13,10 +13,11 @@ import { useHttpRequest } from "src/utils/http";
 import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
+import { FormFieldMessage } from "src/components/form/FormFieldMessage";
 
 const root = prefix("register.");
 
-const defaultValue = { email: "", password: "", remember: true };
+const defaultValue = { email: "", password: "", confirmPassword: "", remember: true };
 
 
 const RegisterForm: React.FC = () => {
@@ -52,6 +53,18 @@ const RegisterForm: React.FC = () => {
         disabled={inProgress}
       >
         <TextInput type="password" name="password"/>
+      </FormField>
+      <FormField
+        label={<Localized id={root("confirmPassword")} />} name="confirmPassword"
+        required={true}
+        validate={(val, values) => {
+          if (val !== values.password) {
+            return <FormFieldMessage id={root("passwordNotMatch")} />;
+          }
+        }}
+        disabled={inProgress}
+      >
+        <TextInput type="password" name="confirmPassword"/>
       </FormField>
       <Box margin={{ vertical: "small" }}>
         <CheckBox

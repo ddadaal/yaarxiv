@@ -121,6 +121,8 @@ export default {
   register: {
     email: "Email",
     password: "Password",
+    confirmPassword: "Confirm Password",
+    passwordNotMatch: "Passwords do not match",
     remember: "Remember",
     inProgress: "Registering",
     register: "Register",
