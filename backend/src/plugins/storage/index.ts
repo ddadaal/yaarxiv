@@ -5,7 +5,7 @@ import fp from "fastify-plugin";
 import { Readable } from "stream";
 
 export interface Storage {
-  saveFile: (path: string, data: Readable) => Promise<void>;
+  saveFile: (path: string, data: Readable, mimeType: string) => Promise<void>;
   removeFile: (path: string) => Promise<void>;
   moveFile: (from: string, to: string) => Promise<void>;
   rmdir: (dir: string) => Promise<void>;

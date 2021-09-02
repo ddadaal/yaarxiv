@@ -41,7 +41,7 @@ it("saves file", async () => {
 
   const call = await prepare(async (req) => {
     const file = await req.file();
-    await server.storage.saveFile(file.filename, file.file);
+    await server.storage.saveFile(file.filename, file.file, file.mimetype);
     return {};
   });
 
@@ -158,5 +158,4 @@ it("serves file", async () => {
 
   expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(size);
-  expect(resp.headers["content-type"]).toBe("application/pdf");
 });

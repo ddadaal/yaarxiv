@@ -28,9 +28,9 @@ export const minioStoragePlugin = fp(async (fastify) => {
     logger.info(`Bucket ${bucketName} has been created.`);
   }
 
-  const saveFile: Storage["saveFile"] = async (path, data) => {
+  const saveFile: Storage["saveFile"] = async (path, data, mimeType) => {
     logger.info(`Start saving file ${path}`);
-    const resp = await minio.putObject(bucketName, path, data);
+    const resp = await minio.putObject(bucketName, path, data, undefined, { "content-type": mimeType });
     logger.info(`File ${path} has been saved. Info: ${resp}`);
   };
 
@@ -65,6 +65,11 @@ export const minioStoragePlugin = fp(async (fastify) => {
   });
 
   const serveFile: FastifyReply["serveFile"] = async function (path) {
+    // get the length
+    const stats = await minio.statObject(bucketName, path);
+
+    this.headers({ "content-length": stats.size, "content-type": stats.metaData["content-type"] });
+
     const file = await minio.getObject(bucketName, path);
     await this.send(file);
   };
