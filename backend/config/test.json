@@ -3,7 +3,7 @@
     "type": "mysql",
     "host": "localhost",
     "port": 3306,
-    "dbName": "yaarxiv_test_JEST_WORKER_ID",
+    "dbName": "yaarxiv_test_${JEST_WORKER_ID}",
     "user": "root",
     "password": "dbfordev",
     "synchronize": true,
@@ -22,6 +22,6 @@
       "accessKey": "minio",
       "secretKey": "miniominio"
     },
-    "bucketName": "test"
+    "bucketName": "testbucket${JEST_WORKER_ID}"
   }
 }

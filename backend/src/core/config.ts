@@ -67,6 +67,22 @@ export interface Config {
 
 const typedConfig: Config = config as any;
 
+// convert the first ${a} to process.env.a
+// TODO support multiple ${a}
+
+function replaceRec(obj: object) {
+  if (!obj) { return; }
+  for (const k in obj) {
+    if (typeof obj[k] === "string") {
+      obj[k] = obj[k].replace(/\$\{([a-zA-Z0-9_]+)\}/, (_, p1: string) => process.env[p1]);
+    } else if (typeof obj[k] === "object") {
+      replaceRec(obj[k]);
+    }
+  }
+}
+
+replaceRec(typedConfig);
+
 export { typedConfig as config };
 
 type DeepPartial<T> = {
