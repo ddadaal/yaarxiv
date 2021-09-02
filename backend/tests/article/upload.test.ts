@@ -10,7 +10,7 @@ import { ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 import { articleInfoI18nConstraintsFailedCases } from "yaarxiv-api/api/article/models";
 import { UploadArticleSchema } from "yaarxiv-api/api/article/upload";
 import { UploadedFile } from "@/entities/UploadedFile";
-import { expectFile, touchFile } from "tests/utils/storage";
+import { expectFileExists, expectFileNotExists, touchFile } from "tests/utils/storage";
 import { User } from "@/entities/User";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 
@@ -93,8 +93,8 @@ it("upload an article.", async () => {
   const scriptFilePath = getPathForArticleFile(article, filename);
   expect(rev.script.getEntity().filePath).toBe(scriptFilePath);
 
-  await expectFile(`${user.id}/temp/${filename}`, false);
-  await expectFile(scriptFilePath, true);
+  await expectFileNotExists(`${user.id}/temp/${filename}`);
+  await expectFileExists(scriptFilePath);
 
 });
 

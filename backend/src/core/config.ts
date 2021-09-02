@@ -26,6 +26,18 @@ export interface Config {
   storage: {
     type: "fs",
     path: string;
+  } | {
+    type: "minio",
+    connection: {
+      endPoint: string,
+      port: number,
+      useSSL: boolean,
+      // username
+      accessKey: string,
+      // password
+      secretKey: string,
+    },
+    bucketName: string,
   };
   staticPrefix: string;
   bcryptSaltLength: number;

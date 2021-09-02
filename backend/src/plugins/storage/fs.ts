@@ -76,9 +76,6 @@ export const fsStoragePlugin = fp(async (fastify) => {
     fastify.log.info(`Dir ${path} has been removed.`);
   };
 
-  const serveFile: FastifyReply["serveFile"] = function (path) {
-    return this.sendFile(path, uploadPath);
-  };
 
   fastify.decorate("storage", {
     saveFile,
@@ -86,6 +83,10 @@ export const fsStoragePlugin = fp(async (fastify) => {
     moveFile,
     rmdir,
   });
+
+  const serveFile: FastifyReply["serveFile"] = async function (path) {
+    this.sendFile(path, uploadPath);
+  };
 
   fastify.decorateReply("serveFile", serveFile);
 

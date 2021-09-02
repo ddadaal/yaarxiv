@@ -3,7 +3,8 @@ import { InjectOptions, RouteHandlerMethod } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { mockFileForm } from "tests/article/utils/mockFileForm";
 import { expectCode } from "tests/utils/assertions";
-import { createUploadDir, expectFile, removeUploadDir, touchFile } from "tests/utils/storage/fs";
+import { createUploadDir, expectFileExists,
+  expectFileNotExists, removeUploadDir, touchFile } from "tests/utils/storage";
 
 let server: FastifyInstance;
 
@@ -54,7 +55,7 @@ it("saves file", async () => {
 
   expectCode(resp, 200);
 
-  const f = await expectFile(filename, true);
+  const f = await expectFileExists(filename);
 
   expect(f.size).toBe(size);
 
@@ -67,7 +68,7 @@ it("removes file", async () => {
 
   await touchFile(filePath);
 
-  await expectFile(filePath, true);
+  await expectFileExists(filePath);
 
   const call = await prepare(async () => {
     await server.storage.removeFile(filePath);
@@ -77,14 +78,14 @@ it("removes file", async () => {
   const resp = await call({});
 
   expectCode(resp, 200);
-  await expectFile(filePath, false);
+  await expectFileNotExists(filePath);
 });
 
 it("causes error when removing file if not exist", async () => {
 
   const filePath = "testremovefilenotexist.txt";
 
-  await expectFile(filePath, false);
+  await expectFileNotExists(filePath);
 
   const call = await prepare(async () => {
     await server.storage.removeFile(filePath);
@@ -104,8 +105,8 @@ it("moves file",async () => {
 
   await touchFile(fromPath);
 
-  await expectFile(fromPath, true);
-  await expectFile(toPath, false);
+  await expectFileExists(fromPath);
+  await expectFileNotExists(toPath);
 
   const call = await prepare(async () => {
     await server.storage.moveFile(fromPath, toPath);
@@ -116,8 +117,8 @@ it("moves file",async () => {
 
   expectCode(resp, 200);
 
-  await expectFile(fromPath, false);
-  await expectFile(toPath, true);
+  await expectFileNotExists(fromPath);
+  await expectFileExists(toPath);
 });
 
 
@@ -138,7 +139,7 @@ it("rmdir",async () => {
 
   expectCode(resp, 200);
 
-  await expectFile("1", false);
+  await expectFileNotExists("1");
 });
 
 it("serves file", async () => {

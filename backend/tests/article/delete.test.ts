@@ -9,7 +9,7 @@ import { deleteArticleRoute } from "@/routes/article/delete";
 import { User } from "@/entities/User";
 import { expectCodeAndJson } from "tests/utils/assertions";
 import { getArticleBasePath, getPathForArticleFile } from "@/utils/articleFiles";
-import { expectFile, removeUploadDir, touchFile } from "tests/utils/storage";
+import { expectFileExists, expectFileNotExists, removeUploadDir, touchFile } from "tests/utils/storage";
 
 let server: FastifyInstance;
 
@@ -67,10 +67,10 @@ it("delete the article and all revisions and files as admin", async () => {
   expect(await em.findOne(User, { id: article.owner.id })).not.toBeNull();
 
   // should delete all files of the article
-  await Promise.all(files.map((x) => expectFile(x, false)));
+  await Promise.all(files.map((x) => expectFileNotExists(x)));
 
   // should not delete files of another article
-  await expectFile(getArticleBasePath(another), true);
+  await expectFileExists(getArticleBasePath(another));
 });
 
 it("cannot delete the article and all revisions as non admin",  async () => {

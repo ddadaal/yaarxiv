@@ -7,7 +7,7 @@ import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadScriptRoute } from "@/routes/article/uploadScript";
 import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
-import { expectFile, removeUploadDir } from "tests/utils/storage";
+import { expectFileExists, removeUploadDir } from "tests/utils/storage";
 import MockDate from "mockdate";
 
 let server: FastifyInstance;
@@ -48,7 +48,7 @@ it("upload a file to the system.", async () => {
   expect(upload.user.id).toBe(users.normalUser1.id);
 
   // expect file
-  const f = await expectFile(upload.filePath, true);
+  const f = await expectFileExists(upload.filePath);
   expect(f.size).toBe(fileSize);
 
   expect(upload.time).toEqual(now);

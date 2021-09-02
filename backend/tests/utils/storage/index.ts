@@ -1,24 +1,30 @@
 import { config, Config } from "@/core/config";
-import * as fsUtils from "./fs";
-import fs from "fs";
+import { createFSStorageUtils } from "tests/utils/storage/fs";
+import { createMinioStorageUtils } from "tests/utils/storage/minio";
 
-interface FsUtils {
-  removeUploadDir: () => Promise<void>;
-  createUploadDir: () => Promise<void>;
-  touchFile: (path: string, content?: string | Uint8Array) => Promise<void>;
-
-  expectFile(filePath: string, exist: true): Promise<fs.Stats>;
-  expectFile(filePath: string, exist: false): Promise<void>;
+export interface FileInfo {
+  size: number;
 }
 
-const registry: { [key in Config["storage"]["type"]]: FsUtils } = {
-  "fs": fsUtils,
+export interface FsUtils {
+  removeUploadDir: () => Promise<void>;
+  createUploadDir: () => Promise<void>;
+  touchFile: (path: string, content?: string | Buffer) => Promise<void>;
+
+  expectFileExists(filePath: string): Promise<FileInfo>;
+  expectFileNotExists(filePath: string): Promise<void>;
+}
+
+const registry: { [key in Config["storage"]["type"]]: () => FsUtils } = {
+  "fs": createFSStorageUtils,
+  "minio": createMinioStorageUtils,
 };
 
 export const {
   createUploadDir,
   removeUploadDir,
   touchFile,
-  expectFile,
-} = registry[config.storage.type];
+  expectFileExists,
+  expectFileNotExists,
+} = registry[config.storage.type]();
 

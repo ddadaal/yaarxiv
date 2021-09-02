@@ -1,43 +1,59 @@
-import { config, Config } from "@/core/config";
+import { config } from "@/core/config";
 import fs from "fs";
 import path from "path";
+import type { FsUtils } from ".";
 
-const uploadConfig: Config["storage"] & { type: "fs" } = config.storage;
+export const createFSStorageUtils = () => {
 
-function getActualFilePath(filePath: string) {
-  return path.join(uploadConfig.path, filePath);
-}
+  if (config.storage.type !== "fs") {
+    throw new Error("config.storage.type must be fs");
+  }
 
-export async function expectFile(filePath: string, exist: true): Promise<fs.Stats>
-export async function expectFile(filePath: string, exist: false): Promise<void>
-export async function expectFile(filePath: string, exist: boolean): Promise<fs.Stats | void> {
-  const fullPath = getActualFilePath(filePath);
-  expect(fs.existsSync(fullPath)).toBe(exist);
+  const storageConfig = config.storage;
 
-  if (exist) {
+  function getActualFilePath(filePath: string) {
+    return path.join(storageConfig.path, filePath);
+  }
+
+  const expectFileExists: FsUtils["expectFileExists"] = async (filePath: string) => {
+    const fullPath = getActualFilePath(filePath);
+    expect(fs.existsSync(fullPath)).toBeTrue();
     return fs.promises.stat(fullPath);
-  }
-}
+  };
 
-export async function removeUploadDir() {
-  await fs.promises.rmdir(uploadConfig.path, { recursive: true });
-}
+  const expectFileNotExists: FsUtils["expectFileNotExists"] = async (filePath: string) => {
+    const fullPath = getActualFilePath(filePath);
+    expect(fs.existsSync(fullPath)).toBeFalse();
+  };
 
-export async function createUploadDir() {
-  await fs.promises.mkdir(uploadConfig.path, { recursive: true });
-}
+  const removeUploadDir: FsUtils["removeUploadDir"] = async () => {
+    await fs.promises.rmdir(storageConfig.path, { recursive: true });
+  };
 
+  const createUploadDir: FsUtils["createUploadDir"] = async () => {
+    await fs.promises.mkdir(storageConfig.path, { recursive: true });
+  };
 
-export async function touchFile(filePath: string, content?: string | Uint8Array) {
-  const actualPath = getActualFilePath(filePath);
+  const touchFile: FsUtils["touchFile"] = async (filePath, content) => {
+    const actualPath = getActualFilePath(filePath);
 
-  await fs.promises.mkdir(path.dirname(actualPath), { recursive: true });
+    await fs.promises.mkdir(path.dirname(actualPath), { recursive: true });
 
-  const handle = await fs.promises.open(actualPath, "w");
+    const handle = await fs.promises.open(actualPath, "w");
 
-  if (content) {
-    handle.writeFile(content);
-  }
+    if (content) {
+      handle.writeFile(content);
+    }
 
-  await handle.close();
-}
+    await handle.close();
+  };
+
+  return {
+    createUploadDir,
+    expectFileExists,
+    expectFileNotExists,
+    removeUploadDir,
+    touchFile,
+  } as FsUtils;
+
+};
