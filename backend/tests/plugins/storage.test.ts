@@ -81,7 +81,7 @@ it("removes file", async () => {
   await expectFileNotExists(filePath);
 });
 
-it("causes error when removing file if not exist", async () => {
+it("does not cause error when removing file if not exist", async () => {
 
   const filePath = "testremovefilenotexist.txt";
 
@@ -94,7 +94,7 @@ it("causes error when removing file if not exist", async () => {
 
   const resp = await call({});
 
-  expectCode(resp, 500);
+  expectCode(resp, 200);
 });
 
 it("moves file",async () => {

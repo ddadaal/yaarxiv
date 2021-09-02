@@ -18,10 +18,12 @@ export const fsStoragePlugin = fp(async (fastify) => {
 
   const uploadPath = resolve(config.storage.path);
 
+  const logger = fastify.log.child({ plugin: "fsStorage" });
+
   // create the root upload path
-  fastify.log.info(`Creating root storage path ${uploadPath}`);
+  logger.info(`Creating root storage path ${uploadPath}`);
   await fs.promises.mkdir(uploadPath, { recursive: true });
-  fastify.log.info("Root storage path are created.");
+  logger.info("Root storage path are created.");
 
   // register fastify-static to serve file
   fastify.register(fastifyStatic, {
@@ -32,7 +34,7 @@ export const fsStoragePlugin = fp(async (fastify) => {
   const getActualPath = (path: string) => join(uploadPath, path);
 
   const saveFile: Storage["saveFile"] = async (path, data) => {
-    fastify.log.info(`Start saving file ${path}`);
+    logger.info(`Start saving file ${path}`);
 
     // create folder if not exist
     const fullPath = getActualPath(path);
@@ -42,20 +44,26 @@ export const fsStoragePlugin = fp(async (fastify) => {
 
     await pump(data, fs.createWriteStream(fullPath));
 
-    fastify.log.info(`File ${path} has been saved.`);
+    logger.info(`File ${path} has been saved.`);
   };
 
   const removeFile: Storage["removeFile"] = async (path) => {
-    fastify.log.info(`Start deleting file ${path}`);
+    logger.info(`Start deleting file ${path}`);
 
     const fullPath = getActualPath(path);
-    await fs.promises.unlink(fullPath);
+    await fs.promises.unlink(fullPath).catch((r) => {
+      if (r.code === "ENOENT") {
+        logger.warn(`File ${fullPath} doesn't exist.`);
+      } else {
+        throw r;
+      }
+    });
 
-    fastify.log.info(`File ${path} has been deleted.`);
+    logger.info(`File ${path} has been deleted.`);
   };
 
   const moveFile: Storage["moveFile"] = async (from, to) => {
-    fastify.log.info(`Starting moving filr from ${from} to ${to}.`);
+    logger.info(`Starting moving filr from ${from} to ${to}.`);
 
     const toPath = getActualPath(to);
 
@@ -63,17 +71,17 @@ export const fsStoragePlugin = fp(async (fastify) => {
 
     await fs.promises.rename(getActualPath(from), toPath);
 
-    fastify.log.info(`File ${from} has been moved to ${to}.`);
+    logger.info(`File ${from} has been moved to ${to}.`);
   };
 
   const rmdir: Storage["rmdir"] = async (path) => {
-    fastify.log.info(`Starting rmdir ${path}.`);
+    logger.info(`Starting rmdir ${path}.`);
 
     const toPath = getActualPath(path);
 
     await fs.promises.rmdir(toPath, { recursive: true });
 
-    fastify.log.info(`Dir ${path} has been removed.`);
+    logger.info(`Dir ${path} has been removed.`);
   };
 
 
