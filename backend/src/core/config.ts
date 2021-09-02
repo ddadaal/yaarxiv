@@ -23,7 +23,7 @@ export interface Config {
     connectionTimeout?: number;
     synchronize?: boolean;
   };
-  upload: {
+  storage: {
     type: "fs",
     path: string;
   };

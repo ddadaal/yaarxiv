@@ -12,11 +12,11 @@ const pump = util.promisify(pipeline);
 
 export const fsStoragePlugin = fp(async (fastify) => {
 
-  if (config.upload.type !== "fs") {
+  if (config.storage.type !== "fs") {
     throw new RangeError("fs storage can only be used when upload.type === fs");
   }
 
-  const uploadPath = resolve(config.upload.path);
+  const uploadPath = resolve(config.storage.path);
 
   // create the root upload path
   fastify.log.info(`Creating root storage path ${uploadPath}`);

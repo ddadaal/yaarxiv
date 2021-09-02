@@ -11,7 +11,7 @@ interface FsUtils {
   expectFile(filePath: string, exist: false): Promise<void>;
 }
 
-const registry: { [key in Config["upload"]["type"]]: FsUtils } = {
+const registry: { [key in Config["storage"]["type"]]: FsUtils } = {
   "fs": fsUtils,
 };
 
@@ -20,5 +20,5 @@ export const {
   removeUploadDir,
   touchFile,
   expectFile,
-} = registry[config.upload.type];
+} = registry[config.storage.type];
 

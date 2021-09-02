@@ -12,7 +12,7 @@
     "debug": true,
     "highlight": true
   },
-  "upload": {
+  "storage": {
     "path": "upload"
   },
   "staticPrefix": "static",

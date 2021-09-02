@@ -2,7 +2,7 @@ import { config, Config } from "@/core/config";
 import fs from "fs";
 import path from "path";
 
-const uploadConfig: Config["upload"] & { type: "fs"} = config.upload;
+const uploadConfig: Config["storage"] & { type: "fs" } = config.storage;
 
 function getActualFilePath(filePath: string) {
   return path.join(uploadConfig.path, filePath);

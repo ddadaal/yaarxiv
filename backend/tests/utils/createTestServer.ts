@@ -11,7 +11,7 @@ export async function createTestServer(build?: (server: FastifyInstance) => void
 
   // update the config to `yaarxiv_test_${env.JEST_WORKER_ID}`
   config.orm.dbName = `yaarxiv_test_${process.env.JEST_WORKER_ID}`;
-  config.upload.path = `testupload/${process.env.JEST_WORKER_ID}`;
+  config.storage.path = `testupload/${process.env.JEST_WORKER_ID}`;
 
   const server = buildApp(pluginOverrides);
 
