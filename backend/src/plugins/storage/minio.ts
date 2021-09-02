@@ -43,7 +43,7 @@ export const minioStoragePlugin = fp(async (fastify) => {
   const moveFile: Storage["moveFile"] = async (from, to) => {
     fastify.log.info(`Starting moving file from ${from} to ${to}.`);
 
-    await minio.copyObject(bucketName, to, from, new Minio.CopyConditions());
+    await minio.copyObject(bucketName, to, `${bucketName}/${from}`, new Minio.CopyConditions());
     await minio.removeObject(bucketName, from);
 
     fastify.log.info(`File ${from} has been moved to ${to}.`);
