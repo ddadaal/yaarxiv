@@ -6,10 +6,15 @@ import { pipeline } from "stream";
 import util from "util";
 import type { Storage } from ".";
 import { FastifyReply } from "fastify";
+import fastifyStatic from "fastify-static";
 
 const pump = util.promisify(pipeline);
 
 export const fsStoragePlugin = fp(async (fastify) => {
+
+  if (config.upload.type !== "fs") {
+    throw new RangeError("fs storage can only be used when upload.type === fs");
+  }
 
   const uploadPath = resolve(config.upload.path);
 
@@ -18,10 +23,15 @@ export const fsStoragePlugin = fp(async (fastify) => {
   await fs.promises.mkdir(uploadPath, { recursive: true });
   fastify.log.info("Root storage path are created.");
 
+  // register fastify-static to serve file
+  fastify.register(fastifyStatic, {
+    root: uploadPath,
+    serve: false,
+  });
+
   const getActualPath = (path: string) => join(uploadPath, path);
 
   const saveFile: Storage["saveFile"] = async (path, data) => {
-
     fastify.log.info(`Start saving file ${path}`);
 
     // create folder if not exist
@@ -67,7 +77,7 @@ export const fsStoragePlugin = fp(async (fastify) => {
   };
 
   const serveFile: FastifyReply["serveFile"] = function (path) {
-    return this.sendFile(path, resolve(config.upload.path));
+    return this.sendFile(path, uploadPath);
   };
 
   fastify.decorate("storage", {
@@ -78,5 +88,6 @@ export const fsStoragePlugin = fp(async (fastify) => {
   });
 
   fastify.decorateReply("serveFile", serveFile);
+
 
 });

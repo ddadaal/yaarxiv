@@ -7,7 +7,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute"; import { updateArticleRoute } from "@/routes/article/update";
 import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { articleInfoI18nConstraintsFailedCases, ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
-import { expectFile, touchFile } from "tests/utils/fs";
+import { expectFile, touchFile } from "tests/utils/storage";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 import MockDate from "mockdate";

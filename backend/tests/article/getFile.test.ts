@@ -3,13 +3,12 @@ import { callRoute } from "@/utils/callRoute";
 import { FastifyInstance } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
-import { createFile } from "./utils/mockFileForm";
 import { createMockArticles } from "./utils/generateArticles";
 import { Article } from "@/entities/Article";
 import { getArticleFileRoute } from "@/routes/article/getFile";
 import { range } from "@/utils/array";
 import { expectCode, expectErrorResponse } from "tests/utils/assertions";
-import { removeUploadDir } from "tests/utils/fs";
+import { removeUploadDir, touchFile } from "tests/utils/storage";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 import { SCRIPT_FILE_TYPE_HEADER_KEY } from "yaarxiv-api/api/article/getFile";
 
@@ -39,7 +38,7 @@ beforeEach(async () => {
     const filePath = getPathForArticleFile(article, filename);
     revisions[i].script.getEntity().filePath = filePath;
 
-    await createFile(size, filePath);
+    await touchFile(filePath, Buffer.alloc(size, "0"));
   }));
 
   await server.orm.em.flush();

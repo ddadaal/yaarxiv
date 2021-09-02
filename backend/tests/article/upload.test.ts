@@ -10,7 +10,7 @@ import { ArticleInfoI18nPart } from "yaarxiv-api/api/article/models";
 import { articleInfoI18nConstraintsFailedCases } from "yaarxiv-api/api/article/models";
 import { UploadArticleSchema } from "yaarxiv-api/api/article/upload";
 import { UploadedFile } from "@/entities/UploadedFile";
-import { expectFile, touchFile } from "tests/utils/fs";
+import { expectFile, touchFile } from "tests/utils/storage";
 import { User } from "@/entities/User";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 

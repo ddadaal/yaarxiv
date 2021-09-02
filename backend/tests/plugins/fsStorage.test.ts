@@ -3,7 +3,7 @@ import { InjectOptions, RouteHandlerMethod } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { mockFileForm } from "tests/article/utils/mockFileForm";
 import { expectCode } from "tests/utils/assertions";
-import { createUploadDir, expectFile, removeUploadDir, touchFile } from "tests/utils/fs";
+import { createUploadDir, expectFile, removeUploadDir, touchFile } from "tests/utils/storage/fs";
 
 let server: FastifyInstance;
 

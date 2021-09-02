@@ -7,7 +7,7 @@ import { MockUsers, createMockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { uploadScriptRoute } from "@/routes/article/uploadScript";
 import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
-import { expectFile, removeUploadDir } from "tests/utils/fs";
+import { expectFile, removeUploadDir } from "tests/utils/storage";
 import MockDate from "mockdate";
 
 let server: FastifyInstance;

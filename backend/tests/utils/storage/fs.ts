@@ -1,9 +1,11 @@
-import { config } from "@/core/config";
+import { config, Config } from "@/core/config";
 import fs from "fs";
 import path from "path";
 
-export function getActualFilePath(filePath: string) {
-  return path.join(config.upload.path, filePath);
+const uploadConfig: Config["upload"] & { type: "fs"} = config.upload;
+
+function getActualFilePath(filePath: string) {
+  return path.join(uploadConfig.path, filePath);
 }
 
 export async function expectFile(filePath: string, exist: true): Promise<fs.Stats>
@@ -18,11 +20,11 @@ export async function expectFile(filePath: string, exist: boolean): Promise<fs.S
 }
 
 export async function removeUploadDir() {
-  await fs.promises.rmdir(config.upload.path, { recursive: true });
+  await fs.promises.rmdir(uploadConfig.path, { recursive: true });
 }
 
 export async function createUploadDir() {
-  await fs.promises.mkdir(config.upload.path, { recursive: true });
+  await fs.promises.mkdir(uploadConfig.path, { recursive: true });
 }
 
 

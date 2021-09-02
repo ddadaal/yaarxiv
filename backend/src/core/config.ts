@@ -24,6 +24,7 @@ export interface Config {
     synchronize?: boolean;
   };
   upload: {
+    type: "fs",
     path: string;
   };
   staticPrefix: string;
