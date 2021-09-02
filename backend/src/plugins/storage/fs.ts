@@ -4,23 +4,12 @@ import { config } from "@/core/config";
 import { dirname, join, resolve } from "path";
 import { pipeline } from "stream";
 import util from "util";
+import type { Storage } from ".";
+import { FastifyReply } from "fastify";
+
 const pump = util.promisify(pipeline);
 
-export interface Storage {
-  saveFile: (path: string, data: NodeJS.ReadableStream) => Promise<void>;
-  removeFile: (path: string) => Promise<void>;
-  moveFile: (from: string, to: string) => Promise<void>;
-  rmdir: (dir: string) => Promise<void>;
-}
-
-declare module "fastify" {
-  interface FastifyInstance {
-    storage: Storage;
-  }
-
-}
-
-export const storagePlugin = fp(async (fastify) => {
+export const fsStoragePlugin = fp(async (fastify) => {
 
   const uploadPath = resolve(config.upload.path);
 
@@ -77,11 +66,17 @@ export const storagePlugin = fp(async (fastify) => {
     fastify.log.info(`Dir ${path} has been removed.`);
   };
 
+  const serveFile: FastifyReply["serveFile"] = function (path) {
+    return this.sendFile(path, resolve(config.upload.path));
+  };
+
   fastify.decorate("storage", {
     saveFile,
     removeFile,
     moveFile,
     rmdir,
   });
+
+  fastify.decorateReply("serveFile", serveFile);
 
 });

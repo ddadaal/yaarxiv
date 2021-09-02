@@ -2,28 +2,32 @@ import fp from "fastify-plugin";
 import { entities } from "@/entities";
 import { config } from "@/core/config";
 import { EntityManager, MySqlDriver } from "@mikro-orm/mysql";
-import { MikroORM } from "@mikro-orm/core";
+import { MigrationObject, MikroORM } from "@mikro-orm/core";
 import { SqlHighlighter } from "@mikro-orm/sql-highlighter";
 import waitOn from "wait-on";
 
 import { basename } from "path";
 
 // https://mikro-orm.io/docs/migrations/#importing-migrations-statically
-const migrations = {};
 
-function importAll(r: __WebpackModuleApi.RequireContext) {
-  r.keys().forEach(
-    (key) => (migrations[basename(key)] = Object.values(r(key))[0]),
-  );
+let migrationsList: MigrationObject[] | undefined = undefined;
+
+if (process.env.NODE_ENV === "production") {
+  const migrations = {};
+  function importAll(r: __WebpackModuleApi.RequireContext) {
+    r.keys().forEach(
+      (key) => (migrations[basename(key)] = Object.values(r(key))[0]),
+    );
+  }
+
+  importAll(require.context("../../migrations", false, /\.ts$/));
+
+  migrationsList = Object.keys(migrations).map((migrationName) => ({
+    name: migrationName,
+    class: migrations[migrationName],
+  }));
+
 }
-
-importAll(require.context("../../migrations", false, /\.ts$/));
-
-const migrationsList = Object.keys(migrations).map((migrationName) => ({
-  name: migrationName,
-  class: migrations[migrationName],
-}));
-
 
 declare module "fastify" {
 

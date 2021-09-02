@@ -25,10 +25,17 @@ export async function createUploadDir() {
   await fs.promises.mkdir(config.upload.path, { recursive: true });
 }
 
-export async function touchFile(filePath: string) {
+
+export async function touchFile(filePath: string, content?: string | Uint8Array) {
   const actualPath = getActualFilePath(filePath);
 
   await fs.promises.mkdir(path.dirname(actualPath), { recursive: true });
 
-  await (await fs.promises.open(getActualFilePath(filePath), "w")).close();
+  const handle = await fs.promises.open(actualPath, "w");
+
+  if (content) {
+    handle.writeFile(content);
+  }
+
+  await handle.close();
 }

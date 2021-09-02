@@ -1,5 +1,5 @@
 import * as api from "yaarxiv-api/api/article/getFile";
-import { route, SendFileResponse } from "@/core/route";
+import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
 import { extname } from "path";
 
@@ -33,7 +33,8 @@ export const getArticleFileRoute = route(
     const path = (await targetRevision.script.load()).filePath;
 
     // set file type header
-    resp.header("x-yaarxiv-filetype", extname(path).substr(1));
+    resp.header("x-yaarxiv-filetype", extname(path).substr(1))
+      .serveFile(path);
 
-    return { 200: new SendFileResponse(path) };
+    return { 200: undefined };
   });

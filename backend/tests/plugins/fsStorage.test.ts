@@ -140,3 +140,22 @@ it("rmdir",async () => {
 
   await expectFile("1", false);
 });
+
+it("serves file", async () => {
+  const file = "file_to_serve.pdf";
+
+  // write 10k content
+  const size = 10 * 1024;
+
+  await touchFile(file, Buffer.alloc(size, "0"));
+
+  const call = await prepare(async (_req, rep) => {
+    await rep.serveFile(file);
+  });
+
+  const resp = await call({});
+
+  expectCode(resp, 200);
+  expect(resp.headers["content-length"]).toBe(size);
+  expect(resp.headers["content-type"]).toBe("application/pdf");
+});
