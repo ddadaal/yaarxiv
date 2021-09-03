@@ -33,7 +33,7 @@ export const getArticleFileRoute = route(
     const path = (await targetRevision.script.load()).filePath;
 
     // set file type header
-    resp.header("x-yaarxiv-filetype", extname(path).substr(1))
+    await resp.header("x-yaarxiv-filetype", extname(path).substr(1))
       .serveFile(path);
 
     return { 200: undefined };
