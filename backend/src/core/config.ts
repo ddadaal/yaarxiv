@@ -75,7 +75,7 @@ function replaceRec(obj: object) {
   if (!obj) { return; }
   for (const k in obj) {
     if (typeof obj[k] === "string") {
-      obj[k] = obj[k].replace(/\$\{([a-zA-Z0-9_]+)\}/, (_, p1: string) => process.env[p1]);
+      obj[k] = obj[k].replace(/\$\{([a-zA-Z0-9_]+)\}/g, (_, p1: string) => process.env[p1]);
     } else if (typeof obj[k] === "object") {
       replaceRec(obj[k]);
     }

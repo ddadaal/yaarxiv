@@ -11,5 +11,5 @@ logger:
   level: error
   prettyPrint: true
 storage:
-  type: minio
-  bucketName: testbucket${JEST_WORKER_ID}
+  type: fs
+  path: testupload/${JEST_WORKER_ID}
