@@ -24,7 +24,7 @@ export const minioStoragePlugin = fp(async (fastify) => {
   logger.info("Waiting for minio to be alive.");
 
   await waitOn({
-    resources: [`tcp:${connection.endPoint}:${connection.port}}`],
+    resources: [`tcp:${connection.endPoint}:${connection.port}`],
     timeout: connection.connectionTimeout,
   });
 
