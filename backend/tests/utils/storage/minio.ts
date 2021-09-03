@@ -22,8 +22,7 @@ export const createMinioStorageUtils = () => {
       await minio.statObject(bucketName, filePath);
       fail();
     } catch (e) {
-      // passes
-      console.log(e);
+      expect(e.code).toBe("NotFound");
     }
   };
 
