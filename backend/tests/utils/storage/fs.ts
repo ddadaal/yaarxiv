@@ -42,7 +42,7 @@ export const createFSStorageUtils = () => {
     const handle = await fs.promises.open(actualPath, "w");
 
     if (content) {
-      handle.writeFile(content);
+      await handle.writeFile(content);
     }
 
     await handle.close();

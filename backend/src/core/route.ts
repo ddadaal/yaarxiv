@@ -66,7 +66,9 @@ export const registerRoute = (
 
         const respBody = resp[code];
 
-        reply.send(respBody);
+        if (respBody) {
+          reply.send(respBody);
+        }
 
         await reply;
       },

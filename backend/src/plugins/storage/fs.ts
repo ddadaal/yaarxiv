@@ -26,7 +26,7 @@ export const fsStoragePlugin = fp(async (fastify) => {
   logger.info("Root storage path are created.");
 
   // register fastify-static to serve file
-  fastify.register(fastifyStatic, {
+  await fastify.register(fastifyStatic, {
     root: uploadPath,
     serve: false,
   });
