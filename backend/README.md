@@ -44,9 +44,11 @@ npm run devenv:stop
 [node-config](https://github.com/lorenwest/node-config) is used for configuration. Create config files on `config` dir according to its strategy.
 
 
-For example, you will need a `production.json` (which can be based on `production.sample.json`) for production deployment.
+For example, you will need a `production.yml` (which can be based on `production.sample.yml`) for production deployment.
 
-See `config/default.json` for default config.
+See `config/default.yml` for default config.
+
+See `src/core/config.ts` for config definition
 
 # Deployment
 

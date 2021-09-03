@@ -35,7 +35,7 @@ More commands can be found in `frontend/README.md` and `backend/README.md`.
 # Deployment
 
 1. Configure db initial password in `.env`
-2. Create and modify `backend/config/production.json` based on `backend/config/production.sample.json`
+2. Create and modify `backend/config/production.yml` based on `backend/config/production.sample.yml`
 3. `docker-compose up`
 
 Default configs are provided in `docker-compose.yml`. The following can be changed.
@@ -46,7 +46,7 @@ Default configs are provided in `docker-compose.yml`. The following can be chang
 | backend port               | 5000                             | mapped from 3000                 |
 | frontend args (see below)  | USE_MOCK=0                       |                                  |
 | static files directory     | ./static                         |                                  |
-| backend configuration file | ./backend/config/production.json | Must be created before starting. |
+| backend configuration file | ./backend/config/production.yml | Must be created before starting. |
 | backend db files           | ./files/db                       | MySQL                            |
 | backend upload dir         | ./files/upload                   |                                  |
 
@@ -79,7 +79,7 @@ docker build . -f backend/Dockerfile \
 # with mappings to production conf and upload folder
 # -it to ctrl+c to kill the container
 docker run -p 5000:5000 -it \
-    -v $PWD/backend/config/production.js:/dist/config/production.js \
+    -v $PWD/backend/config/production.yml:/dist/config/production.yml \
     -v $PWD/upload:/dist/upload \
     backend
 

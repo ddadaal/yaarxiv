@@ -1,0 +1,14 @@
+orm:
+  type: mysql
+  host: localhost
+  port: 3306
+  dbName: yaarxiv_test_${JEST_WORKER_ID}
+  user: root
+  password: dbfordev
+  synchronize: true
+  dropSchema: true
+logger:
+  level: error
+  prettyPrint: true
+storage:
+  bucketName: testbucket${JEST_WORKER_ID}

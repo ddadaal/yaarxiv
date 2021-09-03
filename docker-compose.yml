@@ -48,7 +48,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - "./backend/config/production.json:/dist/config/production.json"
+      - "./backend/config/production.yml:/dist/config/production.yml"
     ports:
       - "5000:5000"
 
@@ -57,9 +57,9 @@ services:
     command: server /data --console-address ":9001"
     restart: always
     environment:
-      - MINIO_ROOT_USER=
-      - MINIO_ROOT_PASSWORD=
+      - MINIO_ROOT_USER=minio
+      - MINIO_ROOT_PASSWORD=miniominio
     volumes:
-      - ./files/upload:/data
+      - ./files/minio:/data
     ports:
       - "127.0.0.1:9001:9001"
