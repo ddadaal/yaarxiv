@@ -4,6 +4,8 @@ import type { Storage } from ".";
 import { FastifyReply } from "fastify";
 import * as Minio from "minio";
 import { removePrefix } from "@/utils/minio";
+import mime from "mime-types";
+import { extname } from "path";
 
 
 
@@ -68,7 +70,10 @@ export const minioStoragePlugin = fp(async (fastify) => {
     // get the length
     const stats = await minio.statObject(bucketName, path);
 
-    this.headers({ "content-length": stats.size, "content-type": stats.metaData["content-type"] });
+    // get the content-type
+    const mimeType = mime.contentType(extname(path)) || "application/octet-stream";
+
+    this.headers({ "content-length": stats.size, "content-type": mimeType });
 
     const file = await minio.getObject(bucketName, path);
     await this.send(file);
