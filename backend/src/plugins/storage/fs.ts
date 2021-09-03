@@ -93,7 +93,7 @@ export const fsStoragePlugin = fp(async (fastify) => {
   });
 
   const serveFile: FastifyReply["serveFile"] = async function (path) {
-    this.sendFile(path, uploadPath);
+    await this.sendFile(path, uploadPath);
   };
 
   fastify.decorateReply("serveFile", serveFile);
