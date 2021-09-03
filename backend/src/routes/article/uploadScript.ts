@@ -33,7 +33,7 @@ export const uploadScriptRoute = route(
       Received file ${data.filename} from ${user.id}. Saving it to ${filePath}.
     `);
 
-    await fastify.storage.saveFile(filePath, data.file, data.mimetype);
+    await fastify.storage.saveFile(filePath, data.file);
 
     await req.em.persistAndFlush(pdf);
 

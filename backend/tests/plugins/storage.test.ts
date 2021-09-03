@@ -41,7 +41,7 @@ it("saves file", async () => {
 
   const call = await prepare(async (req) => {
     const file = await req.file();
-    await server.storage.saveFile(file.filename, file.file, file.mimetype);
+    await server.storage.saveFile(file.filename, file.file);
     return {};
   });
 

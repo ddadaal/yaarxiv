@@ -28,9 +28,9 @@ export const minioStoragePlugin = fp(async (fastify) => {
     logger.info(`Bucket ${bucketName} has been created.`);
   }
 
-  const saveFile: Storage["saveFile"] = async (path, data, mimeType) => {
+  const saveFile: Storage["saveFile"] = async (path, data) => {
     logger.info(`Start saving file ${path}`);
-    const resp = await minio.putObject(bucketName, path, data, undefined, { "content-type": mimeType });
+    const resp = await minio.putObject(bucketName, path, data);
     logger.info(`File ${path} has been saved. Info: ${resp}`);
   };
 
