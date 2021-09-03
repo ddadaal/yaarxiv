@@ -8,7 +8,7 @@ import { callRoute } from "@/utils/callRoute";
 import { deleteArticleRoute } from "@/routes/article/delete";
 import { User } from "@/entities/User";
 import { expectCodeAndJson } from "tests/utils/assertions";
-import { getArticleBasePath, getPathForArticleFile } from "@/utils/articleFiles";
+import { getPathForArticleFile } from "@/utils/articleFiles";
 import { expectFileExists, expectFileNotExists, removeUploadDir, touchFile } from "tests/utils/storage";
 
 let server: FastifyInstance;
