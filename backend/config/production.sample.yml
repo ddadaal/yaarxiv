@@ -2,7 +2,7 @@ orm:
   host: localhost
   port: 3306
   user: root
-  password: dbfordev
+  # configure password in .env file to share with docker compose
   dbName: yaarxiv_prod
   connectionTimeout: 60000
   runMigrations: true
@@ -15,8 +15,7 @@ storage:
     endPoint: localhost
     port: 9000
     useSSL: false
-    accessKey: <minio access key>
-    secretKey: <minio secret key>
+  # configure accesskey and secret key in .env file to share with docker compose
   bucketName: productionbucket
 mail:
   host: <your mail service host>
