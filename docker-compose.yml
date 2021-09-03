@@ -47,6 +47,8 @@ services:
       dockerfile: backend/Dockerfile
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MINIO_ACCESSKEY: ${MINIO_ACCESSKEY}
+      MINIO_SECRETKEY: ${MINIO_SECRETKEY}
     volumes:
       - "./backend/config/production.yml:/dist/config/production.yml"
     ports:
@@ -57,9 +59,9 @@ services:
     command: server /data --console-address ":9001"
     restart: always
     environment:
-      - MINIO_ROOT_USER=minio
-      - MINIO_ROOT_PASSWORD=miniominio
+      MINIO_ROOT_USER: ${MINIO_ACCESSKEY}
+      MINIO_ROOT_PASSWORD: ${MINIO_SECRETKEY}
     volumes:
       - ./files/minio:/data
     ports:
-      - "127.0.0.1:9001:9001"
+      - "9001:9001"

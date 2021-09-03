@@ -1,0 +1,6 @@
+orm:
+  password: MYSQL_ROOT_PASSWORD
+storage:
+  connection:
+    accessKey: MINIO_ACCESSKEY
+    secretKey: MINIO_SECRETKEY

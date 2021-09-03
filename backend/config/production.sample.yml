@@ -2,6 +2,7 @@ orm:
   host: localhost
   port: 3306
   user: root
+  password: dbfordev
   dbName: yaarxiv_prod
   connectionTimeout: 60000
   runMigrations: true
@@ -9,12 +10,13 @@ orm:
   highlight: false
 jwtSecret: productionsecret
 storage:
+  type: minio
   connection:
     endPoint: localhost
     port: 9000
     useSSL: false
-    accessKey: minio
-    secretKey: miniominio
+    accessKey: <minio access key>
+    secretKey: <minio secret key>
   bucketName: productionbucket
 mail:
   host: <your mail service host>
