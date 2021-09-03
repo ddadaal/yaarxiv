@@ -19,7 +19,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
     volumes:
-      - "./files/db:/var/lib/mysql"
+      - "${YAARXIV_FILES_ROOT}/db:/var/lib/mysql"
     ports:
       - 3306:3306
 
@@ -62,6 +62,6 @@ services:
       MINIO_ROOT_USER: ${MINIO_ACCESSKEY}
       MINIO_ROOT_PASSWORD: ${MINIO_SECRETKEY}
     volumes:
-      - ./files/minio:/data
+      - "${YAARXIV_FILES_ROOT}/minio:/data"
     ports:
       - "9001:9001"
