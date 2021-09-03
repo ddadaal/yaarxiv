@@ -70,7 +70,7 @@ it("delete the article and all revisions and files as admin", async () => {
   await Promise.all(files.map((x) => expectFileNotExists(x)));
 
   // should not delete files of another article
-  await expectFileExists(getArticleBasePath(another));
+  await expectFileExists(getPathForArticleFile(another, anotherFile));
 });
 
 it("cannot delete the article and all revisions as non admin",  async () => {
