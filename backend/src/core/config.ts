@@ -36,6 +36,7 @@ export interface Config {
       accessKey: string,
       // password
       secretKey: string,
+      connectionTimeout?: number,
     },
     bucketName: string,
   };

@@ -18,6 +18,7 @@ storage:
     useSSL: false
     accessKey: minio
     secretKey: miniominio
+    connectionTimeout: 5000
   bucketName: devbucket
 staticPrefix: static
 bcryptSaltLength: 10

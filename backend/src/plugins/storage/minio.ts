@@ -6,6 +6,7 @@ import * as Minio from "minio";
 import { removePrefix } from "@/utils/minio";
 import mime from "mime-types";
 import { extname } from "path";
+import waitOn from "wait-on";
 
 
 
@@ -17,9 +18,19 @@ export const minioStoragePlugin = fp(async (fastify) => {
 
   const { connection, bucketName } = config.storage;
 
-  const minio = new Minio.Client(connection);
-
   const logger = fastify.log.child({ plugin: "MinioStorage" });
+
+  // wait for minio to be alive
+  logger.info("Waiting for minio to be alive.");
+
+  await waitOn({
+    resources: [`tcp:${connection.endPoint}:${connection.port}}`],
+    timeout: connection.connectionTimeout,
+  });
+
+  logger.info("minio is alive.");
+
+  const minio = new Minio.Client(connection);
 
   logger.info(`Using bucket ${bucketName}`);
 
