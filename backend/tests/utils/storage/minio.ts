@@ -32,7 +32,9 @@ export const createMinioStorageUtils = () => {
   };
 
   const createUploadDir: FsUtils["createUploadDir"] = async () => {
-    await minio.makeBucket(bucketName, "cn-north-1");
+    if (!await minio.bucketExists(bucketName)) {
+      await minio.makeBucket(bucketName, "cn-north-1");
+    }
   };
 
   const touchFile: FsUtils["touchFile"] = async (filePath, content) => {
