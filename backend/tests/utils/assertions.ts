@@ -8,7 +8,7 @@ export function expectCode<
   Code extends (number & keyof TSchema["responses"] | CommonErrorCode)
 >(resp: CallRouteResponse<TSchema>, code: Code, extraInfo?: any) {
   if (resp.statusCode !== code) {
-    const json = resp.json() as any;
+    const json = resp.statusCode === 204 ? undefined : resp.json() as any;
 
     throw new Error(`
       Expect response code failed.

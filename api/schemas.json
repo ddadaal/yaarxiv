@@ -871,7 +871,7 @@
         "responses": {
           "type": "object",
           "properties": {
-            "201": {
+            "204": {
               "type": "null",
               "description": "Email reset mail has been sent."
             },
@@ -881,7 +881,7 @@
             }
           },
           "required": [
-            "201",
+            "204",
             "404"
           ],
           "additionalProperties": false
@@ -918,7 +918,7 @@
         "responses": {
           "type": "object",
           "properties": {
-            "201": {
+            "204": {
               "type": "null",
               "description": "Password is reset."
             },
@@ -928,7 +928,7 @@
             }
           },
           "required": [
-            "201",
+            "204",
             "403"
           ],
           "additionalProperties": false

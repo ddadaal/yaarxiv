@@ -30,7 +30,7 @@ export const resetPasswordRoute = route(
     await user.setPassword(newPassword);
 
     await req.em.flush();
-    return { 201: null };
+    return { 204: null };
   });
 
 

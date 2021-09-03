@@ -4,7 +4,7 @@ import { createMockArticles } from "tests/article/utils/generateArticles";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, reloadEntity } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
-import { expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson, expectErrorResponse } from "tests/utils/assertions";
 import { retractArticleRoute } from "@/routes/article/retract";
 
 let server: FastifyInstance;
@@ -33,7 +33,7 @@ it("retracts the article as admin", async () => {
     body: {},
   }, users.adminUser);
 
-  expectCodeAndJson(resp, 204);
+  expectCode(resp, 204);
 
   await reloadEntity(article);
   expect(article.retractedBy?.id).toBe(users.adminUser.id);
@@ -49,7 +49,7 @@ it("retracts the article as owner", async () => {
     body: {},
   }, article.owner.getEntity());
 
-  expectCodeAndJson(resp, 204);
+  expectCode(resp, 204);
 
   await reloadEntity(article);
 

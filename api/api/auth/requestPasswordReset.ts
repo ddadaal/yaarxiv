@@ -9,7 +9,7 @@ export interface RequestPasswordResetSchema {
   };
   responses: {
     /** Email reset mail has been sent. */
-    201: null;
+    204: null;
 
     /** User does not exist. */
     404: UserNotFoundResponse;

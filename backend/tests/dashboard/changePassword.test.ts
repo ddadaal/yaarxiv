@@ -4,7 +4,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, normalUser1OriginalPassword, reloadUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { changePasswordRoute } from "@/routes/dashboard/changePassword";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -36,7 +36,7 @@ it("change user password", async () => {
     },
   }, users.normalUser1);
 
-  expectCodeAndJson(resp, 204);
+  expectCode(resp, 204);
 
   await reloadUsers(users);
 

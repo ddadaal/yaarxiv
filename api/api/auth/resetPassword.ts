@@ -12,7 +12,7 @@ export interface ResetPasswordSchema {
   /**  */
   responses: {
     /** Password is reset. */
-    201: null;
+    204: null;
     /** The reset password token is invalid. */
     403: ErrorResponse<"TOKEN_NOT_VALID">;
   }

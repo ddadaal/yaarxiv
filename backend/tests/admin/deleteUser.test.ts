@@ -8,7 +8,7 @@ import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { adminDeleteUserRoute } from "@/routes/admin/deleteUser";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 
 const articleCount = 2;
 
@@ -57,7 +57,7 @@ it("delete user and all related articles", async () => {
     path: { userId: users.normalUser1.id },
   }, users.adminUser);
 
-  expectCodeAndJson(resp, 204);
+  expectCode(resp, 204);
 
   expect(await countEntities(User)).toBe(2);
   expect(await countEntities(Article)).toBe(1);

@@ -6,7 +6,7 @@ import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createTestServer } from "tests/utils/createTestServer";
 import { callRoute } from "@/utils/callRoute";
 import { requestPasswordResetRoute } from "@/routes/auth/requestPasswordReset";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let account: TestAccount;
@@ -57,7 +57,7 @@ it("sent an email containing a reset link", async () => {
     body: { email },
   });
 
-  expectCodeAndJson(resp, 201);
+  expectCode(resp, 204);
 
   const em = server.orm.em.fork();
 
@@ -67,4 +67,4 @@ it("sent an email containing a reset link", async () => {
   expect(all.length).toBe(1);
   expect(await all[0].user.load("email")).toBe(email);
   // TODO find a way to test whether email is sent. maybe a POP3 client
-}, 20000);
+});

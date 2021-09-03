@@ -66,7 +66,9 @@ export const registerRoute = (
 
         const respBody = resp[code];
 
-        if (respBody) {
+        if (code === "204") {
+          reply.send();
+        } else if (respBody) {
           reply.send(respBody);
         }
 

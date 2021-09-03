@@ -7,7 +7,7 @@ import { createMockUsers, MockUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { deleteArticleRoute } from "@/routes/article/delete";
 import { User } from "@/entities/User";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 import { expectFileExists, expectFileNotExists, removeUploadDir, touchFile } from "tests/utils/storage";
 
@@ -57,7 +57,7 @@ it("delete the article and all revisions and files as admin", async () => {
     path: { articleId: article.id },
   }, users.adminUser);
 
-  expectCodeAndJson(resp, 204);
+  expectCode(resp, 204);
 
   const em = server.orm.em.fork();
   expect(await em.getRepository(Article).count()).toBe(1);

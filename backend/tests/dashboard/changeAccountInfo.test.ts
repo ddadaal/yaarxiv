@@ -3,7 +3,7 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers, reloadUsers } from "tests/utils/data";
 import { callRoute } from "@/utils/callRoute";
 import { changeAccountInfoRoute } from "@/routes/dashboard/changeAccountInfo";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -33,7 +33,7 @@ it("change user profile", async () => {
     body: { name: newName },
   }, users.normalUser1);
 
-  expectCodeAndJson(resp, 204);
+  expectCode(resp, 204);
 
   await reloadUsers(users);
 

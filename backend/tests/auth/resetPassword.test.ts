@@ -6,7 +6,7 @@ import { Reference } from "@mikro-orm/core";
 import { callRoute } from "@/utils/callRoute";
 import { resetPasswordRoute } from "@/routes/auth/resetPassword";
 import { createTestServer } from "tests/utils/createTestServer";
-import { expectCodeAndJson } from "tests/utils/assertions";
+import { expectCode, expectCodeAndJson } from "tests/utils/assertions";
 
 let server: FastifyInstance;
 let users: MockUsers;
@@ -68,7 +68,7 @@ it("changes user's password if token is valid", async () => {
     body: { token: token1.token, newPassword },
   });
 
-  expectCodeAndJson(resp, 201);
+  expectCode(resp, 204);
   await expectTokenDeleted(token1);
 
   await reloadEntity(users.normalUser1);

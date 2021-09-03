@@ -33,7 +33,7 @@ export const requestPasswordResetRoute = route(
 
     sendResetPassword(fastify, email, token.token);
 
-    return { 201: null };
+    return { 204: null };
 
   },
 );
