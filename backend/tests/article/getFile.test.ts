@@ -73,6 +73,18 @@ it("returns file of specific revision", async () => {
   expect(resp.headers[SCRIPT_FILE_TYPE_HEADER_KEY]).toBe("pdf");
 });
 
+it("returns file if the article is public even if not login", async () => {
+  const resp = await callRoute(server, getArticleFileRoute, {
+    path: { articleId: article.id },
+    query: {},
+  });
+
+  expectCode(resp, 200);
+  expect(resp.headers["content-length"]).toBe(pdfSize(1));
+  expect(resp.headers["content-type"]).toBe("application/pdf");
+  expect(resp.headers[SCRIPT_FILE_TYPE_HEADER_KEY]).toBe("pdf");
+});
+
 it("returns 404 if article is not found", async () => {
   const resp = await callRoute(server, getArticleFileRoute, {
     path: { articleId: 12345 },
@@ -132,6 +144,18 @@ it("returns 404 if article is not public and the user is neither admin nor owner
     path: { articleId: article.id },
     query: {},
   }, users.normalUser1);
+
+  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
+});
+
+it("returns 404 if the article is not public and the user is not login", async () => {
+  article.adminSetPublicity = false;
+  await server.orm.em.flush();
+
+  const resp = await callRoute(server, getArticleFileRoute, {
+    path: { articleId: article.id },
+    query: {},
+  });
 
   expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
 });

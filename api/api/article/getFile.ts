@@ -1,4 +1,3 @@
-import { UserRole } from "../auth/login";
 import { ApiProps } from "../utils/apiProps";
 import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
@@ -38,7 +37,6 @@ export interface GetArticleFileSchema {
 }
 
 export const props: ApiProps = {
-  requiredRoles: [UserRole.User, UserRole.Admin],
   consumes: ["application/octet-stream"],
 };
 
