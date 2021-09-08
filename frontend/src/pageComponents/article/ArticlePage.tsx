@@ -12,6 +12,7 @@ import { SCRIPT_FILE_TYPE_HEADER_KEY } from "yaarxiv-api/api/article/getFile";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { DownloadPdfLink } from "./DownloadPdfLink";
+import { LatexContent } from "src/components/Article/LatexContent";
 
 const root = prefix("pages.article.");
 
@@ -36,7 +37,9 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
           <ArticleAuthors authors={currentRevision.authors} />
           <Box>
             <Paragraph fill>
-              {currentRevision.abstract}
+              <LatexContent>
+                {currentRevision.abstract}
+              </LatexContent>
             </Paragraph>
           </Box>
           <Box wrap direction="row" gap="small">
