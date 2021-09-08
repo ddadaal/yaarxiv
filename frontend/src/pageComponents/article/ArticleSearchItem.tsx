@@ -48,7 +48,9 @@ const AbstractBox: React.FC<{
   return (
     <Box hoverIndicator onClick={() => setExpanded(!expanded)}>
       <Text>
-        <HighlightedText text={abstract} highlights={[searchText]} truncate={!expanded} />
+        <HighlightedText text={abstract} highlights={[searchText]}
+          truncate={!expanded} latex
+        />
       </Text>
     </Box>
   );

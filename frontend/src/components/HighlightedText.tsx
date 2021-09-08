@@ -1,4 +1,5 @@
 import React, { useMemo } from "react";
+import { LatexContent } from "src/components/Article/LatexContent";
 import { range } from "src/utils/array";
 
 // How many words should be saved at the context
@@ -10,6 +11,7 @@ interface Props {
   text: string;
   highlights: string[];
   truncate?: boolean;
+  latex?: boolean;
 }
 
 export const Mark: React.FC = ({ children }) => (
@@ -30,20 +32,25 @@ function splitWithSpaceAndChineseChar(str: string): string[] {
   return str.split(/(\s|[\u4E00-\uFA29])/).filter((x) => x !== "");
 }
 
-function truncateSentence(content: string) {
+function truncateSentence(content: string): string {
   const words = splitWithSpaceAndChineseChar(content);
   if (words.length > WHOLE_CONTENT_LIMIT) {
     return words.slice(0, WHOLE_CONTENT_LIMIT).join("") + " ...";
   } else {
-    return words;
+    return words.join("");
   }
 }
+
 
 export const HighlightedText: React.FC<Props> = ({
   text,
   highlights,
   truncate = false,
+  latex = false,
 }) => {
+  function wrapWithLatex(content: string) {
+    return latex ? <LatexContent>{content}</LatexContent> : content;
+  }
 
   const element = useMemo(() => {
 
@@ -51,7 +58,7 @@ export const HighlightedText: React.FC<Props> = ({
     if (nonEmptyHighlights.length === 0) {
       // nothing to highlight
       // just truncate and return
-      return truncate ? truncateSentence(text) : text;
+      return wrapWithLatex(truncate ? truncateSentence(text) : text);
     }
     const regex = new RegExp(`(${nonEmptyHighlights.map(escapeRegExp).join("|")})`, "gi");
     const splitted = text.split(regex) as (string | React.ReactNode)[];
@@ -61,7 +68,7 @@ export const HighlightedText: React.FC<Props> = ({
     // the odd index of the result is the matched string
     // replace the matched with highlighted text
     range(1, splitted.length, 2).forEach((i) => {
-      splitted[i] = <Mark key={i}>{splitted[i]}</Mark>;
+      splitted[i] = <Mark key={i}>{wrapWithLatex(splitted[i] as string)}</Mark>;
     });
 
     if (truncate) {
@@ -76,21 +83,23 @@ export const HighlightedText: React.FC<Props> = ({
           if (words.length > CONTEXT_WORD_LENGTH) {
             // truncate the words
             const partLength = CONTEXT_WORD_LENGTH / 2;
-            splitted[i] = [
+            splitted[i] = wrapWithLatex([
               ...words.slice(0, partLength),
               " ... ",
               ...words.slice(words.length - partLength, words.length),
-            ].join("");
+            ].join(""));
+          } else {
+            splitted[i] = wrapWithLatex(part);
           }
         });
       } else {
         // just truncate the whole text
-        splitted[0] = truncateSentence(splitted[0] as string);
+        splitted[0] = wrapWithLatex(truncateSentence(splitted[0] as string));
       }
     }
 
     return splitted;
-  }, [text, ...highlights, truncate]);
+  }, [text, ...highlights, truncate, latex]);
 
   return <>{element}</>;
 };
