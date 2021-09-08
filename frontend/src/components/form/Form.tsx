@@ -28,7 +28,10 @@ export const Form = React.forwardRef<HTMLFormElement, Props>((props, ref)  => {
         onKeyPress={
           disableEnterToSubmit
             ? (e) => {
-              if (e.key === "Enter") { e.preventDefault(); }
+              if (
+                e.key === "Enter" && (e.target as HTMLElement).nodeName !== "TEXTAREA") {
+                e.preventDefault();
+              }
             } : undefined
         }
         {...rest}
