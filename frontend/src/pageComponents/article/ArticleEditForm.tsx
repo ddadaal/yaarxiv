@@ -1,6 +1,6 @@
 import {
   Anchor, Box, Button, FormField,
-  Heading, Paragraph, TextArea,
+  Heading, Paragraph,
 } from "grommet";
 import React, { useMemo, useState } from "react";
 import { Localized, prefix } from "src/i18n";
@@ -26,6 +26,7 @@ import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";
 import { FormFieldMessage } from "src/components/form/FormFieldMessage";
 import { AuthorInput } from "src/pageComponents/article/AuthorInput";
 import { authorEquals } from "src/models/Article";
+import { ArticleAbstractInput } from "src/pageComponents/article/ArticleAbstractInput";
 
 const root = prefix("pages.upload.");
 
@@ -281,20 +282,18 @@ export const ArticleEditForm: React.FC<Props> = ({
             <FormField
               label={(
                 <Localized
-                  id={root("info.abstract")}
-                  args={[ARTICLE_ABSTRACT_LENGTH_LIMIT]}
+                  id={root("info.abstract.title")}
                 />
               )}
               name="abstract"
               required
+              contentProps={{ border: undefined }}
             >
-              <TextArea
+              <ArticleAbstractInput
                 disabled={disabled}
-                name="abstract"
                 value={info.abstract}
-                onChange={(e) => updateInfo({ abstract: e.target.value })}
-                maxLength={2000}
-                rows={15}
+                onChange={(val) => updateInfo({ abstract: val })}
+                maxLength={ARTICLE_ABSTRACT_LENGTH_LIMIT}
               />
             </FormField>
             <FormField

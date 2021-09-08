@@ -15,6 +15,7 @@
     "grommet-icons": "^4.6.2",
     "luxon": "^2.0.2",
     "next": "11.1.2",
+    "next-compose-plugins": "^2.2.1",
     "next-dark-mode": "^3.0.0",
     "next-images": "^1.8.1",
     "next-transpile-modules": "^8.0.0",
@@ -25,13 +26,13 @@
     "react-async": "^10.0.1",
     "react-dom": "17.0.2",
     "react-dropzone": "^11.3.4",
+    "react-latex-next": "^2.1.0",
     "react-toastify": "^8.0.2",
     "react-typed-i18n": "^2.1.0",
     "simstate": "^3.0.0",
     "styled-components": "^5.3.1",
     "url-join": "^4.0.1",
-    "yaarxiv-api": "file:../api",
-    "next-compose-plugins": "^2.2.1"
+    "yaarxiv-api": "file:../api"
   },
   "devDependencies": {
     "@types/luxon": "^2.0.2",
