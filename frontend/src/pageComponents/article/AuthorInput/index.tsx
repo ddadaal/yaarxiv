@@ -7,8 +7,6 @@ import { Add } from "grommet-icons";
 import { AuthorInfoModal } from "src/pageComponents/article/AuthorInput/AuthorInfoModal";
 import { Localized } from "react-typed-i18n";
 import { prefix } from "src/i18n";
-import { authorEquals } from "src/models/Article";
-import { toast } from "react-toastify";
 
 interface Props {
   value: Author[];
@@ -57,12 +55,8 @@ export const AuthorInput: React.FC<Props> = ({
               open={show}
               onCancel={() => setShow(false)}
               onSubmit={(a) => {
-                if (value.some((x) => authorEquals(x, a))) {
-                  toast.error(<Localized id={root("info.authors.duplicated")} />);
-                } else {
-                  onAdd(a);
-                  setShow(false);
-                }
+                onAdd(a);
+                setShow(false);
               }}
             />
           </>
