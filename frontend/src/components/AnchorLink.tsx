@@ -2,6 +2,11 @@ import React from "react";
 import { AnchorProps, Anchor } from "grommet";
 import Link from "next/link";
 import { UrlObject } from "url";
+import styled from "styled-components";
+
+const NoFocusEffectAnchor = styled(Anchor)`
+  box-shadow: none;
+`;
 
 declare module "grommet" {
   interface AnchorProps {
@@ -25,12 +30,12 @@ export const AnchorLink: React.FC<Props> = ({
   if (href) {
     return (
       <Link href={href} as={as} passHref>
-        <Anchor {...props} />
+        <NoFocusEffectAnchor {...props} />
       </Link>
     );
   }else {
     return (
-      <Anchor onClick={onClick} {...props}/>
+      <NoFocusEffectAnchor onClick={onClick} {...props}/>
     );
   }
 };
