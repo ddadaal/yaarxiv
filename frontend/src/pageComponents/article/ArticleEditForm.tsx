@@ -317,7 +317,6 @@ export const ArticleEditForm: React.FC<Props> = ({
               name="doi"
               value={info.doi}
               disabled={disabled}
-              maxLength={20}
               onChange={(e) => updateInfo({ doi: e.target.value })}
             />
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
