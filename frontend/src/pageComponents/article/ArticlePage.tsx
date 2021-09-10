@@ -63,23 +63,36 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
         (<Box gap="medium">
           <TitledSection titleId={root("revisions")}>
             <Box gap="xsmall">
-              {article.revisions.map((r) => (
-                <Box key={r.number}>
-                  <AnchorLink
-                    disabled={r.number === article.revisionNumber}
-                    href={{ pathname: "/articles/[id]", query: { revision: r.number } }}
-                    as={{
-                      pathname: `/articles/${article.id}`,
-                      query: { revision: r.number },
-                    }}
+              {article.revisions.map((r) => {
+                const text = `v${r.number} (${formatDateTime(r.time)})`;
+                return (
+                  <Box key={r.number}>
+                    {
+                      r.number === article.revisionNumber
+                        ? (
+                          <Text weight="bold" color="brand">
+                            {text}
+                          </Text>
+                        ) : (
+                          <AnchorLink
+                            href={{
+                              pathname: "/articles/[id]",
+                              query: { revision: r.number },
+                            }}
+                            as={{
+                              pathname: `/articles/${article.id}`,
+                              query: { revision: r.number },
+                            }}
 
-                  >
-                    <Text weight="normal">
-                    v{r.number} ({formatDateTime(r.time)})
-                    </Text>
-                  </AnchorLink>
-                </Box>
-              ))}
+                          >
+                            <Text weight="normal">
+                              {text}
+                            </Text>
+                          </AnchorLink>
+                        )}
+                  </Box>
+                );
+              })}
               {
                 article.retractTime ? (
                   <Text weight="normal" color="status-critical">
