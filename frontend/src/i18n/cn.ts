@@ -209,6 +209,12 @@ export default {
         upload: "上传",
         promise: "我承诺本文章内容不涉密，完全原创，没有剽窃。若出现问题，责任自负。",
         promiseRequired: "您必须同意免责声明",
+        confirm: {
+          title: "确认提交",
+          description: "请仔细检查所有内容。文章内容一旦提交不能修改，只能通过创建新版本的方式更新。",
+          confirm: "提交",
+          cancel: "返回检查",
+        },
       },
       complete: {
         title: "上传成功！",

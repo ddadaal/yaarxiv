@@ -214,6 +214,12 @@ export default {
         upload: "Upload",
         promise: "I promise: this article doesn't contain secret information, is an completely original work of authors. The authors are responsible for the article.",
         promiseRequired: "You must agree the promise.",
+        confirm: {
+          title: "Confirm",
+          description: "Please review carefully your content before submitting. Once submitted, you can no longer modify any information. You can only submit a new revision to update the information.",
+          confirm: "Submit",
+          cancel: "Cancel",
+        },
       },
       complete: {
         title: "Upload successful！",

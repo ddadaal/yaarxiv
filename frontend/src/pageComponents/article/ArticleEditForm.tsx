@@ -27,6 +27,7 @@ import { FormFieldMessage } from "src/components/form/FormFieldMessage";
 import { AuthorInput } from "src/pageComponents/article/AuthorInput";
 import { authorEquals } from "src/models/Article";
 import { ArticleAbstractInput } from "src/pageComponents/article/ArticleAbstractInput";
+import { Modal } from "src/components/modals/Modal";
 
 const root = prefix("pages.upload.");
 
@@ -84,24 +85,28 @@ export const ArticleEditForm: React.FC<Props> = ({
 
   const pdfSizeLimit = SCRIPT_SIZE_LIMIT_MB;
 
+  const [showConfirm, setShowConfirm] = useState(false);
+
+  const submit = () => {
+    onSubmit(info.file, {
+      abstract: info.abstract,
+      authors: info.authors,
+      codeLink: info.codeLink || undefined,
+      cnKeywords: info.cnKeywords.length === 0 ? undefined : info.cnKeywords,
+      enKeywords: info.enKeywords.length === 0 ? undefined : info.enKeywords,
+      cnTitle: info.cnTitle || undefined,
+      enTitle: info.enTitle || undefined,
+      doi: info.doi || undefined,
+    });
+  };
+
   return (
     <Box gap="large">
       <Form
         disableEnterToSubmit
         onReset={() => setInfo(initialInternal)}
         value={info}
-        onSubmit={() => {
-          onSubmit(info.file, {
-            abstract: info.abstract,
-            authors: info.authors,
-            codeLink: info.codeLink || undefined,
-            cnKeywords: info.cnKeywords.length === 0 ? undefined : info.cnKeywords,
-            enKeywords: info.enKeywords.length === 0 ? undefined : info.enKeywords,
-            cnTitle: info.cnTitle || undefined,
-            enTitle: info.enTitle || undefined,
-            doi: info.doi || undefined,
-          });
-        }}
+        onSubmit={() => setShowConfirm(true)}
         validate="change"
       >
         <Box>
@@ -356,6 +361,27 @@ export const ArticleEditForm: React.FC<Props> = ({
           </Box>
         </Box>
       </Form>
+      <Modal
+        open={showConfirm}
+        title={<Localized id={root("info.confirm.title")} />}
+        footer={[
+          <Button
+            key="confirm"
+            primary
+            label={<Localized id={root("info.confirm.confirm")} />}
+            onClick={submit}
+            disabled={disabled}
+          />,
+          <Button
+            key="cancel"
+            label={<Localized id={root("info.confirm.cancel")} />}
+            onClick={() => setShowConfirm(false)}
+            disabled={disabled}
+          />,
+        ]}
+      >
+        <Localized id={root("info.confirm.description")} />
+      </Modal>
     </Box>
   );
 };
