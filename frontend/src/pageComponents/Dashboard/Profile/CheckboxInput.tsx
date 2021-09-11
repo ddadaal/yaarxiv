@@ -22,16 +22,16 @@ export const CheckboxInput: React.FC<Props> = ({
       <Box flex>
         <TextInput
           value={value.value}
-          onChange={(e) => onChange?.({  ...value, value: e.target.value })}
+          onChange={(e) => onChange?.({  checked: true, value: e.target.value })}
         />
       </Box>
-      <Box>
+      {/* <Box>
         <CheckBox
           checked={value.checked}
           onChange={(e) => onChange?.({ ...value, checked: e.target.checked })}
           label={checkboxLabel}
         />
-      </Box>
+      </Box> */}
     </Box>
   );
 };
