@@ -207,6 +207,8 @@ export default {
         doi: "DOI（可选）",
         reset: "重置",
         upload: "上传",
+        promise: "我承诺本文章内容不涉密，完全原创，没有剽窃。若出现问题，责任自负。",
+        promiseRequired: "您必须同意免责声明",
       },
       complete: {
         title: "上传成功！",

@@ -212,6 +212,8 @@ export default {
         doi: "DOI (Optional)",
         reset: "Reset",
         upload: "Upload",
+        promise: "I promise: this article doesn't contain secret information, is an completely original work of authors. The authors are responsible for the article.",
+        promiseRequired: "You must agree the promise.",
       },
       complete: {
         title: "Upload successful！",

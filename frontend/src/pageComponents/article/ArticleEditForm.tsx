@@ -1,5 +1,5 @@
 import {
-  Anchor, Box, Button, FormField,
+  Anchor, Box, Button, CheckBox, FormField,
   Heading, Paragraph,
 } from "grommet";
 import React, { useMemo, useState } from "react";
@@ -40,6 +40,7 @@ type ArticleFormInternal = {
   enKeywords: string[];
   file: File | undefined;
   doi?: string;
+  promise: boolean;
 };
 
 export type ArticleForm = {
@@ -73,6 +74,7 @@ export const ArticleEditForm: React.FC<Props> = ({
     enTitle: initial.enTitle || "",
     file: undefined,
     doi: initial.doi || "",
+    promise: false,
   }), [initial]);
 
   const [info, setInfo] = useState<ArticleFormInternal>(initialInternal);
@@ -319,6 +321,25 @@ export const ArticleEditForm: React.FC<Props> = ({
               disabled={disabled}
               onChange={(e) => updateInfo({ doi: e.target.value })}
             />
+            <FormField
+              name="promise"
+              validate={(value: boolean) => {
+                if (!value) {
+                  return {
+                    message: <FormFieldMessage id={root("info.promiseRequired")} />,
+                    status: "error",
+                  };
+                }
+              }}
+              contentProps={{ border: undefined, pad: { vertical: "small" } }}
+            >
+              <CheckBox
+                name="promise"
+                label={<Localized id={root("info.promise")} />}
+                checked={info.promise}
+                onChange={(e) => updateInfo({ promise: e.target.checked })}
+              />
+            </FormField>
             <Box direction="row" justify="between" margin={{ top: "medium" }}>
               <Button
                 type="reset"
