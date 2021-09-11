@@ -63,7 +63,7 @@ export default {
   },
   header: {
     home: "Home",
-    search: "Search",
+    search: "Browse",
     upload: "Upload",
     about: "About",
     login: "Login",

@@ -59,7 +59,7 @@ export default {
   },
   header: {
     home: "主页",
-    search: "搜索",
+    search: "浏览",
     login: "登录",
     about: "关于",
     welcome: "欢迎您，{}",
