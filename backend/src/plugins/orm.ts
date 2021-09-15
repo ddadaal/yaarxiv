@@ -93,6 +93,8 @@ export const ormPlugin = fp(async (fastify) => {
     await schemaGenerator.updateSchema();
   }
 
+  fastify.decorateRequest("em", null);
+
   fastify.addHook("onRequest", async function (req) {
     req.em = dbConnection.em.fork() as EntityManager;
   });
