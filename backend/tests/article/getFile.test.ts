@@ -5,12 +5,11 @@ import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
 import { createMockArticles } from "./utils/generateArticles";
 import { Article } from "@/entities/Article";
-import { getArticleFileRoute } from "@/routes/article/getFile";
+import { getArticleScriptRoute } from "@/routes/article/getScript";
 import { range } from "@/utils/array";
 import { expectCode, expectErrorResponse } from "tests/utils/assertions";
 import { removeUploadDir, touchFile } from "tests/utils/storage";
 import { getPathForArticleFile } from "@/utils/articleFiles";
-import { SCRIPT_FILE_TYPE_HEADER_KEY } from "yaarxiv-api/api/article/getFile";
 import { signUser } from "@/plugins/auth";
 
 let server: FastifyInstance;
@@ -51,7 +50,7 @@ afterEach(async () => {
 });
 
 it("returns file of latest revision", async () => {
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
     query: {},
   });
@@ -59,11 +58,10 @@ it("returns file of latest revision", async () => {
   expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(pdfSize(1));
   expect(resp.headers["content-type"]).toBe("application/pdf");
-  expect(resp.headers[SCRIPT_FILE_TYPE_HEADER_KEY]).toBe("pdf");
 });
 
 it("returns file of specific revision", async () => {
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
     query: { revision: 1 },
   });
@@ -71,11 +69,10 @@ it("returns file of specific revision", async () => {
   expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(pdfSize(0));
   expect(resp.headers["content-type"]).toBe("application/pdf");
-  expect(resp.headers[SCRIPT_FILE_TYPE_HEADER_KEY]).toBe("pdf");
 });
 
 it("returns file if the article is public even if not login", async () => {
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
     query: {},
   });
@@ -83,11 +80,10 @@ it("returns file if the article is public even if not login", async () => {
   expectCode(resp, 200);
   expect(resp.headers["content-length"]).toBe(pdfSize(1));
   expect(resp.headers["content-type"]).toBe("application/pdf");
-  expect(resp.headers[SCRIPT_FILE_TYPE_HEADER_KEY]).toBe("pdf");
 });
 
 it("returns 404 if article is not found", async () => {
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: 12345 },
     query: { token: signUser(server, users.normalUser1) },
   });
@@ -96,7 +92,7 @@ it("returns 404 if article is not found", async () => {
 });
 
 it("returns 404 if revision is not found", async () => {
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
     query: { revision: 3, token: signUser(server, users.normalUser1) },
   });
@@ -109,7 +105,7 @@ it("returns 403 if the article is retracted", async () => {
   article.retractTime = new Date();
   await server.orm.em.flush();
 
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
     query: { revision: 3, token: signUser(server, users.normalUser1) },
   });
@@ -123,7 +119,7 @@ it("returns file if article is not public but the user is either admin or owner"
   await server.orm.em.flush();
 
   const test = async (user: User) => {
-    const resp = await callRoute(server, getArticleFileRoute, {
+    const resp = await callRoute(server, getArticleScriptRoute, {
       path: { articleId: article.id },
       query: { token: signUser(server, user) },
     });
@@ -141,7 +137,7 @@ it("returns 404 if article is not public and the user is neither admin nor owner
 
   article.adminSetPublicity = false;
   await server.orm.em.flush();
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
     query: { token: signUser(server, users.normalUser1) },
   });
@@ -153,7 +149,7 @@ it("returns 404 if the article is not public and the user is not login", async (
   article.adminSetPublicity = false;
   await server.orm.em.flush();
 
-  const resp = await callRoute(server, getArticleFileRoute, {
+  const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
     query: {},
   });

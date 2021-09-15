@@ -1,9 +1,9 @@
-import * as api from "yaarxiv-api/api/article/getFile";
+import * as api from "yaarxiv-api/api/article/getScript";
 import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
 
-export const getArticleFileRoute = route(
-  api, "GetArticleFileSchema",
+export const getArticleScriptRoute = route(
+  api, "GetArticleScriptSchema",
   async (req, fastify, resp) => {
     const { articleId } = req.params;
     const { revision, token } = req.query;
@@ -33,9 +33,7 @@ export const getArticleFileRoute = route(
     // load pdf link
     const script = await targetRevision.script.load();
 
-    // set file type header
-    await resp.header("x-yaarxiv-filetype", script.extname)
-      .serveFile(script.filePath);
+    await resp.serveFile(script.filePath);
 
     return { 200: undefined };
   });

@@ -1,12 +1,10 @@
-import { ApiProps } from "../utils/apiProps";
+import { ApiProps as getArticleScript } from "../utils/apiProps";
 import { ErrorResponse } from "../utils/error";
 import { Endpoint } from "../utils/schema";
 import { ArticleId } from "./models";
 
-export const SCRIPT_FILE_TYPE_HEADER_KEY = "x-yaarxiv-filetype";
-
 /** Get the script file of the article. */
-export interface GetArticleFileSchema {
+export interface GetArticleScriptSchema {
   path: {
     /**
      * The article id
@@ -29,10 +27,6 @@ export interface GetArticleFileSchema {
     token?: string;
   }
   responses: {
-    /**
-     * 200 response has a header x-yaarxiv-filetype
-     * Possble values are ALLOWED_SCRIPT_FORMAT
-     */
     200: any;
 
     /**
@@ -44,11 +38,11 @@ export interface GetArticleFileSchema {
   }
 }
 
-export const props: ApiProps = {
+export const props: getArticleScript = {
   consumes: ["application/octet-stream"],
 };
 
 export const endpoint = {
   method: "GET",
-  url: "/articles/:articleId/file",
-} as Endpoint<GetArticleFileSchema>;
+  url: "/articles/:articleId/script",
+} as Endpoint<GetArticleScriptSchema>;

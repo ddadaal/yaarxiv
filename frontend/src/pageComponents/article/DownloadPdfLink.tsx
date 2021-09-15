@@ -3,7 +3,7 @@ import React, {  } from "react";
 import { getFullUrl } from "src/apis/fetch";
 import { ArticleId, ScriptFormat } from "yaarxiv-api/api/article/models";
 
-import * as getArticleFile from "yaarxiv-api/api/article/getFile";
+import * as getArticleScript from "yaarxiv-api/api/article/getScript";
 import { useStore } from "simstate";
 import { UserStore } from "src/stores/UserStore";
 
@@ -25,7 +25,7 @@ export const DownloadPdfLink: React.FC<Props> = ({
 
   return (
     <Anchor
-      href={getFullUrl(getArticleFile.endpoint.url, { articleId }, { revision, token })}
+      href={getFullUrl(getArticleScript.endpoint.url, { articleId }, { revision, token })}
       download={`yaarxiv-${articleId}-rev-${revision}.${format}`}
     >
       {children}

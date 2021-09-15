@@ -400,7 +400,7 @@
       "additionalProperties": false,
       "description": "Get the full information of an article."
     },
-    "GetArticleFileSchema": {
+    "GetArticleScriptSchema": {
       "type": "object",
       "properties": {
         "path": {
@@ -433,8 +433,7 @@
         "responses": {
           "type": "object",
           "properties": {
-            "200": {
-            },
+            "200": {},
             "403": {
               "$ref": "#/definitions/ErrorResponse%3C%22ARTICLE_RETRACTED%22%3E",
               "description": "The article has been retracted"

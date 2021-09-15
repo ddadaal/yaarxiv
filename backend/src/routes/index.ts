@@ -18,7 +18,7 @@ import { adminGetUsersRoute } from "./admin/getUsers";
 import { adminDeleteUserRoute } from "./admin/deleteUser";
 import { changeArticleAdminSetPublicityRoute } from "./admin/changeArticlePublicity";
 import { changeArticleOwnerSetPublicityRoute } from "./dashboard/changeArticlePublicity";
-import { getArticleFileRoute } from "./article/getFile";
+import { getArticleScriptRoute } from "./article/getScript";
 import { validateEmailRoute } from "@/routes/register/validateEmail";
 import { changeProfileRoute } from "@/routes/dashboard/changeProfile";
 import { getProfileRoute } from "@/routes/dashboard/getProfile";
@@ -35,7 +35,7 @@ export const routes = [
   resetPasswordRoute,
   searchArticleRoute,
   getArticleRoute,
-  getArticleFileRoute,
+  getArticleScriptRoute,
   deleteArticleRoute,
   dashboardGetArticlesRoute,
   adminGetArticlesRoute,

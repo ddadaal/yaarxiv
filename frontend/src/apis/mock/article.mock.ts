@@ -93,7 +93,7 @@ export const articleApisMock: typeof realApi["article"] = ({
   uploadArticle: async () => ({ id: 1231243124 }),
   uploadScript: async () => ({ token: 123123 }),
   deleteArticle: async () => null,
-  getArticleFile: async () => ({}),
+  getArticleScript: async () => ({}),
   updateArticle: async () => ({ revisionNumber: 3 }),
   retractArticle: async () => null,
 });
