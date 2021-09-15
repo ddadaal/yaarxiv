@@ -9,7 +9,7 @@ import { removeNullOrUndefinedKey } from "src/utils/array";
 import { failEvent, finallyEvent, prefetchEvent, successEvent } from "./events";
 import { config } from "src/utils/config";
 
-const baseUrl = isServer()
+const apiBaseUrl = isServer()
   ? config.serverApiRoot
   : config.clientApiRoot;
 
@@ -21,20 +21,24 @@ export function changeToken(newToken: string): void {
   token = newToken;
 }
 
+export function getFullUrl(basePath: string, pathArgs: any, query: any) {
+  const replacedPath = pathArgs ? replacePathArgs(basePath, pathArgs) : basePath;
+  let url = apiBaseUrl + replacedPath;
+  if (query) {
+    url += parseQueryToQuerystring(query);
+  }
+  return url;
+}
+
 
 export function fullFetch(
-  path: string,
-  query?: Querystring,
+  url: string,
   init?: RequestInit,
 ): Promise<Response> {
   const headers = token
     ? { ...init?.headers, "authorization": `Bearer ${token}` }
     : init?.headers ?? {};
 
-  let url = baseUrl + path;
-  if (query) {
-    url += parseQueryToQuerystring(query);
-  }
 
   return fetch(url,
     {
@@ -50,6 +54,7 @@ export type FullFetch = typeof fullFetch;
 
 export interface FetchInfo {
   path: string;
+  pathArgs?: unknown;
   method?: HttpMethod;
   query?: Querystring;
   body?: unknown;
@@ -107,8 +112,10 @@ export async function jsonFetch<T>(
 
   prefetchEvent.execute(undefined);
 
+  const fullUrl = getFullUrl(info.path, info.pathArgs, info.query);
+
   try {
-    const resp = await fullFetch(info.path, info.query, {
+    const resp = await fullFetch(fullUrl, {
       method: info.method ?? "GET",
       headers: {
         ...isForm ? undefined : { "content-type": "application/json" },
@@ -160,6 +167,8 @@ export async function jsonFetch<T>(
 
 export type JsonFetch = typeof jsonFetch;
 
+
+
 export function fromApi<TSchema extends GeneralSchema>(endpoint: Endpoint<TSchema>) {
   return function (
     args: RequestArgs<TSchema>,
@@ -167,13 +176,10 @@ export function fromApi<TSchema extends GeneralSchema>(endpoint: Endpoint<TSchem
   ): Promise<JsonFetchResult<SuccessResponse<TSchema>>>  {
 
     const anyArgs = args as any;
-    // replace path params
-    const replacedPath = anyArgs.path
-      ? replacePathArgs(endpoint.url, anyArgs.path)
-      : endpoint.url;
 
     return jsonFetch({
-      path: replacedPath,
+      path: endpoint.url,
+      pathArgs: anyArgs.path,
       method: endpoint.method,
       query: removeNullOrUndefinedKey(anyArgs.query),
       body: anyArgs.body,

@@ -1,4 +1,4 @@
-import { Anchor, Box, Heading, Paragraph, Text } from "grommet";
+import { Box, Heading, Paragraph, Text } from "grommet";
 import React from "react";
 import { AnchorLink } from "src/components/AnchorLink";
 import { Section } from "src/components/Section";
@@ -8,7 +8,6 @@ import { TwoColumnLayout } from "src/layouts/TwoColumnLayout";
 import { useLocalizedArticleInfo } from "src/models/Article";
 import { formatDateTime } from "src/utils/datetime";
 import { Article } from "yaarxiv-api/api/article/models";
-import { SCRIPT_FILE_TYPE_HEADER_KEY } from "yaarxiv-api/api/article/getFile";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { ArticleMetadata } from "./ArticleMetadata";
 import { DownloadPdfLink } from "./DownloadPdfLink";
@@ -109,19 +108,9 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
                 <DownloadPdfLink
                   articleId={article.id}
                   revision={article.revisionNumber}
-                  filename={(resp) => {
-                    const ext = resp.headers.get(SCRIPT_FILE_TYPE_HEADER_KEY) ?? "pdf";
-                    return `yaarxiv-${article.id}-rev-${article.revisionNumber}.${ext}`;
-                  }}
+                  format={article.currentRevision.scriptFormat}
                 >
-                  {(downloadLink) => (
-                    <Anchor
-                      onClick={downloadLink}
-                      target="__blank"
-                    >
-                      {article.currentRevision.scriptFormat.toLocaleUpperCase()}
-                    </Anchor>
-                  )}
+                  {article.currentRevision.scriptFormat.toLocaleUpperCase()}
                 </DownloadPdfLink>
               </TitledSection>
             )

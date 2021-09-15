@@ -1,5 +1,5 @@
 import {
-  Anchor, Box, Button, CheckBox, FormField,
+  Box, Button, CheckBox, FormField,
   Heading, Paragraph,
 } from "grommet";
 import React, { useMemo, useState } from "react";
@@ -16,6 +16,7 @@ import {
   ArticleId,
   ArticleInfoI18nPart,
   Author,
+  ScriptFormat,
   TITLE_MAX_LENGTH,
 } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
@@ -52,14 +53,18 @@ export type ArticleForm = {
 } & ArticleInfoI18nPart;
 
 interface Props {
-  articleId: ArticleId | undefined;
+  current: {
+    articleId: ArticleId;
+    revisionNumber: number;
+    format: ScriptFormat;
+  } | undefined;
   initial: ArticleForm;
   disabled: boolean;
   onSubmit: (file: File | undefined, form: ArticleForm) => void;
 }
 
 export const ArticleEditForm: React.FC<Props> = ({
-  articleId,
+  current,
   initial,
   disabled,
   onSubmit,
@@ -119,19 +124,17 @@ export const ArticleEditForm: React.FC<Props> = ({
               args={[pdfSizeLimit, ALLOWED_SCRIPT_FORMAT.join(", ")]}
             />
           </Paragraph>
-          { articleId
+          { current
             ? (
               <Paragraph>
                 <Localized id={root("pdf.existing")} args={[
-                  <DownloadPdfLink articleId={articleId} key="download">
-                    {(downloadLink) => (
-                      <Anchor
-                        target="__blank"
-                        onClick={downloadLink}
-                      >
-                        <Localized id={root("pdf.here")} />
-                      </Anchor>
-                    )}
+                  <DownloadPdfLink
+                    articleId={current.articleId}
+                    revision={current.revisionNumber}
+                    format={current.format}
+                    key="download"
+                  >
+                    <Localized id={root("pdf.here")} />
                   </DownloadPdfLink>,
                 ]}
                 />
@@ -141,7 +144,7 @@ export const ArticleEditForm: React.FC<Props> = ({
           <FormField
             name="file"
             validate={(value) => {
-              if (!articleId && !value) {
+              if (!current && !value) {
                 return <FormFieldMessage id={root("pdf.prompt")} />;
               }
             }}
@@ -149,7 +152,7 @@ export const ArticleEditForm: React.FC<Props> = ({
           >
             <FileUploader
               options={{
-                accept: [".pdf", ".docx", ".doc", ".txt"],
+                accept: ALLOWED_SCRIPT_FORMAT.map((x) => `.${x}`),
                 multiple: false,
                 maxSize: pdfSizeLimit * 1024 * 1024,
               }}

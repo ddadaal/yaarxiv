@@ -49,7 +49,7 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
   return (
     <LimitedWidthPage maxWidth="large">
       <ArticleEditForm
-        articleId={undefined}
+        current={undefined}
         initial={initialState}
         disabled={submitting}
         onSubmit={submit}

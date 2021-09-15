@@ -66,7 +66,11 @@ export const ArticleUpdatePage = ssrPage<Props>(
       <LimitedWidthPage maxWidth="large">
         <ArticleEditForm
           disabled={submitting}
-          articleId={props.article.id}
+          current={{
+            articleId: props.article.id,
+            format: props.article.currentRevision.scriptFormat,
+            revisionNumber: props.article.revisionNumber,
+          }}
           initial={{
             abstract: rest.abstract,
             cnKeywords:  rest.cnKeywords,
