@@ -1,7 +1,6 @@
 import * as api from "yaarxiv-api/api/article/getFile";
 import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
-import { extname } from "path";
 
 export const getArticleFileRoute = route(
   api, "GetArticleFileSchema",
@@ -30,11 +29,11 @@ export const getArticleFileRoute = route(
     }
 
     // load pdf link
-    const path = (await targetRevision.script.load()).filePath;
+    const script = await targetRevision.script.load();
 
     // set file type header
-    await resp.header("x-yaarxiv-filetype", extname(path).substr(1))
-      .serveFile(path);
+    await resp.header("x-yaarxiv-filetype", script.extname)
+      .serveFile(script.filePath);
 
     return { 200: undefined };
   });

@@ -3,6 +3,7 @@ import * as api from "yaarxiv-api/api/article/uploadScript";
 import { UploadedFile } from "@/entities/UploadedFile";
 import { extname } from "path";
 import { genId } from "@/utils/genId";
+import { ALLOWED_SCRIPT_FORMAT } from "yaarxiv-api/api/article/models";
 
 // Save uploaded file to /{userId}/temp/{a random id}.{ext}
 // The uploaded file will be moved to corresponding folder by routes
@@ -16,9 +17,9 @@ export const uploadScriptRoute = route(
       },
     });
 
-    const ext = extname(data.filename).substr(1);
     // extname returns .pdf. substr removes .
-    if (!api.ALLOWED_SCRIPT_FORMAT.includes(ext)) {
+    const ext = extname(data.filename).substr(1);
+    if (!(ALLOWED_SCRIPT_FORMAT as readonly string[]).includes(ext)) {
       return { 400: { code: "SCRIPT_FORMAT_ERROR" } } as const;
     }
 

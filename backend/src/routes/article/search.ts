@@ -3,6 +3,7 @@ import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
 import { QueryOrder } from "@mikro-orm/core";
 import { config } from "@/core/config";
+import { ScriptFormat } from "yaarxiv-api/api/article/models";
 
 // Must add async
 export const searchArticleRoute = route(
@@ -14,6 +15,7 @@ export const searchArticleRoute = route(
     const builder = req.em.createQueryBuilder(Article, "a")
       .select("*")
       .joinAndSelect("a.latestRevision", "l")
+      .joinAndSelect("l.script", "s")
       .where({ "a.ownerSetPublicity":  true })
       .andWhere({ "a.adminSetPublicity": true });
 
@@ -81,6 +83,7 @@ export const searchArticleRoute = route(
             doi: rev.doi,
             commentCount: 0,
             retractTime: x.retractTime?.toISOString(),
+            scriptFormat: rev.script.getEntity().extname as ScriptFormat,
           };
         }),
       },

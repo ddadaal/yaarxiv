@@ -80,6 +80,7 @@ const mockArticle = (id: ArticleId, revision: number | undefined): Article => ({
     // category: "Computer Science",
     codeLink: Math.random() < 0.5 ? "https://github.com/ddadaal/yaarxiv" : undefined,
     doi: "10.1109/5.771073",
+    scriptFormat: Math.random() < 0.5 ? "txt" : "pdf",
   },
   ownerId: 1,
   createTime:"2011-10-05T14:48:00.000Z",

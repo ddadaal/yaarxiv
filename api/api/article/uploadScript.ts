@@ -6,8 +6,6 @@ import { UploadedFileId } from "./models";
 
 export const SCRIPT_SIZE_LIMIT_MB = 30;
 
-export const ALLOWED_SCRIPT_FORMAT = ["txt", "pdf", "docx", "doc"];
-
 /**
  * Upload a script into the platform.
  * Expect Content-Type to be multipart/form-data.

@@ -119,7 +119,7 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
                       onClick={downloadLink}
                       target="__blank"
                     >
-                  PDF
+                      {article.currentRevision.scriptFormat.toLocaleUpperCase()}
                     </Anchor>
                   )}
                 </DownloadPdfLink>

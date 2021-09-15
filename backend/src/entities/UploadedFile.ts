@@ -3,6 +3,7 @@ import { Entity, Property, OneToMany,
   ManyToOne, PrimaryKey, IdentifiedReference, Collection } from "@mikro-orm/core";
 import { ArticleRevision } from "./ArticleRevision";
 import { User } from "./User";
+import path from "path";
 
 @Entity()
 export class UploadedFile {
@@ -20,6 +21,10 @@ export class UploadedFile {
 
   @Property({ columnType: DATETIME_TYPE })
   time: Date;
+
+  get extname() {
+    return path.extname(this.filePath).substr(1);
+  }
 
   constructor(init: {
     id?: number;

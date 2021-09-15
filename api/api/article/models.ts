@@ -16,6 +16,10 @@ export interface Author {
 
 export const TITLE_MAX_LENGTH = 100;
 
+export const ALLOWED_SCRIPT_FORMAT = ["txt", "pdf", "docx", "doc"] as const;
+
+export type ScriptFormat = typeof ALLOWED_SCRIPT_FORMAT[number];
+
 export interface ArticleInfoI18nPart {
   /**
    * Chinese Title
@@ -62,6 +66,11 @@ export type ArticleInfo = {
    * DOI number
    */
   doi?: string;
+
+  /**
+   * The format of script
+   */
+  scriptFormat: ScriptFormat;
 
 } & ArticleInfoI18nPart;
 

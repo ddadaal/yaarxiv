@@ -12,6 +12,7 @@ import {
   ACCEPTABLE_CODE_SITES,
 } from "src/utils/validations/codeLink";
 import {
+  ALLOWED_SCRIPT_FORMAT,
   ArticleId,
   ArticleInfoI18nPart,
   Author,
@@ -19,7 +20,6 @@ import {
 } from "yaarxiv-api/api/article/models";
 import { DownloadPdfLink } from "./DownloadPdfLink";
 import {
-  ALLOWED_SCRIPT_FORMAT,
   SCRIPT_SIZE_LIMIT_MB,
 } from "yaarxiv-api/api/article/uploadScript";
 import { ARTICLE_ABSTRACT_LENGTH_LIMIT } from "yaarxiv-api/api/article/upload";

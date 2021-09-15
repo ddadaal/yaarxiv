@@ -1,6 +1,7 @@
 import * as api from "yaarxiv-api/api/article/get";
 import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
+import { ScriptFormat } from "yaarxiv-api/api/article/models";
 
 export const getArticleRoute = route(
   api, "GetArticleSchema",
@@ -24,23 +25,24 @@ export const getArticleRoute = route(
       return { "404": { code: "REVISION_NOT_FOUND" } } as const;
     }
 
-    await req.em.populate(targetRevision, ["script"]);
+    const rev = await req.em.populate(targetRevision, ["script"]);
 
     return {
       200: {
         article: {
           id: articleId,
-          revisionNumber: targetRevision.revisionNumber,
+          revisionNumber: rev.revisionNumber,
           currentRevision: {
-            abstract: targetRevision.abstract,
-            authors: targetRevision.authors,
-            category: targetRevision.category,
-            cnKeywords: targetRevision.cnKeywords,
-            cnTitle: targetRevision.cnTitle,
-            enKeywords: targetRevision.enKeywords,
-            enTitle: targetRevision.enTitle,
-            codeLink: targetRevision.codeLink,
-            doi: targetRevision.doi,
+            abstract: rev.abstract,
+            authors: rev.authors,
+            category: rev.category,
+            cnKeywords: rev.cnKeywords,
+            cnTitle: rev.cnTitle,
+            enKeywords: rev.enKeywords,
+            enTitle: rev.enTitle,
+            codeLink: rev.codeLink,
+            doi: rev.doi,
+            scriptFormat: rev.script.$.extname as ScriptFormat,
           },
           retractTime: article.retractTime?.toISOString(),
           revisions: article.revisions.getItems().map((x) => ({

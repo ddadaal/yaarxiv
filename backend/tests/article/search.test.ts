@@ -34,6 +34,7 @@ it("should return the first page (10) of articles when no query is input.", asyn
 
   expect(json.totalCount).toBe(articleCount);
   expect(json.results.length).toBe(10);
+  expect(json.results[0].scriptFormat).toBe("pdf");
 });
 
 it("should paginate results when page is set", async () => {

@@ -605,6 +605,26 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "authors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Author"
+              },
+              "description": "The authors of the article."
+            },
+            "abstract": {
+              "type": "string",
+              "description": "The abstract."
+            },
+            "codeLink": {
+              "type": "string",
+              "description": "Link to code. Should pass validation from utils/codeLink.ts",
+              "format": "uri"
+            },
+            "doi": {
+              "type": "string",
+              "description": "DOI number"
+            },
             "cnTitle": {
               "type": "string",
               "description": "Chinese Title",
@@ -628,26 +648,6 @@
                 "type": "string"
               },
               "description": "Chinese Keywords"
-            },
-            "authors": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Author"
-              },
-              "description": "The authors of the article."
-            },
-            "abstract": {
-              "type": "string",
-              "description": "The abstract."
-            },
-            "codeLink": {
-              "type": "string",
-              "description": "Link to code. Should pass validation from utils/codeLink.ts",
-              "format": "uri"
-            },
-            "doi": {
-              "type": "string",
-              "description": "DOI number"
             },
             "pdfToken": {
               "type": "number",
@@ -711,6 +711,26 @@
           "type": "object",
           "additionalProperties": false,
           "properties": {
+            "authors": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Author"
+              },
+              "description": "The authors of the article."
+            },
+            "abstract": {
+              "type": "string",
+              "description": "The abstract."
+            },
+            "codeLink": {
+              "type": "string",
+              "description": "Link to code. Should pass validation from utils/codeLink.ts",
+              "format": "uri"
+            },
+            "doi": {
+              "type": "string",
+              "description": "DOI number"
+            },
             "cnTitle": {
               "type": "string",
               "description": "Chinese Title",
@@ -734,26 +754,6 @@
                 "type": "string"
               },
               "description": "Chinese Keywords"
-            },
-            "authors": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Author"
-              },
-              "description": "The authors of the article."
-            },
-            "abstract": {
-              "type": "string",
-              "description": "The abstract."
-            },
-            "codeLink": {
-              "type": "string",
-              "description": "Link to code. Should pass validation from utils/codeLink.ts",
-              "format": "uri"
-            },
-            "doi": {
-              "type": "string",
-              "description": "DOI number"
             },
             "pdfToken": {
               "type": "number",
@@ -1530,6 +1530,15 @@
       "additionalProperties": false,
       "description": "The author information."
     },
+    "ScriptFormat": {
+      "type": "string",
+      "enum": [
+        "txt",
+        "pdf",
+        "docx",
+        "doc"
+      ]
+    },
     "ArticleInfoI18nPart": {
       "type": "object",
       "properties": {
@@ -1607,11 +1616,16 @@
         "doi": {
           "type": "string",
           "description": "DOI number"
+        },
+        "scriptFormat": {
+          "$ref": "#/definitions/ScriptFormat",
+          "description": "The format of script"
         }
       },
       "required": [
         "abstract",
-        "authors"
+        "authors",
+        "scriptFormat"
       ]
     },
     "ArticleRevision": {
@@ -2004,6 +2018,10 @@
         "doi": {
           "type": "string",
           "description": "DOI number"
+        },
+        "scriptFormat": {
+          "$ref": "#/definitions/ScriptFormat",
+          "description": "The format of script"
         }
       },
       "required": [
@@ -2012,9 +2030,64 @@
         "authors",
         "commentCount",
         "createTime",
-        "lastUpdateTime"
+        "lastUpdateTime",
+        "scriptFormat"
       ],
       "description": "A preview information of the article."
+    },
+    "Pick%3CArticleInfo%2CExclude%3C(%22authors%22%7C%22abstract%22%7C%22codeLink%22%7C%22doi%22%7C%22scriptFormat%22%7C%22cnTitle%22%7C%22cnKeywords%22%7C%22enTitle%22%7C%22enKeywords%22)%2C%22scriptFormat%22%3E%3E": {
+      "type": "object",
+      "properties": {
+        "authors": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Author"
+          },
+          "description": "The authors of the article."
+        },
+        "abstract": {
+          "type": "string",
+          "description": "The abstract."
+        },
+        "codeLink": {
+          "type": "string",
+          "description": "Link to code. Should pass validation from utils/codeLink.ts",
+          "format": "uri"
+        },
+        "doi": {
+          "type": "string",
+          "description": "DOI number"
+        },
+        "cnTitle": {
+          "type": "string",
+          "description": "Chinese Title",
+          "maxLength": 100
+        },
+        "cnKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Chinese Keywords"
+        },
+        "enTitle": {
+          "type": "string",
+          "description": "English Title",
+          "maxLength": 100
+        },
+        "enKeywords": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Chinese Keywords"
+        }
+      },
+      "required": [
+        "authors",
+        "abstract"
+      ],
+      "additionalProperties": false
     },
     "ErrorResponse%3C(%22ARTICLEINFO_I18N_CONSTRAINTS%22%7C%22CODE_LINK_INVALID%22%7C%22FILE_TOKEN_INVALID%22)%3E": {
       "type": "object",

@@ -43,6 +43,7 @@ it("should return the latest revision of article if revision is not specified", 
 
   expect(article.id).toBe(2);
   expect(article.revisionNumber).toBe(2);
+  expect(article.currentRevision.scriptFormat).toBe("pdf");
 });
 
 it("should return the specified revision of article if specified", async () => {
