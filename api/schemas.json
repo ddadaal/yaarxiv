@@ -422,6 +422,10 @@
             "revision": {
               "type": "number",
               "description": "The number of revision. If not set, return the latest revision"
+            },
+            "token": {
+              "type": "string",
+              "description": "The JWT token representing the current operating user. The same one got from login. If the article is private, only the author can access it."
             }
           },
           "additionalProperties": false
@@ -429,7 +433,8 @@
         "responses": {
           "type": "object",
           "properties": {
-            "200": {},
+            "200": {
+            },
             "403": {
               "$ref": "#/definitions/ErrorResponse%3C%22ARTICLE_RETRACTED%22%3E",
               "description": "The article has been retracted"
@@ -452,7 +457,7 @@
         "responses"
       ],
       "additionalProperties": false,
-      "description": "200 responses has a header x-yaarxiv-filetype Possble values are ALLOWED_SCRIPT_FORMAT"
+      "description": "Get the script file of the article."
     },
     "RetractArticleSchema": {
       "type": "object",

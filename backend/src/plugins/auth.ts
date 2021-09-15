@@ -7,10 +7,17 @@ import { config } from "@/core/config";
 import { UserRole } from "yaarxiv-api/api/auth/login";
 import { IdentifiedReference } from "@mikro-orm/core";
 
+export type DecodedJwtToken = JwtTokenPayload & {
+  /** Issued at */
+  iat: number;
+}
+
 declare module "fastify" {
   // @ts-ignore
   interface FastifyInstance {
     jwtAuth: (opts: AuthOption) => (req: FastifyRequest, reply: FastifyReply) => Promise<void>;
+    jwtTryDecodeToken: (token: string) => DecodedJwtToken | undefined;
+
   }
 
   interface FastifyRequest {
@@ -52,6 +59,10 @@ export const jwtAuthPlugin = fp(async (fastify) => {
     } catch (err) {
       reply.send(err);
     }
+  });
+
+  fastify.decorate("jwtTryDecodeToken", function (token: string) {
+    return this.jwt.decode(token) ?? undefined;
   });
 
   fastify.decorateRequest("tryGetUser", async function () {

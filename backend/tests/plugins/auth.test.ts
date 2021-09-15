@@ -1,7 +1,7 @@
 import { FastifyInstance } from "fastify/types/instance";
 import * as api from "yaarxiv-api/api/auth/login";
 import { User } from "@/entities/User";
-import { AuthOption, signUser } from "@/plugins/auth";
+import { AuthOption, JwtTokenPayload, signUser } from "@/plugins/auth";
 import { RouteHandlerMethod } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
 import { createMockUsers, MockUsers } from "tests/utils/data";
@@ -26,7 +26,7 @@ const request = (token?: string) => server.inject({
 
 async function prepare(
   handler: RouteHandlerMethod,
-  authOption: AuthOption = [api.UserRole.User]) {
+  authOption: AuthOption | null = [api.UserRole.User]) {
 
   server = await createTestServer(async (s) => {
     s.register(async (s) => s.get(testPath, {
@@ -71,4 +71,24 @@ it("allows all accesses for unauthenticated routes", async () => {
   await prepare(async () => ({}), false);
   expect((await request(token)).statusCode).toBe(200);
   expect((await request()).statusCode).toBe(200);
+});
+
+it("decodes token info", async () => {
+
+  const error = { error: "nothing" };
+
+  await prepare(async (req) => {
+    const { token } = req.query as { token?: string };
+    return token ? req.server.jwtTryDecodeToken(token) : error;
+  }, null);
+
+  const request = (token?: string) =>
+    server.inject({ path: testPath, query: token ? { token } : undefined });
+
+  expect((await request(token)).json()).toMatchObject({
+    id: user.id,
+    role: user.role,
+  } as JwtTokenPayload);
+
+  expect((await request()).json()).toEqual(error);
 });

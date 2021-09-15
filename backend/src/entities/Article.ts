@@ -50,7 +50,7 @@ export class Article {
 
   // if the logged in user is the owner or an admin,
   // then it can get the article even if the article is not public,
-  checkAccessibility(user: User | undefined) {
+  checkAccessibility(user: Pick<User, "role" | "id"> | undefined) {
     if (!this.adminSetPublicity || !this.ownerSetPublicity) {
       if (!user || (!(user.role === UserRole.Admin || this.owner.id === user.id))) {
         return false;

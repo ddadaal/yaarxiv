@@ -5,10 +5,7 @@ import { ArticleId } from "./models";
 
 export const SCRIPT_FILE_TYPE_HEADER_KEY = "x-yaarxiv-filetype";
 
-/**
- * 200 responses has a header x-yaarxiv-filetype
- * Possble values are ALLOWED_SCRIPT_FORMAT
- */
+/** Get the script file of the article. */
 export interface GetArticleFileSchema {
   path: {
     /**
@@ -23,8 +20,19 @@ export interface GetArticleFileSchema {
      * If not set, return the latest revision
      */
     revision?: number;
+
+    /**
+     * The JWT token representing the current operating user.
+     * The same one got from login.
+     * If the article is private, only the author can access it.
+     */
+    token?: string;
   }
   responses: {
+    /**
+     * 200 response has a header x-yaarxiv-filetype
+     * Possble values are ALLOWED_SCRIPT_FORMAT
+     */
     200: any;
 
     /**

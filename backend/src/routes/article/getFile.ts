@@ -4,15 +4,17 @@ import { Article } from "@/entities/Article";
 
 export const getArticleFileRoute = route(
   api, "GetArticleFileSchema",
-  async (req, _, resp) => {
+  async (req, fastify, resp) => {
     const { articleId } = req.params;
-    const { revision } = req.query;
+    const { revision, token } = req.query;
 
     const article = await req.em.findOne(Article, { id: articleId }, {
       populate: ["revisions", "latestRevision"],
     });
 
-    if (!article || !article.checkAccessibility(await req.tryGetUser())) {
+    const tokenInfo = token ? fastify.jwtTryDecodeToken(token) : undefined;
+
+    if (!article || !article.checkAccessibility(tokenInfo)) {
       return { "404": { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 
