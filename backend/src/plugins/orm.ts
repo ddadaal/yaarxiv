@@ -48,7 +48,9 @@ export const ormPlugin = fp(async (fastify) => {
     user, password, debug,
   } = config.orm;
 
-  fastify.log.info("Wait for db connection.");
+  const logger = fastify.log.child({ plugin: "orm" });
+
+  logger.info("Wait for db connection.");
 
   // wait for db to be alive
   await waitOn({
@@ -56,7 +58,7 @@ export const ormPlugin = fp(async (fastify) => {
     timeout: connectionTimeout,
   });
 
-  fastify.log.info("db is started. Connecting to it.");
+  logger.info("db is started. Connecting to it.");
 
   const dbConnection = await MikroORM.init<MySqlDriver>({
     host,
@@ -67,7 +69,7 @@ export const ormPlugin = fp(async (fastify) => {
     dbName,
     type: "mysql",
     highlighter: highlight ? new SqlHighlighter() : undefined,
-    logger: (msg) => fastify.log.info(msg),
+    logger: (msg) => logger.info(msg),
     entities,
     forceUndefined: true,
     driverOptions: {
@@ -104,7 +106,7 @@ export const ormPlugin = fp(async (fastify) => {
   fastify.addHook("onClose", async () => {
     // drop schema before closing
     if (dropSchema) {
-      fastify.log.info(`Drop schema ${dbName}`);
+      logger.info(`Drop schema ${dbName}`);
       // the following does not work.
       // const schemaGenerator = dbConnection.getSchemaGenerator();
       // await schemaGenerator.dropDatabase(dbName);
@@ -112,7 +114,7 @@ export const ormPlugin = fp(async (fastify) => {
       // Use raw sql instead
       await dbConnection.em.getDriver().execute(`drop schema ${dbName};`);
     }
-    fastify.log.info("Closing db connection.");
+    logger.info("Closing db connection.");
     await dbConnection.close();
   });
 

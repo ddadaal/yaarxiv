@@ -13,6 +13,9 @@ declare module "fastify" {
 
 
 export const mailPlugin = fp(async (fastify) => {
+
+  const logger = fastify.log.child({ plugin: "mail" });
+
   if (config.mail) {
 
     const { from, ignoreError, ...mailConfig } = config.mail;
@@ -27,8 +30,8 @@ export const mailPlugin = fp(async (fastify) => {
         subject: `${subject} - yaarxiv`,
         ...rest,
       }).catch((e) => {
-        fastify.log.error(`Error sending email to ${rest.to}. Error is`);
-        fastify.log.error(e);
+        logger.error(`Error sending email to ${rest.to}. Error is`);
+        logger.error(e);
 
         const shouldIgnoreError =
           callIgnoreError !== undefined
@@ -45,9 +48,8 @@ export const mailPlugin = fp(async (fastify) => {
       mail.close();
     });
   } else {
-    fastify
-      .decorate("sendMail", (mailOptions: Mail.Options) => {
-        fastify.log.info("Attempted to send email, but mail is not enabled. Args: \n%o", mailOptions);
-      });
+    fastify.decorate("sendMail", (mailOptions: Mail.Options) => {
+      logger.info("Attempted to send email, but mail is not enabled. Args: \n%o", mailOptions);
+    });
   }
 });
