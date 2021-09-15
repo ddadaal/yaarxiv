@@ -7,6 +7,7 @@ export default {
       "file-too-small": "文件过小",
       "too-many-files": "文件数量过多",
       "file-invalid-type": "文件类型不正确",
+      removeFileLinkTitle: "移除文件",
     },
     tagInput: {
       placeholder: "按下回车以增加一项。",

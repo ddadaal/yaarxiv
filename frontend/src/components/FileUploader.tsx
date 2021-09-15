@@ -2,9 +2,9 @@
 import { Box, Paragraph, Text, Anchor } from "grommet";
 import React, { useCallback } from "react";
 import { DropzoneOptions, FileRejection, useDropzone } from "react-dropzone";
-import { Localized } from "src/i18n";
+import { Localized, useI18n } from "src/i18n";
 import { prefix } from "src/i18n";
-import { Clear } from "grommet-icons";
+import { Trash } from "grommet-icons";
 import { toast } from "react-toastify";
 
 const root = prefix("components.fileUploader.");
@@ -15,6 +15,17 @@ interface Props {
   onFileRemoved?: (file: File) => void;
   onFilesAccepted?: (files: File[]) => void;
 }
+
+const RemoveFileLink: React.FC<{ onClick: () => void }> = ({ onClick }) => {
+  const i18n = useI18n();
+
+  return (
+    <Anchor onClick={onClick} title={i18n.translate(root("removeFileLinkTitle")) as string}>
+      <Trash size="16px" />
+    </Anchor>
+  );
+
+};
 
 export const FileUploader: React.FC<Props> = ({ options, files, onFileRemoved, onFilesAccepted }) => {
 
@@ -44,14 +55,12 @@ export const FileUploader: React.FC<Props> = ({ options, files, onFileRemoved, o
         <Paragraph><Localized id={root("zoneLabel")} /></Paragraph>
       </Box>
       {files.map((val, i) => (
-        <Box direction="row" key={i} justify="between">
+        <Box direction="row" key={i} gap="small">
           <Text>{val.name}</Text>
-          <Anchor onClick={() => {
+          <RemoveFileLink onClick={() => {
             onFileRemoved?.(val);
           }}
-          >
-            <Clear size="small" />
-          </Anchor>
+          />
         </Box>
       ))}
     </Box>

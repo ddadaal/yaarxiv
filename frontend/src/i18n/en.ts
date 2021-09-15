@@ -7,6 +7,7 @@ export default {
       "file-too-small": "File is too small.",
       "too-many-files": "Too many files.",
       "file-invalid-type": "Invalid file type.",
+      removeFileLinkTitle: "Remove this file",
     },
     tagInput: {
       placeholder: "Press Enter to add an item." ,
