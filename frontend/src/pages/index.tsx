@@ -28,11 +28,14 @@ const Home: React.FC = () => {
         <Box width="medium" height="small">
           <Logo />
         </Box>
-        <Box width="medium">
-          <SearchBar initialText="" onConfirm={(k) => Router.push({
-            pathname: "/search",
-            query: { searchText: k },
-          })}
+        <Box width="500px">
+          <SearchBar
+            initialText=""
+            onConfirm={(k) => Router.push({
+              pathname: "/search",
+              query: { searchText: k },
+            })}
+            boxProps={{ width: "500px" }}
           />
         </Box>
         <Box height="small" />

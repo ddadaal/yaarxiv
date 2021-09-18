@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { ButtonInput } from "./ButtonInput";
 import { Search } from "grommet-icons";
-import { Keyboard } from "grommet";
+import { BoxProps, Keyboard } from "grommet";
 
 interface Props {
   initialText: string;
   onConfirm: (value: string) => void;
+  boxProps?: BoxProps;
 }
 
-export const SearchBar: React.FC<Props> = ({ initialText, onConfirm }) => {
+export const SearchBar: React.FC<Props> = ({ initialText, onConfirm, boxProps }) => {
   const [value, setValue] = useState(initialText);
 
   useEffect(() => {
@@ -21,6 +22,7 @@ export const SearchBar: React.FC<Props> = ({ initialText, onConfirm }) => {
         value={value}
         onChange={setValue}
         onConfirm={onConfirm}
+        boxProps={boxProps}
       >
         <Search />
       </ButtonInput>

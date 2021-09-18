@@ -1,10 +1,11 @@
 import React from "react";
-import { TextInput, Box, Button, Keyboard } from "grommet";
+import { TextInput, Box, Button, Keyboard, BoxProps } from "grommet";
 
 interface Props {
   value: string;
   onChange?: (newValue: string) => void;
   onConfirm?: (value: string) => void;
+  boxProps?: BoxProps;
 }
 
 export const ButtonInput: React.FC<Props> = ({
@@ -12,7 +13,7 @@ export const ButtonInput: React.FC<Props> = ({
   onConfirm,
   onChange,
   children,
-  ...rest
+  boxProps,
 }) => {
 
   const confirm = () => {
@@ -27,12 +28,12 @@ export const ButtonInput: React.FC<Props> = ({
         align="center"
         round="small"
         border
+        {...boxProps}
       >
         <TextInput
           plain
           value={value}
           onChange={(e) => onChange?.(e.target.value)}
-          {...rest}
         />
         <Button margin="xsmall" onClick={confirm}>
           {children}
