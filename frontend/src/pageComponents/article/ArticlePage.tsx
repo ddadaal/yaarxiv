@@ -10,7 +10,7 @@ import { formatDateTime } from "src/utils/datetime";
 import { Article } from "yaarxiv-api/api/article/models";
 import { ArticleAuthors } from "./ArticleAuthors";
 import { ArticleMetadata } from "./ArticleMetadata";
-import { DownloadPdfLink } from "./DownloadPdfLink";
+import { DownloadScriptLink } from "./DownloadScriptLink";
 import { LatexContent } from "src/components/Article/LatexContent";
 
 const root = prefix("pages.article.");
@@ -105,13 +105,13 @@ export const ArticlePage: React.FC<Props> = ({ article }) => {
           {
             article.retractTime ? undefined : (
               <TitledSection titleId={root("download")}>
-                <DownloadPdfLink
+                <DownloadScriptLink
                   articleId={article.id}
                   revision={article.revisionNumber}
                   format={article.currentRevision.scriptFormat}
                 >
                   {article.currentRevision.scriptFormat.toLocaleUpperCase()}
-                </DownloadPdfLink>
+                </DownloadScriptLink>
               </TitledSection>
             )
           }

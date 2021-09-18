@@ -19,7 +19,7 @@ import {
   ScriptFormat,
   TITLE_MAX_LENGTH,
 } from "yaarxiv-api/api/article/models";
-import { DownloadPdfLink } from "./DownloadPdfLink";
+import { DownloadScriptLink } from "./DownloadScriptLink";
 import {
   SCRIPT_SIZE_LIMIT_MB,
 } from "yaarxiv-api/api/article/uploadScript";
@@ -128,14 +128,14 @@ export const ArticleEditForm: React.FC<Props> = ({
             ? (
               <Paragraph>
                 <Localized id={root("pdf.existing")} args={[
-                  <DownloadPdfLink
+                  <DownloadScriptLink
                     articleId={current.articleId}
                     revision={current.revisionNumber}
                     format={current.format}
                     key="download"
                   >
                     <Localized id={root("pdf.here")} />
-                  </DownloadPdfLink>,
+                  </DownloadScriptLink>,
                 ]}
                 />
               </Paragraph>
