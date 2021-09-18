@@ -1,4 +1,4 @@
-import { accessTokenPlugin } from "@/plugins/accessToken";
+import { accessControlPlugin } from "@/plugins/ac";
 import { storagePlugin } from "@/plugins/storage";
 import fastifyCorsPlugin from "fastify-cors";
 import { jwtAuthPlugin } from "./auth";
@@ -15,5 +15,5 @@ export const plugins = [
   mailPlugin,
   jwtAuthPlugin,
   storagePlugin,
-  accessTokenPlugin,
+  accessControlPlugin,
 ];

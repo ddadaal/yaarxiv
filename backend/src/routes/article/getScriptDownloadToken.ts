@@ -24,7 +24,7 @@ export const getArticleScriptDownloadTokenRoute = route(
       return { "403": { code: "ARTICLE_RETRACTED" } } as const;
     }
 
-    const token = fastify.accessToken.generate(
+    const token = fastify.ac.generate(
       GET_ARTICLE_SCRIPT_ACTION, { articleId }, GET_ARTICLE_SCRIPT_TOKEN_VALID_TIME);
 
     return { 200: token };

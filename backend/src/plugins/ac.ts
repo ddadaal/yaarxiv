@@ -6,14 +6,14 @@ export interface GeneratedTokenInfo {
   invalidAfter: number;
 }
 
-export interface AccessTokenHelpers {
+export interface AccessControlHelpers {
   generate: (action: string, payload: unknown, expiresIn: string) => GeneratedTokenInfo;
   validate: <T>(action: string, token: string) => Promise<T | undefined>;
 }
 
 declare module "fastify" {
   interface FastifyInstance {
-    accessToken: AccessTokenHelpers;
+    ac: AccessControlHelpers;
   }
 }
 
@@ -22,14 +22,14 @@ interface AccessTokenInfo {
   payload: unknown;
 }
 
-export const accessTokenPlugin = fp(async (fastify) => {
-  const generate: AccessTokenHelpers["generate"] = (action, payload, expiresIn) => {
+export const accessControlPlugin = fp(async (fastify) => {
+  const generate: AccessControlHelpers["generate"] = (action, payload, expiresIn) => {
     const token = fastify.jwt.sign({ action, payload } as AccessTokenInfo, { expiresIn });
 
     return { token, invalidAfter: Date.now() + ms(expiresIn) };
   };
 
-  const validate: AccessTokenHelpers["validate"] = async <T>(action: string, token: string) => {
+  const validate: AccessControlHelpers["validate"] = async <T>(action: string, token: string) => {
     return await new Promise<T | undefined>
     ((res) => fastify.jwt.verify(token, (err, decoded: AccessTokenInfo) => {
       if (err) {
@@ -44,6 +44,6 @@ export const accessTokenPlugin = fp(async (fastify) => {
     }));
   };
 
-  fastify.decorate("accessToken", { generate, validate });
+  fastify.decorate("ac", { generate, validate });
 });
 

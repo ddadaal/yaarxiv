@@ -59,7 +59,7 @@ afterEach(async () => {
 });
 
 function generateToken(fastify: FastifyInstance, articleId: ArticleId) {
-  return fastify.accessToken.generate(
+  return fastify.ac.generate(
     GET_ARTICLE_SCRIPT_ACTION, { articleId }, GET_ARTICLE_SCRIPT_TOKEN_VALID_TIME).token;
 }
 

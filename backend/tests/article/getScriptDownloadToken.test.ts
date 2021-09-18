@@ -40,7 +40,7 @@ afterEach(async () => {
 const validateToken = async (resp: CallRouteResponse<GetArticleScriptDownloadTokenSchema>, articleId: ArticleId) => {
   const json = expectCodeAndJson(resp, 200);
 
-  const payload = await server.accessToken.validate<{ articleId: number }>(GET_ARTICLE_SCRIPT_ACTION, json.token);
+  const payload = await server.ac.validate<{ articleId: number }>(GET_ARTICLE_SCRIPT_ACTION, json.token);
 
   expect(payload?.articleId).toBe(articleId);
 };

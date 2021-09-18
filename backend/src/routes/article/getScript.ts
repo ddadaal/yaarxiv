@@ -8,7 +8,7 @@ export const getArticleScriptRoute = route(
   async (req, fastify, resp) => {
     const { revision, token } = req.query;
 
-    const tokenInfo = await fastify.accessToken.validate<{ articleId: ArticleId }>("GET_ARTICLE_SCRIPT", token);
+    const tokenInfo = await fastify.ac.validate<{ articleId: ArticleId }>("GET_ARTICLE_SCRIPT", token);
 
     if (!tokenInfo) {
       return { "403": { code: "TOKEN_INVALID" as const } };
