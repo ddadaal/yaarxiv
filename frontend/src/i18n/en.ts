@@ -191,7 +191,7 @@ export default {
         keywordsEn: "English Keywords",
         fillOrDelete: "Fill this field, or delete {}",
         oneLanguageRequired: "At least title and keywords of one language are required.",
-        authors:{
+        authors: {
           field: "Authors (*: Corresponding Author)",
           required: "At last one author is required.",
           add: "Add",

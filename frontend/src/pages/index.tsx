@@ -1,8 +1,24 @@
 import React from "react";
 import Router from "next/router";
-import { Box } from "grommet";
+import { Box, Image } from "grommet";
 import { SearchBar } from "src/components/SearchBar";
-import { Logo } from "src/components/Logo";
+import cn from "src/assets/cn.svg";
+import en from "src/assets/en.svg";
+import { useI18n } from "src/i18n";
+
+const Logo: React.FC = () => {
+  const i18n = useI18n();
+
+  return (
+    <Image
+      fit="contain"
+      src={i18n.currentLanguage.id === "en" ? en : cn}
+      title="logo"
+    />
+  );
+};
+
+
 
 const Home: React.FC = () => {
 
