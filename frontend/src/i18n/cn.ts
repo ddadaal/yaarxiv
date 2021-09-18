@@ -11,7 +11,7 @@ export default {
     },
     tagInput: {
       placeholder: "按下回车以增加一项。",
-      commaToSplit: "项之间可用逗号分隔。",
+      commaToSplit: "项之间可用逗号或者分号分隔。",
     },
     httpHandler: {
       tokenInvalid: "您的登录已经过期。请重新登录后继续。",

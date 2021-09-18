@@ -10,6 +10,7 @@ import { api } from "src/apis";
 import { CheckboxInput } from "src/pageComponents/Dashboard/Profile/CheckboxInput";
 import { Profile } from "yaarxiv-api/api/dashboard/model";
 import { TagInput } from "src/components/TagInput";
+import { TagInputInfo } from "src/components/TagInput/TagInputInfo";
 
 const root = prefix("pages.dashboard.profile.");
 
@@ -81,6 +82,7 @@ export const ProfileForm: React.FC<Props> = ({ profile }) => {
       <FormField
         label={<Localized id={root("academicKeywords")} args={[50]} />}
         name="academicKeywords"
+        info={<TagInputInfo commaToSplit={true} />}
       >
         <TagInput
           name="academicKeywords"
@@ -93,12 +95,13 @@ export const ProfileForm: React.FC<Props> = ({ profile }) => {
             ...form,
             academicKeywords: form.academicKeywords.filter((x) => x !== val),
           })}
-          commaToSplit={true}
+          split={true}
         />
       </FormField>
       <FormField
         label={<Localized id={root("researchLabels")} args={[50]} />}
         name="researchLabels"
+        info={<TagInputInfo commaToSplit={true} />}
       >
         <TagInput
           name="researchLabels"
@@ -111,7 +114,7 @@ export const ProfileForm: React.FC<Props> = ({ profile }) => {
             ...form,
             researchLabels: form.researchLabels.filter((x) => x !== val),
           })}
-          commaToSplit={true}
+          split={true}
         />
       </FormField>
       <Box direction="row" gap="medium" margin={{ top: "medium" }}>

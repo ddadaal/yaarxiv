@@ -11,7 +11,7 @@ export default {
     },
     tagInput: {
       placeholder: "Press Enter to add an item." ,
-      commaToSplit: "Items can be separated by comma.",
+      commaToSplit: "Items can be separated by comma or semicolon.",
     },
     requireAuth: {
       title: "Not Authorized",

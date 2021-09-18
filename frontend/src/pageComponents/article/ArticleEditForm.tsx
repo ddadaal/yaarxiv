@@ -29,6 +29,7 @@ import { AuthorInput } from "src/pageComponents/article/AuthorInput";
 import { authorEquals } from "src/models/Article";
 import { ArticleAbstractInput } from "src/pageComponents/article/ArticleAbstractInput";
 import { Modal } from "src/components/modals/Modal";
+import { TagInputInfo } from "src/components/TagInput/TagInputInfo";
 
 const root = prefix("pages.upload.");
 
@@ -200,6 +201,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             <FormField
               label={<Localized id={root("info.keywordsCn")} args={[50]} />}
               name="cnKeywords"
+              info={<TagInputInfo commaToSplit={true} />}
               validate={(value: string[], values: ArticleFormInternal) => {
                 if (values.cnTitle && value.length === 0) {
                   return (
@@ -219,7 +221,7 @@ export const ArticleEditForm: React.FC<Props> = ({
                 onAdd={(v) => updateInfo({ cnKeywords: info.cnKeywords.concat(v) })}
                 onRemove={(val) =>
                   updateInfo({ cnKeywords: info.cnKeywords.filter((x) => x !== val) })}
-                commaToSplit={true}
+                split={true}
               />
             </FormField>
             <FormField
@@ -248,6 +250,7 @@ export const ArticleEditForm: React.FC<Props> = ({
             <FormField
               label={<Localized id={root("info.keywordsEn")} args={[50]} />}
               name="enKeywords"
+              info={<TagInputInfo commaToSplit={true} />}
               validate={(value: string[], values: ArticleFormInternal) => {
                 if (values.enTitle && value.length === 0) {
                   return (
@@ -267,7 +270,7 @@ export const ArticleEditForm: React.FC<Props> = ({
                 onAdd={(v) => updateInfo({ enKeywords: info.enKeywords.concat(v) })}
                 onRemove={(val) =>
                   updateInfo({ enKeywords: info.enKeywords.filter((x) => x !== val) })}
-                commaToSplit={true}
+                split={true}
               />
             </FormField>
             <FormField
