@@ -1,5 +1,8 @@
 /* eslint-disable max-len */
 export default {
+  head: {
+    name: "预印本档案馆",
+  },
   components: {
     fileUploader: {
       zoneLabel: "把文件拖拽到这里，或者点击这里选择文件。",
@@ -304,6 +307,7 @@ export default {
       },
     },
     updateArticle: {
+      title: "更新文章",
       success: "更新文章成功。新版本编号：{}",
       loading: "正在加载文章{}的当前版本……",
       notAuthor: "您没有权限修改文章{}。",

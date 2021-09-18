@@ -5,6 +5,7 @@ import { SearchBar } from "src/components/SearchBar";
 import cn from "src/assets/cn.svg";
 import en from "src/assets/en.svg";
 import { useI18n } from "src/i18n";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const Logo: React.FC = () => {
   const i18n = useI18n();
@@ -22,8 +23,9 @@ const Logo: React.FC = () => {
 
 const Home: React.FC = () => {
 
-  return(
+  return (
     <Box justify="center" flex="grow">
+      <I18nTitle />
       <Box justify="center" align="center" pad="small">
         <Box width="medium" height="small">
           <Logo />

@@ -1,5 +1,8 @@
 /* eslint-disable max-len */
 export default {
+  head: {
+    name: "CnArxiv",
+  },
   components: {
     fileUploader: {
       zoneLabel: "Drag and drop your file(s) here, or click to select the file(s).",
@@ -309,6 +312,7 @@ export default {
       },
     },
     updateArticle: {
+      title: "Update Article",
       success: "Article updated successfully. New revision number: {}.",
       loading: "Loading current revision of article {}...",
       notAuthor: "You cannot update article {}.",

@@ -19,7 +19,7 @@ interface Props {
 export const ProfilePage = ssrPage<Props>(({ profile }) => {
 
   return (
-    <DashboardLayout>
+    <DashboardLayout titleId={root("title")}>
       <Box flex>
         <SectionTitle titleId={root("title")} />
         <ProfileForm profile={profile} />

@@ -22,7 +22,7 @@ interface Props {
 export const ArticlesPage = ssrPage<Props>(({ page, data }) => {
 
   return (
-    <DashboardLayout>
+    <DashboardLayout titleId={root("articles.title")}>
       <Box>
         <SectionTitle titleId={root("articles.title")} />
         <ArticleTable

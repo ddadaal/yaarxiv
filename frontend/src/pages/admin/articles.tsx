@@ -13,6 +13,7 @@ import { AdminArticleTable } from "src/pageComponents/admin/articles/AdminArticl
 import { api } from "src/apis";
 import { ArticleId } from "../../../../api/api/article/models";
 import { UserRole } from "src/models/User";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const root = prefix("pages.admin.articles.");
 
@@ -63,6 +64,7 @@ export const AdminArticlesPage: React.FC = requireAuth({ roles: [UserRole.Admin]
 
   return (
     <Box gap="medium">
+      <I18nTitle id={root("title")} />
       <Heading level={1} size="small" margin="none">
         <Localized id={root("title")} />
       </Heading>

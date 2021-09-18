@@ -15,6 +15,7 @@ import { UnifiedErrorPage } from "src/components/errors/UnifiedErrorPage";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 type Props = SSRPageProps<{
   token: string;
@@ -131,6 +132,7 @@ export const PasswordResetPage: NextPage<Props> = (props) => {
 
   return (
     <Box align="center" justify="center" pad="medium" flex="grow">
+      <I18nTitle id={root("title")} />
       <Box width="medium" border="all" pad="medium" elevation="small">
         <Heading alignSelf="center" level="2" margin="none">
           <Localized id={root("title")} />

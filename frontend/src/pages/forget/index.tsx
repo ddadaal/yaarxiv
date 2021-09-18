@@ -9,6 +9,7 @@ import { queryToString } from "src/utils/querystring";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { api } from "src/apis";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const root = prefix("forgetPassword.");
 
@@ -63,6 +64,7 @@ export const ForgetPasswordPage: React.FC = () => {
 
   return (
     <Box align="center" justify="center" pad="medium" flex="grow">
+      <I18nTitle id={root("title")} />
       <Box width="medium" border="all" pad="medium" elevation="small">
         <Heading alignSelf="center" level="2" margin="none">
           <Localized id={root("title")} />

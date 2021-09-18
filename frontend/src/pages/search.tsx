@@ -18,6 +18,7 @@ import { HttpError } from "src/apis/fetch";
 import { ssrPage } from "src/utils/ssr";
 import { useHttpErrorHandler } from "src/utils/http";
 import { api } from "src/apis";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 type Props = {
   results: ArticleSearchResult[];
@@ -80,6 +81,7 @@ export const SearchPage = ssrPage<Props>(
 
     return (
       <Box flex="grow" direction="column">
+        <I18nTitle id="header.search" />
         <Box justify="center" align="center" margin="small">
           <SearchBar
             initialText={searchText}

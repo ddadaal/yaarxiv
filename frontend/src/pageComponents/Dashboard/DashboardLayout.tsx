@@ -1,4 +1,5 @@
-import { prefix } from "src/i18n";
+import { Id, prefix } from "src/i18n";
+import { I18nTitle } from "src/i18n/I18nTitle";
 import { SideMenuLayout } from "src/layouts/SideMenuLayout";
 
 const root = prefix("pages.dashboard.");
@@ -10,12 +11,17 @@ const links = [
   { textId: root("changePassword.title"), to: "changePassword" },
 ];
 
-export const DashboardLayout: React.FC = ({ children }) => {
+interface Props {
+  titleId: Id;
+}
+
+export const DashboardLayout: React.FC<Props> = ({ titleId, children }) => {
   return (
     <SideMenuLayout
       rootRoute="/dashboard/"
       links={links}
     >
+      <I18nTitle id={titleId} />
       {children}
     </SideMenuLayout>
   );

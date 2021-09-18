@@ -16,6 +16,7 @@ import { Form } from "src/components/form/Form";
 import { queryToString } from "src/utils/querystring";
 import { LoginSchema, UserRole } from "yaarxiv-api/api/auth/login";
 import { HttpError } from "src/apis/fetch";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const root = prefix("login.");
 
@@ -128,6 +129,7 @@ const LoginForm: React.FC = () => {
 export const LoginPage: React.FC = () => {
   return (
     <Box align="center" justify="center" pad="medium" flex="grow">
+      <I18nTitle id="header.login" />
       <Box width="medium" border="all" pad="medium" elevation="small">
         <Heading alignSelf="center" level="2" margin="none">
           <Localized id={root("login")} />

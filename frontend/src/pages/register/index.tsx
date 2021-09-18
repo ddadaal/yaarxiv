@@ -14,6 +14,7 @@ import { AnchorLink } from "src/components/AnchorLink";
 import { toast } from "react-toastify";
 import { Form } from "src/components/form/Form";
 import { FormFieldMessage } from "src/components/form/FormFieldMessage";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const root = prefix("register.");
 
@@ -93,6 +94,7 @@ const RegisterForm: React.FC = () => {
 export const RegisterPage: React.FC = () => {
   return (
     <Box align="center" justify="center" pad="medium" flex="grow">
+      <I18nTitle id={root("title")} />
       <Box width="medium" border="all" pad="medium" elevation="small"  >
         <Heading alignSelf="center" level="2" margin="none">
           <Localized id={root("title")} />

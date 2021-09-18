@@ -7,6 +7,7 @@ import Router from "next/router";
 import { api } from "src/apis";
 import { UserRole } from "src/models/User";
 import { LimitedWidthPage } from "src/layouts/LimitedWidthPage";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const initialState ={
   cnTitle: "",
@@ -48,6 +49,7 @@ export const UploadPage: React.FC = requireAuth({ roles: [UserRole.User]})(() =>
 
   return (
     <LimitedWidthPage maxWidth="large">
+      <I18nTitle id="header.upload" />
       <ArticleEditForm
         current={undefined}
         initial={initialState}

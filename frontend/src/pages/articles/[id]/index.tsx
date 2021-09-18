@@ -31,7 +31,9 @@ export const ArticlePage = ssrPage<Props>((props) => {
     return <BadRequest />;
   }
 
-  return <ArticlePageComp article={props.article} />;
+  return (
+    <ArticlePageComp article={props.article} />
+  );
 
 }, async (context) => {
 

@@ -6,6 +6,7 @@ import { Box, Heading, Paragraph } from "grommet";
 import { SetupForm } from "src/pageComponents/setup/SetupForm";
 import { Localized, prefix } from "src/i18n";
 import { api } from "src/apis";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 interface Props {
   setup: boolean;
@@ -25,6 +26,7 @@ export const SetupPage = ssrPage<Props>(({ setup }) => {
   } else {
     return (
       <Box align="center" justify="center" pad="medium" flex="grow">
+        <I18nTitle id="pages.setup.title" />
         <Box width="medium" border="all" pad="medium" elevation="small">
           <Heading alignSelf="center" level="2" margin="none">
             <Localized id={root("title")} />

@@ -16,6 +16,7 @@ import { api } from "src/apis";
 import { ssrPage } from "src/utils/ssr";
 import { UserRole } from "src/models/User";
 import { LimitedWidthPage } from "src/layouts/LimitedWidthPage";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const root = prefix("pages.updateArticle.");
 
@@ -64,6 +65,7 @@ export const ArticleUpdatePage = ssrPage<Props>(
 
     return (
       <LimitedWidthPage maxWidth="large">
+        <I18nTitle id={root("title")} />
         <ArticleEditForm
           disabled={submitting}
           current={{

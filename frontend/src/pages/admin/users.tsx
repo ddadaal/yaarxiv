@@ -15,6 +15,7 @@ import { AdminUsersTable } from "src/pageComponents/admin/users/AdminUsersTable"
 import { api } from "src/apis";
 import { UserId } from "yaarxiv-api/api/auth/models";
 import { UserRole } from "src/models/User";
+import { I18nTitle } from "src/i18n/I18nTitle";
 
 const root = prefix("pages.admin.users.");
 
@@ -60,6 +61,7 @@ export const AdminUsersPage: React.FC = requireAuth({ roles: [UserRole.Admin]})(
 
   return (
     <Box gap="medium">
+      <I18nTitle id={root("title")} />
       <Heading level={1} size="small" margin="none">
         <Localized id={root("title")} />
       </Heading>
