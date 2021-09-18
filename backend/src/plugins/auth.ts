@@ -68,14 +68,12 @@ export const jwtAuthPlugin = fp(async (fastify) => {
   });
 
   fastify.decorateRequest("tryJwtVerify", async function() {
-    await this.jwtVerify().catch(() => undefined);
-
-    return this.user;
+    return await this.jwtVerify().catch(() => undefined);
   });
 
   fastify.decorateRequest("tryGetUser", async function () {
 
-    const tokenInfo = this.tryJwtVerify();
+    const tokenInfo = await this.tryJwtVerify();
 
     const id = +(tokenInfo as JwtTokenPayload).id;
     if (isNaN(id)) {

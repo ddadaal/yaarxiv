@@ -13,7 +13,7 @@ export const getArticleRoute = route(
       populate: ["revisions", "latestRevision"],
     });
 
-    if (!article || !article.checkAccessibility(await req.tryGetUser())) {
+    if (!article || !article.checkAccessibility(await req.tryJwtVerify())) {
       return { "404": { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 

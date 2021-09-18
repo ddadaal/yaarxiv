@@ -97,9 +97,21 @@ it("trys to jwt verify", async () => {
   await prepare(async (req) => {
     const token = await req.tryJwtVerify();
     return { token };
-  });
+  }, null);
 
   expect((await request(token)).json().token.id).toBe(user.id);
   expect((await request("bad")).json().token).toBeUndefined();
   expect((await request()).json().token).toBeUndefined();
+});
+
+it("trys to get user", async () => {
+  await prepare(async (req) => {
+    const user = await req.tryGetUser();
+    return { user };
+  }, null);
+
+  expect((await request(token)).json().user.id).toBe(user.id);
+  expect((await request("bad")).json().user).toBeUndefined();
+  expect((await request()).json().user).toBeUndefined();
+
 });
