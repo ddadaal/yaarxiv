@@ -23,6 +23,7 @@ export default class MyDocument extends Document {
           <>
             {initialProps.styles}
             {sheet.getStyleElement()}
+
             <style
               type="text/css"
               dangerouslySetInnerHTML={{ __html: mediaStyles }}
