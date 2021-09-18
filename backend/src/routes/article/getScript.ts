@@ -1,24 +1,29 @@
 import * as api from "yaarxiv-api/api/article/getScript";
 import { route } from "@/core/route";
 import { Article } from "@/entities/Article";
+import { ArticleId } from "yaarxiv-api/api/article/models";
 
 export const getArticleScriptRoute = route(
   api, "GetArticleScriptSchema",
   async (req, fastify, resp) => {
-    const { articleId } = req.params;
     const { revision, token } = req.query;
 
-    const article = await req.em.findOne(Article, { id: articleId }, {
+    const tokenInfo = await fastify.accessToken.validate<{ articleId: ArticleId }>("GET_ARTICLE_SCRIPT", token);
+
+    if (!tokenInfo) {
+      return { "403": { code: "TOKEN_INVALID" as const } };
+    }
+
+    const article = await req.em.findOne(Article, { id: tokenInfo.articleId }, {
       populate: ["revisions", "latestRevision"],
     });
 
-    const tokenInfo = token ? fastify.jwtTryDecodeToken(token) : undefined;
 
-    if (!article || !article.checkAccessibility(tokenInfo)) {
+    if (!article) {
       return { "404": { code: "ARTICLE_NOT_FOUND" } } as const;
     }
 
-    if (article.retractTime) {
+    if (article.isRetracted) {
       return { "403": { code: "ARTICLE_RETRACTED" } } as const;
     }
 

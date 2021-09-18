@@ -20,19 +20,18 @@ export interface GetArticleScriptSchema {
     revision?: number;
 
     /**
-     * The JWT token representing the current operating user.
-     * The same one got from login.
-     * If the article is private, only the author can access it.
+     * The download token get by getScriptDownloadTokena api
      */
-    token?: string;
+    token: string;
   }
   responses: {
     200: any;
 
     /**
+     * The token is not valid
      * The article has been retracted
      */
-    403: ErrorResponse<"ARTICLE_RETRACTED">;
+    403: ErrorResponse<"TOKEN_INVALID" | "ARTICLE_RETRACTED">;
 
     404: ErrorResponse<"ARTICLE_NOT_FOUND" | "REVISION_NOT_FOUND">;
   }

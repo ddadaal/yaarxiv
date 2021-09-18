@@ -8,6 +8,7 @@ import * as adminGetUsers from "yaarxiv-api/api/admin/getUsers";
 import * as deleteArticle from "yaarxiv-api/api/article/delete";
 import * as getArticle from "yaarxiv-api/api/article/get";
 import * as getArticleScript from "yaarxiv-api/api/article/getScript";
+import * as getArticleScriptDownloadToken from "yaarxiv-api/api/article/getScriptDownloadToken";
 import * as retractArticle from "yaarxiv-api/api/article/retract";
 import * as searchArticle from "yaarxiv-api/api/article/search";
 import * as updateArticle from "yaarxiv-api/api/article/update";
@@ -40,6 +41,7 @@ export const realApi = {
     deleteArticle: fromApi(deleteArticle.endpoint),
     getArticle: fromApi(getArticle.endpoint),
     getArticleScript: fromApi(getArticleScript.endpoint),
+    getArticleScriptDownloadToken: fromApi(getArticleScriptDownloadToken.endpoint),
     retractArticle: fromApi(retractArticle.endpoint),
     searchArticle: fromApi(searchArticle.endpoint),
     updateArticle: fromApi(updateArticle.endpoint),

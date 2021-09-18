@@ -21,10 +21,12 @@ declare module "fastify" {
   }
 
   interface FastifyRequest {
+    tryJwtVerify(): Promise<DecodedJwtToken | undefined>;
+    tryGetUser(): Promise<User | undefined>;
+
     userId(): number;
     dbUser(): Promise<User>;
     dbUserRef(): IdentifiedReference<User>;
-    tryGetUser(): Promise<User | undefined>;
   }
 }
 
@@ -65,22 +67,22 @@ export const jwtAuthPlugin = fp(async (fastify) => {
     return this.jwt.decode(token) ?? undefined;
   });
 
+  fastify.decorateRequest("tryJwtVerify", async function() {
+    await this.jwtVerify().catch(() => undefined);
+
+    return this.user;
+  });
+
   fastify.decorateRequest("tryGetUser", async function () {
 
-    const self = this as FastifyRequest;
+    const tokenInfo = this.tryJwtVerify();
 
-    try {
-      await self.jwtVerify();
-    } catch (err) {
-      return undefined;
-    }
-
-    const id = +(self.user as JwtTokenPayload).id;
+    const id = +(tokenInfo as JwtTokenPayload).id;
     if (isNaN(id)) {
       return undefined;
     }
 
-    const user = await self.em.findOne(User, { id });
+    const user = await this.em.findOne(User, { id });
     return user;
   });
 

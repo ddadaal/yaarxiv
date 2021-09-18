@@ -92,3 +92,14 @@ it("decodes token info", async () => {
 
   expect((await request()).json()).toEqual(error);
 });
+
+it("trys to jwt verify", async () => {
+  await prepare(async (req) => {
+    const token = await req.tryJwtVerify();
+    return { token };
+  });
+
+  expect((await request(token)).json().token.id).toBe(user.id);
+  expect((await request("bad")).json().token).toBeUndefined();
+  expect((await request()).json().token).toBeUndefined();
+});

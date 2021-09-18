@@ -425,9 +425,12 @@
             },
             "token": {
               "type": "string",
-              "description": "The JWT token representing the current operating user. The same one got from login. If the article is private, only the author can access it."
+              "description": "The download token get by getScriptDownloadTokena api"
             }
           },
+          "required": [
+            "token"
+          ],
           "additionalProperties": false
         },
         "responses": {
@@ -435,8 +438,8 @@
           "properties": {
             "200": {},
             "403": {
-              "$ref": "#/definitions/ErrorResponse%3C%22ARTICLE_RETRACTED%22%3E",
-              "description": "The article has been retracted"
+              "$ref": "#/definitions/ErrorResponse%3C(%22TOKEN_INVALID%22%7C%22ARTICLE_RETRACTED%22)%3E",
+              "description": "The token is not valid The article has been retracted"
             },
             "404": {
               "$ref": "#/definitions/ErrorResponse%3C(%22ARTICLE_NOT_FOUND%22%7C%22REVISION_NOT_FOUND%22)%3E"
@@ -457,6 +460,61 @@
       ],
       "additionalProperties": false,
       "description": "Get the script file of the article."
+    },
+    "GetArticleScriptDownloadTokenSchema": {
+      "type": "object",
+      "properties": {
+        "path": {
+          "type": "object",
+          "properties": {
+            "articleId": {
+              "$ref": "#/definitions/ArticleId",
+              "description": "The article id"
+            }
+          },
+          "required": [
+            "articleId"
+          ],
+          "additionalProperties": false
+        },
+        "responses": {
+          "type": "object",
+          "properties": {
+            "200": {
+              "type": "object",
+              "properties": {
+                "token": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "token"
+              ],
+              "additionalProperties": false,
+              "description": "The token will be invalid after 30min"
+            },
+            "403": {
+              "$ref": "#/definitions/ErrorResponse%3C%22ARTICLE_RETRACTED%22%3E",
+              "description": "The article has been retracted"
+            },
+            "404": {
+              "$ref": "#/definitions/ErrorResponse%3C%22ARTICLE_NOT_FOUND%22%3E"
+            }
+          },
+          "required": [
+            "200",
+            "403",
+            "404"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "path",
+        "responses"
+      ],
+      "additionalProperties": false,
+      "description": "Get a token to download article script *"
     },
     "RetractArticleSchema": {
       "type": "object",
@@ -1905,6 +1963,26 @@
           "enum": [
             "ARTICLE_NOT_FOUND",
             "REVISION_NOT_FOUND"
+          ]
+        },
+        "message": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "code"
+      ],
+      "additionalProperties": false,
+      "description": "The response for all non-200 errors This structure aligns with fastify errors\n\nTCode is only for documentation."
+    },
+    "ErrorResponse%3C(%22TOKEN_INVALID%22%7C%22ARTICLE_RETRACTED%22)%3E": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "string",
+          "enum": [
+            "TOKEN_INVALID",
+            "ARTICLE_RETRACTED"
           ]
         },
         "message": {

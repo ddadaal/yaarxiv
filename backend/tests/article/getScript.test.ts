@@ -11,10 +11,15 @@ import { expectCode, expectErrorResponse } from "tests/utils/assertions";
 import { removeUploadDir, touchFile } from "tests/utils/storage";
 import { getPathForArticleFile } from "@/utils/articleFiles";
 import { signUser } from "@/plugins/auth";
+import { ArticleId } from "yaarxiv-api/api/article/models";
+import {
+  GET_ARTICLE_SCRIPT_ACTION, GET_ARTICLE_SCRIPT_TOKEN_VALID_TIME } from "@/routes/article/getScriptDownloadToken";
 
 let server: FastifyInstance;
 let users: MockUsers;
+let articles: Article[];
 let article: Article;
+let token: string;
 
 
 const pdfFilename = (i: number) => `test${i}.pdf`;
@@ -24,7 +29,11 @@ beforeEach(async () => {
   server = await createTestServer();
 
   users = await createMockUsers(server);
-  article = (await createMockArticles(server, 2, users))[1];
+
+  articles = (await createMockArticles(server, 2, users));
+  article = articles[1];
+
+  token = generateToken(server, article.id);
 
   const revisions = article.revisions.getItems();
 
@@ -49,10 +58,15 @@ afterEach(async () => {
   await removeUploadDir();
 });
 
+function generateToken(fastify: FastifyInstance, articleId: ArticleId) {
+  return fastify.accessToken.generate(
+    GET_ARTICLE_SCRIPT_ACTION, { articleId }, GET_ARTICLE_SCRIPT_TOKEN_VALID_TIME).token;
+}
+
 it("returns file of latest revision", async () => {
   const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
-    query: {},
+    query: { token },
   });
 
   expectCode(resp, 200);
@@ -63,7 +77,7 @@ it("returns file of latest revision", async () => {
 it("returns file of specific revision", async () => {
   const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
-    query: { revision: 1 },
+    query: { revision: 1, token },
   });
 
   expectCode(resp, 200);
@@ -71,21 +85,21 @@ it("returns file of specific revision", async () => {
   expect(resp.headers["content-type"]).toBe("application/pdf");
 });
 
-it("returns file if the article is public even if not login", async () => {
-  const resp = await callRoute(server, getArticleScriptRoute, {
-    path: { articleId: article.id },
-    query: {},
-  });
+// it("returns file if the article is public even if not login", async () => {
+//   const resp = await callRoute(server, getArticleScriptRoute, {
+//     path: { articleId: article.id },
+//     query: {},
+//   });
 
-  expectCode(resp, 200);
-  expect(resp.headers["content-length"]).toBe(pdfSize(1));
-  expect(resp.headers["content-type"]).toBe("application/pdf");
-});
+//   expectCode(resp, 200);
+//   expect(resp.headers["content-length"]).toBe(pdfSize(1));
+//   expect(resp.headers["content-type"]).toBe("application/pdf");
+// });
 
 it("returns 404 if article is not found", async () => {
   const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: 12345 },
-    query: { token: signUser(server, users.normalUser1) },
+    query: { token: generateToken(server, 1234) },
   });
 
   expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
@@ -94,7 +108,7 @@ it("returns 404 if article is not found", async () => {
 it("returns 404 if revision is not found", async () => {
   const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
-    query: { revision: 3, token: signUser(server, users.normalUser1) },
+    query: { revision: 3, token },
   });
 
   expectErrorResponse(resp, 404, "REVISION_NOT_FOUND");
@@ -107,55 +121,49 @@ it("returns 403 if the article is retracted", async () => {
 
   const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
-    query: { revision: 3, token: signUser(server, users.normalUser1) },
+    query: { revision: 3, token },
   });
 
   expectCode(resp, 403);
 });
 
-it("returns file if article is not public but the user is either admin or owner", async () => {
+it("returns file if article is not public but the token is valid", async () => {
 
-  article.adminSetPublicity = false;
-  await server.orm.em.flush();
-
-  const test = async (user: User) => {
-    const resp = await callRoute(server, getArticleScriptRoute, {
-      path: { articleId: article.id },
-      query: { token: signUser(server, user) },
-    });
-
-    expectCode(resp, 200);
-  };
-
-  await Promise.all([
-    test(users.normalUser2),
-    test(users.adminUser),
-  ]);
-});
-
-it("returns 404 if article is not public and the user is neither admin nor owner", async () => {
-
-  article.adminSetPublicity = false;
-  await server.orm.em.flush();
-  const resp = await callRoute(server, getArticleScriptRoute, {
-    path: { articleId: article.id },
-    query: { token: signUser(server, users.normalUser1) },
-  });
-
-  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
-});
-
-it("returns 404 if the article is not public and the user is not login", async () => {
   article.adminSetPublicity = false;
   await server.orm.em.flush();
 
   const resp = await callRoute(server, getArticleScriptRoute, {
     path: { articleId: article.id },
-    query: {},
+    query: { token: token },
   });
 
-  expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
+  expectCode(resp, 200);
 });
+
+// it("returns 404 if article is not public and the token is for another article", async () => {
+
+//   article.adminSetPublicity = false;
+//   await server.orm.em.flush();
+
+//   const resp = await callRoute(server, getArticleScriptRoute, {
+//     path: { articleId: article.id },
+//     query: { token: generateToken(server, articles[0].id) },
+//   });
+
+//   expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
+// });
+
+// it("returns 404 if the article is not public and the user is not login", async () => {
+//   article.adminSetPublicity = false;
+//   await server.orm.em.flush();
+
+//   const resp = await callRoute(server, getArticleScriptRoute, {
+//     path: { articleId: article.id },
+//     query: {},
+//   });
+
+//   expectErrorResponse(resp, 404, "ARTICLE_NOT_FOUND");
+// });
 
 // it("cannot download file from static folder", async () => {
 //   const resp = await server.inject({

@@ -25,6 +25,7 @@ import { getProfileRoute } from "@/routes/dashboard/getProfile";
 import { retractArticleRoute } from "@/routes/article/retract";
 import { queryIfSetupRoute } from "@/routes/setup/queryIfSetup";
 import { setupRoute } from "@/routes/setup/setup";
+import { getArticleScriptDownloadTokenRoute } from "@/routes/article/getScriptDownloadToken";
 
 export const routes = [
   loginRoute,
@@ -54,5 +55,6 @@ export const routes = [
   retractArticleRoute,
   queryIfSetupRoute,
   setupRoute,
+  getArticleScriptDownloadTokenRoute,
 ];
 
