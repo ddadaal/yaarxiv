@@ -33,12 +33,17 @@ export const TagInput: React.FC<Props> = ({
   };
 
   const onAddTag = (tag: string) => {
-    onAdd?.(
-      split
+
+    if (onAdd) {
+      // includes to dedup
+      const items = split
         ? tag.split(/,|，|;|；/)
-          .map((x) => x.trim().substr(0, maxLength)).filter((x) => !!x)
-        : [tag.trim()]
-    );
+          .map((x) => x.trim().substr(0, maxLength))
+          .filter((x) => !!x && !value.includes(x))
+        : [tag.trim()].filter((x) => !value.includes(x));
+
+      onAdd(items);
+    }
   };
 
   const onEnter = () => {

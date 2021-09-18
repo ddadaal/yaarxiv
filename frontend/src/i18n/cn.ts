@@ -10,7 +10,7 @@ export default {
       removeFileLinkTitle: "移除文件",
     },
     tagInput: {
-      placeholder: "按下回车以增加一项。",
+      placeholder: "按下回车以增加一项。重复项不会被添加。",
       commaToSplit: "项之间可用逗号或者分号分隔。",
     },
     httpHandler: {

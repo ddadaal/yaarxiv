@@ -10,8 +10,8 @@ export default {
       removeFileLinkTitle: "Remove this file",
     },
     tagInput: {
-      placeholder: "Press Enter to add an item." ,
-      commaToSplit: "Items can be separated by comma or semicolon.",
+      placeholder: "Press Enter to add an item. Duplicated item will be appended. " ,
+      commaToSplit: "Items will be splitted by comma or semicolon.",
     },
     requireAuth: {
       title: "Not Authorized",
