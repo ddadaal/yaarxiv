@@ -1,4 +1,4 @@
-import { Box, Text, Button, BoxProps } from "grommet";
+import { Box, Text, BoxProps, Anchor } from "grommet";
 import { FormClose } from "grommet-icons";
 import React from "react";
 
@@ -14,7 +14,7 @@ export const Tag: React.FC<Props> = ({
   disabled = false,
   boxProps,
 }) => {
-  const tag = (
+  return (
     <Box
       direction="row"
       align="center"
@@ -27,13 +27,15 @@ export const Tag: React.FC<Props> = ({
       <Text size="small" margin={{ right: "xsmall" }}>
         {children}
       </Text>
-      {onRemove && <FormClose size="small" color="white" />}
+      {onRemove && (
+        <Anchor onClick={() => !disabled && onRemove()}>
+          <FormClose
+            size="small" color="white"
+            onClick={() => !disabled && onRemove()}
+          />
+        </Anchor>
+      )}
     </Box>
   );
-
-  if (onRemove) {
-    return <Button disabled={disabled} onClick={onRemove}>{tag}</Button>;
-  }
-  return tag;
 };
 

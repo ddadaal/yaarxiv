@@ -52,17 +52,6 @@ export const TagInput: React.FC<Props> = ({
     }
   };
 
-  const renderTags = () =>
-    value.map((v, index) => (
-      <Tag
-        disabled={disabled}
-        key={`${v}${index + 0}`}
-        onRemove={() => onRemove(v)}
-      >
-        {v}
-      </Tag>
-    ));
-
   return (
     <Keyboard onEnter={onEnter}>
       <Box
@@ -72,7 +61,17 @@ export const TagInput: React.FC<Props> = ({
         wrap
 
       >
-        {value.length > 0 && renderTags()}
+        {
+          value.map((v, index) => (
+            <Tag
+              disabled={disabled}
+              key={`${v}${index + 0}`}
+              onRemove={() => onRemove(v)}
+            >
+              {v}
+            </Tag>
+          ))
+        }
         <Box flex style={{ minWidth: "120px" }}>
           <TextInput
             name={name}
