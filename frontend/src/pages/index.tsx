@@ -2,8 +2,8 @@ import React from "react";
 import Router from "next/router";
 import { Box, Image } from "grommet";
 import { SearchBar } from "src/components/SearchBar";
-import cn from "src/assets/cn.svg";
-import en from "src/assets/en.svg";
+import cn from "src/assets/cn-logo-text-down.svg";
+import en from "src/assets/en-logo-text-down.svg";
 import { useI18n } from "src/i18n";
 import { I18nTitle } from "src/i18n/I18nTitle";
 
