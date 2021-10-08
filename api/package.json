@@ -13,10 +13,9 @@
     "ms": "^3.0.0-canary.1"
   },
   "devDependencies": {
+    "@ddadaal/eslint-config": "^1.0.0",
     "@types/eslint": "^7.28.0",
     "@types/node": "^16.7.10",
-    "@typescript-eslint/eslint-plugin": "^4.30.0",
-    "@typescript-eslint/parser": "^4.30.0",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
     "ts-json-schema-generator": "^0.95.0",

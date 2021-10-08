@@ -1,68 +1,12 @@
 {
-  "parser": "@typescript-eslint/parser",
-  "parserOptions": {
-    "jsx": true,
-    "useJSXTextNode": true
-  },
   "extends": [
-    "plugin:@typescript-eslint/recommended",
-    "plugin:react/recommended"
+    "plugin:react/recommended",
+    "@ddadaal"
   ],
   "plugins": [
-    "@typescript-eslint",
     "react"
   ],
   "rules": {
-    "@typescript-eslint/camelcase": "off",
-    "@typescript-eslint/no-empty-interface": "off",
-    "@typescript-eslint/explicit-function-return-type": "off",
-    "@typescript-eslint/ban-types": "off",
-    "@typescript-eslint/ban-ts-comment": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/explicit-module-boundary-types": "off",
-    "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      {
-        "varsIgnorePattern": "^_",
-        "argsIgnorePattern": "^_",
-        "ignoreRestSiblings": true
-      }
-    ],
-    "react/react-in-jsx-scope": "off",
-    "arrow-parens": [
-      "error",
-      "always"
-    ],
-    "quotes": [
-      "error",
-      "double"
-    ],
-    "comma-dangle": [
-      "error",
-      "always-multiline"
-    ],
-    "object-curly-spacing": [
-      "error",
-      "always",
-      {
-        "arraysInObjects": false
-      }
-    ],
-    "semi": [
-      "error",
-      "always"
-    ],
-    "indent": [
-      "error",
-      2
-    ],
-    "max-len": [
-      "error",
-      {
-        "code": 90
-      }
-    ],
     "react/display-name": "off",
     "react/prop-types": "off",
     "react/jsx-closing-bracket-location": [

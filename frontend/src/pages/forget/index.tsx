@@ -26,7 +26,7 @@ const ForgetForm: React.FC<{ email: string }> = ({ email }) => {
     } catch (e) {
       if (e.status === 404) {
         toast.error(
-          <Localized id={root("accountNotExist")} />
+          <Localized id={root("accountNotExist")} />,
         );
       } else {
         throw e;
