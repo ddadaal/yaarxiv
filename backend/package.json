@@ -47,7 +47,7 @@
     "wait-on": "^6.0.0"
   },
   "devDependencies": {
-    "@ddadaal/eslint-config": "^1.0.0",
+    "@ddadaal/eslint-config": "^1.1.1",
     "@types/bcryptjs": "^2.4.2",
     "@types/config": "0.0.39",
     "@types/fs-extra": "^9.0.12",
@@ -63,6 +63,7 @@
     "@types/webpack": "^5.28.0",
     "@types/webpack-env": "^1.16.2",
     "@types/webpack-node-externals": "^2.5.2",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "concurrently": "^6.2.1",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",

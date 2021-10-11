@@ -1,4 +1,3 @@
-import { User } from "@/entities/User";
 import { callRoute } from "@/utils/callRoute";
 import { FastifyInstance } from "fastify";
 import { createTestServer } from "tests/utils/createTestServer";
@@ -10,7 +9,6 @@ import { range } from "@/utils/array";
 import { expectCode, expectErrorResponse } from "tests/utils/assertions";
 import { removeUploadDir, touchFile } from "tests/utils/storage";
 import { getPathForArticleFile } from "@/utils/articleFiles";
-import { signUser } from "@/plugins/auth";
 import { ArticleId } from "yaarxiv-api/api/article/models";
 import {
   GET_ARTICLE_SCRIPT_ACTION, GET_ARTICLE_SCRIPT_TOKEN_VALID_TIME } from "@/routes/article/getScriptDownloadToken";
