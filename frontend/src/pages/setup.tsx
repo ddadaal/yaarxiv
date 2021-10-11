@@ -1,4 +1,3 @@
-import React  from "react";
 import { ssrPage } from "src/utils/ssr";
 import { OperationCompletePage } from "src/components/OperationCompletePage";
 import { Close } from "grommet-icons";

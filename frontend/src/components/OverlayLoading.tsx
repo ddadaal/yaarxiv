@@ -1,5 +1,4 @@
-import React from "react";
-import { Stack, Box, AnchorProps, StackProps } from "grommet";
+import { Stack, Box, StackProps } from "grommet";
 import { Spinner } from "./Spinner";
 
 declare module "grommet" {

@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import { useCallback, useEffect } from "react";
 import { Box } from "grommet";
 import { useRouter } from "next/router";
 import { useAsync } from "react-async";

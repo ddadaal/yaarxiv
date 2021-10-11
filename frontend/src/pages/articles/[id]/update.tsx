@@ -1,5 +1,5 @@
 import { useRouter } from "next/router";
-import React, { useCallback, useState } from "react";
+import { useCallback, useState } from "react";
 import { Localized } from "src/i18n";
 import { prefix } from "src/i18n";
 import { ArticleEditForm, ArticleForm } from "src/pageComponents/article/ArticleEditForm";
@@ -56,7 +56,7 @@ export const ArticleUpdatePage = ssrPage<Props>(
           <Localized
             id={root("success")}
             args={[resp.revisionNumber]}
-          />
+          />,
         );
       });
     }, [props.article.id]);

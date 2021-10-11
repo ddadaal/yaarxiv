@@ -1,4 +1,3 @@
-import React from "react";
 import { prefix } from "src/i18n";
 import { ACCEPTABLE_CODE_SITES, getCodeLinkInfo } from "yaarxiv-api/api/utils/codeLink";
 import { FormFieldMessage } from "src/components/form/FormFieldMessage";

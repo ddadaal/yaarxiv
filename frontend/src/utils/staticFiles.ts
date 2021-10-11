@@ -4,7 +4,7 @@ import { config } from "./config";
 export function getStaticFileUrl(path: string) {
   return urljoin(
     config.staticFileRoot,
-    path
+    path,
   );
 }
 

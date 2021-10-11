@@ -35,7 +35,7 @@
     "yaarxiv-api": "file:../api"
   },
   "devDependencies": {
-    "@ddadaal/eslint-config": "^1.0.0",
+    "@ddadaal/eslint-config": "^1.1.1",
     "@types/luxon": "^2.0.3",
     "@types/node": "^16.7.13",
     "@types/nprogress": "^0.2.0",
@@ -45,6 +45,7 @@
     "babel-plugin-styled-components": "^1.13.2",
     "cross-env": "^7.0.3",
     "eslint": "^7.32.0",
+    "@typescript-eslint/eslint-plugin": "^4.33.0",
     "eslint-config-next": "^11.1.2",
     "eslint-plugin-react": "^7.25.1",
     "imagemin-svgo": "^9.0.0",

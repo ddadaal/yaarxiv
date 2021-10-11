@@ -1,6 +1,5 @@
 import { Box, Heading, Paragraph } from "grommet";
 import { useRouter } from "next/router";
-import React from "react";
 import { Localized, prefix } from "src/i18n";
 import { queryToString } from "src/utils/querystring";
 import { Checkmark } from "grommet-icons";

@@ -26,7 +26,7 @@ export const DeleteUserLink: React.FC<{
       await deleteUser(userId);
       setOpen(false);
       toast.success(
-        <Localized id={root("success")} args={[username, userId]} />
+        <Localized id={root("success")} args={[username, userId]} />,
       );
       reload();
     });

@@ -1,4 +1,3 @@
-import React from "react";
 import type { AppContext, AppProps } from "next/app";
 import App from "next/app";
 import "normalize.css";

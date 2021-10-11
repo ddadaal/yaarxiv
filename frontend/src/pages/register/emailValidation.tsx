@@ -1,4 +1,3 @@
-import React from "react";
 import { HttpError } from "src/apis/fetch";
 import { queryToString } from "src/utils/querystring";
 import { ssrPage } from "src/utils/ssr";

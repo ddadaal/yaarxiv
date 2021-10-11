@@ -32,7 +32,7 @@ export const Pagination: React.FC<Props> = ({
     itemsPerPage,
     linksCount,
     totalItemsCount,
-    currentPage
+    currentPage,
   );
 
   const links = range(info.firstPage, info.lastPage + 1)
@@ -56,7 +56,7 @@ export const Pagination: React.FC<Props> = ({
       disabled={!info.hasPreviousPage}
       text={prevPageText}
       pageNumber={info.previousPage}
-    />
+    />,
   );
 
   links.unshift(
@@ -68,7 +68,7 @@ export const Pagination: React.FC<Props> = ({
       disabled={!info.hasPreviousPage}
       text={firstPageText}
       pageNumber={1}
-    />
+    />,
   );
 
   links.push(
@@ -80,7 +80,7 @@ export const Pagination: React.FC<Props> = ({
       href={getUrl?.(info.nextPage)}
       text={nextPageText}
       pageNumber={info.nextPage}
-    />
+    />,
   );
 
   links.push(
@@ -92,7 +92,7 @@ export const Pagination: React.FC<Props> = ({
       text={lastPageText}
       href={getUrl?.(info.lastPage)}
       pageNumber={info.lastPage}
-    />
+    />,
   );
 
   return (

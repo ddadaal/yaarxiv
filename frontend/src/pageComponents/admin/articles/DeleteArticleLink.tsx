@@ -28,7 +28,7 @@ export const DeleteArticleLink: React.FC<Props> = ({
       await api.article.deleteArticle({ path: { articleId } });
       setOpen(false);
       toast.success(
-        <Localized id={root("success")} args={[articleId]} />
+        <Localized id={root("success")} args={[articleId]} />,
       );
       reload();
     });

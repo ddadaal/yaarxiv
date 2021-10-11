@@ -1,4 +1,4 @@
-import { Box, CheckBox, TextInput } from "grommet";
+import { Box, TextInput } from "grommet";
 import React from "react";
 
 export interface CheckboxInputValue {
@@ -15,7 +15,6 @@ interface Props {
 
 export const CheckboxInput: React.FC<Props> = ({
   value = { value: "", checked: false }, onChange,
-  checkboxLabel,
 }) => {
   return (
     <Box direction="row" align="center" gap="medium">

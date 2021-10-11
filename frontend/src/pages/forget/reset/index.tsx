@@ -59,7 +59,7 @@ const ResetPasswordForm: React.FC<{ token: string}> = ({ token }) => {
             <Text>
               <Localized id={root("error.title")} />{". "}
               <Localized id={root("error.description")} />
-            </Text>
+            </Text>,
           );
         } else {
           throw e;

@@ -17,7 +17,7 @@ const root = prefix("header.");
 const matchRoute = (
   mode: TLink["mode"],
   href: string | UrlObject | undefined,
-  curr: string
+  curr: string,
 ) => {
   if (!href || !mode) return false;
 

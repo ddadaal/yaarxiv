@@ -1,6 +1,5 @@
 /* eslint-disable max-len */
 import { Box } from "grommet";
-import React from "react";
 import { api } from "src/apis";
 import { prefix } from "src/i18n";
 import { UserRole } from "src/models/User";

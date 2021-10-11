@@ -27,7 +27,7 @@ export const AccountInfoForm: React.FC<Props> = ({ profile }) => {
     await api.dashboard.changeAccountInfo({ body: { name: form.name } })
       .then(() => {
         toast.success(
-          <Localized id={root("success")} />
+          <Localized id={root("success")} />,
         );
         // change user store information
         userStore.login({

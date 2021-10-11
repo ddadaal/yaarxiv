@@ -1,4 +1,3 @@
-import React from "react";
 import { prefix } from "src/i18n";
 import { FormFieldMessage } from "src/components/form/FormFieldMessage";
 

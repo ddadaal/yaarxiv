@@ -46,7 +46,7 @@ const LoginForm: React.FC = () => {
     try {
       const res = await api.auth.login({ query: { id, password } });
       toast.success(
-        <Localized id={root("success")} />
+        <Localized id={root("success")} />,
       );
 
       userStore.login({
@@ -66,17 +66,17 @@ const LoginForm: React.FC = () => {
       const ex = e as HttpError;
       if (ex.status === 401) {
         toast.error(
-          <Localized id={root("error.invalid")} />
+          <Localized id={root("error.invalid")} />,
         );
       } else if (ex.status === 403) {
         const { code } = (ex.data as LoginSchema["responses"]["403"]);
         if (code === "USER_NOT_VALIDATED_EMAIL_SENT") {
           toast.error(
-            <Localized id={root("error.emailSent")} />
+            <Localized id={root("error.emailSent")} />,
           );
         } else {
           toast.error(
-            <Localized id={root("error.emailNotSent")} />
+            <Localized id={root("error.emailNotSent")} />,
           );
         }
       } else {

@@ -36,7 +36,7 @@ export const FileUploader: React.FC<Props> = ({ options, files, onFileRemoved, o
           <Text>
             {file.name}: {" "}
             <Localized id={root[e.code]} />
-          </Text>
+          </Text>,
         );
       });
     });

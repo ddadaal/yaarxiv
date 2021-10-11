@@ -1,4 +1,3 @@
-import React, {  } from "react";
 import { queryToIntOrDefault } from "src/utils/querystring";
 import { Article, ArticleId } from "yaarxiv-api/api/article/models";
 

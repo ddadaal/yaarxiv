@@ -1,5 +1,5 @@
 import React from "react";
-import { Box, Anchor, Text } from "grommet";
+import { Box, Text } from "grommet";
 import { AnchorLink } from "../AnchorLink";
 import { UrlObject } from "url";
 

@@ -1,5 +1,4 @@
 /* eslint-disable max-len */
-import React from "react";
 import { prefix } from "src/i18n";
 import { DashboardLayout } from "src/pageComponents/Dashboard/DashboardLayout";
 import { SectionTitle } from "src/pageComponents/Dashboard/SectionTitle";

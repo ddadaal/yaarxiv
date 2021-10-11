@@ -181,7 +181,7 @@ export const customTheme: ThemeType = deepFreeze(
         "active": { "color": { "dark": "brand", "light": "brand" } },
       },
     },
-  }
+  },
 ) as any;
 
 function alignWithDark(props, value) {

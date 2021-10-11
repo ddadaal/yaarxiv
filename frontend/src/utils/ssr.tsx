@@ -19,7 +19,7 @@ export const ssrPage = <TData,>
     options?: {
       authOptions?: AuthOptions,
       onError?: (error: HttpError) => React.ReactElement,
-    }
+    },
   ): NextPage<SSRPageProps<TData>> => {
 
   const { authOptions, onError } = options ?? {};

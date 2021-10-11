@@ -1,5 +1,3 @@
-import { BreakpointSize } from "grommet/utils";
-
 const breakpointsSize = {
   "xxsmall": 1,
   "xsmall": 2,

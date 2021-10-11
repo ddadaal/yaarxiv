@@ -34,7 +34,7 @@ const RegisterForm: React.FC = () => {
     } catch (e) {
       if (e.status === 405) {
         toast.error(
-          <Localized id={root("conflict")} />
+          <Localized id={root("conflict")} />,
         );
       } else {
         throw e;

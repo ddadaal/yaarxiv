@@ -30,7 +30,7 @@ export const ProfileForm: React.FC<Props> = ({ profile }) => {
     await api.dashboard.changeProfile({ body: { profileChange: form } })
       .then(() => {
         toast.success(
-          <Localized id={root("success")} />
+          <Localized id={root("success")} />,
         );
         lastSubmitted.current = form;
       });
