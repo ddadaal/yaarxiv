@@ -27,7 +27,7 @@ RUN npm prune --production
 FROM node:lts-alpine as runner
 
 # Copy the package.json, lock and node_modules
-WORKDIR /dist
+WORKDIR /dist/backend
 
 COPY --from=builder /backend/package.json .
 COPY --from=builder /backend/package-lock.json .
@@ -41,6 +41,9 @@ COPY --from=builder /backend/migrations/ ./migrations
 COPY --from=builder /backend/config/ ./config
 COPY --from=builder /backend/out/bundle.js index.js
 COPY --from=builder /backend/src/ ./src/
+
+# Also copy the api project to run mikro-orm cli in the container
+COPY --from=builder /api /dist/api
 
 
 

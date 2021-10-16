@@ -50,7 +50,7 @@ services:
       MINIO_ACCESSKEY: ${MINIO_ACCESSKEY}
       MINIO_SECRETKEY: ${MINIO_SECRETKEY}
     volumes:
-      - "./backend/config/production.yml:/dist/config/production.yml"
+      - "./backend/config/production.yml:/dist/backend/config/production.yml"
     ports:
       - "5000:5000"
 

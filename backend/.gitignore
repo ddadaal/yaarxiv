@@ -1,5 +1,5 @@
 upload/
 testupload/
-config/production.json
+config/production.yml
 dist/
 db/
