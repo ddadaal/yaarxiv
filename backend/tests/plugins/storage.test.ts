@@ -125,7 +125,7 @@ it("moves file",async () => {
 it("rmdir",async () => {
 
   // create files
-  const files = ["test1/1/test.txt", "test1/1/test1.txt", "test1/2/test.txt"];
+  const files = ["1/test.txt", "1/test1.txt", "2/test.txt"];
 
   await Promise.all(files.map((x) => touchFile(x)));
 
@@ -140,6 +140,7 @@ it("rmdir",async () => {
   expectCode(resp, 200);
 
   await expectFileNotExists("1");
+  await expectFileExists("2/test.txt");
 });
 
 it("serves file", async () => {
