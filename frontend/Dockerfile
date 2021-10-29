@@ -1,5 +1,5 @@
 # Install dependencies only when needed
-FROM node:lts-alpine AS builder
+FROM node:16-alpine AS builder
 COPY frontend/ /app/frontend
 COPY api/ /app/api
 
@@ -23,7 +23,7 @@ RUN npm prune --production
 
 
 # Production image, copy all the files and run next
-FROM node:lts-alpine AS runner
+FROM node:16-alpine AS runner
 WORKDIR /app/frontend
 
 ENV NODE_ENV production

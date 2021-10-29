@@ -3,7 +3,7 @@
 # because build needs api project.
 
 # 1. Build
-FROM node:lts-alpine as builder
+FROM node:16-alpine as builder
 
 # Copy API project. Don't need build
 COPY api /api
@@ -24,7 +24,7 @@ RUN npm run build
 RUN npm prune --production
 
 # 2. Run
-FROM node:lts-alpine as runner
+FROM node:16-alpine as runner
 
 # Copy the package.json, lock and node_modules
 WORKDIR /dist/backend
