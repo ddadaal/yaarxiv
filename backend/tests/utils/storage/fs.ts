@@ -27,7 +27,9 @@ export const createFSStorageUtils = () => {
   };
 
   const removeUploadDir: FsUtils["removeUploadDir"] = async () => {
-    await fs.promises.rmdir(storageConfig.path, { recursive: true });
+    if (fs.existsSync(storageConfig.path)) {
+      await fs.promises.rmdir(storageConfig.path, { recursive: true });
+    }
   };
 
   const createUploadDir: FsUtils["createUploadDir"] = async () => {
